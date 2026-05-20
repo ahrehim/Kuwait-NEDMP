@@ -161,6 +161,23 @@
       pointer-events: none;
     }
 
+    .analysis-panel-heading {
+      margin: 0 3rem 0.8rem 3rem;
+      background: var(--unep-primary);
+      border-bottom: 4px solid var(--unep-secondary);
+      border-radius: 10px;
+      padding: 1rem 1.1rem;
+      color: #ffffff;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+    }
+    .analysis-panel-heading h2 {
+      margin: 0;
+      color: #ffffff;
+      font-size: 1.15rem;
+      font-weight: 800;
+      letter-spacing: 0;
+    }
+
     .filters-panel { 
       margin: 0 3rem 2rem 3rem; 
       padding: 2rem; 
@@ -225,6 +242,7 @@
       padding-top: 1.5rem; 
     }
     .button-line { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .dashboard-report-buttons { justify-content: center; }
     
     .btn { 
       padding: 0.7rem 1.5rem; 
@@ -232,18 +250,21 @@
       font-weight: 600; 
       cursor: pointer; 
       font-size: 0.85rem; 
-      border: 1px solid var(--unep-border); 
-      background: white; 
+      border: 1px solid #7dd3fc; 
+      background: linear-gradient(180deg, #f0f9ff 0%, #dff3ff 100%);
+      color: var(--unep-primary);
+      box-shadow: 0 4px 10px rgba(15, 23, 42, 0.08), inset 0 1px 0 rgba(255,255,255,0.9);
       transition: all 0.2s ease;
       display: inline-flex;
       align-items: center;
       gap: 8px;
     }
-    .btn:hover { border-color: var(--unep-secondary); background: #f0f9ff; }
-    .btn-primary { background: var(--unep-secondary); color: white; border: none; padding: 0.8rem 2rem; box-shadow: 0 4px 12px rgba(0,150,214,0.2); }
-    .btn-primary:hover { background: var(--unep-primary); transform: translateY(-1px); }
-    .btn-report { background: #ffffff; border: 1px solid #d1d5db; flex: 1; min-width: 160px; justify-content: center; }
-    .btn-report:hover { border-color: var(--unep-secondary); color: var(--unep-secondary); }
+    .btn:hover { border-color: var(--unep-secondary); background: linear-gradient(180deg, #e0f2fe 0%, #bae6fd 100%); transform: translateY(-1px); }
+    .btn:active { transform: translateY(0); box-shadow: inset 0 2px 4px rgba(15, 23, 42, 0.12); }
+    .btn-primary { background: linear-gradient(180deg, #38bdf8 0%, #0ea5e9 100%); color: white; border-color: #0284c7; padding: 0.8rem 2rem; box-shadow: 0 6px 14px rgba(14, 165, 233, 0.26), inset 0 1px 0 rgba(255,255,255,0.35); }
+    .btn-primary:hover { background: linear-gradient(180deg, #0ea5e9 0%, #0284c7 100%); color: white; transform: translateY(-1px); }
+    .btn-report { background: linear-gradient(180deg, #f8fcff 0%, #e0f2fe 100%); border: 1px solid #93c5fd; flex: 1; min-width: 160px; justify-content: center; }
+    .btn-report:hover { border-color: var(--unep-secondary); color: var(--unep-primary); }
     .btn-small { padding: 0.4rem 1rem; font-size: 0.75rem; }
     .output-clear-bar {
       padding: 0 3rem 1.1rem 3rem;
@@ -274,6 +295,26 @@
       border-color: #7f1d1d;
       color: #ffffff;
       transform: translateY(-1px);
+    }
+    .back-to-top-button {
+      position: fixed;
+      right: 1.4rem;
+      bottom: 1.4rem;
+      z-index: 1800;
+      min-width: 140px;
+      justify-content: center;
+      background: linear-gradient(180deg, var(--unep-secondary) 0%, #0284c7 100%);
+      color: #ffffff;
+      border-color: #0369a1;
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.22), inset 0 1px 0 rgba(255,255,255,0.28);
+    }
+    .back-to-top-button:hover {
+      background: linear-gradient(180deg, #0284c7 0%, var(--unep-primary) 100%);
+      color: #ffffff;
+    }
+    body.rtl .back-to-top-button {
+      right: auto;
+      left: 1.4rem;
     }
 
     select#chartTypeSelect {
@@ -370,12 +411,15 @@
       justify-content: space-between;
       align-items: flex-start;
       gap: 1rem;
-      border-bottom: 3px solid var(--unep-secondary);
-      padding-bottom: 0.9rem;
+      background: var(--unep-primary);
+      border-bottom: 4px solid var(--unep-secondary);
+      border-radius: 10px;
+      padding: 1rem 1.1rem;
       margin-bottom: 1.25rem;
+      color: #ffffff;
     }
-    .strategic-panel-title { color: var(--unep-primary); font-size: 1.15rem; font-weight: 800; margin: 0; }
-    .strategic-panel-subtitle { color: var(--unep-text-light); font-size: 0.84rem; margin-top: 0.25rem; }
+    .strategic-panel-title { color: #ffffff; font-size: 1.15rem; font-weight: 800; margin: 0; }
+    .strategic-panel-subtitle { color: rgba(255,255,255,0.86); font-size: 0.84rem; margin-top: 0.25rem; }
     .strategic-controls {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
@@ -394,12 +438,13 @@
       width: 100%;
       min-height: 42px;
       padding: 0.65rem 0.85rem;
-      border: 1px solid var(--unep-border);
+      border: 1px solid #7dd3fc;
       border-radius: 8px;
-      background: #fff;
-      color: var(--unep-text);
+      background: #e0f2fe;
+      color: var(--unep-primary);
       font-family: inherit;
       font-weight: 600;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.75), 0 2px 6px rgba(15, 23, 42, 0.05);
     }
     .strategic-filter-indicator {
       color: var(--unep-primary);
@@ -407,8 +452,8 @@
       font-size: 0.82rem;
       align-self: center;
       padding: 0.65rem 0.85rem;
-      background: #eff6ff;
-      border: 1px solid #dbeafe;
+      background: #e0f2fe;
+      border: 1px solid #7dd3fc;
       border-radius: 8px;
     }
     .strategic-actions {
@@ -451,6 +496,72 @@
     }
     .strategic-kpi span { display: block; color: var(--unep-text-light); font-size: 0.72rem; font-weight: 800; text-transform: uppercase; }
     .strategic-kpi strong { display: block; color: var(--unep-primary); font-size: 1.35rem; margin-top: 0.25rem; }
+    .executive-gauge-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .executive-gauge-card {
+      border: 1px solid #dbeafe;
+      border-radius: 10px;
+      padding: 0.95rem 0.9rem 1rem;
+      background: #ffffff;
+      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
+      text-align: center;
+      min-height: 205px;
+    }
+    .executive-gauge-title {
+      color: var(--unep-primary);
+      font-size: 0.74rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      line-height: 1.3;
+      min-height: 2.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .executive-gauge-svg {
+      width: 100%;
+      max-width: 220px;
+      height: auto;
+      display: block;
+      margin: 0.15rem auto 0;
+      overflow: visible;
+    }
+    .executive-gauge-value {
+      display: block;
+      font-size: 2rem;
+      line-height: 1;
+      font-weight: 800;
+      margin-top: -0.35rem;
+      letter-spacing: 0;
+    }
+    .executive-summary-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin: 0.5rem 0 1rem;
+      padding: 1rem;
+      border: 1px solid #bfdbfe;
+      border-radius: 10px;
+      background: #f0f9ff;
+    }
+    .executive-summary-actions .btn {
+      min-width: 230px;
+      justify-content: center;
+      font-weight: 800;
+    }
+    .executive-report-buttons-host { display: contents; }
+    .executive-report-buttons-host:empty { display: none; }
+    .executive-report-buttons-host .dashboard-report-buttons {
+      display: contents;
+    }
+    .executive-report-buttons-host .btn-report {
+      flex: 1 1 220px;
+      max-width: 280px;
+    }
     .strategic-chart-wrap { height: 520px; padding: 1rem 0 1.3rem; overflow: visible; }
     .strategic-chart-wrap.small { height: 380px; }
     .national-availability-chart-wrap { height: 620px; padding: 1rem 0 1.4rem; overflow: visible; }
@@ -593,8 +704,8 @@
   <div class="stats-banner">
     <div class="participants-badge" id="participantsInfo">Institutions: 0</div>
     <div class="stats-meta">
-      <div id="dashTitle" style="font-weight: 600; color: var(--unep-text-light);">🌍 Environmental Data Dashboard</div>
-      <div class="dashboard-version" id="dashboardVersion">Version 2026.05.19.2</div>
+      <div id="dashTitle" style="font-weight: 600; color: var(--unep-text-light);">NEDMP Strategic Data Analysis Dashboard</div>
+      <div class="dashboard-version" id="dashboardVersion">Version 2026.05.20.4</div>
     </div>
   </div>
 
@@ -608,6 +719,47 @@
   </div>
 
   <div id="executiveAutoSummaryContainer" class="executive-auto-summary"></div>
+
+  <div class="strategic-panel">
+    <div class="strategic-panel-header">
+      <div>
+        <h2 class="strategic-panel-title">Strategic Analytical Reports</h2>
+        <div class="strategic-panel-subtitle">Generate structured analytical reports from the uploaded NEDMP questionnaire dataset.</div>
+      </div>
+      <div class="strategic-filter-indicator" id="strategicFilterIndicator">Institutions filter: All institutions</div>
+    </div>
+    <div class="strategic-controls">
+      <div class="strategic-control">
+        <label for="reportCategorySelect">Report Category</label>
+        <select id="reportCategorySelect"></select>
+      </div>
+      <div class="strategic-control">
+        <label for="reportTypeSelect">Report Type</label>
+        <select id="reportTypeSelect"></select>
+      </div>
+      <div class="strategic-control" style="display:none;">
+        <label for="strategicChartTypeSelect">Chart Type</label>
+        <select id="strategicChartTypeSelect">
+          <option value="bar">Bar</option>
+          <option value="stackedBar">Stacked Bar</option>
+          <option value="horizontalBar" selected>Horizontal Bar</option>
+          <option value="heatMap">Heat Map Table</option>
+          <option value="radar">Radar</option>
+          <option value="network">Sankey/Network Table</option>
+        </select>
+      </div>
+    </div>
+    <div class="strategic-actions">
+      <button id="generateStrategicReportBtn" class="btn btn-primary">Generate Strategic Report</button>
+      <button id="copyStrategicReportBtn" class="btn">Copy Report</button>
+      <button id="exportStrategicWordBtn" class="btn">Export to MS Word</button>
+      <button id="exportStrategicExcelBtn" class="btn">Export to MS Excel</button>
+      <button id="exportStrategicPngBtn" class="btn">Export as PNG</button>
+      <button id="clearStrategicReportBtn" class="btn">Clear Report</button>
+    </div>
+  </div>
+
+  <div class="analysis-panel-heading"><h2 id="analyseDataTitle">Analyse Data</h2></div>
 
   <div class="filters-panel">
     <div class="filter-group">
@@ -678,7 +830,7 @@
         </div>
       </div>
 
-      <div class="button-line">
+      <div class="button-line dashboard-report-buttons" id="dashboardReportButtons">
         <button id="analyzeTypeBtn" class="btn btn-report">Institution Types</button>
         <button id="showInstDataBtn" class="btn btn-report">Institutional Data</button>
         <button id="trafficBtn" class="btn btn-report">Availability Map</button>
@@ -689,45 +841,6 @@
         <button id="challengesQualitySankeyBtn" class="btn btn-report">🔀 Challenges–Quality Sankey</button>
         <button id="fullReportBtn" class="btn btn-report">Full Report</button>
       </div>
-    </div>
-  </div>
-
-  <div class="strategic-panel">
-    <div class="strategic-panel-header">
-      <div>
-        <h2 class="strategic-panel-title">Strategic Analytical Reports</h2>
-        <div class="strategic-panel-subtitle">Generate structured analytical reports from the uploaded NEDMP questionnaire dataset.</div>
-      </div>
-      <div class="strategic-filter-indicator" id="strategicFilterIndicator">Institutions filter: All institutions</div>
-    </div>
-    <div class="strategic-controls">
-      <div class="strategic-control">
-        <label for="reportCategorySelect">Report Category</label>
-        <select id="reportCategorySelect"></select>
-      </div>
-      <div class="strategic-control">
-        <label for="reportTypeSelect">Report Type</label>
-        <select id="reportTypeSelect"></select>
-      </div>
-      <div class="strategic-control" style="display:none;">
-        <label for="strategicChartTypeSelect">Chart Type</label>
-        <select id="strategicChartTypeSelect">
-          <option value="bar">Bar</option>
-          <option value="stackedBar">Stacked Bar</option>
-          <option value="horizontalBar" selected>Horizontal Bar</option>
-          <option value="heatMap">Heat Map Table</option>
-          <option value="radar">Radar</option>
-          <option value="network">Sankey/Network Table</option>
-        </select>
-      </div>
-    </div>
-    <div class="strategic-actions">
-      <button id="generateStrategicReportBtn" class="btn btn-primary">Generate Strategic Report</button>
-      <button id="copyStrategicReportBtn" class="btn">Copy Report</button>
-      <button id="exportStrategicWordBtn" class="btn">Export to MS Word</button>
-      <button id="exportStrategicExcelBtn" class="btn">Export to MS Excel</button>
-      <button id="exportStrategicPngBtn" class="btn">Export as PNG</button>
-      <button id="clearStrategicReportBtn" class="btn">Clear Report</button>
     </div>
   </div>
 
@@ -744,6 +857,8 @@
       </div>
   </div>
 </div>
+
+<button id="backToTopBtn" class="btn back-to-top-button" type="button">Back to Top</button>
 
 <div id="passwordModal" class="modal" style="display:flex;">
   <div class="modal-content" style="max-width:460px;">
@@ -780,7 +895,9 @@
     en: {
       mainTitle: 'National Environmental Data Management Plan (NEDMP)',
       subtitle1: 'Assessing National Capacities in Environmental Data Management and Governance — State of Kuwait',
-      dashTitle: '🌍 Environmental Data Dashboard',
+      dashTitle: 'NEDMP Strategic Data Analysis Dashboard',
+      analyseDataTitle: 'Analyse Data',
+      backToTop: 'Back to Top',
       uploadLabel: 'Upload Dataset (CSV/XLSX)',
       chooseUpdatedFile: 'Choose another updated file',
       fileStatusReq: '🔒 Password required',
@@ -866,7 +983,9 @@
     ar: {
       mainTitle: 'الخطة الوطنية لإدارة البيانات البيئية (NEDMP)',
       subtitle1: 'تقييم القدرات الوطنية في إدارة وحوكمة البيانات البيئية — دولة الكويت',
-      dashTitle: '🌍لوحة تحكم تحليل الاستبيان الوطني لإدارة البيانات البيئية',
+      dashTitle: 'لوحة التحليل الاستراتيجي لبيانات NEDMP',
+      analyseDataTitle: 'تحليل البيانات',
+      backToTop: 'العودة للأعلى',
       uploadLabel: 'رفع ملف البيانات (CSV/XLSX)',
       chooseUpdatedFile: 'اختيار ملف محدث آخر',
       fileStatusReq: '🔒 كلمة المرور مطلوبة',
@@ -1206,6 +1325,7 @@
   };
   document.getElementById('closePasswordModalBtn').onclick = () => document.getElementById('passwordModal').style.display = 'none';
   document.getElementById('cancelPasswordBtn').onclick = () => document.getElementById('passwordModal').style.display = 'none';
+  document.getElementById('backToTopBtn').onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
   // Language Toggles
   document.getElementById('langEnBtn').onclick = () => window.setLanguage('en');
@@ -1240,6 +1360,10 @@
     document.getElementById('mainTitle').innerText = t.mainTitle;
     document.getElementById('subtitle1').innerText = t.subtitle1;
     document.getElementById('dashTitle').innerText = t.dashTitle;
+    const analyseDataTitle = document.getElementById('analyseDataTitle');
+    if (analyseDataTitle) analyseDataTitle.innerText = t.analyseDataTitle;
+    const backToTopBtn = document.getElementById('backToTopBtn');
+    if (backToTopBtn) backToTopBtn.innerText = t.backToTop;
     document.getElementById('uploadLabel').innerText = t.uploadLabel;
     
     const fileInput = document.getElementById('csvFileInput');
@@ -2340,7 +2464,7 @@
       { label: '🚧 Strategic Challenges', fn: 'generateStrategicChallengesReport' },
       { label: '🔀 Challenges–Quality Sankey', fn: 'generateChallengesQualitySankeyReport' },
       { label: 'Environmental Data Digital Transformation Roadmap', fn: 'generateDigitalRoadmapReport' },
-      { label: 'Executive Dashboard and Decision Intelligence Summary', fn: 'generateExecutiveSummaryReport' }
+      { label: 'Executive Analytical Dashboard', fn: 'generateExecutiveSummaryReport' }
     ]
   };
   let strategicChartInstances = [];
@@ -2349,6 +2473,7 @@
   let strategicChallengesChart = null;
   let section4InteroperabilityChart = null;
   let forceAllDataForAutoExecutiveSummary = false;
+  let dashboardReportButtonsNode = null;
 
   function escapeHtml(value) {
     return String(value ?? '').replace(/[&<>"']/g, ch => ({
@@ -2376,6 +2501,7 @@
     'National Environmental Data Quality, Reliability and Standardization Assessment': 'التقييم الوطني لجودة وموثوقية وتوحيد البيانات البيئية',
     'Environmental Data Digital Transformation Roadmap': 'خارطة طريق التحول الرقمي للبيانات البيئية',
     'Executive Dashboard and Decision Intelligence Summary': 'لوحة القيادة التنفيذية وملخص ذكاء القرار',
+    'Executive Analytical Dashboard': 'لوحة التحليل التنفيذية',
     'Strategic Assessment of Question 13.1 Challenges': 'التقييم الاستراتيجي لتحديات السؤال 13.1',
     'Interlinkage between Existing Challenges and Weaknesses in Consistency, Reliability, and Standardization of Environmental Datasets': 'الترابط بين التحديات القائمة ونقاط الضعف في اتساق وموثوقية وتوحيد مجموعات البيانات البيئية',
     'Static Sankey-style Diagram - Kuwait Institutional Responses for NEDMP': 'مخطط سانكي ثابت - استجابات المؤسسات في الكويت للخطة الوطنية لإدارة البيانات البيئية',
@@ -2387,7 +2513,6 @@
     'Kuwait Institutional Responses – Strategic Baseline for NEDMP': 'استجابات المؤسسات في الكويت - خط الأساس الاستراتيجي للخطة الوطنية لإدارة البيانات البيئية',
     "Strategic Baseline for Kuwait's National Environmental Data Management Plan": 'خط الأساس الاستراتيجي للخطة الوطنية لإدارة البيانات البيئية في الكويت',
     'Environmental Data Collection, Processing, and Dissemination – Kuwait NEDMP Baseline': 'جمع ومعالجة ونشر البيانات البيئية - خط أساس الخطة الوطنية لإدارة البيانات البيئية في الكويت',
-    'Printable strategic overview for senior decision-makers.': 'ملخص استراتيجي قابل للطباعة لصناع القرار.',
     'Overall data availability': 'توافر البيانات الإجمالي',
     'Overall data gap': 'فجوة البيانات الإجمالية',
     'Governance readiness': 'جاهزية الحوكمة',
@@ -2397,6 +2522,7 @@
     'Top 5 Priority Gaps': 'أهم 5 فجوات ذات أولوية',
     'Top 5 Institutional Strengths': 'أهم 5 نقاط قوة مؤسسية',
     'Strategic recommendations:': 'توصيات استراتيجية:',
+    'NEDMP Strategic recommendations:': 'توصيات NEDMP الاستراتيجية:',
     'Executive recommendations:': 'توصيات تنفيذية:',
     'Methodological note:': 'ملاحظة منهجية:',
     'Methodological note': 'ملاحظة منهجية',
@@ -2761,8 +2887,10 @@
   function renderReportCard(title, subtitle, htmlContent) {
     destroyStrategicCharts();
     const container = document.getElementById('strategicReportContainer');
+    const subtitleText = subtitle ? trReport(subtitle) : '';
+    const subtitleHtml = subtitleText ? `<p>${escapeHtml(subtitleText)}</p>` : '';
     container.innerHTML = `<div class="strategic-report-card" dir="${currentLang === 'ar' ? 'rtl' : 'ltr'}">
-      <div class="strategic-report-header"><h2>${escapeHtml(trReport(title))}</h2><p>${escapeHtml(trReport(subtitle || ''))}</p></div>
+      <div class="strategic-report-header"><h2>${escapeHtml(trReport(title))}</h2>${subtitleHtml}</div>
       <div class="strategic-report-body">${htmlContent}</div>
     </div>`;
     updateStrategicFilterIndicator();
@@ -4646,37 +4774,132 @@
     renderReportCard('Environmental Data Digital Transformation Roadmap', 'Strategic implementation roadmap for national environmental data modernization.', html);
   }
 
+  function getExecutiveTopPriorityGapRows() {
+    const q21 = calculateExecutiveQ21AvailabilityRows() || [];
+    return q21.slice().sort((a, b) => b.dataGapPct - a.dataGapPct).slice(0, 5).map(row => ({
+      'Priority Gap': row.thematicArea,
+      'Data Gap %': pct(row.dataGapPct),
+      'Severity': row.severity
+    }));
+  }
+
+  function getExecutiveTopInstitutionalStrengthRows() {
+    const governanceRows = getExecutiveInstitutionRowsForColumns(getColumnSet(['5.', '7.', '8.', 'metadata', 'governance', 'cybersecurity']), null);
+    return governanceRows.slice(0, 5).map(row => ({
+      'Institutional Strength': row.institution,
+      'Readiness %': pct(row.score),
+      'Classification': row.classification
+    }));
+  }
+
+  function generateTopPriorityGapsReport() {
+    if (!fullData.length) { alert('Please upload a CSV dataset first.'); return; }
+    const rows = getExecutiveTopPriorityGapRows();
+    const html = `${renderSummaryTable(rows)}
+      ${reportMethodNote('Priority gaps are the five Question 2.1 thematic areas with the highest combined Not Available and Not Required/N/A percentages, using the current institution/division filter where applicable.')}`;
+    renderReportCard('Top 5 Priority Gaps', '', html);
+  }
+
+  function generateTopInstitutionalStrengthsReport() {
+    if (!fullData.length) { alert('Please upload a CSV dataset first.'); return; }
+    const rows = getExecutiveTopInstitutionalStrengthRows();
+    const html = `${renderSummaryTable(rows)}
+      ${reportMethodNote('Institutional strengths are ranked by the executive governance/institutional readiness score. Environment Public Authority (EPA) records are consolidated as one institution for this executive ranking.')}`;
+    renderReportCard('Top 5 Institutional Strengths', '', html);
+  }
+
+  function wireExecutiveSummaryButtons(scope = document) {
+    scope.querySelectorAll('[data-executive-report]').forEach(button => {
+      button.onclick = () => {
+        const reportType = button.getAttribute('data-executive-report');
+        if (reportType === 'priority-gaps') generateTopPriorityGapsReport();
+        if (reportType === 'institutional-strengths') generateTopInstitutionalStrengthsReport();
+      };
+    });
+  }
+
+  function gaugePoint(cx, cy, radius, angleDeg) {
+    const rad = (Math.PI / 180) * angleDeg;
+    return { x: cx + radius * Math.cos(rad), y: cy + radius * Math.sin(rad) };
+  }
+
+  function gaugeArcPath(startAngle, endAngle, radius = 82) {
+    const cx = 110;
+    const cy = 108;
+    const start = gaugePoint(cx, cy, radius, startAngle);
+    const end = gaugePoint(cx, cy, radius, endAngle);
+    const largeArc = endAngle - startAngle > 180 ? 1 : 0;
+    return `M ${start.x.toFixed(2)} ${start.y.toFixed(2)} A ${radius} ${radius} 0 ${largeArc} 1 ${end.x.toFixed(2)} ${end.y.toFixed(2)}`;
+  }
+
+  function getGaugeValueColor(value) {
+    if (value >= 85) return '#4aa3c7';
+    if (value >= 65) return '#50b69e';
+    if (value >= 45) return '#8da64f';
+    if (value >= 25) return '#d09a4b';
+    return '#c95f3f';
+  }
+
+  function renderExecutiveGaugeCard(card) {
+    const value = Math.max(0, Math.min(100, Number(card.value || 0)));
+    const angle = 180 + (value / 100) * 180;
+    const needleEnd = gaugePoint(110, 108, 62, angle);
+    const color = getGaugeValueColor(value);
+    const segments = [
+      { start: 180, end: 219, color: '#c95f3f' },
+      { start: 224, end: 263, color: '#d09a4b' },
+      { start: 268, end: 307, color: '#8da64f' },
+      { start: 312, end: 360, color: '#4fb39c' }
+    ];
+    return `<div class="executive-gauge-card">
+      <div class="executive-gauge-title">${escapeHtml(trReport(card.label))}</div>
+      <svg class="executive-gauge-svg" viewBox="0 0 220 150" role="img" aria-label="${escapeHtml(trReport(card.label))} ${pct(value)}">
+        ${segments.map(segment => `<path d="${gaugeArcPath(segment.start, segment.end)}" fill="none" stroke="${segment.color}" stroke-width="22" stroke-linecap="butt"></path>`).join('')}
+        <path d="${gaugeArcPath(180, 360, 62)}" fill="none" stroke="#a3a3a3" stroke-width="9" stroke-linecap="butt"></path>
+        <line x1="110" y1="108" x2="${needleEnd.x.toFixed(2)}" y2="${needleEnd.y.toFixed(2)}" stroke="#666666" stroke-width="4" stroke-linecap="round"></line>
+        <circle cx="110" cy="108" r="8" fill="#ffffff" stroke="#777777" stroke-width="4"></circle>
+        <path d="M104 126 L110 118 L116 126 Z" fill="#777777"></path>
+      </svg>
+      <strong class="executive-gauge-value" style="color:${color};">${pct(value)}</strong>
+    </div>`;
+  }
+
+  function renderExecutiveGaugeGrid(scorecards) {
+    return `<div class="executive-gauge-grid">${scorecards.map(renderExecutiveGaugeCard).join('')}</div>`;
+  }
+
+  function moveDashboardReportButtonsToExecutiveSummary(scope = document) {
+    const host = scope.querySelector('#executiveReportButtonsHost');
+    const buttons = dashboardReportButtonsNode || document.getElementById('dashboardReportButtons');
+    if (host && buttons && buttons.parentElement !== host) host.appendChild(buttons);
+  }
+
   function buildExecutiveSummaryReportContent() {
-    const executiveData = getExecutiveFilteredData();
     const q21 = calculateExecutiveQ21AvailabilityRows() || [];
     const availability = average(q21.map(row => row.overallAvailabilityPct));
     const gap = average(q21.map(row => row.dataGapPct));
     const governanceRows = getExecutiveInstitutionRowsForColumns(getColumnSet(['5.', '7.', '8.', 'metadata', 'governance', 'cybersecurity']), null);
     const interoperabilityRows = getExecutiveInstitutionRowsForColumns(getColumnSet(['3.', '4.', 'sharing', 'exchange', 'api', 'standards']), null);
-    const neisRows = getExecutiveInstitutionRowsForColumns(getColumnSet(['6.', '11.', 'digital', 'platform', 'gis', 'integration']), null);
     const qualityRows = getExecutiveInstitutionRowsForColumns(getColumnSet(['5.', 'quality', 'metadata', 'standards', 'documentation']), null);
     const scorecards = [
       { label: 'Overall data availability', value: availability },
       { label: 'Overall data gap', value: gap },
       { label: 'Governance readiness', value: average(governanceRows.map(row => row.score)) },
       { label: 'Interoperability readiness', value: average(interoperabilityRows.map(row => row.score)) },
-      { label: 'NEIS readiness', value: average(neisRows.map(row => row.score)) },
       { label: 'Data quality readiness', value: average(qualityRows.map(row => row.score)) }
     ];
-    const topGaps = q21.slice().sort((a, b) => b.dataGapPct - a.dataGapPct).slice(0, 5).map(row => ({ 'Priority Gap': row.thematicArea, 'Data Gap %': pct(row.dataGapPct), 'Severity': row.severity }));
-    const strengths = governanceRows.slice(0, 5).map(row => ({ 'Institutional Strength': row.institution, 'Readiness %': pct(row.score), 'Classification': row.classification }));
-    const kpis = `<div class="strategic-kpi-grid">${scorecards.map(card => `<div class="strategic-kpi"><span>${escapeHtml(trReport(card.label))}</span><strong>${pct(card.value)}</strong></div>`).join('')}</div>`;
-    const executiveNote = currentLang === 'ar'
-      ? `<div class="methodology-note"><strong>ملاحظة منهجية:</strong> يعامل هذا الملخص كل السجلات التي تحمل اسم Environment Public Authority (EPA) كمؤسسة واحدة لأغراض المؤشرات التنفيذية ونقاط القوة المؤسسية. تم استخدام ${executiveData.length} مؤسسة موحدة في حسابات هذا الملخص.</div>`
-      : `<div class="methodology-note"><strong>Methodological note:</strong> This executive summary treats all Environment Public Authority (EPA) records as one institution for executive indicators and institutional strengths. ${executiveData.length} consolidated institution(s) were used in this summary.</div>`;
+    const kpis = renderExecutiveGaugeGrid(scorecards);
+    const summaryActions = `<div class="executive-summary-actions">
+      <button type="button" class="btn" data-executive-report="priority-gaps">${escapeHtml(trReport('Top 5 Priority Gaps'))}</button>
+      <button type="button" class="btn" data-executive-report="institutional-strengths">${escapeHtml(trReport('Top 5 Institutional Strengths'))}</button>
+      <div id="executiveReportButtonsHost" class="executive-report-buttons-host"></div>
+    </div>`;
     const html = `${kpis}
-      <h3 style="color:var(--unep-primary); margin:1rem 0 0.4rem;">${escapeHtml(trReport('Top 5 Priority Gaps'))}</h3>${renderSummaryTable(topGaps)}
-      <h3 style="color:var(--unep-primary); margin:1rem 0 0.4rem;">${escapeHtml(trReport('Top 5 Institutional Strengths'))}</h3>${renderSummaryTable(strengths)}
-      <div class="interpretation-box">${currentLang === 'ar' ? '<strong>توصيات استراتيجية:</strong> إغلاق فجوات البيانات ذات الأولوية، وإضفاء الطابع الرسمي على أدوار حوكمة البيانات الوطنية، وتسريع جاهزية التشغيل البيني ونظام المعلومات البيئية الوطني، وتحسين ضمان/مراقبة الجودة والبيانات الوصفية، وإنشاء متابعة تنفيذية سنوية مقابل مؤشرات الأداء البيئية الوطنية.' : '<strong>Strategic recommendations:</strong> close priority data gaps, formalize national data governance roles, accelerate interoperability and NEIS readiness, improve QA/QC and metadata, and establish annual executive monitoring against national environmental reporting KPIs.'}</div>
-      ${executiveNote}`;
+      ${summaryActions}
+      <div class="interpretation-box">${currentLang === 'ar' ? '<strong>توصيات NEDMP الاستراتيجية:</strong> إغلاق فجوات البيانات ذات الأولوية، وإضفاء الطابع الرسمي على أدوار حوكمة البيانات الوطنية، وتسريع جاهزية التشغيل البيني ونظام المعلومات البيئية الوطني، وتحسين ضمان/مراقبة الجودة والبيانات الوصفية، وإنشاء متابعة تنفيذية سنوية مقابل مؤشرات الأداء البيئية الوطنية.' : '<strong>NEDMP Strategic recommendations:</strong> close priority data gaps, formalize national data governance roles, accelerate interoperability and NEIS readiness, improve QA/QC and metadata, and establish annual executive monitoring against national environmental reporting KPIs.'}</div>`;
     return {
-      title: 'Executive Dashboard and Decision Intelligence Summary',
-      subtitle: 'Printable strategic overview for senior decision-makers.',
+      title: 'Executive Analytical Dashboard',
+      subtitle: '',
       html
     };
   }
@@ -4685,21 +4908,29 @@
     const container = document.getElementById('executiveAutoSummaryContainer');
     if (!container) return;
     if (!fullData.length) {
+      dashboardReportButtonsNode = document.getElementById('dashboardReportButtons') || dashboardReportButtonsNode;
+      if (dashboardReportButtonsNode && container.contains(dashboardReportButtonsNode)) dashboardReportButtonsNode.remove();
       container.style.display = 'none';
       container.innerHTML = '';
       return;
     }
     forceAllDataForAutoExecutiveSummary = true;
     try {
+      dashboardReportButtonsNode = document.getElementById('dashboardReportButtons') || dashboardReportButtonsNode;
+      if (dashboardReportButtonsNode && container.contains(dashboardReportButtonsNode)) dashboardReportButtonsNode.remove();
       const report = buildExecutiveSummaryReportContent();
+      const subtitleText = report.subtitle ? trReport(report.subtitle) : '';
+      const subtitleHtml = subtitleText ? `<p>${escapeHtml(subtitleText)}</p>` : '';
       container.style.display = 'block';
       container.innerHTML = `<div class="strategic-report-card" dir="${currentLang === 'ar' ? 'rtl' : 'ltr'}">
         <div class="strategic-report-header">
           <h2>${escapeHtml(trReport(report.title))}</h2>
-          <p>${escapeHtml(trReport(report.subtitle))}</p>
+          ${subtitleHtml}
         </div>
         <div class="strategic-report-body">${report.html}</div>
       </div>`;
+      wireExecutiveSummaryButtons(container);
+      moveDashboardReportButtonsToExecutiveSummary(container);
     } finally {
       forceAllDataForAutoExecutiveSummary = false;
     }
@@ -4709,6 +4940,7 @@
     if (!fullData.length) { alert('Please upload a CSV dataset first.'); return; }
     const report = buildExecutiveSummaryReportContent();
     renderReportCard(report.title, report.subtitle, report.html);
+    wireExecutiveSummaryButtons(document.getElementById('strategicReportContainer'));
   }
 
   function generateSelectedStrategicReport() {
