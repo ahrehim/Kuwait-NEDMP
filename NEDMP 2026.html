@@ -114,6 +114,52 @@
       font-weight: 700;
       white-space: nowrap;
     }
+    .device-view-switch {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.35rem;
+      background: #f0f9ff;
+      border: 1px solid #bae6fd;
+      border-radius: var(--radius-full);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.8);
+    }
+    .device-view-label {
+      color: var(--unep-primary);
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      padding: 0 0.55rem;
+      white-space: nowrap;
+    }
+    .device-button-row {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .device-btn {
+      border: 1px solid transparent;
+      border-radius: var(--radius-full);
+      background: transparent;
+      color: var(--unep-primary);
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 0.45rem 0.75rem;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .device-btn:hover {
+      background: #e0f2fe;
+      border-color: #7dd3fc;
+    }
+    .device-btn.active {
+      background: var(--unep-secondary);
+      border-color: #0284c7;
+      color: #ffffff;
+      box-shadow: 0 3px 8px rgba(14, 165, 233, 0.22);
+    }
 
     .upload-card { 
       margin: 2rem 3rem; 
@@ -159,6 +205,212 @@
       cursor: not-allowed;
       opacity: 0.58;
       pointer-events: none;
+    }
+
+    body.device-mobile {
+      padding: 0.7rem;
+      background: #e5eef7;
+    }
+    body.device-mobile .dashboard-container {
+      max-width: min(var(--mobile-device-width, 430px), 100%);
+      min-height: calc(100vh - 1.4rem);
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 0 18px 42px rgba(15, 23, 42, 0.18);
+    }
+    body.device-ios .dashboard-container {
+      border-radius: 32px;
+    }
+    body.device-android .dashboard-container {
+      border-radius: 18px;
+    }
+    body.device-mobile .unep-header {
+      padding: 1rem;
+      align-items: flex-start;
+      gap: 0.8rem;
+    }
+    body.device-mobile .title-section h1 {
+      font-size: 1.04rem;
+      line-height: 1.25;
+    }
+    body.device-mobile .title-section .sub {
+      font-size: 0.74rem;
+      line-height: 1.4;
+    }
+    body.device-mobile .lang-row {
+      width: 100%;
+      justify-content: center;
+    }
+    body.device-mobile .lang-btn {
+      flex: 1;
+      padding: 0.55rem 0.8rem;
+    }
+    body.device-mobile .stats-banner,
+    body.device-mobile .upload-card,
+    body.device-mobile .strategic-panel,
+    body.device-mobile .filters-panel,
+    body.device-mobile .analysis-panel-heading,
+    body.device-mobile .executive-auto-summary {
+      margin-left: 0.85rem;
+      margin-right: 0.85rem;
+    }
+    body.device-mobile .stats-banner {
+      padding: 0.9rem;
+      align-items: stretch;
+      flex-direction: column;
+    }
+    body.device-mobile .stats-meta {
+      justify-content: flex-start;
+      gap: 0.55rem;
+    }
+    body.device-mobile .participants-badge,
+    body.device-mobile .dashboard-version {
+      width: 100%;
+      text-align: center;
+    }
+    body.device-mobile .device-view-switch {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr;
+      border-radius: 18px;
+      gap: 0.35rem;
+      padding: 0.45rem;
+    }
+    body.device-mobile .device-view-label {
+      text-align: center;
+      padding: 0.15rem 0;
+    }
+    body.device-mobile .device-button-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.35rem;
+    }
+    body.device-mobile .device-btn {
+      padding: 0.48rem 0.35rem;
+      min-height: 40px;
+      font-size: 0.66rem;
+      white-space: normal;
+      line-height: 1.15;
+    }
+    body.device-mobile .upload-card {
+      padding: 1rem;
+      flex-direction: column;
+      align-items: stretch;
+    }
+    body.device-mobile .upload-actions,
+    body.device-mobile .file-chooser-label {
+      width: 100%;
+    }
+    body.device-mobile .strategic-panel,
+    body.device-mobile .filters-panel {
+      padding: 1rem;
+    }
+    body.device-mobile .strategic-panel-header {
+      flex-direction: column;
+      padding: 0.95rem;
+    }
+    body.device-mobile .strategic-filter-indicator {
+      width: 100%;
+    }
+    body.device-mobile .strategic-actions {
+      display: grid;
+      grid-template-columns: 1fr;
+    }
+    body.device-mobile .filters-panel {
+      display: block;
+    }
+    body.device-mobile .filter-group {
+      margin-bottom: 1.2rem;
+    }
+    body.device-mobile .checkbox-area {
+      max-height: 190px;
+      padding: 0.85rem;
+    }
+    body.device-mobile #categoryCheckboxContainer {
+      max-height: 260px;
+      padding: 0.95rem;
+    }
+    body.device-mobile .category-option-list {
+      grid-template-columns: 1fr;
+    }
+    body.device-mobile .button-line {
+      align-items: stretch;
+      flex-direction: column;
+    }
+    body.device-mobile .button-line > div {
+      width: 100%;
+      margin-left: 0 !important;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    body.device-mobile .controls-row .button-line > div[style*="margin-left:auto"] {
+      display: grid !important;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.55rem !important;
+    }
+    body.device-mobile .btn {
+      width: 100%;
+      min-height: 44px;
+      justify-content: center;
+      white-space: normal;
+      text-align: center;
+    }
+    body.device-mobile select#chartTypeSelect {
+      width: 100%;
+      min-height: 44px;
+    }
+    body.device-mobile .dashboard-report-buttons {
+      display: grid;
+      grid-template-columns: 1fr;
+    }
+    body.device-mobile .output-clear-bar {
+      padding-left: 0.85rem;
+      padding-right: 0.85rem;
+    }
+    body.device-mobile .charts-grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      padding: 0 0.85rem 1.4rem;
+    }
+    body.device-mobile .chart-header {
+      padding: 1rem;
+      font-size: 0.82rem;
+    }
+    body.device-mobile .chart-container {
+      height: 420px;
+      padding: 0.85rem;
+      overflow-x: auto;
+    }
+    body.device-mobile .chart-container.pie-chart-container {
+      height: 420px;
+      padding: 1.25rem 0.85rem;
+    }
+    body.device-mobile .strategic-report-body {
+      padding: 1rem;
+      overflow-x: auto;
+    }
+    body.device-mobile .executive-gauge-grid,
+    body.device-mobile .strategic-kpi-grid {
+      grid-template-columns: 1fr;
+    }
+    body.device-mobile .strategic-chart-wrap,
+    body.device-mobile .national-availability-chart-wrap,
+    body.device-mobile .data-quality-chart-wrap,
+    body.device-mobile .strategic-challenges-chart-wrap,
+    body.device-mobile .section4-interoperability-chart-wrap {
+      height: 440px;
+      min-width: 760px;
+    }
+    body.device-mobile .grouped-pie-grid {
+      grid-template-columns: 1fr;
+      padding: 0.85rem;
+    }
+    body.device-mobile .result-table {
+      min-width: 640px;
+    }
+    body.device-mobile .modal-content {
+      width: 96%;
+      padding: 1rem;
     }
 
     .analysis-panel-heading {
@@ -726,9 +978,17 @@
 
   <div class="stats-banner">
     <div class="participants-badge" id="participantsInfo">Institutions: 0</div>
+    <div class="device-view-switch" role="group" aria-label="Device view">
+      <span class="device-view-label" id="deviceViewLabel">Device View</span>
+      <div class="device-button-row">
+        <button type="button" id="deviceDesktopBtn" class="device-btn active" data-device-mode="desktop" aria-pressed="true">Desktop</button>
+        <button type="button" id="deviceIosBtn" class="device-btn" data-device-mode="ios" aria-pressed="false">iOS Mobile</button>
+        <button type="button" id="deviceAndroidBtn" class="device-btn" data-device-mode="android" aria-pressed="false">Android Mobile</button>
+      </div>
+    </div>
     <div class="stats-meta">
       <div id="dashTitle" style="font-weight: 600; color: var(--unep-text-light);">NEDMP Strategic Data Analysis Dashboard</div>
-      <div class="dashboard-version" id="dashboardVersion">Version 2026.05.20.5</div>
+      <div class="dashboard-version" id="dashboardVersion">Version 2026.05.20.6</div>
     </div>
   </div>
 
@@ -921,6 +1181,10 @@
       dashTitle: 'NEDMP Strategic Data Analysis Dashboard',
       analyseDataTitle: 'Analyse Data',
       backToTop: 'Back to Top',
+      deviceViewLabel: 'Device View',
+      deviceDesktop: 'Desktop',
+      deviceIos: 'iOS Mobile',
+      deviceAndroid: 'Android Mobile',
       uploadLabel: 'Upload Dataset (CSV/XLSX)',
       chooseUpdatedFile: 'Choose another updated file',
       fileStatusReq: '🔒 Password required',
@@ -1009,6 +1273,10 @@
       dashTitle: 'لوحة التحليل الاستراتيجي لبيانات NEDMP',
       analyseDataTitle: 'تحليل البيانات',
       backToTop: 'العودة للأعلى',
+      deviceViewLabel: 'عرض الجهاز',
+      deviceDesktop: 'سطح المكتب',
+      deviceIos: 'هاتف iOS',
+      deviceAndroid: 'هاتف Android',
       uploadLabel: 'رفع ملف البيانات (CSV/XLSX)',
       chooseUpdatedFile: 'اختيار ملف محدث آخر',
       fileStatusReq: '🔒 كلمة المرور مطلوبة',
@@ -1354,6 +1622,66 @@
   document.getElementById('langEnBtn').onclick = () => window.setLanguage('en');
   document.getElementById('langArBtn').onclick = () => window.setLanguage('ar');
 
+  let currentDeviceMode = 'desktop';
+
+  function getStoredDeviceMode() {
+    try {
+      return localStorage.getItem('nedmpDeviceMode') || 'desktop';
+    } catch (err) {
+      return 'desktop';
+    }
+  }
+
+  function storeDeviceMode(mode) {
+    try {
+      localStorage.setItem('nedmpDeviceMode', mode);
+    } catch (err) {
+      // Local storage may be blocked in some embedded browsers; the live mode still applies.
+    }
+  }
+
+  function resizeVisibleCharts() {
+    if (!window.Chart) return;
+    requestAnimationFrame(() => {
+      document.querySelectorAll('canvas').forEach(canvas => {
+        const chart = Chart.getChart(canvas);
+        if (chart) chart.resize();
+      });
+    });
+  }
+
+  window.setDeviceMode = function(mode) {
+    const selectedMode = ['desktop', 'ios', 'android'].includes(mode) ? mode : 'desktop';
+    currentDeviceMode = selectedMode;
+    storeDeviceMode(selectedMode);
+    document.documentElement.style.setProperty('--mobile-device-width', selectedMode === 'ios' ? '430px' : selectedMode === 'android' ? '412px' : '1440px');
+    document.body.dataset.deviceMode = selectedMode;
+    document.body.classList.toggle('device-mobile', selectedMode !== 'desktop');
+    document.body.classList.toggle('device-ios', selectedMode === 'ios');
+    document.body.classList.toggle('device-android', selectedMode === 'android');
+
+    const viewport = document.querySelector('meta[name="viewport"]');
+    if (viewport) {
+      viewport.setAttribute('content', selectedMode === 'desktop'
+        ? 'width=device-width, initial-scale=1.0, user-scalable=yes'
+        : 'width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover');
+    }
+
+    document.querySelectorAll('.device-btn').forEach(btn => {
+      const active = btn.dataset.deviceMode === selectedMode;
+      btn.classList.toggle('active', active);
+      btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+    });
+    resizeVisibleCharts();
+  };
+
+  function initDeviceViewControls() {
+    document.querySelectorAll('.device-btn').forEach(btn => {
+      btn.onclick = () => window.setDeviceMode(btn.dataset.deviceMode);
+    });
+    window.setDeviceMode(getStoredDeviceMode());
+  }
+
   window.setLanguage = function(lang) {
     const hadDashboardOutputs = !!document.querySelector('#chartsContainer .chart-card');
     const strategicReportContainer = document.getElementById('strategicReportContainer');
@@ -1387,6 +1715,14 @@
     if (analyseDataTitle) analyseDataTitle.innerText = t.analyseDataTitle;
     const backToTopBtn = document.getElementById('backToTopBtn');
     if (backToTopBtn) backToTopBtn.innerText = t.backToTop;
+    const deviceViewLabel = document.getElementById('deviceViewLabel');
+    if (deviceViewLabel) deviceViewLabel.innerText = t.deviceViewLabel || uiText.en.deviceViewLabel;
+    const deviceDesktopBtn = document.getElementById('deviceDesktopBtn');
+    if (deviceDesktopBtn) deviceDesktopBtn.innerText = t.deviceDesktop || uiText.en.deviceDesktop;
+    const deviceIosBtn = document.getElementById('deviceIosBtn');
+    if (deviceIosBtn) deviceIosBtn.innerText = t.deviceIos || uiText.en.deviceIos;
+    const deviceAndroidBtn = document.getElementById('deviceAndroidBtn');
+    if (deviceAndroidBtn) deviceAndroidBtn.innerText = t.deviceAndroid || uiText.en.deviceAndroid;
     document.getElementById('uploadLabel').innerText = t.uploadLabel;
     
     const fileInput = document.getElementById('csvFileInput');
@@ -5203,6 +5539,7 @@
 
   Chart.register(ChartDataLabels, PieOutsideLabels);
   patchArabicChartLocalization();
+  initDeviceViewControls();
   updateUIStrings();
   initStrategicReports();
 </script>
