@@ -1328,7 +1328,7 @@
     </div>
     <div class="stats-meta">
       <div id="dashTitle" style="font-weight: 600; color: var(--unep-text-light);">NEDMP Strategic Data Analysis Dashboard</div>
-      <div class="dashboard-version" id="dashboardVersion">Version 2026.06.19.5</div>
+      <div class="dashboard-version" id="dashboardVersion">Version 2026.06.19.6</div>
     </div>
   </div>
 
@@ -3194,6 +3194,11 @@
     if (producerRoleSelect) {
       Array.from(producerRoleSelect.options).forEach(option => { option.selected = option.value === '__all__'; });
     }
+    producerLocatorHasUserSelection = false;
+    producerLocatorVisibleRows = [];
+    renderProducerSummaryCards([]);
+    const producerResults = document.getElementById('producerLocatorResults');
+    if (producerResults) producerResults.innerHTML = '';
 
     updateInstitutionCounter();
     if (document.getElementById('strategicFilterIndicator')) updateStrategicFilterIndicator();
@@ -4242,6 +4247,7 @@
   }
 
   let producerLocatorVisibleRows = [];
+  let producerLocatorHasUserSelection = false;
 
   function getProducerLocatorText(key) {
     return (uiText[currentLang] && uiText[currentLang][key]) || uiText.en[key] || key;
@@ -4649,8 +4655,14 @@
     const selectedRoles = getSelectedProducerRoles();
     const selectedRoleSet = new Set(selectedRoles);
     const roleRows = q21RoleRows.filter(row => selectedRoleSet.has(row.role));
-    renderProducerSummaryCards(q21RoleRows, roleRows);
     populateProducerInstitutionSelect(roleRows);
+    if (!producerLocatorHasUserSelection) {
+      producerLocatorVisibleRows = [];
+      renderProducerSummaryCards([]);
+      result.innerHTML = '';
+      return;
+    }
+    renderProducerSummaryCards(q21RoleRows, roleRows);
     const selectedInstitutionKeys = getSelectedProducerInstitutionKeys();
     const selectedInstitutionSet = new Set(selectedInstitutionKeys);
     producerLocatorVisibleRows = roleRows.filter(row => !selectedInstitutionKeys.length || selectedInstitutionSet.has(row.institutionKey));
@@ -4768,10 +4780,16 @@
     if (categorySelect) Array.from(categorySelect.options).forEach(option => { option.selected = option.value === '__all__'; });
     if (roleSelect) Array.from(roleSelect.options).forEach(option => { option.selected = option.value === '__all__'; });
     if (institutionSelect) Array.from(institutionSelect.options).forEach(option => { option.selected = option.value === '__all__'; });
+    producerLocatorHasUserSelection = false;
     producerLocatorVisibleRows = [];
     renderProducerSummaryCards([]);
     const result = document.getElementById('producerLocatorResults');
-    if (result) result.innerHTML = `<div class="producer-locator-message">${escapeHtml(getProducerLocatorText('producerSelectCategoryMessage'))}</div>`;
+    if (result) result.innerHTML = '';
+    renderProducerLocator();
+  }
+
+  function handleProducerLocatorUserSelection() {
+    producerLocatorHasUserSelection = true;
     renderProducerLocator();
   }
 
@@ -4779,9 +4797,9 @@
     const categorySelect = document.getElementById('producerCategorySelect');
     const roleSelect = document.getElementById('producerRoleSelect');
     const institutionSelect = document.getElementById('producerInstitutionSelect');
-    if (categorySelect) categorySelect.onchange = renderProducerLocator;
-    if (roleSelect) roleSelect.onchange = renderProducerLocator;
-    if (institutionSelect) institutionSelect.onchange = renderProducerLocator;
+    if (categorySelect) categorySelect.onchange = handleProducerLocatorUserSelection;
+    if (roleSelect) roleSelect.onchange = handleProducerLocatorUserSelection;
+    if (institutionSelect) institutionSelect.onchange = handleProducerLocatorUserSelection;
     const exportBtn = document.getElementById('exportProducerListBtn');
     const wordBtn = document.getElementById('exportProducerWordBtn');
     const copyBtn = document.getElementById('copyProducerTableBtn');
