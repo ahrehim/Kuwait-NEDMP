@@ -1766,7 +1766,7 @@
       if (paused || (player && player.paused && playing)) {
         el("voiceStatus").textContent = ui("voicePaused");
       } else if (playing) {
-        el("voiceStatus").textContent = `${ui("voiceSpeaking")} - ${currentLang === "ar" ? "ar-KW-FahedNeural" : "en-US-GuyNeural"}`;
+        el("voiceStatus").textContent = `${ui("voiceSpeaking")} - ${currentLang === "ar" ? "" : ""}`;
       } else {
         el("voiceStatus").textContent = ui("voiceReady");
       }
