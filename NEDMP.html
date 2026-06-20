@@ -90,17 +90,26 @@
       border: 1px solid rgba(255,255,255,0.8);
       border-radius: var(--radius-full);
       cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       font-family: inherit;
       font-size: 0.78rem;
       font-weight: 800;
+      line-height: 1;
       padding: 0.55rem 1.1rem;
       box-shadow: 0 4px 12px rgba(0,0,0,0.16);
+      text-decoration: none;
       transition: all 0.2s ease;
+      white-space: nowrap;
     }
     .admin-access-btn:hover {
       background: var(--unep-secondary);
       color: #ffffff;
       transform: translateY(-1px);
+    }
+    .demo-access-btn {
+      padding-inline: 1rem;
     }
     
     .stats-banner { 
@@ -1312,6 +1321,7 @@
       <button id="langEnBtn" class="lang-btn active">English</button>
       <button id="langArBtn" class="lang-btn">العربية</button>
       </div>
+      <a id="demoBtn" class="admin-access-btn demo-access-btn" href="https://ahrehim.github.io/Kuwait-NEDMP/NEDMP_Dashboard_Demo.html" target="_blank" rel="noopener">Demo</a>
       <button id="administratorBtn" class="admin-access-btn" type="button">Administrator</button>
     </div>
   </div>
@@ -1671,6 +1681,7 @@
       deviceDesktop: 'Desktop',
       deviceIos: 'iOS Mobile',
       deviceAndroid: 'Android Mobile',
+      demoButton: 'Demo',
       adminButton: 'Administrator',
       uploadLabel: 'Upload Dataset (CSV/XLSX)',
       chooseUpdatedFile: 'Choose another updated file',
@@ -1808,6 +1819,7 @@
       deviceDesktop: 'سطح المكتب',
       deviceIos: 'هاتف iOS',
       deviceAndroid: 'هاتف Android',
+      demoButton: 'العرض التجريبي',
       adminButton: 'Administrator',
       uploadLabel: 'رفع ملف البيانات (CSV/XLSX)',
       chooseUpdatedFile: 'اختيار ملف محدث آخر',
@@ -2508,6 +2520,11 @@
     if (backToTopBtn) backToTopBtn.innerText = t.backToTop;
     const administratorBtn = document.getElementById('administratorBtn');
     if (administratorBtn) administratorBtn.innerText = t.adminButton || uiText.en.adminButton;
+    const demoBtn = document.getElementById('demoBtn');
+    if (demoBtn) {
+      demoBtn.innerText = t.demoButton || uiText.en.demoButton;
+      demoBtn.setAttribute('href', 'https://ahrehim.github.io/Kuwait-NEDMP/NEDMP_Dashboard_Demo.html');
+    }
     const deviceViewLabel = document.getElementById('deviceViewLabel');
     if (deviceViewLabel) deviceViewLabel.innerText = t.deviceViewLabel || uiText.en.deviceViewLabel;
     const deviceDesktopBtn = document.getElementById('deviceDesktopBtn');
@@ -3184,15 +3201,15 @@
     if (reportTypeSelect && reportTypeSelect.options.length) reportTypeSelect.selectedIndex = 0;
     const producerInstitutionSelect = document.getElementById('producerInstitutionSelect');
     if (producerInstitutionSelect) {
-      Array.from(producerInstitutionSelect.options).forEach(option => { option.selected = option.value === '__all__'; });
+      Array.from(producerInstitutionSelect.options).forEach(option => { option.selected = false; });
     }
     const producerCategorySelect = document.getElementById('producerCategorySelect');
     if (producerCategorySelect) {
-      Array.from(producerCategorySelect.options).forEach(option => { option.selected = option.value === '__all__'; });
+      Array.from(producerCategorySelect.options).forEach(option => { option.selected = false; });
     }
     const producerRoleSelect = document.getElementById('producerRoleSelect');
     if (producerRoleSelect) {
-      Array.from(producerRoleSelect.options).forEach(option => { option.selected = option.value === '__all__'; });
+      Array.from(producerRoleSelect.options).forEach(option => { option.selected = false; });
     }
     producerLocatorHasUserSelection = false;
     producerLocatorVisibleRows = [];
@@ -4548,9 +4565,10 @@
     const columns = getProducerLocatorColumns();
     select.innerHTML = `<option value="__all__">${escapeHtml(getProducerLocatorText('producerCategoryAll'))}</option>`
       + columns.map(item => `<option value="${escapeHtml(item.column)}">${escapeHtml(translateProducerLocatorCategory(item.category))}</option>`).join('');
-    const keep = previous.filter(value => columns.some(item => item.column === value));
+    const validValues = new Set(['__all__', ...columns.map(item => item.column)]);
+    const keep = previous.filter(value => validValues.has(value));
     Array.from(select.options).forEach(option => {
-      option.selected = keep.length ? keep.includes(option.value) : option.value === '__all__';
+      option.selected = keep.length ? keep.includes(option.value) : false;
     });
   }
 
@@ -4564,9 +4582,10 @@
     }])).values()).sort((a, b) => a.label.localeCompare(b.label));
     select.innerHTML = `<option value="__all__">${escapeHtml(getProducerLocatorText('producerInstitutionAll'))}</option>`
       + entries.map(entry => `<option value="${escapeHtml(entry.key)}">${escapeHtml(entry.label)}</option>`).join('');
-    const keep = previous.filter(value => entries.some(entry => entry.key === value));
+    const validValues = new Set(['__all__', ...entries.map(entry => entry.key)]);
+    const keep = previous.filter(value => validValues.has(value));
     Array.from(select.options).forEach(option => {
-      option.selected = keep.length ? keep.includes(option.value) : option.value === '__all__';
+      option.selected = keep.length ? keep.includes(option.value) : false;
     });
   }
 
@@ -4595,9 +4614,9 @@
       const selected = Array.from(roleSelect.selectedOptions || []).map(option => option.value).filter(Boolean);
       roleSelect.innerHTML = producerLocatorRoleOptions().map(option => `<option value="${option.value}">${escapeHtml(t[option.labelKey] || uiText.en[option.labelKey])}</option>`).join('');
       const validValues = new Set(producerLocatorRoleOptions().map(option => option.value));
-      const keep = selected.filter(value => validValues.has(value) && value !== '__all__');
+      const keep = selected.filter(value => validValues.has(value));
       Array.from(roleSelect.options).forEach(option => {
-        option.selected = keep.length ? keep.includes(option.value) : option.value === '__all__';
+        option.selected = keep.length ? keep.includes(option.value) : false;
       });
     }
     populateProducerLocatorCategories();
@@ -4777,9 +4796,9 @@
     const categorySelect = document.getElementById('producerCategorySelect');
     const roleSelect = document.getElementById('producerRoleSelect');
     const institutionSelect = document.getElementById('producerInstitutionSelect');
-    if (categorySelect) Array.from(categorySelect.options).forEach(option => { option.selected = option.value === '__all__'; });
-    if (roleSelect) Array.from(roleSelect.options).forEach(option => { option.selected = option.value === '__all__'; });
-    if (institutionSelect) Array.from(institutionSelect.options).forEach(option => { option.selected = option.value === '__all__'; });
+    if (categorySelect) Array.from(categorySelect.options).forEach(option => { option.selected = false; });
+    if (roleSelect) Array.from(roleSelect.options).forEach(option => { option.selected = false; });
+    if (institutionSelect) Array.from(institutionSelect.options).forEach(option => { option.selected = false; });
     producerLocatorHasUserSelection = false;
     producerLocatorVisibleRows = [];
     renderProducerSummaryCards([]);
