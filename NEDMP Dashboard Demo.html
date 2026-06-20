@@ -1,0 +1,1918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NEDMP Strategic Dashboard Simulation Help Guide</title>
+  <style>
+    :root {
+      --unep-dark: #1b365d;
+      --unep-blue: #0096d6;
+      --unep-light: #dff1ff;
+      --unep-green: #2f7d62;
+      --unep-amber: #d79a3d;
+      --unep-red: #8a0000;
+      --surface: #ffffff;
+      --soft: #f3f7fb;
+      --line: #d7e1ec;
+      --text: #172337;
+      --muted: #657387;
+      --shadow: 0 16px 36px rgba(15, 23, 42, .10);
+      --radius: 14px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background: linear-gradient(180deg, #eef7fd 0%, #f6f9fc 42%, #ffffff 100%);
+      line-height: 1.5;
+    }
+
+    html[dir="rtl"] body {
+      font-family: Tahoma, Arial, sans-serif;
+    }
+
+    .page {
+      width: min(1500px, 100%);
+      margin: 0 auto;
+      padding: 14px 22px 22px;
+    }
+
+    .hero {
+      background: var(--unep-dark);
+      color: #ffffff;
+      border-radius: 18px;
+      border-bottom: 5px solid var(--unep-blue);
+      box-shadow: var(--shadow);
+      padding: 14px 22px;
+    }
+
+    .hero-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(1.2rem, 1.7vw, 1.72rem);
+      line-height: 1.12;
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      display: none;
+      margin: 0;
+      max-width: 980px;
+      font-size: clamp(.98rem, 1.35vw, 1.14rem);
+      color: rgba(255,255,255,.88);
+    }
+
+    .hero-actions, .control-row, .nav-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .btn {
+      appearance: none;
+      border: 1px solid #89c7f7;
+      background: #eaf6ff;
+      color: var(--unep-dark);
+      border-radius: 999px;
+      min-height: 42px;
+      padding: 10px 18px;
+      font-size: 15px;
+      font-weight: 800;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 18px rgba(27, 54, 93, .12);
+    }
+
+    .btn.primary {
+      background: var(--unep-blue);
+      border-color: #087fc0;
+      color: #ffffff;
+    }
+
+    .btn.green {
+      background: var(--unep-green);
+      border-color: var(--unep-green);
+      color: #ffffff;
+    }
+
+    .btn.red {
+      background: var(--unep-red);
+      border-color: var(--unep-red);
+      color: #ffffff;
+    }
+
+    .btn.white {
+      background: #ffffff;
+      border-color: rgba(255,255,255,.72);
+      color: var(--unep-dark);
+    }
+
+    .toolbar {
+      position: sticky;
+      top: 8px;
+      z-index: 1000;
+      margin: 12px 0 18px;
+      background: #eef5fb;
+      border: 1px solid #c6d9eb;
+      border-radius: 13px;
+      padding: 13px;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .voice-note {
+      display: none;
+      margin: 0;
+      color: #4a5f78;
+      font-size: 12px;
+    }
+
+    .demo-control-strip {
+      display: grid;
+      grid-template-columns: auto auto auto auto auto auto minmax(260px, 1fr);
+      gap: 10px;
+      align-items: center;
+    }
+
+    .audio-step-label {
+      color: var(--unep-dark);
+      font-weight: 900;
+      white-space: nowrap;
+      text-align: center;
+      min-width: 72px;
+    }
+
+    .audio-panel {
+      min-width: 260px;
+    }
+
+    .audio-panel audio {
+      width: 100%;
+      height: 42px;
+      display: block;
+    }
+
+    .workspace {
+      display: grid;
+      grid-template-columns: 330px minmax(0, 1fr);
+      gap: 18px;
+      margin-top: 20px;
+      align-items: start;
+    }
+
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .steps-panel {
+      position: sticky;
+      top: 14px;
+    }
+
+    .panel-header {
+      padding: 16px 18px;
+      background: var(--unep-dark);
+      color: #ffffff;
+      border-bottom: 4px solid var(--unep-blue);
+    }
+
+    .panel-header h2 {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    .panel-header p {
+      margin: 6px 0 0;
+      color: rgba(255,255,255,.82);
+      font-size: 13px;
+    }
+
+    .step-list {
+      padding: 12px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .step-item {
+      border: 1px solid var(--line);
+      background: #ffffff;
+      color: var(--text);
+      border-radius: 12px;
+      padding: 11px 12px;
+      text-align: start;
+      cursor: pointer;
+      display: grid;
+      grid-template-columns: 34px 1fr;
+      gap: 10px;
+      align-items: center;
+      min-height: 54px;
+      font-weight: 800;
+    }
+
+    html[dir="rtl"] .step-item {
+      grid-template-columns: 1fr 34px;
+    }
+
+    .step-item .num {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #edf6fb;
+      color: var(--unep-dark);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      border: 1px solid #b9daf3;
+    }
+
+    .step-item.active {
+      border-color: var(--unep-blue);
+      background: var(--unep-light);
+      color: var(--unep-dark);
+      box-shadow: inset 5px 0 0 var(--unep-blue);
+    }
+
+    html[dir="rtl"] .step-item.active {
+      box-shadow: inset -5px 0 0 var(--unep-blue);
+    }
+
+    .step-item.done .num {
+      background: var(--unep-green);
+      color: #ffffff;
+      border-color: var(--unep-green);
+    }
+
+    .screen-shell {
+      min-width: 0;
+    }
+
+    .screen-top {
+      display: grid;
+      grid-template-columns: 1fr 260px;
+      gap: 16px;
+      align-items: center;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line);
+      background: #ffffff;
+    }
+
+    .screen-label {
+      font-weight: 900;
+      color: var(--unep-dark);
+    }
+
+    .progress-track {
+      height: 9px;
+      background: #e7edf4;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--unep-green), var(--unep-blue));
+      transition: width .35s ease;
+    }
+
+    .screen-body {
+      position: relative;
+      height: 720px;
+      overflow-y: auto;
+      overflow-x: hidden;
+      background: #f7fbff;
+      padding: 18px;
+      scroll-behavior: smooth;
+    }
+
+    .mock-dashboard {
+      position: relative;
+      min-width: 0;
+      width: 100%;
+      max-width: none;
+      margin: 0 auto;
+      background: #ffffff;
+      border: 1px solid #cfdbe8;
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: 0 14px 30px rgba(27,54,93,.10);
+    }
+
+    .mock-top {
+      background: var(--unep-dark);
+      color: #ffffff;
+      border-radius: 14px;
+      border-bottom: 5px solid var(--unep-blue);
+      padding: 18px 20px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 14px;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .system-window-chrome {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 12px;
+      margin: -16px -16px 14px;
+      background: #eef5fb;
+      border-bottom: 1px solid var(--line);
+      color: #516172;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .window-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #c85e42;
+      display: inline-block;
+    }
+
+    .window-dot:nth-child(2) { background: #d79a3d; }
+    .window-dot:nth-child(3) { background: #2f7d62; }
+
+    .system-window-title {
+      margin-inline-start: 8px;
+      color: var(--unep-dark);
+    }
+
+    .mock-top h3 {
+      margin: 0;
+      font-size: 20px;
+      line-height: 1.15;
+    }
+
+    .mock-top p {
+      margin: 8px 0 0;
+      color: rgba(255,255,255,.82);
+      max-width: 780px;
+      font-size: 15px;
+    }
+
+    .admin-chip {
+      border: 1px solid rgba(255,255,255,.72);
+      background: rgba(255,255,255,.12);
+      color: #ffffff;
+      border-radius: 999px;
+      padding: 11px 18px;
+      font-weight: 900;
+      white-space: nowrap;
+      max-width: 170px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .dashboard-status-strip {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .dashboard-status-strip span {
+      border: 1px solid #9dccf1;
+      background: #eaf6ff;
+      color: var(--unep-dark);
+      border-radius: 999px;
+      padding: 9px 10px;
+      font-weight: 900;
+      font-size: 12px;
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .mock-section {
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      padding: 16px;
+      background: #ffffff;
+      margin-bottom: 16px;
+    }
+
+    .mock-section h4 {
+      margin: 0 0 10px;
+      font-size: 17px;
+      color: var(--unep-dark);
+    }
+
+    .section-banner {
+      background: var(--unep-dark);
+      color: #ffffff;
+      border-bottom: 4px solid var(--unep-blue);
+      border-radius: 12px;
+      padding: 15px 18px;
+      margin: -16px -16px 16px;
+    }
+
+    .section-banner h4 {
+      color: #ffffff;
+      margin: 0;
+    }
+
+    .section-banner p {
+      margin: 5px 0 0;
+      color: rgba(255,255,255,.84);
+      font-size: 13px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      align-items: end;
+    }
+
+    .field label {
+      display: block;
+      text-transform: uppercase;
+      font-weight: 900;
+      color: #6b7280;
+      font-size: 12px;
+      margin-bottom: 6px;
+    }
+
+    .fake-input, .fake-select, .fake-list {
+      border: 1px solid #8ac7ff;
+      background: #dff1ff;
+      color: var(--unep-dark);
+      border-radius: 11px;
+      min-height: 48px;
+      display: flex;
+      align-items: center;
+      padding: 11px 14px;
+      font-weight: 800;
+      font-size: 13px;
+    }
+
+    .fake-list {
+      align-items: flex-start;
+      min-height: 120px;
+      display: grid;
+      gap: 7px;
+      overflow: hidden;
+    }
+
+    .fake-option {
+      background: rgba(255,255,255,.62);
+      border-radius: 8px;
+      padding: 6px 8px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .mock-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    .mock-btn {
+      border: 1px solid #8ac7ff;
+      background: #eaf6ff;
+      color: var(--unep-dark);
+      border-radius: 999px;
+      min-height: 43px;
+      padding: 10px 18px;
+      font-weight: 900;
+      font-size: 13px;
+      box-shadow: 0 8px 16px rgba(27,54,93,.07);
+    }
+
+    .mock-btn.primary {
+      background: var(--unep-blue);
+      color: #ffffff;
+      border-color: #087fc0;
+    }
+
+    .mock-btn.red {
+      background: var(--unep-red);
+      color: #ffffff;
+      border-color: var(--unep-red);
+    }
+
+    .gauge-row, .card-row {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .gauge-card, .summary-card {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 13px;
+      background: #ffffff;
+      min-height: 116px;
+    }
+
+    .gauge {
+      height: 62px;
+      border-radius: 95px 95px 0 0;
+      background:
+        conic-gradient(from 270deg, #c85e42 0 36deg, #d79a3d 36deg 72deg, #8aaa4e 72deg 108deg, #57b39b 108deg 144deg, #4ba4cf 144deg 180deg, transparent 180deg 360deg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .gauge::after {
+      content: "";
+      position: absolute;
+      left: 18%;
+      right: 18%;
+      bottom: -2px;
+      height: 38px;
+      background: #ffffff;
+      border-radius: 80px 80px 0 0;
+      border: 7px solid #d8dfe7;
+      border-bottom: 0;
+    }
+
+    .gauge-needle {
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      width: 3px;
+      height: 48px;
+      background: #6c737f;
+      transform-origin: bottom center;
+      transform: rotate(var(--angle));
+      z-index: 2;
+    }
+
+    .metric {
+      margin-top: 7px;
+      color: var(--unep-dark);
+      font-size: 21px;
+      font-weight: 900;
+      text-align: center;
+    }
+
+    .metric-label {
+      color: var(--muted);
+      text-align: center;
+      font-weight: 800;
+      font-size: 12px;
+    }
+
+    .shortcut-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .chart-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(260px, .85fr);
+      gap: 14px;
+      align-items: stretch;
+    }
+
+    .bar-chart {
+      height: 230px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 16px 18px;
+      background:
+        linear-gradient(to right, rgba(27,54,93,.08) 1px, transparent 1px) 0 0/20% 100%,
+        #ffffff;
+      display: grid;
+      align-content: center;
+      gap: 12px;
+    }
+
+    .bar {
+      height: 24px;
+      background: #e9eff5;
+      border-radius: 999px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .bar span {
+      display: block;
+      height: 100%;
+      background: var(--unep-blue);
+      width: var(--w);
+      border-radius: inherit;
+    }
+
+    .traffic-table, .mapping-table {
+      width: 100%;
+      table-layout: fixed;
+      border-collapse: collapse;
+      font-size: 13px;
+      background: #ffffff;
+    }
+
+    .traffic-table th, .traffic-table td,
+    .mapping-table th, .mapping-table td {
+      border: 1px solid var(--line);
+      padding: 9px;
+      vertical-align: middle;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+
+    .traffic-table th, .mapping-table th {
+      background: var(--unep-dark);
+      color: #ffffff;
+      text-align: start;
+    }
+
+    .sankey-mini {
+      height: 220px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #ffffff;
+      position: relative;
+      overflow: hidden;
+      padding: 14px;
+    }
+
+    .node {
+      position: absolute;
+      width: 120px;
+      border-radius: 8px;
+      background: var(--unep-dark);
+      color: #ffffff;
+      padding: 10px;
+      font-weight: 900;
+      font-size: 12px;
+      text-align: center;
+      z-index: 2;
+    }
+
+    .node.right { background: #55728c; }
+    .node.n1 { top: 26px; left: 16px; }
+    .node.n2 { top: 118px; left: 16px; background: #459bd3; }
+    .node.n3 { top: 44px; right: 16px; }
+    .node.n4 { top: 132px; right: 16px; }
+
+    .flow-svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .details-panel {
+      display: none !important;
+      margin-top: 16px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .detail-box {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #ffffff;
+      padding: 14px 16px;
+    }
+
+    .detail-box h3 {
+      margin: 0 0 8px;
+      color: var(--unep-dark);
+      font-size: 18px;
+    }
+
+    .detail-box p {
+      margin: 0;
+      color: #263445;
+    }
+
+    .detail-box ul {
+      margin: 0;
+      padding-inline-start: 20px;
+    }
+
+    .detail-box li {
+      margin: 5px 0;
+    }
+
+    .nav-row {
+      justify-content: space-between;
+      padding: 14px 16px;
+      border-top: 1px solid var(--line);
+      background: #ffffff;
+    }
+
+    .demo-pointer {
+      position: absolute;
+      z-index: 30;
+      transform: translateX(-50%);
+      pointer-events: none;
+      display: none;
+      animation: pointerBounce 1.1s ease-in-out infinite;
+      width: 240px;
+      text-align: center;
+      filter: drop-shadow(0 8px 12px rgba(0,0,0,.22));
+    }
+
+    .demo-pointer.visible { display: block; }
+
+    .pointer-label {
+      display: inline-block;
+      max-width: 230px;
+      background: #fff8dd;
+      border: 1px solid #e7c96d;
+      color: var(--unep-dark);
+      border-radius: 999px;
+      padding: 7px 11px;
+      font-weight: 900;
+      font-size: 12px;
+      margin-bottom: 4px;
+    }
+
+    .pointer-stem {
+      display: block;
+      width: 5px;
+      height: 34px;
+      background: var(--unep-amber);
+      margin: 0 auto;
+      border-radius: 999px;
+    }
+
+    .pointer-head {
+      display: block;
+      width: 0;
+      height: 0;
+      margin: 0 auto;
+      border-left: 14px solid transparent;
+      border-right: 14px solid transparent;
+      border-top: 20px solid var(--unep-amber);
+    }
+
+    @keyframes pointerBounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(-7px); }
+    }
+
+    .highlight-target {
+      position: relative;
+      outline: 4px solid rgba(215,154,61,.78);
+      box-shadow: 0 0 0 8px rgba(215,154,61,.18), 0 18px 30px rgba(27,54,93,.12);
+      animation: highlightGlow 1.25s ease-in-out infinite;
+      z-index: 10;
+    }
+
+    @keyframes highlightGlow {
+      0%, 100% { outline-color: rgba(215,154,61,.72); }
+      50% { outline-color: rgba(0,150,214,.86); }
+    }
+
+    .password-preview {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: end;
+    }
+
+    .password-input {
+      border: 1px solid #b8c8d8;
+      border-radius: 999px;
+      padding: 12px 16px;
+      color: #6b7280;
+      background: #ffffff;
+      font-weight: 800;
+    }
+
+    .upload-strip {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .dataset-badge {
+      background: #e8f6ed;
+      color: var(--unep-green);
+      border: 1px solid #b6e0c5;
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .final-card {
+      background: linear-gradient(135deg, var(--unep-dark), #255080);
+      color: #ffffff;
+      border-radius: 14px;
+      padding: 24px;
+      text-align: center;
+      border-bottom: 5px solid var(--unep-blue);
+    }
+
+    .final-card h4 {
+      color: #ffffff;
+      font-size: 26px;
+    }
+
+    .final-card p {
+      color: rgba(255,255,255,.86);
+      margin: 10px auto 0;
+      max-width: 720px;
+    }
+
+    .language-pill {
+      color: rgba(255,255,255,.88);
+      font-size: 13px;
+      border: 1px solid rgba(255,255,255,.24);
+      border-radius: 999px;
+      padding: 8px 11px;
+      background: rgba(255,255,255,.08);
+      white-space: nowrap;
+    }
+
+    @media (max-width: 1080px) {
+      .workspace { grid-template-columns: 1fr; }
+      .steps-panel { position: static; }
+      .toolbar { grid-template-columns: 1fr; }
+      .demo-control-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .audio-panel { grid-column: 1 / -1; }
+      .dashboard-status-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .screen-top { grid-template-columns: 1fr; }
+      .details-panel { grid-template-columns: 1fr; grid-column: auto !important; }
+    }
+
+    @media (max-width: 760px) {
+      .page { padding: 12px; }
+      .hero { padding: 20px; border-radius: 14px; }
+      .screen-body { height: 650px; padding: 10px; }
+      .mock-dashboard { min-width: 0; }
+      .form-grid, .gauge-row, .card-row, .shortcut-grid, .chart-row { grid-template-columns: 1fr; }
+    }
+
+    @media print {
+      .hero-actions, .toolbar, .steps-panel, .nav-row, .demo-pointer { display: none !important; }
+      .workspace { display: block; }
+      .screen-body { height: auto; overflow: visible; }
+      .mock-dashboard { min-width: 0; }
+      .panel { box-shadow: none; break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="hero">
+      <div class="hero-top">
+        <div>
+          <h1 id="pageTitle">NEDMP Strategic Data Analysis Dashboard Simulation Help Guide</h1>
+          <p class="subtitle" id="pageSubtitle" hidden></p>
+        </div>
+        <div class="hero-actions">
+          <span class="language-pill" id="voiceStatus">Narration ready</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="toolbar" aria-label="Demo controls">
+      <div class="demo-control-strip">
+        <button class="btn green" id="startBtn" type="button">Play animated demo</button>
+        <button class="btn white" id="pauseResumeBtn" type="button">Pause / Resume</button>
+        <button class="btn white" id="stopBtn" type="button">Stop demo</button>
+        <button class="btn white" id="languageBtn" type="button">العربية</button>
+        <a class="btn white" id="openDashboardBtn" href="https://ahrehim.github.io/Kuwait-NEDMP/NEDMP.html" target="_blank" rel="noopener">Open Dashboard</a>
+        <strong class="audio-step-label" id="audioLabel">Step 1</strong>
+        <div class="audio-panel" id="audioPanel">
+          <audio id="narrationPlayer" preload="auto" controls></audio>
+        </div>
+      </div>
+      <p class="voice-note" id="voiceNote" hidden></p>
+      <div class="control-row">
+        <button class="btn white" id="prevTopBtn" type="button">Previous</button>
+        <button class="btn primary" id="nextTopBtn" type="button">Next</button>
+      </div>
+    </div>
+
+    <main class="workspace">
+      <aside class="panel steps-panel">
+        <div class="panel-header">
+          <h2 id="stepsTitle">Demo Steps</h2>
+          <p id="stepsHint">Select any step, or start the full narrated walkthrough.</p>
+        </div>
+        <div class="step-list" id="stepList"></div>
+      </aside>
+
+      <section class="screen-shell panel">
+        <div class="screen-top">
+          <strong class="screen-label" id="screenLabel">Step 1 of 8</strong>
+          <div class="progress-track" aria-hidden="true"><div class="progress-fill" id="progressFill"></div></div>
+        </div>
+        <div class="screen-body" id="screenBody">
+          <div class="demo-pointer" id="demoPointer" aria-hidden="true">
+            <span class="pointer-label" id="pointerLabel">Look here</span>
+            <span class="pointer-stem"></span>
+            <span class="pointer-head"></span>
+          </div>
+
+          <div class="mock-dashboard">
+            <div class="system-window-chrome" aria-hidden="true">
+              <span class="window-dot"></span>
+              <span class="window-dot"></span>
+              <span class="window-dot"></span>
+              <span class="system-window-title">KEPA Dashboard / NEDMP Strategic Data Analysis Dashboard v2026.06.19.6</span>
+            </div>
+            <section class="mock-top" id="mockPurpose">
+              <div>
+                <h3>NEDMP Strategic Data Analysis Dashboard</h3>
+                <p>Transform institutional questionnaire responses into strategic knowledge for Kuwait's National Environmental Data Management Plan.</p>
+              </div>
+              <div class="admin-chip">Administrator</div>
+            </section>
+            <div class="dashboard-status-strip" aria-hidden="true">
+              <span>Upload Dataset</span>
+              <span>Executive Analytical Dashboard</span>
+              <span>Strategic Analytical Reports</span>
+              <span>Environmental Data Mapping</span>
+              <span>Analyse Data</span>
+            </div>
+
+            <section class="mock-section" id="mockAccess">
+              <div class="section-banner">
+                <h4>Secure Access and Dataset Activation</h4>
+                <p>Use the embedded dataset or upload a new CSV/XLSX file after entering the password.</p>
+              </div>
+              <div class="password-preview">
+                <div>
+                  <label style="display:block;font-weight:900;color:#6b7280;margin-bottom:6px;">Enter secure password</label>
+                  <div class="password-input">••••••••••••</div>
+                </div>
+                <button class="mock-btn primary">Activate System</button>
+              </div>
+              <div class="upload-strip" style="margin-top:14px;">
+                <div class="fake-input">Embedded dataset loaded: 32 institutional responses</div>
+                <button class="mock-btn">Choose another updated file</button>
+              </div>
+            </section>
+
+            <section class="mock-section" id="mockExecutive">
+              <div class="section-banner">
+                <h4>Executive Analytical Dashboard</h4>
+                <p>Automatic executive indicators and predefined analytical buttons after dataset activation.</p>
+              </div>
+              <div class="gauge-row">
+                <div class="gauge-card">
+                  <div class="gauge"><span class="gauge-needle" style="--angle:-35deg"></span></div>
+                  <div class="metric">42%</div><div class="metric-label">Overall data availability</div>
+                </div>
+                <div class="gauge-card">
+                  <div class="gauge"><span class="gauge-needle" style="--angle:12deg"></span></div>
+                  <div class="metric">58%</div><div class="metric-label">Overall data gap</div>
+                </div>
+                <div class="gauge-card">
+                  <div class="gauge"><span class="gauge-needle" style="--angle:45deg"></span></div>
+                  <div class="metric">71%</div><div class="metric-label">Governance readiness</div>
+                </div>
+                <div class="gauge-card">
+                  <div class="gauge"><span class="gauge-needle" style="--angle:65deg"></span></div>
+                  <div class="metric">83%</div><div class="metric-label">Data quality readiness</div>
+                </div>
+              </div>
+              <div class="shortcut-grid" style="margin-top:14px;">
+                <button class="mock-btn">Top 5 Priority Gaps</button>
+                <button class="mock-btn">Top 5 Institutional Strengths</button>
+                <button class="mock-btn">Data Gap</button>
+                <button class="mock-btn">Data Quality</button>
+                <button class="mock-btn">Data Sharing</button>
+                <button class="mock-btn">Strategic Challenges</button>
+                <button class="mock-btn">Challenges-Data Quality</button>
+                <button class="mock-btn">Full Report</button>
+              </div>
+            </section>
+
+            <section class="mock-section" id="mockStrategic">
+              <div class="section-banner">
+                <h4>Strategic Analytical Reports</h4>
+                <p>Generate structured analytical reports from the uploaded NEDMP questionnaire dataset.</p>
+              </div>
+              <div class="form-grid">
+                <div class="field">
+                  <label>Report Category</label>
+                  <div class="fake-select">Data Availability and Gap Analysis</div>
+                </div>
+                <div class="field">
+                  <label>Report Type</label>
+                  <div class="fake-select">National Environmental Data Availability Assessment</div>
+                </div>
+                <div class="field">
+                  <label>Filter indicator</label>
+                  <div class="fake-input">All institutions | All divisions</div>
+                </div>
+              </div>
+              <div class="mock-buttons">
+                <button class="mock-btn primary">Generate Strategic Report</button>
+                <button class="mock-btn">Copy Report</button>
+                <button class="mock-btn">Export to MS Word</button>
+                <button class="mock-btn">Export to MS Excel</button>
+                <button class="mock-btn">Export as PNG</button>
+                <button class="mock-btn red">Clear Report</button>
+              </div>
+            </section>
+
+            <section class="mock-section" id="mockMapping">
+              <div class="section-banner">
+                <h4>Environmental Data Mapping</h4>
+                <p>Identify institutions producing, using, or coordinating environmental data categories based on Question 2.1.</p>
+              </div>
+              <div class="form-grid">
+                <div class="field">
+                  <label>Select environmental data category</label>
+                  <div class="fake-list">
+                    <div class="fake-option">All Categories</div>
+                    <div class="fake-option">Air, atmosphere and meteorology</div>
+                    <div class="fake-option">Water resources</div>
+                    <div class="fake-option">Biodiversity</div>
+                  </div>
+                </div>
+                <div class="field">
+                  <label>Institution Role</label>
+                  <div class="fake-list">
+                    <div class="fake-option">All roles</div>
+                    <div class="fake-option">Primary Producer</div>
+                    <div class="fake-option">Consumer</div>
+                    <div class="fake-option">Aggregator/Coordinator</div>
+                  </div>
+                </div>
+                <div class="field">
+                  <label>Search Institutions</label>
+                  <div class="fake-list">
+                    <div class="fake-option">All institutions</div>
+                    <div class="fake-option">Environment Public Authority (EPA)</div>
+                    <div class="fake-option">Kuwait Gulf Oil Company</div>
+                    <div class="fake-option">Ministry of Electricity, Water and Renewable Energy</div>
+                  </div>
+                </div>
+              </div>
+              <div class="card-row" style="margin-top:14px;">
+                <div class="summary-card"><div class="metric">12</div><div class="metric-label">Primary producers</div></div>
+                <div class="summary-card"><div class="metric">9</div><div class="metric-label">Consumers/users</div></div>
+                <div class="summary-card"><div class="metric">6</div><div class="metric-label">Aggregators/coordinators</div></div>
+                <div class="summary-card"><div class="metric">18</div><div class="metric-label">Divisions/departments identified</div></div>
+              </div>
+              <table class="mapping-table" style="margin-top:14px;">
+                <thead><tr><th>No.</th><th>Institution</th><th>Division / department</th><th>Role / type</th><th>Notes</th></tr></thead>
+                <tbody>
+                  <tr><td>1</td><td>Environment Public Authority (EPA)</td><td>Environmental Monitoring</td><td>Primary Producer</td><td>Question 2.1 response</td></tr>
+                  <tr><td>2</td><td>Kuwait Gulf Oil Company</td><td>Environmental Division</td><td>Aggregator/Coordinator</td><td>Question 2.1 response</td></tr>
+                </tbody>
+              </table>
+              <div class="mock-buttons">
+                <button class="mock-btn primary">Export Producers List</button>
+                <button class="mock-btn">Export to Word</button>
+                <button class="mock-btn">Copy Table</button>
+                <button class="mock-btn red">Clear selection</button>
+              </div>
+            </section>
+
+            <section class="mock-section" id="mockAnalyse">
+              <div class="section-banner">
+                <h4>Analyse Data</h4>
+                <p>Select institutions, divisions, sections, questions, and categories; then generate graphs.</p>
+              </div>
+              <div class="form-grid">
+                <div class="field">
+                  <label>Institutions</label>
+                  <div class="fake-list">
+                    <div class="fake-option">Environment Public Authority (EPA)</div>
+                    <div class="fake-option">Emergency 112</div>
+                    <div class="fake-option">Kuwait Municipality</div>
+                  </div>
+                </div>
+                <div class="field">
+                  <label>Sections</label>
+                  <div class="fake-list">
+                    <div class="fake-option">Section 2: Environmental Data Production</div>
+                    <div class="fake-option">Section 4: Data Sharing</div>
+                    <div class="fake-option">Section 13: Challenges</div>
+                  </div>
+                </div>
+                <div class="field">
+                  <label>Questions and options</label>
+                  <div class="fake-list">
+                    <div class="fake-option">2.1 Categories of environmental data</div>
+                    <div class="fake-option">4.2 Standardized formats or APIs</div>
+                    <div class="fake-option">13.1 Significant challenges</div>
+                  </div>
+                </div>
+              </div>
+              <div class="mock-buttons">
+                <button class="mock-btn primary">Generate Graph</button>
+                <button class="mock-btn">Copy</button>
+                <button class="mock-btn">PNG</button>
+                <button class="mock-btn">Excel</button>
+                <button class="mock-btn">Word</button>
+                <button class="mock-btn red">Clear All</button>
+              </div>
+            </section>
+
+            <section class="mock-section" id="mockOutputs">
+              <div class="section-banner">
+                <h4>Charts, Traffic-Light Tables, Sankey Diagrams, and Export-Ready Reports</h4>
+                <p>Outputs support a clear national understanding of environmental data availability, gaps, and institutional challenges.</p>
+              </div>
+              <div class="chart-row">
+                <div>
+                  <div class="bar-chart">
+                    <div class="bar"><span style="--w:82%"></span></div>
+                    <div class="bar"><span style="--w:64%; background:var(--unep-green)"></span></div>
+                    <div class="bar"><span style="--w:48%; background:var(--unep-amber)"></span></div>
+                    <div class="bar"><span style="--w:31%; background:#c85e42"></span></div>
+                  </div>
+                  <div class="sankey-mini" style="margin-top:12px;">
+                    <svg class="flow-svg" viewBox="0 0 640 220" preserveAspectRatio="none">
+                      <path d="M130,62 C260,62 375,45 510,68" stroke="#1b365d" stroke-width="30" stroke-opacity=".42" fill="none"/>
+                      <path d="M130,155 C270,155 370,150 510,164" stroke="#0096d6" stroke-width="24" stroke-opacity=".42" fill="none"/>
+                      <path d="M130,72 C278,88 366,158 510,170" stroke="#d79a3d" stroke-width="16" stroke-opacity=".40" fill="none"/>
+                      <path d="M130,148 C252,125 376,78 510,72" stroke="#2f7d62" stroke-width="18" stroke-opacity=".40" fill="none"/>
+                    </svg>
+                    <div class="node n1">Challenges</div><div class="node n2">Institutions</div>
+                    <div class="node right n3">QA/QC</div><div class="node right n4">Metadata</div>
+                  </div>
+                </div>
+                <table class="traffic-table">
+                  <thead><tr><th>Area</th><th>Score</th><th>Status</th><th>Priority</th></tr></thead>
+                  <tbody>
+                    <tr><td>Data gap</td><td>68%</td><td>🔴 Critical</td><td>High</td></tr>
+                    <tr><td>Governance</td><td>57%</td><td>🟠 High</td><td>Reform</td></tr>
+                    <tr><td>Data sharing</td><td>42%</td><td>🟡 Moderate</td><td>Strengthen</td></tr>
+                    <tr><td>Quality</td><td>78%</td><td>🟢 Strong</td><td>Maintain</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+
+            <section class="mock-section" id="mockThanks">
+              <div class="final-card">
+                <h4>Thank You</h4>
+                <p>Thank you to all colleagues for their attention, cooperation, and support in strengthening Kuwait's National Environmental Data Management Plan.</p>
+              </div>
+            </section>
+          </div>
+        </div>
+        <div class="nav-row">
+          <button class="btn white" id="prevBtn" type="button">Previous</button>
+          <button class="btn primary" id="nextBtn" type="button">Next</button>
+        </div>
+      </section>
+
+      <section class="panel details-panel" style="grid-column: 2;">
+        <div class="detail-box">
+          <h3 id="narrationTitle">Narration</h3>
+          <p id="narrationText"></p>
+        </div>
+        <div class="detail-box">
+          <h3 id="workflowTitle">Workflow Focus</h3>
+          <ul id="workflowList"></ul>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const dashboardUrl = "https://ahrehim.github.io/Kuwait-NEDMP/NEDMP.html";
+
+    const UI = {
+      en: {
+        pageTitle: "NEDMP Strategic Data Analysis Dashboard Simulation Help Guide",
+        pageSubtitle: "",
+        languageBtn: "العربية",
+        openDashboard: "Open Dashboard",
+        start: "Play animated demo",
+        pauseResume: "Pause / Resume",
+        pause: "Pause",
+        resume: "Resume",
+        stop: "Stop demo",
+        previous: "Previous",
+        next: "Next",
+        finish: "Finish",
+        stepsTitle: "Demo Steps",
+        stepsHint: "Select any step, or start the full narrated walkthrough.",
+        narrationTitle: "Narration",
+        workflowTitle: "Workflow Focus",
+        voiceReady: "Audio narration ready",
+        voiceSpeaking: "Audio playing",
+        voicePaused: "Paused",
+        voiceStopped: "Stopped",
+        voiceFallback: "Audio file could not be played automatically. Press play in the audio control.",
+        voiceNote: "",
+        stepLabel: "Step"
+      },
+      ar: {
+        pageTitle: "دليل محاكاة لوحة التحليل الاستراتيجي للبيانات - الخطة الوطنية لإدارة البيانات البيئية",
+        pageSubtitle: "",
+        languageBtn: "English",
+        openDashboard: "فتح النظام",
+        start: "تشغيل العرض المتحرك",
+        pauseResume: "إيقاف مؤقت / استئناف",
+        pause: "إيقاف مؤقت",
+        resume: "استئناف",
+        stop: "إيقاف العرض",
+        previous: "السابق",
+        next: "التالي",
+        finish: "إنهاء",
+        stepsTitle: "خطوات العرض",
+        stepsHint: "اختر أي خطوة، أو ابدأ العرض الكامل مع السرد الصوتي.",
+        narrationTitle: "النص الصوتي",
+        workflowTitle: "محور الخطوة",
+        voiceReady: "السرد الصوتي جاهز",
+        voiceSpeaking: "جاري تشغيل الصوت",
+        voicePaused: "متوقف مؤقتاً",
+        voiceStopped: "تم الإيقاف",
+        voiceFallback: "تعذر تشغيل ملف الصوت تلقائياً. اضغط زر التشغيل في مشغل الصوت.",
+        voiceNote: "",
+        stepLabel: "الخطوة"
+      }
+    };
+
+    const STEPS = [
+      {
+        id: "purpose",
+        target: "#mockPurpose",
+        pointer: { en: "System purpose", ar: "هدف النظام" },
+        title: {
+          en: "Introduce the strategic dashboard",
+          ar: "التعريف باللوحة الاستراتيجية"
+        },
+        narration: {
+          en: "Welcome. This guide introduces the National Environmental Data Management Plan, or NEDMP, Strategic Data Analysis Dashboard. The system contributes to the development of Kuwait's National Environmental Data Management Plan by transforming institutional questionnaire responses into strategic knowledge. It helps identify which institutions produce, use, coordinate, or lack key environmental datasets, where data gaps exist, and which governance, technical, institutional, and regulatory challenges require priority intervention.",
+          ar: "حياكم الله. يعرّف هذا الدليل بلوحة التحليل الاستراتيجي للبيانات الخاصة بالخطة الوطنية لإدارة البيانات البيئية في دولة الكويت. يساهم النظام في تطوير الخطة الوطنية لإدارة البيانات البيئية في الكويت من خلال تحويل استجابات المؤسسات إلى معرفة استراتيجية، ويساعد على تحديد المؤسسات التي تنتج أو تستخدم أو تنسق أو تفتقر إلى مجموعات البيانات البيئية الرئيسية، وتحديد فجوات البيانات والتحديات الحوكمية والفنية والمؤسسية والتنظيمية التي تتطلب تدخلاً ذا أولوية."
+        },
+        focus: {
+          en: [
+            "Understand the dashboard as a strategic knowledge tool.",
+            "Recognize the core analytical themes: producers, users, coordinators, gaps, and challenges.",
+            "Use the dashboard to support national environmental data governance decisions."
+          ],
+          ar: [
+            "فهم اللوحة كأداة معرفة استراتيجية.",
+            "التعرف على محاور التحليل: المنتجون والمستخدمون والمنسقون والفجوات والتحديات.",
+            "استخدام اللوحة لدعم قرارات حوكمة البيانات البيئية الوطنية."
+          ]
+        }
+      },
+      {
+        id: "access",
+        target: "#mockAccess",
+        pointer: { en: "Password and dataset", ar: "كلمة المرور والبيانات" },
+        title: {
+          en: "Enter the password and activate data",
+          ar: "إدخال كلمة المرور وتفعيل البيانات"
+        },
+        narration: {
+          en: "The workflow starts by entering the authorized password. After activation, users may work directly with the embedded questionnaire dataset, which is already included in the online dashboard, or they may upload a newer CSV or Excel file. This keeps the system simple for users while preserving the option to update the database when needed.",
+          ar: "تبدأ رحلة الاستخدام بإدخال كلمة المرور المعتمدة. بعد التفعيل، يمكن للمستخدم العمل مباشرة على ملف البيانات المضمّن داخل اللوحة الإلكترونية، أو تحميل ملف أحدث بصيغة CSV أو Excel عند الحاجة. بهذه الطريقة يبقى النظام سهلاً للمستخدمين، مع المحافظة على إمكانية تحديث قاعدة البيانات."
+        },
+        focus: {
+          en: [
+            "Enter the secure dashboard password.",
+            "Use the embedded dataset when no upload is needed.",
+            "Upload an updated CSV or Excel file when a newer questionnaire database is available."
+          ],
+          ar: [
+            "إدخال كلمة المرور الآمنة للنظام.",
+            "استخدام قاعدة البيانات المضمّنة عند عدم الحاجة إلى رفع ملف جديد.",
+            "رفع ملف CSV أو Excel محدث عند توفر قاعدة بيانات أحدث للاستبيان."
+          ]
+        }
+      },
+      {
+        id: "executive",
+        target: "#mockExecutive",
+        pointer: { en: "Executive dashboard", ar: "اللوحة التنفيذية" },
+        title: {
+          en: "Review the Executive Analytical Dashboard",
+          ar: "استعراض لوحة التحليل التنفيذية"
+        },
+        narration: {
+          en: "Once the data is activated, the Executive Analytical Dashboard is created automatically. Gauge indicators provide an immediate view of availability, gaps, governance readiness, interoperability, and data quality. Predefined buttons then open focused analyses such as Data Gap, Data Quality, Data Sharing, Strategic Challenges, Challenges-Data Quality, and Full Report.",
+          ar: "بعد تفعيل البيانات، ينشئ النظام تلقائياً لوحة التحليل التنفيذية. تعرض مؤشرات القياس صورة سريعة عن توافر البيانات، وفجوات البيانات، وجاهزية الحوكمة، وقابلية تبادل البيانات، وجودة البيانات. كما توفر الأزرار المعرّفة مسبقاً تحليلات مركزة مثل فجوة البيانات، وجودة البيانات، ومشاركة البيانات، والتحديات الاستراتيجية، والعلاقة بين التحديات وجودة البيانات، والتقرير الكامل."
+        },
+        focus: {
+          en: [
+            "Use gauges for a fast executive-level reading.",
+            "Open predefined analytical views with one click.",
+            "Support senior decision-making with concise indicators."
+          ],
+          ar: [
+            "استخدام مؤشرات القياس لقراءة تنفيذية سريعة.",
+            "فتح التحليلات المعرّفة مسبقاً بضغطة واحدة.",
+            "دعم متخذي القرار بمؤشرات مختصرة وواضحة."
+          ]
+        }
+      },
+      {
+        id: "strategic",
+        target: "#mockStrategic",
+        pointer: { en: "Strategic reports", ar: "التقارير الاستراتيجية" },
+        title: {
+          en: "Generate Strategic Analytical Reports",
+          ar: "إنتاج التقارير التحليلية الاستراتيجية"
+        },
+        narration: {
+          en: "The Strategic Analytical Reports panel generates structured reports from the uploaded NEDMP questionnaire dataset. Users select the report category and report type, then generate the report. Outputs include charts, traffic-light tables, methodological notes, executive interpretations, and export-ready content for Word, Excel, PNG, and other formats.",
+          ar: "تقوم لوحة التقارير التحليلية الاستراتيجية بإنتاج تقارير منظمة من قاعدة بيانات استبيان الخطة الوطنية لإدارة البيانات البيئية. يختار المستخدم فئة التقرير ونوع التقرير ثم يقوم بتوليده. وتشمل المخرجات الرسوم البيانية، وجداول إشارات المرور، والملاحظات المنهجية، والتفسيرات التنفيذية، ومحتوى جاهزاً للتصدير إلى Word وExcel وPNG وغيرها."
+        },
+        focus: {
+          en: [
+            "Select a report category and report type.",
+            "Generate strategic outputs from the questionnaire database.",
+            "Export reports in formats suitable for government and UNEP reporting."
+          ],
+          ar: [
+            "اختيار فئة التقرير ونوع التقرير.",
+            "إنتاج مخرجات استراتيجية من قاعدة بيانات الاستبيان.",
+            "تصدير التقارير بصيغ مناسبة للتقارير الحكومية وتقارير برنامج الأمم المتحدة للبيئة."
+          ]
+        }
+      },
+      {
+        id: "mapping",
+        target: "#mockMapping",
+        pointer: { en: "Environmental data mapping", ar: "خريطة البيانات البيئية" },
+        title: {
+          en: "Locate environmental data producers and roles",
+          ar: "تحديد منتجي البيانات البيئية والأدوار"
+        },
+        narration: {
+          en: "Environmental Data Mapping helps users identify which institutions and divisions are linked to each environmental data category under Question 2.1. Users can select all categories or multiple categories, filter institution roles such as Primary Producer, Consumer, and Aggregator or Coordinator, and focus on selected institutions. This makes it easier to locate national data producers and coordination responsibilities.",
+          ar: "تساعد خريطة البيانات البيئية المستخدمين على تحديد المؤسسات والإدارات المرتبطة بكل فئة من فئات البيانات البيئية في السؤال 2.1. يمكن اختيار كل الفئات أو عدة فئات، وتصفية أدوار المؤسسات مثل المنتج الرئيسي، والمستخدم، والمجمع أو المنسق، والتركيز على مؤسسات مختارة. وهذا يسهل تحديد منتجي البيانات الوطنيين ومسؤوليات التنسيق."
+        },
+        focus: {
+          en: [
+            "Select one or more environmental data categories.",
+            "Filter by institution role and selected institutions.",
+            "Export or copy the resulting mapping table."
+          ],
+          ar: [
+            "اختيار فئة واحدة أو عدة فئات من البيانات البيئية.",
+            "تصفية النتائج حسب دور المؤسسة والمؤسسات المختارة.",
+            "تصدير أو نسخ جدول خريطة البيانات."
+          ]
+        }
+      },
+      {
+        id: "analyse",
+        target: "#mockAnalyse",
+        pointer: { en: "Analyse Data area", ar: "منطقة تحليل البيانات" },
+        title: {
+          en: "Use Analyse Data for custom graphs",
+          ar: "استخدام منطقة تحليل البيانات للرسوم المخصصة"
+        },
+        narration: {
+          en: "The Analyse Data area is used for custom analysis. Users select institutions, divisions, sections, questions, and question options, then click Generate Graph. The dashboard produces the selected output only after the user requests it. Results can be copied or exported as PNG, Excel, Word, or PDF, and Clear All resets selections and outputs.",
+          ar: "تُستخدم منطقة تحليل البيانات لإجراء تحليلات مخصصة. يختار المستخدم المؤسسات، والإدارات، والأقسام، والأسئلة، وخيارات الأسئلة، ثم يضغط على زر توليد الرسم. لا ينتج النظام المخرجات إلا بعد طلب المستخدم. ويمكن نسخ النتائج أو تصديرها بصيغ PNG وExcel وWord وPDF، كما يقوم زر مسح الكل بإعادة ضبط الاختيارات والمخرجات."
+        },
+        focus: {
+          en: [
+            "Choose institutions, divisions, sections, questions, and options.",
+            "Click Generate Graph to produce outputs.",
+            "Use copy and export buttons for reporting."
+          ],
+          ar: [
+            "اختيار المؤسسات والإدارات والأقسام والأسئلة والخيارات.",
+            "الضغط على توليد الرسم لإنتاج المخرجات.",
+            "استخدام أزرار النسخ والتصدير لأغراض التقارير."
+          ]
+        }
+      },
+      {
+        id: "outputs",
+        target: "#mockOutputs",
+        pointer: { en: "Visual outputs", ar: "المخرجات المرئية" },
+        title: {
+          en: "Interpret charts, tables, Sankey diagrams, and exports",
+          ar: "قراءة الرسوم والجداول ومخططات سانكي والتقارير"
+        },
+        narration: {
+          en: "The dashboard presents outputs through charts, traffic-light tables, Sankey diagrams, and export-ready reports. These outputs support a clear understanding of the national environmental data landscape, including availability, gaps, data-sharing readiness, quality practices, and the institutional or regulatory challenges that require priority intervention.",
+          ar: "تعرض اللوحة المخرجات من خلال الرسوم البيانية، وجداول إشارات المرور، ومخططات سانكي، والتقارير الجاهزة للتصدير. وتدعم هذه المخرجات فهماً واضحاً للمشهد الوطني للبيانات البيئية، بما يشمل توافر البيانات، والفجوات، وجاهزية مشاركة البيانات، وممارسات الجودة، والتحديات المؤسسية أو التنظيمية التي تتطلب تدخلاً ذا أولوية."
+        },
+        focus: {
+          en: [
+            "Use charts to compare response patterns.",
+            "Use traffic-light tables to identify priority interventions.",
+            "Use Sankey diagrams to explain relationships between challenges and data quality weaknesses."
+          ],
+          ar: [
+            "استخدام الرسوم البيانية للمقارنة بين أنماط الاستجابات.",
+            "استخدام جداول إشارات المرور لتحديد التدخلات ذات الأولوية.",
+            "استخدام مخططات سانكي لشرح العلاقة بين التحديات ونقاط ضعف جودة البيانات."
+          ]
+        }
+      },
+      {
+        id: "thanks",
+        target: "#mockThanks",
+        pointer: { en: "Closing message", ar: "رسالة الختام" },
+        title: {
+          en: "Thank colleagues for their support",
+          ar: "شكر الزملاء على الدعم"
+        },
+        narration: {
+          en: "This completes the simulation. The dashboard is designed to help Kuwait move from questionnaire responses to practical strategic knowledge for the National Environmental Data Management Plan. Thank you for your attention and support.",
+          ar: "بهذا نصل إلى ختام المحاكاة. صُممت هذه اللوحة لمساعدة دولة الكويت على الانتقال من استجابات الاستبيان إلى معرفة استراتيجية عملية تدعم الخطة الوطنية لإدارة البيانات البيئية. شكراً لكم على اهتمامكم ودعمكم."
+        },
+        focus: {
+          en: [
+            "Use the dashboard as a shared analytical reference.",
+            "Support evidence-based environmental data governance.",
+            "Continue improving Kuwait's national environmental data landscape."
+          ],
+          ar: [
+            "استخدام اللوحة كمرجع تحليلي مشترك.",
+            "دعم حوكمة البيانات البيئية القائمة على الأدلة.",
+            "مواصلة تحسين المشهد الوطني للبيانات البيئية في دولة الكويت."
+          ]
+        }
+      }
+    ];
+
+    let currentLang = "en";
+    let currentStep = 0;
+    let playing = false;
+    let paused = false;
+    let fallbackTimer = null;
+    const AUDIO_DIR = "NEDMP_Strategic_Dashboard_Audio_v2026.06.20.6";
+    const AUDIO_EN = STEPS.map((_, index) => `${AUDIO_DIR}/step_${String(index + 1).padStart(2, "0")}_en.mp3`);
+    const AUDIO_AR = STEPS.map((_, index) => `${AUDIO_DIR}/step_${String(index + 1).padStart(2, "0")}_ar.mp3`);
+
+    const el = id => document.getElementById(id);
+
+    function escapeHtml(value) {
+      return String(value ?? "").replace(/[&<>"']/g, ch => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+      }[ch]));
+    }
+
+    function ui(key) {
+      return Object.prototype.hasOwnProperty.call(UI[currentLang], key) ? UI[currentLang][key] : key;
+    }
+
+    const MOCK_TEXT = {
+      en: {
+        single: {
+          ".system-window-title": "KEPA Dashboard / NEDMP Strategic Data Analysis Dashboard v2026.06.19.6",
+          "#mockPurpose h3": "NEDMP Strategic Data Analysis Dashboard",
+          "#mockPurpose p": "Transform institutional questionnaire responses into strategic knowledge for Kuwait's National Environmental Data Management Plan.",
+          ".admin-chip": "Administrator",
+          "#mockAccess .section-banner h4": "Secure Access and Dataset Activation",
+          "#mockAccess .section-banner p": "Use the embedded dataset or upload a new CSV/XLSX file after entering the password.",
+          "#mockAccess label": "Enter secure password",
+          "#mockAccess .password-input": "••••••••••••",
+          "#mockExecutive .section-banner h4": "Executive Analytical Dashboard",
+          "#mockExecutive .section-banner p": "Automatic executive indicators and predefined analytical buttons after dataset activation.",
+          "#mockStrategic .section-banner h4": "Strategic Analytical Reports",
+          "#mockStrategic .section-banner p": "Generate structured analytical reports from the uploaded NEDMP questionnaire dataset.",
+          "#mockMapping .section-banner h4": "Environmental Data Mapping",
+          "#mockMapping .section-banner p": "Identify institutions producing, using, or coordinating environmental data categories based on Question 2.1.",
+          "#mockAnalyse .section-banner h4": "Analyse Data",
+          "#mockAnalyse .section-banner p": "Select institutions, divisions, sections, questions, and categories; then generate graphs.",
+          "#mockOutputs .section-banner h4": "Charts, Traffic-Light Tables, Sankey Diagrams, and Export-Ready Reports",
+          "#mockOutputs .section-banner p": "Outputs support a clear national understanding of environmental data availability, gaps, and institutional challenges.",
+          "#mockThanks h4": "Thank You",
+          "#mockThanks p": "Thank you to all colleagues for their attention, cooperation, and support in strengthening Kuwait's National Environmental Data Management Plan."
+        },
+        lists: {
+          ".dashboard-status-strip span": ["Upload Dataset", "Executive Analytical Dashboard", "Strategic Analytical Reports", "Environmental Data Mapping", "Analyse Data"],
+          "#mockAccess .mock-btn": ["Activate System", "Choose another updated file"],
+          "#mockAccess .fake-input": ["Embedded dataset loaded: 32 institutional responses"],
+          "#mockExecutive .metric-label": ["Overall data availability", "Overall data gap", "Governance readiness", "Data quality readiness"],
+          "#mockExecutive .mock-btn": ["Top 5 Priority Gaps", "Top 5 Institutional Strengths", "Data Gap", "Data Quality", "Data Sharing", "Strategic Challenges", "Challenges-Data Quality", "Full Report"],
+          "#mockStrategic .field label": ["Report Category", "Report Type", "Filter indicator"],
+          "#mockStrategic .fake-select, #mockStrategic .fake-input": ["Data Availability and Gap Analysis", "National Environmental Data Availability Assessment", "All institutions | All divisions"],
+          "#mockStrategic .mock-btn": ["Generate Strategic Report", "Copy Report", "Export to MS Word", "Export to MS Excel", "Export as PNG", "Clear Report"],
+          "#mockMapping .field label": ["Select environmental data category", "Institution Role", "Search Institutions"],
+          "#mockMapping .fake-option": ["All Categories", "Air, atmosphere and meteorology", "Water resources", "Biodiversity", "All roles", "Primary Producer", "Consumer", "Aggregator/Coordinator", "All institutions", "Environment Public Authority (EPA)", "Kuwait Gulf Oil Company", "Ministry of Electricity, Water and Renewable Energy"],
+          "#mockMapping .metric-label": ["Primary producers", "Consumers/users", "Aggregators/coordinators", "Divisions/departments identified"],
+          "#mockMapping th": ["No.", "Institution", "Division / department", "Role / type", "Notes"],
+          "#mockMapping td": ["1", "Environment Public Authority (EPA)", "Environmental Monitoring", "Primary Producer", "Question 2.1 response", "2", "Kuwait Gulf Oil Company", "Environmental Division", "Aggregator/Coordinator", "Question 2.1 response"],
+          "#mockMapping .mock-btn": ["Export Producers List", "Export to Word", "Copy Table", "Clear selection"],
+          "#mockAnalyse .field label": ["Institutions", "Sections", "Questions and options"],
+          "#mockAnalyse .fake-option": ["Environment Public Authority (EPA)", "Emergency 112", "Kuwait Municipality", "Section 2: Environmental Data Production", "Section 4: Data Sharing", "Section 13: Challenges", "2.1 Categories of environmental data", "4.2 Standardized formats or APIs", "13.1 Significant challenges"],
+          "#mockAnalyse .mock-btn": ["Generate Graph", "Copy", "PNG", "Excel", "Word", "Clear All"],
+          ".sankey-mini .node": ["Challenges", "Institutions", "QA/QC", "Metadata"],
+          "#mockOutputs th": ["Area", "Score", "Status", "Priority"],
+          "#mockOutputs td": ["Data gap", "68%", "🔴 Critical", "High", "Governance", "57%", "🟠 High", "Reform", "Data sharing", "42%", "🟡 Moderate", "Strengthen", "Quality", "78%", "🟢 Strong", "Maintain"]
+        }
+      },
+      ar: {
+        single: {
+          ".system-window-title": "لوحة KEPA / لوحة التحليل الاستراتيجي للبيانات للخطة الوطنية لإدارة البيانات البيئية v2026.06.19.6",
+          "#mockPurpose h3": "لوحة التحليل الاستراتيجي للبيانات للخطة الوطنية لإدارة البيانات البيئية",
+          "#mockPurpose p": "تحويل استجابات المؤسسات في الاستبيان إلى معرفة استراتيجية لدعم الخطة الوطنية لإدارة البيانات البيئية في دولة الكويت.",
+          ".admin-chip": "المسؤول",
+          "#mockAccess .section-banner h4": "الوصول الآمن وتفعيل قاعدة البيانات",
+          "#mockAccess .section-banner p": "استخدم قاعدة البيانات المضمنة أو قم بتحميل ملف CSV/XLSX جديد بعد إدخال كلمة المرور.",
+          "#mockAccess label": "أدخل كلمة المرور الآمنة",
+          "#mockAccess .password-input": "••••••••••••",
+          "#mockExecutive .section-banner h4": "لوحة التحليل التنفيذية",
+          "#mockExecutive .section-banner p": "مؤشرات تنفيذية تلقائية وأزرار تحليل معرفة مسبقاً بعد تفعيل قاعدة البيانات.",
+          "#mockStrategic .section-banner h4": "التقارير التحليلية الاستراتيجية",
+          "#mockStrategic .section-banner p": "إنتاج تقارير تحليلية منظمة من قاعدة بيانات استبيان الخطة الوطنية لإدارة البيانات البيئية.",
+          "#mockMapping .section-banner h4": "خريطة البيانات البيئية",
+          "#mockMapping .section-banner p": "تحديد المؤسسات التي تنتج أو تستخدم أو تنسق فئات البيانات البيئية وفق السؤال 2.1.",
+          "#mockAnalyse .section-banner h4": "تحليل البيانات",
+          "#mockAnalyse .section-banner p": "اختر المؤسسات والإدارات والأقسام والأسئلة والفئات، ثم قم بتوليد الرسوم البيانية.",
+          "#mockOutputs .section-banner h4": "الرسوم والجداول ومخططات سانكي والتقارير الجاهزة للتصدير",
+          "#mockOutputs .section-banner p": "تدعم المخرجات فهماً وطنياً واضحاً لتوافر البيانات البيئية والفجوات والتحديات المؤسسية.",
+          "#mockThanks h4": "شكراً لكم",
+          "#mockThanks p": "شكراً لجميع الزملاء على الاهتمام والتعاون والدعم في تعزيز الخطة الوطنية لإدارة البيانات البيئية في دولة الكويت."
+        },
+        lists: {
+          ".dashboard-status-strip span": ["تحميل البيانات", "لوحة التحليل التنفيذية", "التقارير التحليلية الاستراتيجية", "خريطة البيانات البيئية", "تحليل البيانات"],
+          "#mockAccess .mock-btn": ["تفعيل النظام", "اختيار ملف محدث آخر"],
+          "#mockAccess .fake-input": ["تم تحميل قاعدة البيانات المضمنة: 32 استجابة مؤسسية"],
+          "#mockExecutive .metric-label": ["توافر البيانات العام", "فجوة البيانات العامة", "جاهزية الحوكمة", "جاهزية جودة البيانات"],
+          "#mockExecutive .mock-btn": ["أهم 5 فجوات ذات أولوية", "أهم 5 نقاط قوة مؤسسية", "فجوة البيانات", "جودة البيانات", "مشاركة البيانات", "التحديات الاستراتيجية", "التحديات وجودة البيانات", "التقرير الكامل"],
+          "#mockStrategic .field label": ["فئة التقرير", "نوع التقرير", "مؤشر التصفية"],
+          "#mockStrategic .fake-select, #mockStrategic .fake-input": ["تحليل توافر البيانات والفجوات", "التقييم الوطني لتوافر البيانات البيئية", "جميع المؤسسات | جميع الإدارات"],
+          "#mockStrategic .mock-btn": ["إنتاج التقرير الاستراتيجي", "نسخ التقرير", "تصدير إلى Word", "تصدير إلى Excel", "تصدير كصورة PNG", "مسح التقرير"],
+          "#mockMapping .field label": ["اختر فئة البيانات البيئية", "دور المؤسسة", "البحث في المؤسسات"],
+          "#mockMapping .fake-option": ["جميع الفئات", "الهواء والغلاف الجوي والأرصاد", "موارد المياه", "التنوع البيولوجي", "جميع الأدوار", "منتج رئيسي", "مستخدم", "مجمع/منسق", "جميع المؤسسات", "الهيئة العامة للبيئة", "شركة نفط الخليج الكويتية", "وزارة الكهرباء والماء والطاقة المتجددة"],
+          "#mockMapping .metric-label": ["المنتجون الرئيسيون", "المستخدمون", "المجمعون/المنسقون", "الإدارات/الأقسام المحددة"],
+          "#mockMapping th": ["م", "المؤسسة", "الإدارة / القسم", "الدور / النوع", "ملاحظات"],
+          "#mockMapping td": ["1", "الهيئة العامة للبيئة", "إدارة الرصد البيئي", "منتج رئيسي", "استجابة السؤال 2.1", "2", "شركة نفط الخليج الكويتية", "الإدارة البيئية", "مجمع/منسق", "استجابة السؤال 2.1"],
+          "#mockMapping .mock-btn": ["تصدير قائمة المنتجين", "تصدير إلى Word", "نسخ الجدول", "مسح الاختيار"],
+          "#mockAnalyse .field label": ["المؤسسات", "الأقسام", "الأسئلة والخيارات"],
+          "#mockAnalyse .fake-option": ["الهيئة العامة للبيئة", "الطوارئ 112", "بلدية الكويت", "القسم 2: إنتاج البيانات البيئية", "القسم 4: مشاركة البيانات", "القسم 13: التحديات", "2.1 فئات البيانات البيئية", "4.2 الصيغ القياسية أو واجهات الربط", "13.1 التحديات الرئيسية"],
+          "#mockAnalyse .mock-btn": ["توليد الرسم", "نسخ", "PNG", "Excel", "Word", "مسح الكل"],
+          ".sankey-mini .node": ["التحديات", "المؤسسات", "ضمان/مراقبة الجودة", "البيانات الوصفية"],
+          "#mockOutputs th": ["المجال", "الدرجة", "الحالة", "الأولوية"],
+          "#mockOutputs td": ["فجوة البيانات", "68%", "🔴 حرجة", "عالية", "الحوكمة", "57%", "🟠 عالية", "إصلاح", "مشاركة البيانات", "42%", "🟡 متوسطة", "تعزيز", "الجودة", "78%", "🟢 قوية", "استمرار"]
+        }
+      }
+    };
+
+    function applyMockLanguage() {
+      const mock = document.querySelector(".mock-dashboard");
+      if (mock) {
+        mock.lang = currentLang;
+        mock.dir = currentLang === "ar" ? "rtl" : "ltr";
+      }
+      const pack = MOCK_TEXT[currentLang];
+      Object.entries(pack.single).forEach(([selector, text]) => {
+        const node = document.querySelector(selector);
+        if (node) node.textContent = text;
+      });
+      Object.entries(pack.lists).forEach(([selector, values]) => {
+        document.querySelectorAll(selector).forEach((node, index) => {
+          if (index < values.length) node.textContent = values[index];
+        });
+      });
+    }
+
+    function updateLanguage(copyOnly = false) {
+      document.documentElement.lang = currentLang;
+      document.documentElement.dir = currentLang === "ar" ? "rtl" : "ltr";
+      el("pageTitle").textContent = ui("pageTitle");
+      el("pageSubtitle").textContent = ui("pageSubtitle");
+      el("pageSubtitle").hidden = !ui("pageSubtitle");
+      el("languageBtn").textContent = ui("languageBtn");
+      el("openDashboardBtn").textContent = ui("openDashboard");
+      el("openDashboardBtn").href = dashboardUrl;
+      el("startBtn").textContent = ui("start");
+      el("pauseResumeBtn").textContent = ui("pauseResume");
+      el("stopBtn").textContent = ui("stop");
+      el("prevBtn").textContent = ui("previous");
+      el("prevTopBtn").textContent = ui("previous");
+      el("nextBtn").textContent = currentStep === STEPS.length - 1 ? ui("finish") : ui("next");
+      el("nextTopBtn").textContent = currentStep === STEPS.length - 1 ? ui("finish") : ui("next");
+      el("stepsTitle").textContent = ui("stepsTitle");
+      el("stepsHint").textContent = ui("stepsHint");
+      el("narrationTitle").textContent = ui("narrationTitle");
+      el("workflowTitle").textContent = ui("workflowTitle");
+      el("voiceNote").textContent = ui("voiceNote");
+      el("voiceNote").hidden = !ui("voiceNote");
+      applyMockLanguage();
+      if (!copyOnly) render();
+    }
+
+    function renderSteps() {
+      el("stepList").innerHTML = STEPS.map((step, index) => {
+        const number = `<span class="num">${index + 1}</span>`;
+        const title = `<span>${escapeHtml(step.title[currentLang])}</span>`;
+        return `<button class="step-item ${index === currentStep ? "active" : ""} ${index < currentStep ? "done" : ""}" type="button" data-step="${index}">${currentLang === "ar" ? title + number : number + title}</button>`;
+      }).join("");
+      document.querySelectorAll("[data-step]").forEach(button => {
+        button.addEventListener("click", () => {
+          stopNarration(false);
+          currentStep = Number(button.dataset.step);
+          render(true);
+        });
+      });
+    }
+
+    function clearHighlights() {
+      document.querySelectorAll(".highlight-target").forEach(node => node.classList.remove("highlight-target"));
+    }
+
+    function getTarget(step) {
+      return document.querySelector(step.target);
+    }
+
+    function positionPointer(target, step) {
+      const pointer = el("demoPointer");
+      const body = el("screenBody");
+      if (!target) {
+        pointer.classList.remove("visible");
+        return;
+      }
+      const calculatePointerPosition = () => {
+        const bodyRect = body.getBoundingClientRect();
+        const targetRect = target.getBoundingClientRect();
+        return {
+          left: body.scrollLeft + (targetRect.left - bodyRect.left) + targetRect.width / 2,
+          top: Math.max(12, body.scrollTop + (targetRect.top - bodyRect.top) - 88)
+        };
+      };
+      const initialPosition = calculatePointerPosition();
+      const left = initialPosition.left;
+      const top = initialPosition.top;
+      pointer.style.left = `${left}px`;
+      pointer.style.top = `${top}px`;
+      el("pointerLabel").textContent = step.pointer[currentLang];
+      pointer.classList.add("visible");
+      const bodyRect = body.getBoundingClientRect();
+      const targetRect = target.getBoundingClientRect();
+      const desiredTop = body.scrollTop + (targetRect.top - bodyRect.top) - Math.max(80, body.clientHeight * .16);
+      body.scrollTo({ top: Math.max(0, desiredTop), behavior: "smooth" });
+      window.setTimeout(() => {
+        const updatedPosition = calculatePointerPosition();
+        pointer.style.left = `${updatedPosition.left}px`;
+        pointer.style.top = `${updatedPosition.top}px`;
+      }, 260);
+    }
+
+    function render(shouldScroll = false) {
+      const step = STEPS[currentStep];
+      renderSteps();
+      el("screenLabel").textContent = `${ui("stepLabel")} ${currentStep + 1} / ${STEPS.length}: ${step.title[currentLang]}`;
+      el("progressFill").style.width = `${((currentStep + 1) / STEPS.length) * 100}%`;
+      el("narrationText").textContent = step.narration[currentLang];
+      el("workflowList").innerHTML = step.focus[currentLang].map(item => `<li>${escapeHtml(item)}</li>`).join("");
+      el("nextBtn").textContent = currentStep === STEPS.length - 1 ? ui("finish") : ui("next");
+      el("nextTopBtn").textContent = currentStep === STEPS.length - 1 ? ui("finish") : ui("next");
+      clearHighlights();
+      const target = getTarget(step);
+      if (target) target.classList.add("highlight-target");
+      positionPointer(target, step);
+      updateAudioPanel();
+      updateVoiceStatus();
+      applyMockLanguage();
+      if (shouldScroll) {
+        if (currentStep === 0) {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        } else {
+          el("screenBody").scrollIntoView({ block: "nearest", behavior: "smooth" });
+        }
+      }
+    }
+
+    function audioPlayer() {
+      return el("narrationPlayer");
+    }
+
+    function activeAudioSet() {
+      return currentLang === "ar" ? AUDIO_AR : AUDIO_EN;
+    }
+
+    function activeAudioSource(index = currentStep) {
+      return activeAudioSet()[index];
+    }
+
+    function updateAudioPanel() {
+      const player = audioPlayer();
+      const source = activeAudioSource();
+      el("audioLabel").textContent = `${ui("stepLabel")} ${currentStep + 1}`;
+      if (player && source && player.getAttribute("src") !== source) {
+        player.setAttribute("src", source);
+        player.load();
+      }
+    }
+
+    function updatePauseButton() {
+      const button = el("pauseResumeBtn");
+      if (!button) return;
+      button.textContent = paused ? ui("resume") : ui("pause");
+      button.title = ui("pauseResume");
+    }
+
+    function updateVoiceStatus(status) {
+      if (status) {
+        el("voiceStatus").textContent = status;
+        return;
+      }
+      const player = audioPlayer();
+      if (paused || (player && player.paused && playing)) {
+        el("voiceStatus").textContent = ui("voicePaused");
+      } else if (playing) {
+        el("voiceStatus").textContent = `${ui("voiceSpeaking")} - ${currentLang === "ar" ? "ar-KW-FahedNeural" : "en-US-GuyNeural"}`;
+      } else {
+        el("voiceStatus").textContent = ui("voiceReady");
+      }
+      updatePauseButton();
+    }
+
+    function clearFallbackTimer() {
+      window.clearTimeout(fallbackTimer);
+      fallbackTimer = null;
+    }
+
+    function estimateDuration(text) {
+      const words = String(text || "").trim().split(/\s+/).filter(Boolean).length;
+      const base = currentLang === "ar" ? 1150 : 1000;
+      return Math.max(9000, Math.min(26000, words * base / 2.3));
+    }
+
+    function playNarrationAudio(autoAdvance = true) {
+      const step = STEPS[currentStep];
+      const player = audioPlayer();
+      clearFallbackTimer();
+      updateAudioPanel();
+      if (!player) return;
+      player.onended = () => {
+        clearFallbackTimer();
+        paused = false;
+        if (playing && autoAdvance) goNext(true);
+      };
+      player.onerror = () => {
+        updateVoiceStatus(ui("voiceFallback"));
+        fallbackTimer = window.setTimeout(() => {
+          if (playing && autoAdvance) goNext(true);
+        }, estimateDuration(step.narration[currentLang]));
+      };
+      player.currentTime = 0;
+      player.play().then(() => {
+        paused = false;
+        clearFallbackTimer();
+        updateVoiceStatus();
+      }).catch(() => {
+        updateVoiceStatus(ui("voiceFallback"));
+        fallbackTimer = window.setTimeout(() => {
+          if (playing && autoAdvance && !paused) goNext(true);
+        }, estimateDuration(step.narration[currentLang]));
+      });
+      updateVoiceStatus();
+    }
+
+    function startDemo() {
+      stopNarration(false);
+      currentStep = 0;
+      playing = true;
+      paused = false;
+      render(true);
+      playNarrationAudio(true);
+    }
+
+    function pauseDemo() {
+      if (!playing) return;
+      paused = true;
+      const player = audioPlayer();
+      if (player) player.pause();
+      clearFallbackTimer();
+      updateVoiceStatus();
+    }
+
+    function resumeDemo() {
+      if (!playing) {
+        startDemo();
+        return;
+      }
+      paused = false;
+      const player = audioPlayer();
+      if (player) {
+        player.play().catch(() => updateVoiceStatus(ui("voiceFallback")));
+      }
+      updateVoiceStatus();
+    }
+
+    function stopNarration(showStopped = true) {
+      playing = false;
+      paused = false;
+      clearFallbackTimer();
+      const player = audioPlayer();
+      if (player) {
+        player.pause();
+        player.currentTime = 0;
+      }
+      if (showStopped) updateVoiceStatus(ui("voiceStopped"));
+      else updateVoiceStatus();
+    }
+
+    function goNext(fromAuto = false) {
+      if (currentStep < STEPS.length - 1) {
+        currentStep += 1;
+        render(true);
+        if (playing || fromAuto) {
+          playing = true;
+          paused = false;
+          playNarrationAudio(true);
+        }
+      } else {
+        stopNarration(false);
+        render(true);
+        updateVoiceStatus(ui("voiceStopped"));
+      }
+    }
+
+    function goPrevious() {
+      stopNarration(false);
+      currentStep = Math.max(0, currentStep - 1);
+      render(true);
+    }
+
+    function toggleLanguage() {
+      const wasPlaying = playing;
+      stopNarration(false);
+      currentLang = currentLang === "en" ? "ar" : "en";
+      updateLanguage();
+      if (wasPlaying) {
+        playing = true;
+        paused = false;
+        playNarrationAudio(true);
+      }
+    }
+
+    function bindEvents() {
+      el("languageBtn").addEventListener("click", toggleLanguage);
+      el("startBtn").addEventListener("click", startDemo);
+      el("stopBtn").addEventListener("click", () => stopNarration(true));
+      const player = audioPlayer();
+      if (player) {
+        player.addEventListener("play", () => {
+          playing = true;
+          paused = false;
+          clearFallbackTimer();
+          updateVoiceStatus();
+        });
+        player.addEventListener("pause", () => {
+          if (playing && !player.ended) paused = true;
+          updateVoiceStatus();
+        });
+      }
+      el("pauseResumeBtn").addEventListener("click", () => {
+        if (paused) resumeDemo();
+        else pauseDemo();
+      });
+      el("nextBtn").addEventListener("click", () => {
+        stopNarration(false);
+        goNext(false);
+      });
+      el("nextTopBtn").addEventListener("click", () => {
+        stopNarration(false);
+        goNext(false);
+      });
+      el("prevBtn").addEventListener("click", goPrevious);
+      el("prevTopBtn").addEventListener("click", goPrevious);
+      window.addEventListener("resize", () => render(false));
+    }
+
+    bindEvents();
+    updateLanguage();
+    updateAudioPanel();
+    render();
+  </script>
+</body>
+</html>
