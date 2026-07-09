@@ -141,6 +141,25 @@
     .submit-copy { color: var(--ink); font-size: 13.5px; margin-bottom: 10px; }
     .verified-option { color: #b91c1c; font-weight: 700; }
     .agreement-level { font-weight: 750; }
+    .report-context {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .context-pill {
+      background: #f8fafc;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      padding: 7px 9px;
+      color: var(--unep-deep);
+      font-weight: 650;
+    }
     .login-backdrop, .modal-backdrop {
       position: fixed;
       inset: 0;
@@ -522,9 +541,13 @@
     function visibleSections() {
       return APP_DATA.sections.filter(section => section.id !== 'Metadata');
     }
+    function isNumberedQuestion(question) {
+      const number = String(question?.questionNo || '').trim();
+      return /^\d+(?:\.\d+)*\b/.test(number);
+    }
     function visibleQuestions() {
       const visibleIds = new Set(visibleSections().map(section => section.id));
-      return APP_DATA.questions.filter(q => visibleIds.has(q.sectionId));
+      return APP_DATA.questions.filter(q => visibleIds.has(q.sectionId) && isNumberedQuestion(q));
     }
     function stripLeadingToken(text, token) {
       let value = String(text || '').trim();
@@ -979,7 +1002,8 @@
     function renderDistributionChart(rows, q) {
       const categories = responseDistribution(rows, q);
       const total = categories.reduce((sum, item) => sum + item.count, 0);
-      if (!total) return `<div class="chart-card"><h2>${esc(currentT().responseDistribution)}</h2><div class="note">${esc(currentT().noChartData)}</div></div>`;
+      const context = renderReportQuestionContext(q);
+      if (!total) return `<div class="chart-card"><h2>${esc(currentT().responseDistribution)}</h2>${context}<div class="note">${esc(currentT().noChartData)}</div></div>`;
       const items = categories.map((item, index) => ({
         ...item,
         color: chartColors[index % chartColors.length],
@@ -1002,6 +1026,7 @@
           </div>`).join('');
         return `<div class="chart-card">
           <h2>${esc(currentT().responseDistribution)}</h2>
+          ${context}
           <div class="chart-layout">
             <div class="pie-wrap"><div class="response-pie" style="background: conic-gradient(${stops})"></div>${labels}</div>
             <div class="legend">${legend}</div>
@@ -1016,7 +1041,20 @@
         </div>`).join('');
       return `<div class="chart-card">
         <h2>${esc(currentT().responseDistribution)}</h2>
+        ${context}
         <div class="bar-list">${bars}</div>
+      </div>`;
+    }
+
+    function renderReportQuestionContext(q) {
+      const section = visibleSections().find(item => item.id === q.sectionId);
+      const sectionText = section ? sectionLabel(section) : dataText(q.sectionName, q.sectionNameAr) || q.sectionId;
+      const level = q.integrated?.['Agreement Level'] || '';
+      const levelAr = q.integratedAr?.['Agreement Level'] || '';
+      return `<div class="report-context">
+        <span class="context-pill"><strong>${esc(currentT().section)}:</strong> ${esc(sectionText)}</span>
+        <span class="context-pill"><strong>${esc(currentT().question)}:</strong> ${esc(q.questionNo || '')}</span>
+        <span class="context-pill"><strong>${esc(currentT().agreementLevelLabel || tr('Agreement Level'))}:</strong> ${agreementLevelCell(level, levelAr)}</span>
       </div>`;
     }
 
