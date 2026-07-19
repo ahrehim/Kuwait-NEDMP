@@ -106,14 +106,29 @@
     .utility .text-btn{border:0;background:transparent;color:var(--white);padding:.25rem .45rem;font-weight:700}
     .site-header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.98);border-bottom:1px solid var(--line)}
     .header-inner{min-height:var(--header-h);display:flex;align-items:center;justify-content:space-between;gap:1rem}
-    .brand{text-decoration:none;color:var(--navy);display:flex;align-items:center;gap:.8rem;min-width:215px}
-    .brand-mark{display:grid;place-items:center;width:46px;height:46px;border:2px solid var(--blue);color:var(--navy);font-weight:900;font-size:.78rem;border-radius:2px}
-    .brand-text{line-height:1.15;font-weight:800;font-size:.92rem;max-width:195px}
+    .brand{text-decoration:none;color:var(--navy);display:flex;align-items:center;min-width:220px}
+    .brand-logo{display:block;width:220px;height:auto;max-height:80px;object-fit:contain;object-position:center}
     .main-nav{display:flex;align-items:center;justify-content:flex-end;gap:.05rem}
     .main-nav a,.main-nav button{border:0;background:transparent;color:var(--text);text-decoration:none;padding:.55rem .48rem;font-size:.78rem;font-weight:700;white-space:nowrap}
     .main-nav a:hover,.main-nav a.active,.main-nav button:hover{color:var(--blue);box-shadow:inset 0 -3px var(--blue)}
     .main-nav .nav-long{display:none}
     .nav-compact{display:inline-block}
+    .outputs-menu{position:relative}
+    .outputs-button{display:inline-flex;align-items:center;gap:.45rem}
+    .outputs-button::after{content:"";width:0;height:0;border-inline:4px solid transparent;border-top:5px solid currentColor;transform:translateY(2px)}
+    .outputs-dropdown{position:absolute;z-index:450;inset-block-start:calc(100% + 10px);inset-inline-start:0;width:min(500px,calc(100vw - 2rem));max-height:min(68vh,580px);overflow:auto;padding:.7rem;background:var(--white);border:1px solid var(--line);border-top:4px solid var(--blue);box-shadow:0 18px 44px rgba(0,31,48,.22)}
+    .outputs-dropdown[hidden]{display:none}
+    .outputs-menu-head{padding:.55rem .65rem .7rem;color:var(--navy);font-size:.82rem;font-weight:800;border-bottom:1px solid var(--line)}
+    .outputs-filter{padding:.7rem .65rem;border-bottom:1px solid var(--line)}
+    .outputs-filter label{margin-bottom:.45rem}
+    .outputs-filter input{min-height:42px}
+    .outputs-count{margin:.45rem 0 0;color:var(--muted);font-size:.76rem}
+    .outputs-list a{display:grid;grid-template-columns:32px minmax(0,1fr);align-items:center;gap:.65rem;padding:.62rem .65rem;color:var(--text);font-size:.78rem;line-height:1.25;white-space:normal;text-decoration:none;border-bottom:1px solid var(--line)}
+    .outputs-list a:last-child{border-bottom:0}
+    .outputs-list a:hover,.outputs-list a:focus{color:var(--navy);background:var(--light-blue);box-shadow:inset 4px 0 var(--teal);outline:0}
+    [dir="rtl"] .outputs-list a:hover,[dir="rtl"] .outputs-list a:focus{box-shadow:inset -4px 0 var(--teal)}
+    .outputs-empty{margin:.75rem .65rem;color:var(--muted)}
+    .output-index{display:grid;place-items:center;width:28px;height:28px;background:var(--navy);color:var(--white);font-size:.7rem;font-weight:900}
     .mobile-toggle{display:none;color:var(--navy)}
     .mobile-drawer{position:fixed;inset:0;z-index:300;display:none;background:rgba(0,31,48,.5)}
     .mobile-drawer.open{display:block}
@@ -121,18 +136,78 @@
     .drawer-head{display:flex;align-items:center;justify-content:space-between;padding-bottom:1rem;border-bottom:1px solid var(--line)}
     .drawer-links{display:grid;margin-top:1rem}
     .drawer-links a,.drawer-links button{min-height:46px;padding:.65rem;border:0;border-bottom:1px solid var(--line);background:transparent;color:var(--navy);font-weight:700;text-align:start;text-decoration:none}
+    .drawer-outputs{padding:0;border:0;border-bottom:1px solid var(--line)}
+    .drawer-outputs summary{min-height:46px;display:flex;align-items:center;padding:.65rem;color:var(--navy);font-weight:800;list-style:none}
+    .drawer-outputs summary::-webkit-details-marker{display:none}
+    .drawer-outputs summary::after{content:"+";margin-inline-start:auto;color:var(--blue);font-size:1.1rem}
+    .drawer-outputs[open] summary::after{content:"-"}
+    .drawer-output-list{max-height:46vh;overflow:auto;background:var(--light-grey);border-top:1px solid var(--line)}
+    .drawer-links .drawer-output-list a{display:grid;grid-template-columns:30px minmax(0,1fr);align-items:center;gap:.55rem;padding-inline:1rem;font-size:.82rem;font-weight:600}
     /* 5. Component styles */
-    .hero{position:relative;min-height:min(720px,78vh);display:grid;align-items:center;overflow:hidden;background:var(--light-blue);border-bottom:8px solid var(--navy)}
+    .hero{position:relative;min-height:auto;display:grid;align-items:center;overflow:visible;background:var(--light-blue);border-bottom:8px solid var(--navy)}
     .hero::before{content:"";position:absolute;inset-block:0;inset-inline-end:8%;width:1px;background:var(--line);opacity:.35;box-shadow:-180px 0 0 var(--line),-360px 0 0 var(--line),-540px 0 0 var(--line)}
-    .hero-inner{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,1.08fr) minmax(420px,.92fr);align-items:center;gap:1.5rem;padding:3rem 0}
-    .hero-copy{max-width:720px}
+    .hero-inner{position:relative;z-index:1;display:grid;grid-template-columns:1fr;align-items:center;gap:1rem;padding:2.15rem 0 1.75rem}
+    .hero-copy{width:100%;max-width:none}
+    .hero-copy h1{max-width:none;font-size:clamp(2.25rem,3.8vw,3.75rem)}
     .hero-kicker{display:inline-flex;align-items:center;gap:.5rem;color:var(--teal);font-weight:800;text-transform:uppercase;font-size:.8rem}
     .hero-kicker::before{content:"";width:36px;height:4px;background:var(--sand)}
     .hero-acronym{color:var(--blue)}
-    .hero-tagline{font-size:clamp(1.2rem,2.2vw,1.9rem);font-weight:700;color:var(--teal);max-width:30ch;line-height:1.25;margin:1rem 0}
-    .hero-copy .lead{color:var(--text);max-width:62ch}
-    .hero-art{align-self:stretch;display:flex;align-items:center;justify-content:center;min-height:460px}
+    .hero-tagline{font-size:clamp(1.2rem,2.2vw,1.9rem);font-weight:700;color:var(--teal);max-width:none;line-height:1.25;margin:.7rem 0}
+    .hero-copy .lead{color:var(--text);max-width:none}
+    .hero-phase-intro{max-width:118ch;margin:.35rem auto 1rem;color:var(--text);font-size:.98rem;line-height:1.65}
+    .hero-art{display:flex;align-items:center;justify-content:center;width:100%;min-height:0}
     .hero-art svg{width:100%;height:auto;overflow:visible}
+    .hero-art img{display:block;width:100%;height:auto;max-height:520px;object-fit:contain;background:var(--white);border:1px solid var(--line)}
+    .phase-animation{position:relative;width:100%;aspect-ratio:6/1;overflow:hidden;background:var(--light-blue);border:0;box-shadow:none}
+    .phase-animation .phase-image{position:absolute;top:50%;left:15%;width:70%;height:auto;max-height:none;object-fit:contain;background:transparent;border:0;transform:translateY(-50%);mix-blend-mode:multiply;clip-path:inset(0 87.5% 0 0);animation:phase-reveal 14.6s linear infinite}
+    @keyframes phase-reveal{
+      0%,10%{clip-path:inset(0 87.5% 0 0)}
+      12%,22%{clip-path:inset(0 75% 0 0)}
+      24%,34%{clip-path:inset(0 62.5% 0 0)}
+      36%,46%{clip-path:inset(0 50% 0 0)}
+      48%,58%{clip-path:inset(0 37.5% 0 0)}
+      60%,70%{clip-path:inset(0 25% 0 0)}
+      72%,82%{clip-path:inset(0 12.5% 0 0)}
+      84%,98%{clip-path:inset(0 0 0 0)}
+      100%{clip-path:inset(0 87.5% 0 0)}
+    }
+    @keyframes phase-reveal-rtl{
+      0%,10%{clip-path:inset(0 0 0 87.5%)}
+      12%,22%{clip-path:inset(0 0 0 75%)}
+      24%,34%{clip-path:inset(0 0 0 62.5%)}
+      36%,46%{clip-path:inset(0 0 0 50%)}
+      48%,58%{clip-path:inset(0 0 0 37.5%)}
+      60%,70%{clip-path:inset(0 0 0 25%)}
+      72%,82%{clip-path:inset(0 0 0 12.5%)}
+      84%,98%{clip-path:inset(0 0 0 0)}
+      100%{clip-path:inset(0 0 0 87.5%)}
+    }
+    @keyframes phase-slide{
+      0%,10%{transform:translateX(0)}
+      12%,22%{transform:translateX(-12.5%)}
+      24%,34%{transform:translateX(-25%)}
+      36%,46%{transform:translateX(-37.5%)}
+      48%,58%{transform:translateX(-50%)}
+      60%,70%{transform:translateX(-62.5%)}
+      72%,82%{transform:translateX(-75%)}
+      84%,98%{transform:translateX(-87.5%)}
+      100%{transform:translateX(0)}
+    }
+    @keyframes phase-slide-rtl{
+      0%,10%{transform:translateX(0)}
+      12%,22%{transform:translateX(12.5%)}
+      24%,34%{transform:translateX(25%)}
+      36%,46%{transform:translateX(37.5%)}
+      48%,58%{transform:translateX(50%)}
+      60%,70%{transform:translateX(62.5%)}
+      72%,82%{transform:translateX(75%)}
+      84%,98%{transform:translateX(87.5%)}
+      100%{transform:translateX(0)}
+    }
+    html[dir="rtl"] .phase-animation .phase-image{animation-name:phase-reveal-rtl}
+    .hero-search{position:relative}
+    .hero-search .outputs-button{min-height:48px}
+    .hero-actions{justify-content:center;flex-wrap:nowrap;width:100%}
     .data-line{stroke-dasharray:8 8;animation:flow 7s linear infinite}
     @keyframes flow{to{stroke-dashoffset:-64}}
     .vision-band{background:var(--navy);color:var(--white);padding:2.5rem 0}
@@ -141,6 +216,7 @@
     .vision-quote{font-size:clamp(1.25rem,2.3vw,2rem);line-height:1.42;margin:0;max-width:50ch}
     .mandate-grid .card{min-height:180px}
     .mandate-grid .number{font-size:1.45rem;color:var(--blue)}
+    .about-rationale{max-width:112ch;margin:0 0 1.5rem;line-height:1.75}
     .objective-grid .card,.pillar-grid .card{display:flex;flex-direction:column;min-height:260px}
     .objective-code{font-size:.76rem;color:var(--teal);font-weight:900;margin-bottom:1rem}
     .objective-grid .card p,.pillar-grid .card p{font-size:.9rem}
@@ -151,6 +227,11 @@
     .pillar-grid .card:nth-child(3){border-top-color:var(--blue)}
     .pillar-grid .card:nth-child(4){border-top-color:var(--teal)}
     .pillar-grid .card:nth-child(5){border-top-color:var(--sand)}
+    .strategic-support-visual{width:100%;margin:1.5rem auto 0;overflow-x:auto;text-align:center}
+    .strategic-support-visual img{display:block;width:auto;max-width:100%;height:auto;margin-inline:auto;background:transparent}
+    .strategic-support-visual figcaption{margin-top:.55rem;color:var(--muted);font-size:.82rem;text-align:start}
+    .objectives-summary img{max-width:850px}
+    .pillars-summary img{max-width:1000px}
     .metric-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:.75rem}
     .metric{background:var(--white);border:1px solid var(--line);padding:1rem;border-radius:var(--radius)}
     .metric-head{display:grid;grid-template-columns:1fr;gap:.4rem;align-content:start;min-height:96px}
@@ -179,6 +260,11 @@
     .tab[aria-selected="true"]{background:var(--navy);color:var(--white);border-color:var(--navy)}
     .evidence-layout{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(320px,.85fr);gap:1rem}
     .evidence-chart{background:var(--white);border:1px solid var(--line);padding:1.25rem;border-radius:var(--radius)}
+    .evidence-layout.image-view{grid-template-columns:1fr}
+    .chart-bars.has-image{display:block}
+    .evidence-visual{margin:1rem 0 0}
+    .evidence-visual img{display:block;width:100%;height:auto;border:1px solid var(--line);background:var(--white)}
+    .evidence-visual figcaption{margin-top:.6rem;color:var(--muted);font-size:.82rem}
     .chart-bars{display:grid;gap:.75rem;margin-top:1rem}
     .chart-row{display:grid;grid-template-columns:minmax(150px,1fr) minmax(180px,2fr) 64px;gap:.75rem;align-items:center}
     .chart-track{height:22px;background:#dbe4e8;overflow:hidden;border-radius:2px}
@@ -190,7 +276,7 @@
     .lifecycle{display:grid;gap:.65rem}
     .lifecycle-step{display:grid;grid-template-columns:42px 1fr;gap:.7rem;align-items:center;padding:.75rem;border-bottom:1px solid var(--line)}
     .lifecycle-step b{display:grid;place-items:center;width:36px;height:36px;background:var(--teal);color:var(--white)}
-    .governance-functions{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:.75rem}
+    .governance-functions{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:.75rem;margin-top:1.75rem}
     .governance-functions .card{min-height:175px}
     .classification-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:.65rem}
     .class-level{padding:1rem;background:var(--white);border:1px solid var(--line);border-top:7px solid var(--green);min-height:250px}
@@ -243,6 +329,18 @@
     .doc-card{display:flex;flex-direction:column;min-height:285px}
     .doc-card .doc-type{font-size:.75rem;color:var(--teal);font-weight:900;text-transform:uppercase}
     .doc-card .actions-row{margin-top:auto}
+    .section-visual{width:100%;max-width:1100px;margin:1.5rem auto 0}
+    .section-visual img{display:block;width:100%;height:auto;background:var(--white);border:1px solid var(--line)}
+    .section-visual figcaption{margin-top:.55rem;color:var(--muted);font-size:.82rem}
+    .governance-framework-visual img{background:transparent;border:0;mix-blend-mode:multiply}
+    .enabling-summary{max-width:96ch;margin:1.5rem 0 0}
+    .enabling-notes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.5rem;margin-top:1.75rem}
+    .enabling-notes article{padding-top:1rem;border-top:5px solid var(--teal)}
+    .enabling-notes article:nth-child(2){border-top-color:var(--green)}
+    .enabling-notes article:nth-child(3){border-top-color:var(--sand)}
+    .enabling-notes h3{font-size:1.15rem}
+    .floating-home{position:fixed;z-index:240;inset-inline-end:1rem;bottom:1rem;display:inline-flex;align-items:center;gap:.45rem;min-height:46px;padding:.65rem .85rem;border:2px solid var(--white);border-radius:4px;background:var(--navy);color:var(--white);box-shadow:0 8px 24px rgba(0,31,48,.28);font-weight:800;text-decoration:none}
+    .floating-home:hover,.floating-home:focus-visible{background:var(--blue);color:var(--white);transform:translateY(-2px)}
     .updates-placeholder{display:grid;grid-template-columns:180px 1fr;gap:1.5rem;align-items:center;border-top:6px solid var(--sand);background:var(--light-blue);padding:2rem}
     .updates-date{font-weight:800;color:var(--navy)}
     .footer{background:#122E3C;color:var(--white);padding:3rem 0 1.25rem}
@@ -283,8 +381,8 @@
     @media (max-width:1100px){.main-nav{display:none}.mobile-toggle{display:grid}}
     @media (max-width:900px){
       :root{--header-h:64px}
-      .main-nav{display:none}.mobile-toggle{display:grid}.brand-text{max-width:240px}
-      .hero{min-height:auto}.hero-inner{grid-template-columns:1fr;padding:2.25rem 0 1rem}.hero-art{min-height:0;max-height:190px;overflow:hidden}.hero-art svg{width:auto;max-height:190px}
+      .main-nav{display:none}.mobile-toggle{display:grid}.brand-logo{width:205px;max-height:74px}
+      .hero{min-height:auto}.hero-inner{grid-template-columns:1fr;padding:2.25rem 0 1.5rem}.hero-art{min-height:0;max-height:none;overflow:visible}.hero-art svg{width:auto;max-height:190px}
       .section-head,.vision-grid,.alignment-panel,.evidence-layout,.ecosystem-map,.documents-featured{grid-template-columns:1fr}
       .section-tools{justify-content:flex-start}
       .grid-3,.action-cards,.doc-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -296,21 +394,29 @@
     }
     @media (max-width:620px){
       .utility-title span:last-child{display:none}.utility .text-label{display:none}
-      .brand-mark{width:42px;height:42px}.brand-text{font-size:.78rem;max-width:180px}
+      .brand-logo{width:200px;max-height:72px}
       h1{font-size:2.15rem}.section{padding:3.5rem 0}.container{width:min(var(--content),calc(100% - 1.25rem))}
-      .hero-inner{padding:1.7rem 0}.hero-art{display:none}.hero-tagline{font-size:1.15rem}.hero-copy .lead{font-size:1rem}
-      .grid-2,.grid-3,.grid-5,.metric-grid,.governance-functions,.classification-grid,.workstream-grid,.action-cards,.doc-grid,.field-grid{grid-template-columns:1fr}
+      .hero-inner{padding:1.35rem 0}.hero-art{display:flex;margin-top:.25rem}.hero-tagline{font-size:1.15rem}.hero-copy .lead{font-size:1rem}.hero-actions{position:relative;justify-content:stretch;flex-wrap:wrap;gap:.5rem}.hero-actions>.btn,.hero-search{flex:1 1 calc(50% - .5rem)}.hero-actions>.btn,.hero-search>.btn{width:100%;padding:.72rem .78rem;font-size:.88rem}.hero-search{position:static}
+      .grid-2,.grid-3,.grid-5,.metric-grid,.governance-functions,.classification-grid,.workstream-grid,.action-cards,.doc-grid,.field-grid,.enabling-notes{grid-template-columns:1fr}
       .process,.governance-sequence{grid-template-columns:1fr 1fr}.process-step{min-height:130px}
       .hierarchy{grid-template-columns:1fr}.phase-timeline{grid-template-columns:1fr}
       .chart-row{grid-template-columns:1fr 56px}.chart-track{grid-column:1/-1;grid-row:2}.chart-value{grid-column:2;grid-row:1}
       .filters{grid-template-columns:1fr}.filters>.field:first-child{grid-column:auto}
       .timeline-action{grid-template-columns:1fr}.stat-strip{grid-template-columns:1fr 1fr}.stat-strip>div:nth-child(2){border:0}.stat-strip>div{border-bottom:1px solid var(--line)}
       .updates-placeholder{grid-template-columns:1fr;padding:1.25rem}.footer-grid{grid-template-columns:1fr}.footer-bottom{display:grid}
-      dialog{width:calc(100% - .75rem);max-height:96vh}.dialog-body{padding:.8rem}.admin-shell{grid-template-columns:1fr}.admin-tabs{display:flex;overflow:auto}.admin-tabs button{flex:0 0 auto}
+      dialog{width:calc(100% - .75rem);max-height:96vh}.dialog-body{padding:.8rem}.admin-shell{grid-template-columns:1fr}.admin-tabs{display:flex;overflow:auto}.admin-tabs button{flex:0 0 auto}.floating-home{inset-inline-end:.65rem;bottom:.65rem;padding:.55rem .7rem;font-size:.88rem}
     }
-    @media (max-width:360px){h1{font-size:1.9rem}.hero-kicker{display:none}.process,.governance-sequence{grid-template-columns:1fr}.actions-row .btn{width:100%}.brand-text{max-width:150px}}
+    @media (max-width:520px){
+      .phase-animation{height:300px;aspect-ratio:auto}
+      .phase-animation .phase-image{inset:auto;top:-30%;left:0;width:360%;height:auto;max-width:none;clip-path:none;animation-name:phase-slide}
+      html[dir="rtl"] .phase-animation .phase-image{top:-43%;right:0;left:auto;animation-name:phase-slide-rtl}
+      .strategic-support-visual img{width:760px;max-width:none}
+    }
+    @media (max-width:360px){h1{font-size:1.9rem}.hero-kicker{display:none}.process,.governance-sequence{grid-template-columns:1fr}.actions-row .btn{width:100%}.hero-actions>.btn,.hero-search{flex-basis:100%}.hero-search{width:100%}.brand-logo{width:180px}}
     @media (prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+    @media (prefers-reduced-motion:reduce){.phase-animation .phase-image{inset:auto!important;top:50%!important;right:auto!important;left:15%!important;width:70%!important;height:auto!important;max-width:100%!important;animation:none!important;clip-path:none!important;transform:translateY(-50%)!important;object-fit:contain!important}}
     body.reduce-motion *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+    body.reduce-motion .phase-animation .phase-image{inset:auto!important;top:50%!important;right:auto!important;left:15%!important;width:70%!important;height:auto!important;max-width:100%!important;clip-path:none!important;transform:translateY(-50%)!important;object-fit:contain!important}
     body.high-contrast{--navy:#001E2F;--blue:#005C8A;--teal:#006D69;--green:#23623A;--light-blue:#EDF6F8;--light-grey:#F7F7F7;--sand:#E3A51A;--text:#111;--line:#59666C}
     /* 7. Print styles */
     @media print{
@@ -346,13 +452,13 @@
   <header class="site-header">
     <div class="container header-inner">
       <a class="brand" href="#home" aria-label="NEDMP home">
-        <span class="brand-mark" aria-hidden="true">NEDMP</span>
-        <span class="brand-text" data-i18n="brand">Kuwait National Environmental Data Management Plan</span>
+        <img class="brand-logo" src="./assets/nedmp-logo.png" alt="NEDMP - Kuwait National Environmental Data Management Plan">
       </a>
       <nav class="main-nav" aria-label="Main navigation">
         <a href="#home" data-nav="home" data-i18n="navHome">Home</a>
-        <a href="#about" data-nav="about" data-i18n="navAbout">About NEDMP</a>
+        <a href="#about" class="nav-long" data-nav="about" data-i18n="navAbout">About NEDMP</a>
         <a href="#strategic-framework" data-nav="strategic-framework" data-i18n="navStrategic">Strategic Framework</a>
+        <a href="#enabling-conditions" class="nav-long" data-nav="enabling-conditions" data-i18n="navEnabling">Enabling Conditions</a>
         <a href="#evidence" data-nav="evidence" data-i18n="navEvidence">Evidence</a>
         <a href="#ecosystem" class="nav-long" data-nav="ecosystem" data-i18n="navEcosystem">Data Ecosystem</a>
         <a href="#governance" data-nav="governance" data-i18n="navGovernance">Governance</a>
@@ -361,6 +467,7 @@
         <a href="#documents" data-nav="documents" data-i18n="navDocuments">Documents</a>
         <a href="#updates" class="nav-long" data-nav="updates" data-i18n="navUpdates">Updates</a>
         <a href="#contact" class="nav-long" data-nav="contact" data-i18n="navContact">Contact</a>
+        <button type="button" class="nav-compact" data-open="searchDialog" aria-label="Search"><span aria-hidden="true">⌕</span> <span data-i18n="search">Search</span></button>
         <button type="button" class="nav-compact" id="navMore" data-i18n="more">More</button>
       </nav>
       <button class="mobile-toggle icon-btn" id="mobileToggle" type="button" aria-expanded="false" aria-controls="mobileDrawer" aria-label="Open menu">☰</button>
@@ -382,43 +489,26 @@
           <h1 id="heroTitle"><span data-i18n="heroTitle">Kuwait National Environmental Data Management Plan</span> <span class="hero-acronym">NEDMP</span></h1>
           <p class="hero-tagline" data-i18n="tagline">Better Data. Better Decisions. Better Environment for Kuwait.</p>
           <p class="lead" data-i18n="heroSupport">An integrated national framework for governing, improving, connecting, sharing and sustaining Kuwait's environmental data.</p>
-          <div class="actions-row">
-            <a class="btn" href="#strategic-framework" data-i18n="explore">Explore the NEDMP</a>
-            <a class="btn btn-secondary" href="./documents/Kuwait_NEDMP.pdf" download data-i18n="downloadPlan">Download the Plan</a>
-            <a class="btn btn-quiet" href="#evidence" data-i18n="viewEvidence">View the Evidence</a>
+        </div>
+        <p class="hero-phase-intro" data-i18n="heroPhaseIntro">The National Environmental Data Management Plan is a key pillar in strengthening the role of the Environment Public Authority as a leading institution for environmental protection and sustainable development in the State of Kuwait. Through the Plan, the Authority will be able to coordinate efforts across government entities and ensure the availability of accurate and reliable environmental data to support informed, science-based decision-making. The Plan will also promote transparency and establish effective mechanisms for public engagement, helping to raise environmental awareness and enabling Kuwait to address current and emerging environmental challenges more effectively and efficiently.</p>
+        <div class="hero-art">
+          <div class="phase-animation">
+            <img id="heroPhasesImage" class="phase-image" src="./assets/nedmp-development-phases-v3.png" alt="Eight-phase NEDMP development process from national vision through the Strategic Action Plan">
           </div>
         </div>
-        <div class="hero-art">
-          <svg viewBox="0 0 720 560" role="img" aria-labelledby="heroArtTitle heroArtDesc">
-            <title id="heroArtTitle">Kuwait environmental data landscape</title>
-            <desc id="heroArtDesc">An original diagram connecting monitoring stations, environmental datasets, institutions and the Kuwait skyline.</desc>
-            <rect x="40" y="54" width="640" height="440" fill="#FFFFFF" stroke="#B9D1DB" stroke-width="2"/>
-            <path d="M41 392 C145 340 200 403 300 361 C414 313 477 378 680 298 L680 494 L41 494 Z" fill="#E8F3F7"/>
-            <path d="M41 430 C178 390 281 453 414 405 C523 365 600 408 680 380" fill="none" stroke="#008F8C" stroke-width="8"/>
-            <g fill="#003B5C">
-              <rect x="118" y="320" width="42" height="106"/><rect x="165" y="285" width="58" height="141"/>
-              <rect x="229" y="334" width="48" height="92"/><rect x="286" y="252" width="24" height="174"/>
-              <path d="M330 426V300h26v-40h25v40h29v126z"/><path d="M442 426V326h38v-24h32v124z"/>
-              <rect x="525" y="350" width="66" height="76"/>
-            </g>
-            <g fill="#D7B46A"><rect x="176" y="303" width="7" height="9"/><rect x="194" y="303" width="7" height="9"/><rect x="176" y="324" width="7" height="9"/><rect x="194" y="324" width="7" height="9"/><rect x="340" y="318" width="8" height="9"/><rect x="368" y="318" width="8" height="9"/><rect x="456" y="344" width="8" height="9"/><rect x="478" y="344" width="8" height="9"/></g>
-            <g fill="#FFFFFF" stroke="#0072A8" stroke-width="4">
-              <rect x="74" y="89" width="150" height="74"/><rect x="286" y="78" width="150" height="74"/><rect x="500" y="103" width="145" height="74"/>
-            </g>
-            <g fill="#003B5C" font-family="Arial, sans-serif" font-size="16" font-weight="700" text-anchor="middle">
-              <text x="149" y="121">MONITORING</text><text x="149" y="144">NETWORKS</text>
-              <text x="361" y="110">ENVIRONMENTAL</text><text x="361" y="133">DATASETS</text>
-              <text x="572" y="135">INSTITUTIONS</text><text x="572" y="158">&amp; USERS</text>
-            </g>
-            <g fill="none" stroke="#008F8C" stroke-width="4" class="data-line"><path d="M224 126H286"/><path d="M436 126H500"/><path d="M149 163C149 225 228 224 298 274"/><path d="M572 177C572 245 512 255 482 310"/></g>
-            <g fill="#3A8F5B" stroke="#FFFFFF" stroke-width="4"><circle cx="255" cy="211" r="12"/><circle cx="469" cy="216" r="12"/><circle cx="360" cy="198" r="16"/></g>
-            <g transform="translate(78 446)"><rect x="0" y="0" width="120" height="26" fill="#FFFFFF" stroke="#0072A8" stroke-width="2"/><path d="M20 0V-34M8-22h24" stroke="#0072A8" stroke-width="4"/><circle cx="20" cy="-39" r="8" fill="#D7B46A"/></g>
-          </svg>
+        <div class="actions-row hero-actions">
+          <a class="btn" href="#strategic-framework" data-i18n="explore">Explore the NEDMP</a>
+          <div class="hero-search outputs-menu">
+            <button type="button" class="btn btn-secondary outputs-button" id="outputsMenuButton" aria-expanded="false" aria-haspopup="dialog" aria-controls="outputsMenu" data-i18n="searchNedmp">Search NEDMP</button>
+            <div class="outputs-dropdown" id="outputsMenu" role="dialog" aria-label="NEDMP main outputs" hidden></div>
+          </div>
+          <a class="btn btn-secondary" href="./documents/Kuwait_NEDMP.pdf" download data-i18n="downloadPlan">Download the Plan</a>
+          <a class="btn btn-quiet" href="#evidence" data-i18n="viewEvidence">View the Evidence</a>
         </div>
       </div>
     </section>
 
-    <section class="vision-band" aria-labelledby="visionTitle">
+    <section class="vision-band" id="vision" aria-labelledby="visionTitle">
       <div class="container vision-grid">
         <div><span class="eyebrow" data-i18n="approvedFramework">Strategic framework</span><h2 id="visionTitle" data-i18n="visionHeading">The NEDMP vision</h2></div>
         <blockquote class="vision-quote" data-i18n="vision">The NEDMP vision is to establish an integrated, reliable and interoperable national environmental data management system that unifies environmental datasets, improves quality and accessibility, strengthens transparency and enables evidence-based policy-making.</blockquote>
@@ -427,7 +517,8 @@
 
     <section class="section" id="about" aria-labelledby="aboutTitle">
       <div class="container">
-        <div class="section-head"><div><span class="eyebrow" data-i18n="aboutEyebrow">Mandate and purpose</span><h2 id="aboutTitle" data-i18n="aboutTitle">Why Kuwait needs the NEDMP</h2></div><p class="lead" data-i18n="aboutLead">The NEDMP turns dispersed environmental-data practices into a coherent national framework for trusted evidence, coordinated reporting and informed decisions.</p></div>
+        <div class="section-head"><div><span class="eyebrow" data-i18n="aboutEyebrow">Mandate and purpose</span><h2 id="aboutTitle" data-i18n="aboutTitle">Why Kuwait needs the NEDMP</h2></div></div>
+        <p class="lead about-rationale" data-i18n="aboutLead">This initiative responds to the requirements of Articles 116, 117 and 118 of Kuwait’s Environment Protection Law, particularly Article 116, which calls for the establishment of an integrated environmental data management system to support the regular and reliable exchange of data between government entities and the Environment Public Authority. The NEDMP will strengthen environmental data collection and analysis, enhance transparency and provide the evidence needed for informed environmental decision-making. It will also establish clear mechanisms for the responsible dissemination and public accessibility of environmental data, while defining the roles and responsibilities of the relevant institutions in accordance with the law.</p>
         <div class="grid-5 mandate-grid" id="mandateCards"></div>
         <div class="callout" style="margin-top:1rem"><strong data-i18n="mandateMessageTitle">A coordinated national mandate</strong><span data-i18n="mandateMessage">The project supports systematic and periodic environmental-data exchange, stronger transparency and evidence-based decision-making. Legal provisions are presented as stated in the source reports and are not interpreted by this website.</span></div>
         <div class="section" style="padding-bottom:0">
@@ -446,14 +537,38 @@
         <div class="section-head"><div><span class="eyebrow" data-i18n="frameworkEyebrow">Strategic framework</span><h2 id="strategicTitle" data-i18n="frameworkTitle">Five objectives, reinforced by five pillars</h2></div><div class="section-tools interactive-only"><button class="btn btn-secondary btn-small" type="button" data-print-section="strategic-framework" data-i18n="printSection">Print this section</button></div></div>
         <h3 data-i18n="objectivesHeading">Strategic objectives</h3>
         <div class="grid-5 objective-grid" id="objectiveCards"></div>
+        <figure class="strategic-support-visual objectives-summary">
+          <img id="objectivesSummaryImage" src="./assets/nedmp-strategic-objectives-summary.png" loading="lazy" alt="Five strategic objective themes: capacity building, institutionalization, data sharing, data quality and interoperability">
+          <figcaption data-i18n="objectivesDiagramCaption">Figure. Strategic objective themes supporting implementation.</figcaption>
+        </figure>
         <h3 style="margin-top:2rem" data-i18n="pillarsHeading">Foundational pillars</h3>
         <div class="grid-5 pillar-grid" id="pillarCards"></div>
+        <figure class="strategic-support-visual pillars-summary">
+          <img id="pillarsSummaryImage" src="./assets/nedmp-foundational-pillars-summary.png" loading="lazy" alt="Five foundational pillars: data governance, data quality, data interoperability, data sharing and capacity development">
+          <figcaption data-i18n="pillarsDiagramCaption">Figure. The five NEDMP foundational pillars.</figcaption>
+        </figure>
         <div class="section" style="padding-bottom:0">
           <div class="section-head"><div><span class="eyebrow" data-i18n="alignmentEyebrow">National and international coherence</span><h2 data-i18n="alignmentTitle">Explore strategic alignment</h2></div><p data-i18n="alignmentLead">Select an objective and framework to review the practical relationship identified in the NEDMP evidence base.</p></div>
           <div class="alignment-panel">
             <div class="alignment-controls"><div class="field"><label for="alignmentObjective" data-i18n="objectiveLabel">NEDMP objective</label><select id="alignmentObjective"></select></div><div class="field" style="margin-top:.8rem"><label for="alignmentFramework" data-i18n="frameworkLabel">Framework</label><select id="alignmentFramework"></select></div></div>
             <div class="alignment-output" id="alignmentOutput" aria-live="polite"></div>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="enabling-conditions" aria-labelledby="enablingTitle">
+      <div class="container">
+        <div class="section-head"><div><span class="eyebrow" data-i18n="enablingEyebrow">Enabling conditions</span><h2 id="enablingTitle" data-i18n="enablingTitle">Create the environment in which governance can work</h2></div><p class="lead" data-i18n="enablingLead">Successful implementation depends on mutually reinforcing political, legal, institutional, technological, financial and social conditions.</p></div>
+        <figure class="section-visual">
+          <img id="enablingConditionsImage" src="./assets/nedmp-enabling-conditions.png" loading="lazy" alt="Enabling environment conditions for NEDMP implementation">
+          <figcaption data-i18n="enablingDiagramCaption">Figure. Enabling conditions for effective environmental data governance.</figcaption>
+        </figure>
+        <p class="enabling-summary" data-i18n="enablingSummary">Effective environmental data governance depends on conditions beyond technology. Political stability and leadership establish direction; law and policy provide certainty; coordination and institutional culture sustain collaboration; human capital and technology enable delivery; financial resources, trust and accountability support performance and public confidence. The NEDMP treats these conditions as mutually reinforcing requirements for implementation.</p>
+        <div class="enabling-notes">
+          <article><h3 data-i18n="enablingDirectionTitle">Direction and legitimacy</h3><p data-i18n="enablingDirectionText">Political stability, leadership, a clear legal framework and consistent policy provide authority and continuity.</p></article>
+          <article><h3 data-i18n="enablingCapacityTitle">Delivery capacity</h3><p data-i18n="enablingCapacityText">Coordination, institutional culture, skills, technology, infrastructure and sustainable financing turn policy into practice.</p></article>
+          <article><h3 data-i18n="enablingTrustTitle">Trust and accountability</h3><p data-i18n="enablingTrustText">Stakeholder engagement, transparency, public confidence, responsibility and performance management sustain participation and results.</p></article>
         </div>
       </div>
     </section>
@@ -477,9 +592,16 @@
         <div class="ecosystem-map">
           <div class="ecosystem-art">
             <svg viewBox="0 0 620 420" role="img" aria-labelledby="ecoSvgTitle ecoSvgDesc"><title id="ecoSvgTitle">Environmental data ecosystem</title><desc id="ecoSvgDesc">A network connecting data producers, stewards, repositories, eMISK, reporting services and users.</desc>
-              <g fill="none" stroke="#5DC7C1" stroke-width="3"><path d="M310 210L120 88M310 210L502 88M310 210L88 305M310 210L530 308M310 210L310 54M310 210L310 372"/></g>
-              <g fill="#FFFFFF" stroke="#D7B46A" stroke-width="4"><circle cx="310" cy="210" r="66"/><circle cx="120" cy="88" r="48"/><circle cx="502" cy="88" r="48"/><circle cx="88" cy="305" r="48"/><circle cx="530" cy="308" r="48"/><circle cx="310" cy="54" r="42"/><circle cx="310" cy="372" r="42"/></g>
-              <g fill="#003B5C" font-family="Arial, sans-serif" font-size="14" font-weight="700" text-anchor="middle"><text x="310" y="204">NATIONAL DATA</text><text x="310" y="225">ECOSYSTEM</text><text x="120" y="84">PRODUCERS</text><text x="120" y="103">&amp; OWNERS</text><text x="502" y="84">STEWARDS</text><text x="502" y="103">&amp; CUSTODIANS</text><text x="88" y="301">SYSTEMS</text><text x="88" y="320">&amp; eMISK</text><text x="530" y="304">REPORTING</text><text x="530" y="323">SERVICES</text><text x="310" y="59">MONITORING</text><text x="310" y="377">USERS</text></g>
+              <g fill="none" stroke="#5DC7C1" stroke-width="3"><path d="M310 210L116 102M310 210L504 102M310 210L104 309M310 210L516 309M310 210L310 66M310 210L310 362"/></g>
+              <g fill="#FFFFFF" stroke="#D7B46A" stroke-width="4"><circle cx="310" cy="210" r="72"/><circle cx="116" cy="102" r="58"/><circle cx="504" cy="102" r="58"/><circle cx="104" cy="309" r="58"/><circle cx="516" cy="309" r="58"/><circle cx="310" cy="66" r="50"/><circle cx="310" cy="362" r="50"/></g>
+              <g fill="#003B5C" font-family="Arial, sans-serif" font-weight="700" text-anchor="middle">
+                <text data-eco-label="center1" x="310" y="205" font-size="13">NATIONAL DATA</text><text data-eco-label="center2" x="310" y="225" font-size="13">ECOSYSTEM</text>
+                <text data-eco-label="producers1" x="116" y="98" font-size="12">PRODUCERS</text><text data-eco-label="producers2" x="116" y="116" font-size="12">&amp; OWNERS</text>
+                <text data-eco-label="stewards1" x="504" y="98" font-size="11.5">STEWARDS</text><text data-eco-label="stewards2" x="504" y="116" font-size="11.5">&amp; CUSTODIANS</text>
+                <text data-eco-label="systems1" x="104" y="305" font-size="12">SYSTEMS</text><text data-eco-label="systems2" x="104" y="323" font-size="12">&amp; eMISK</text>
+                <text data-eco-label="reporting1" x="516" y="305" font-size="11.5">REPORTING</text><text data-eco-label="reporting2" x="516" y="323" font-size="11.5">SERVICES</text>
+                <text data-eco-label="monitoring" x="310" y="71" font-size="11.5">MONITORING</text><text data-eco-label="users" x="310" y="367" font-size="12">USERS</text>
+              </g>
             </svg>
           </div>
           <div class="lifecycle" id="lifecycle"></div>
@@ -491,6 +613,11 @@
     <section class="section section-blue" id="governance" aria-labelledby="governanceTitle">
       <div class="container">
         <div class="section-head"><div><span class="eyebrow" data-i18n="governanceEyebrow">Governance framework</span><h2 id="governanceTitle" data-i18n="governanceTitle">Rules, roles and controls for trusted data</h2></div><div class="section-tools interactive-only"><button class="btn btn-secondary btn-small" type="button" data-print-section="governance" data-i18n="printSection">Print this section</button></div></div>
+        <p class="lead" data-i18n="governanceDiagramLead">The proposed framework connects data ownership, quality and accessibility with management and security controls, translating the five foundational pillars into rules, roles, decisions and accountable action.</p>
+        <figure class="section-visual governance-framework-visual">
+          <img id="governanceFrameworkImage" src="./assets/nedmp-governance-framework.png" loading="lazy" alt="Proposed Environmental Data Governance Framework for Kuwait NEDMP">
+          <figcaption data-i18n="governanceDiagramCaption">Figure. Proposed Environmental Data Governance Framework.</figcaption>
+        </figure>
         <div class="governance-functions" id="governanceFunctions"></div>
         <div class="section" style="padding-bottom:0"><div class="section-head"><div><span class="eyebrow" data-i18n="classificationEyebrow">Five-level model</span><h2 data-i18n="classificationTitle">Classify before sharing</h2></div><p data-i18n="classificationLead">The proposed model links every dataset to an access route, security expectation, publication decision and review requirement.</p></div><div class="classification-grid" id="classificationLevels"></div></div>
         <div class="section" style="padding-bottom:0"><h3 data-i18n="accessWorkflow">Data-access workflow</h3><div class="workflow" id="accessWorkflow" aria-label="Data access workflow"></div><p class="note" data-i18n="proposalNote">Proposed arrangement, subject to national approval and legal review.</p></div>
@@ -535,8 +662,10 @@
     </section>
   </main>
 
+  <a class="floating-home interactive-only" id="floatingHome" href="#home"><span aria-hidden="true">↑</span><span data-i18n="homeButton">Home</span></a>
+
   <footer class="footer">
-    <div class="container"><div class="footer-grid"><div><h2 data-i18n="footerTitle">Kuwait National Environmental Data Management Plan</h2><p data-i18n="footerDesc">A bilingual knowledge platform for Kuwait's environmental-data evidence base and proposed implementation instruments.</p></div><div><h3 data-i18n="footerExplore">Explore</h3><div class="footer-links"><a href="#strategic-framework" data-i18n="navStrategic">Strategic Framework</a><a href="#evidence" data-i18n="navEvidence">Evidence</a><a href="#governance" data-i18n="navGovernance">Governance</a><a href="#implementation" data-i18n="navImplementation">Implementation</a></div></div><div><h3 data-i18n="footerResources">Resources</h3><div class="footer-links"><a href="#documents" data-i18n="navDocuments">Documents</a><button type="button" data-open="methodologyDialog" data-i18n="sourceMethodology">Source and methodology</button><button type="button" data-open="privacyDialog" data-i18n="privacy">Privacy notice</button><button type="button" data-open="accessibilityDialog" data-i18n="accessibility">Accessibility</button></div></div><div><h3 data-i18n="footerManage">Manage</h3><div class="footer-links"><button type="button" data-admin-open data-i18n="admin">Admin</button><button type="button" id="footerLanguage" data-i18n="switchArabic">العربية</button><span><span data-i18n="lastUpdated">Last updated</span>: <time id="lastUpdated">17 July 2026</time></span></div></div></div><p class="note" style="color:#dcebf1;margin-top:2rem" data-i18n="disclaimer">This website presents the Kuwait NEDMP evidence base and proposed implementation instruments. Proposed responsibilities, dates, structures and targets remain subject to validation and approval by the competent national authorities.</p><div class="footer-bottom"><span><span data-i18n="state">State of Kuwait</span> · <span data-i18n="authority">Environment Public Authority / Kuwait Environment Public Authority, subject to approved terminology</span></span><span data-i18n="noTracking">No tracking, advertising or third-party analytics.</span></div></div>
+    <div class="container"><div class="footer-grid"><div><h2 data-i18n="footerTitle">Kuwait National Environmental Data Management Plan</h2><p data-i18n="footerDesc">A bilingual knowledge platform for Kuwait's environmental-data evidence base and proposed implementation instruments.</p></div><div><h3 data-i18n="footerExplore">Explore</h3><div class="footer-links"><a href="#strategic-framework" data-i18n="navStrategic">Strategic Framework</a><a href="#enabling-conditions" data-i18n="navEnabling">Enabling Conditions</a><a href="#evidence" data-i18n="navEvidence">Evidence</a><a href="#governance" data-i18n="navGovernance">Governance</a><a href="#implementation" data-i18n="navImplementation">Implementation</a></div></div><div><h3 data-i18n="footerResources">Resources</h3><div class="footer-links"><a href="#documents" data-i18n="navDocuments">Documents</a><button type="button" data-open="methodologyDialog" data-i18n="sourceMethodology">Source and methodology</button><button type="button" data-open="privacyDialog" data-i18n="privacy">Privacy notice</button><button type="button" data-open="accessibilityDialog" data-i18n="accessibility">Accessibility</button></div></div><div><h3 data-i18n="footerManage">Manage</h3><div class="footer-links"><button type="button" data-admin-open data-i18n="admin">Admin</button><button type="button" id="footerLanguage" data-i18n="switchArabic">العربية</button><span><span data-i18n="versionLabel">Version</span>: <span id="siteVersion">1.8.0</span></span><span><span data-i18n="lastUpdated">Last updated</span>: <time id="lastUpdated">19 July 2026</time></span></div></div></div><p class="note" style="color:#dcebf1;margin-top:2rem" data-i18n="disclaimer">This website presents the Kuwait NEDMP evidence base and proposed implementation instruments. Proposed responsibilities, dates, structures and targets remain subject to validation and approval by the competent national authorities.</p><div class="footer-bottom"><span><span data-i18n="state">State of Kuwait</span> · <span data-i18n="authority">Environment Public Authority / Kuwait Environment Public Authority, subject to approved terminology</span></span><span data-i18n="noTracking">No tracking, advertising or third-party analytics.</span></div></div>
   </footer>
 
   <dialog id="searchDialog" aria-labelledby="searchDialogTitle"><div class="dialog-head"><h2 id="searchDialogTitle" data-i18n="searchSite">Search the NEDMP</h2><button class="dialog-close" type="button" data-close aria-label="Close">×</button></div><div class="dialog-body"><label for="siteSearch" data-i18n="searchTerm">Search term</label><input id="siteSearch" type="search" autocomplete="off"><p class="note" id="searchCount"></p><div class="search-results" id="searchResults"></div></div></dialog>
@@ -551,62 +680,85 @@
   <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
 
   <!-- 8. Bilingual content, 9. Site configuration -->
-  <script id="embedded-config" type="application/json">{"version":"1.0.0","lastEdited":"2026-07-17","overrides":{}}</script>
+  <script id="embedded-config" type="application/json">{"version":"1.8.0","lastEdited":"2026-07-19","overrides":{}}</script>
   <script>
   'use strict';
   const translations = {
     en: {
       skip:'Skip to main content', state:'State of Kuwait', shortTitle:'National Environmental Data Management Plan', search:'Search', accessibility:'Accessibility', admin:'Admin', brand:'Kuwait National Environmental Data Management Plan',
-      navHome:'Home', navAbout:'About NEDMP', navStrategic:'Strategic Framework', navEvidence:'Evidence and Diagnostics', navEcosystem:'Data Ecosystem', navGovernance:'Governance Framework', navImplementation:'Implementation', navActions:'Strategic Action Plan', navDocuments:'Documents', navUpdates:'Project Updates', navContact:'Contact',
-      heroKicker:'A national environmental data framework', heroTitle:'Kuwait National Environmental Data Management Plan', tagline:'Better Data. Better Decisions. Better Environment for Kuwait.', heroSupport:"An integrated national framework for governing, improving, connecting, sharing and sustaining Kuwait's environmental data.", explore:'Explore the NEDMP', downloadPlan:'Download the Plan', viewEvidence:'View the Evidence',
+      navHome:'Home', navAbout:'About NEDMP', navStrategic:'Strategic Framework', navEnabling:'Enabling Conditions', navEvidence:'Evidence and Diagnostics', navEcosystem:'Data Ecosystem', navGovernance:'Governance Framework', navImplementation:'Implementation', navActions:'Strategic Action Plan', navDocuments:'Documents', navUpdates:'Project Updates', navContact:'Contact',
+      heroKicker:'A national environmental data framework', heroTitle:'Kuwait National Environmental Data Management Plan', tagline:'Better Data. Better Decisions. Better Environment for Kuwait.', heroSupport:"An integrated national framework for governing, improving, connecting, sharing and sustaining Kuwait's environmental data.", heroPhaseIntro:'The National Environmental Data Management Plan is a key pillar in strengthening the role of the Environment Public Authority as a leading institution for environmental protection and sustainable development in the State of Kuwait. Through the Plan, the Authority will be able to coordinate efforts across government entities and ensure the availability of accurate and reliable environmental data to support informed, science-based decision-making. The Plan will also promote transparency and establish effective mechanisms for public engagement, helping to raise environmental awareness and enabling Kuwait to address current and emerging environmental challenges more effectively and efficiently.', explore:'Explore the NEDMP', downloadPlan:'Download the Plan', viewEvidence:'View the Evidence',
       approvedFramework:'Strategic framework', visionHeading:'The NEDMP vision', vision:'The NEDMP vision is to establish an integrated, reliable and interoperable national environmental data management system that unifies environmental datasets, improves quality and accessibility, strengthens transparency and enables evidence-based policy-making.',
-      aboutEyebrow:'Mandate and purpose', aboutTitle:'Why Kuwait needs the NEDMP', aboutLead:'The NEDMP turns dispersed environmental-data practices into a coherent national framework for trusted evidence, coordinated reporting and informed decisions.', mandateMessageTitle:'A coordinated national mandate', mandateMessage:'The project supports systematic and periodic environmental-data exchange, stronger transparency and evidence-based decision-making. Legal provisions are presented as stated in the source reports and are not interpreted by this website.',
-      methodEyebrow:'From strategy to delivery', methodTitle:'One plan, four connected instruments', methodLead:'Each level answers a different implementation question and preserves a clear line from national intent to annual delivery.', processEyebrow:'Participatory methodology', processTitle:'How the NEDMP was developed', processLead:'The methodology combines stakeholder participation, evidence review, institutional diagnosis, governance design and phased implementation planning.',
-      frameworkEyebrow:'Strategic framework', frameworkTitle:'Five objectives, reinforced by five pillars', objectivesHeading:'Strategic objectives', pillarsHeading:'Foundational pillars', printSection:'Print this section', alignmentEyebrow:'National and international coherence', alignmentTitle:'Explore strategic alignment', alignmentLead:'Select an objective and framework to review the practical relationship identified in the NEDMP evidence base.', objectiveLabel:'NEDMP objective', frameworkLabel:'Framework',
+      aboutEyebrow:'Mandate and purpose', aboutTitle:'Why Kuwait needs the NEDMP', aboutLead:'This initiative responds to the requirements of Articles 116, 117 and 118 of Kuwait’s Environment Protection Law, particularly Article 116, which calls for the establishment of an integrated environmental data management system to support the regular and reliable exchange of data between government entities and the Environment Public Authority. The NEDMP will strengthen environmental data collection and analysis, enhance transparency and provide the evidence needed for informed environmental decision-making. It will also establish clear mechanisms for the responsible dissemination and public accessibility of environmental data, while defining the roles and responsibilities of the relevant institutions in accordance with the law.', mandateMessageTitle:'A coordinated national mandate', mandateMessage:'The project supports systematic and periodic environmental-data exchange, stronger transparency and evidence-based decision-making. Legal provisions are presented as stated in the source reports and are not interpreted by this website.',
+      methodEyebrow:'From strategy to delivery', methodTitle:'One plan, four connected instruments', methodLead:'Each instrument answers a different planning question and preserves a clear line from diagnosis through national strategy to delivery.', processEyebrow:'Participatory methodology', processTitle:'How the NEDMP was developed', processLead:'The methodology combines stakeholder participation, evidence review, institutional diagnosis, governance design and phased implementation planning.',
+      frameworkEyebrow:'Strategic framework', frameworkTitle:'Five objectives, reinforced by five pillars', objectivesHeading:'Strategic objectives', objectivesDiagramCaption:'Figure. Strategic objective themes supporting implementation.', objectivesDiagramAlt:'Five strategic objective themes: capacity building, institutionalization, data sharing, data quality and interoperability.', pillarsHeading:'Foundational pillars', pillarsDiagramCaption:'Figure. The five NEDMP foundational pillars.', pillarsDiagramAlt:'Five foundational pillars: data governance, data quality, data interoperability, data sharing and capacity development.', printSection:'Print this section', alignmentEyebrow:'National and international coherence', alignmentTitle:'Explore strategic alignment', alignmentLead:'Select an objective and framework to review the practical relationship identified in the NEDMP evidence base.', objectiveLabel:'NEDMP objective', frameworkLabel:'Framework',
+      enablingEyebrow:'Enabling conditions', enablingTitle:'Create the environment in which governance can work', enablingLead:'Successful implementation depends on mutually reinforcing political, legal, institutional, technological, financial and social conditions.', enablingDiagramCaption:'Figure. Enabling conditions for effective environmental data governance.', enablingDiagramAlt:'Enabling environment diagram connecting political, legal, coordination, human-capital, trust, policy, institutional-culture, technological, financial and accountability conditions.', enablingSummary:'Effective environmental data governance depends on conditions beyond technology. Political stability and leadership establish direction; law and policy provide certainty; coordination and institutional culture sustain collaboration; human capital and technology enable delivery; financial resources, trust and accountability support performance and public confidence. The NEDMP treats these conditions as mutually reinforcing requirements for implementation.', enablingDirectionTitle:'Direction and legitimacy', enablingDirectionText:'Political stability, leadership, a clear legal framework and consistent policy provide authority and continuity.', enablingCapacityTitle:'Delivery capacity', enablingCapacityText:'Coordination, institutional culture, skills, technology, infrastructure and sustainable financing turn policy into practice.', enablingTrustTitle:'Trust and accountability', enablingTrustText:'Stakeholder engagement, transparency, public confidence, responsibility and performance management sustain participation and results.',
       evidenceEyebrow:'Evidence and diagnostics', evidenceTitle:'A capable technical base with a governance gap', downloadCsv:'Download data as CSV', evidenceWarningTitle:'Interpret with context', evidenceWarning:'The findings reflect institutions responding to the assessment and item-level response bases may vary. They should not be read as a census of every institution in Kuwait.', governanceFirstTitle:'Governance before technology', governanceFirstText:'Role clarification, ownership, metadata, QA/QC, classification, security and access rules should be established before large-scale integration, publication or advanced analytics.', methodologySummary:'How these indicators were calculated', methodologyText:'The readiness values are composite findings reported in the all-stakeholder assessment. The principal dashboard uses the latest consolidated values and retains report page references in the source registry. Item-level denominators vary with questionnaire completion.', tableAlternative:'Accessible table alternative', indicator:'Indicator', value:'Value', source:'Source',
       ecosystemEyebrow:'Data ecosystem', ecosystemTitle:'Connect the environmental-data lifecycle', ecosystemLead:"Kuwait's environmental-data ecosystem spans monitoring networks, administrative records, geospatial information, statistics, modelling, reporting datasets and national information systems.", ecosystemGapTitle:'The ecosystem challenge', ecosystemGapText:'Environmental data are produced across multiple institutions and systems. The NEDMP focuses on clarifying lifecycle roles, registering priority datasets, improving metadata and quality, and governing recurrent data flows through eMISK and proposed national services.',
-      governanceEyebrow:'Governance framework', governanceTitle:'Rules, roles and controls for trusted data', classificationEyebrow:'Five-level model', classificationTitle:'Classify before sharing', classificationLead:'The proposed model links every dataset to an access route, security expectation, publication decision and review requirement.', accessWorkflow:'Data-access workflow', proposalNote:'Proposed arrangement, subject to national approval and legal review.',
+      governanceEyebrow:'Governance framework', governanceTitle:'Rules, roles and controls for trusted data', governanceDiagramLead:'The proposed framework connects data ownership, quality and accessibility with management and security controls, translating the five foundational pillars into rules, roles, decisions and accountable action.', governanceDiagramCaption:'Figure. Proposed Environmental Data Governance Framework.', governanceDiagramAlt:'Proposed Environmental Data Governance Framework connecting ownership, quality, accessibility, management and security to the five NEDMP foundational pillars.', classificationEyebrow:'Five-level model', classificationTitle:'Classify before sharing', classificationLead:'The proposed model links every dataset to an access route, security expectation, publication decision and review requirement.', accessWorkflow:'Data-access workflow', proposalNote:'Proposed arrangement, subject to national approval and legal review.',
       implementationEyebrow:'Implementation plan', implementationTitle:'A phased programme from mobilization to institutionalization', approvalHeading:'Proposed horizon: 2027–2031', approvalText:'The implementation period, responsibilities, structures, budgets and targets are indicative and remain subject to validation and approval by the competent national authorities.', phasesHeading:'Five implementation phases', workstreamsHeading:'Five workstreams', sequenceEyebrow:'Governance-first sequence', sequenceTitle:'Build the operating rules before scaling technology', sequenceLead:'The sequence keeps institutional decisions, standards and controls ahead of integration, publication and advanced use.',
       actionsEyebrow:'Strategic Action Plan', actionsTitle:'Explore the proposed delivery register', exportFiltered:'Export filtered CSV', printSummary:'Print summary', strategicActions:'Strategic actions', tasks:'Tasks', milestones:'Milestones', kpis:'KPIs', searchActions:'Search actions', pillar:'Pillar', priority:'Priority', statusLabel:'Status', cards:'Cards', table:'Table', timeline:'Timeline', downloadActionPlan:'Download the full Strategic Action Plan',
       documentsEyebrow:'Document library', documentsTitle:'The NEDMP evidence base in one place', documentsLead:'Browse the strategic framework, diagnostics, governance instruments, implementation plans and source documents used to develop the NEDMP.', featuredDocument:'Featured document', consolidatedTitle:'Kuwait National Environmental Data Management Plan', consolidatedDesc:'The consolidated strategic document covering the national mandate, vision, objectives, pillars and implementation direction.', downloadPdf:'Download PDF', libraryNoteTitle:'Publication package', libraryNote:'All links use relative paths for compatibility with local use and GitHub Pages. Original source filenames are preserved in the metadata mapping.', exportManifest:'Export document manifest', searchDocuments:'Search documents', category:'Category', language:'Language', fileType:'File type', sort:'Sort',
       updatesEyebrow:'Project updates', updatesTitle:'Validated milestones and publications', validationStatus:'National validation', updatesPlaceholderTitle:'Project updates will be published following national validation.', updatesPlaceholderText:'The administration interface allows approved updates to be prepared in English and Arabic and included in a future published version.',
       contactEyebrow:'Contact', contactTitle:'Project contact details', contactLead:'Contact details will be added following confirmation by the competent national authority.', contactPlaceholder:'Administrator completion required', contactPlaceholderText:'No email address, telephone number or office address has been published because none was approved in the supplied source package.',
-      footerTitle:'Kuwait National Environmental Data Management Plan', footerDesc:"A bilingual knowledge platform for Kuwait's environmental-data evidence base and proposed implementation instruments.", footerExplore:'Explore', footerResources:'Resources', footerManage:'Manage', sourceMethodology:'Source and methodology', privacy:'Privacy notice', switchArabic:'العربية', lastUpdated:'Last updated', authority:'Environment Public Authority / Kuwait Environment Public Authority, subject to approved terminology', noTracking:'No tracking, advertising or third-party analytics.', disclaimer:'This website presents the Kuwait NEDMP evidence base and proposed implementation instruments. Proposed responsibilities, dates, structures and targets remain subject to validation and approval by the competent national authorities.',
+      footerTitle:'Kuwait National Environmental Data Management Plan', footerDesc:"A bilingual knowledge platform for Kuwait's environmental-data evidence base and proposed implementation instruments.", footerExplore:'Explore', footerResources:'Resources', footerManage:'Manage', sourceMethodology:'Source and methodology', privacy:'Privacy notice', switchArabic:'العربية', versionLabel:'Version', lastUpdated:'Last updated', authority:'Environment Public Authority / Kuwait Environment Public Authority, subject to approved terminology', noTracking:'No tracking, advertising or third-party analytics.', disclaimer:'This website presents the Kuwait NEDMP evidence base and proposed implementation instruments. Proposed responsibilities, dates, structures and targets remain subject to validation and approval by the competent national authorities.',
       searchSite:'Search the NEDMP', searchTerm:'Search term', actionDetail:'Action detail', documentMetadata:'Document metadata', accessibilityIntro:'Adjust the display for this browser. Preferences are stored locally.', increaseText:'Increase text', decreaseText:'Reduce text', highContrast:'High contrast', reduceMotion:'Reduce motion', reset:'Reset', methodologyIntro:'The website follows a documented source hierarchy and does not average conflicting values. The latest validated value is used for principal indicators, with scope and version notes retained below.', report:'Report', supports:'Supports', pages:'Pages', privacyText:'This static website uses localStorage for language, accessibility and administrator-edited public configuration, and sessionStorage for the demonstration administrator session. It uses no analytics, advertising, tracking pixels or remote cookies.',
       staticWarningTitle:'Static demonstration control', staticWarning:'This browser-only password gate is not secure server-side authentication. Do not store confidential information, private documents, API tokens or restricted data in this public website.', password:'Password', signIn:'Sign in', publishingHelp:'Publishing workflow',
       all:'All', nationalOverview:'National overview', production:'Data production', sharing:'Data sharing', governanceSecurity:'Governance and security', results:'results', noResults:'No results found.', details:'View details', download:'Download', metadata:'Metadata', copyLink:'Copy link', recentlyUpdated:'Recently updated', proposed:'Proposed', planned:'Planned', inProgress:'In progress', critical:'Critical', highPriority:'High priority', mediumPriority:'Medium priority', start:'Start', completion:'Completion', kpi:'KPI', target:'Target', sourcePage:'Source page', respondentBase:'Respondent base', actionId:'Action ID', programme:'Programme', progressLabel:'Completion', approvalNote:'Approval note', tasksAndMilestones:'Tasks and milestones', responsible:'Lead role',
       title:'Title', subtitle:'Subtitle', taglineLabel:'Tagline', horizon:'Implementation horizon', projectStatus:'Project status', footerText:'Footer text', contactDetails:'Contact details', themeColours:'Theme colours', saveChanges:'Save changes', undo:'Undo', redo:'Redo', exportJson:'Export JSON', importJson:'Import JSON', exportHtml:'Export Updated index.html', exportInstructions:'Website package instructions', validate:'Run quality checks', logout:'Log out', resetDefaults:'Reset to source defaults', general:'General', bilingual:'Bilingual content', sections:'Sections', documentsAdmin:'Documents', dataCharts:'Data and charts', qualityControl:'Quality control', versionRecovery:'Version and recovery', adminIntro:'Edits are stored only in this browser until an updated index.html is exported and committed.', english:'English', arabic:'Arabic', visible:'Visible', moveUp:'Move up', moveDown:'Move down', configVersion:'Configuration version', lastEdited:'Last edited', translationsComplete:'Required bilingual fields are present.', idsUnique:'No duplicate action or document IDs detected.', linksValid:'Configured document files use safe relative paths.', sourceNotesPresent:'Principal indicators include source notes.', localOnly:'Local changes saved.', invalidImport:'The selected configuration file is invalid.', loginFailed:'Sign-in failed. Please try again.', loginLocked:'Too many attempts. Please wait before trying again.', loggedOut:'Administrator session ended.', languageChanged:'Language changed.', copied:'Link copied.', pendingUpload:'Document pending upload',
       deployment1:'Keep index.html in the repository root.', deployment2:'Keep all reports in the documents folder using the configured filenames.', deployment3:'Commit and push the files to the main branch.', deployment4:'In repository Settings > Pages, choose Deploy from a branch, then main and the root folder.', deployment5:'Test English, Arabic, downloads, mobile layout, search, Admin export and browser console at the published project URL.',
-      heroArtTitle:'Kuwait environmental data landscape', heroArtDesc:'An original diagram connecting monitoring stations, environmental datasets, institutions and the Kuwait skyline.', ecosystemArtTitle:'Environmental data ecosystem', ecosystemArtDesc:'A network connecting data producers, stewards, repositories, eMISK, reporting services and users.', menuOpen:'Open menu', menuClose:'Close menu', close:'Close', more:'More',
+      heroArtTitle:'Eight-phase NEDMP development process', heroArtDesc:'Eight NEDMP development phases shown sequentially from the national vision, objectives and pillars through the NEDMP Strategic Action Plan.', brandLogoAlt:'NEDMP - Kuwait National Environmental Data Management Plan', ecosystemArtTitle:'Environmental data ecosystem', ecosystemArtDesc:'A network connecting data producers, stewards, repositories, eMISK, reporting services and users.', menuOpen:'Open menu', menuClose:'Close menu', close:'Close', more:'More', homeButton:'Home', homeButtonAria:'Return to the top of the page', searchNedmp:'Search NEDMP', outputsMenuTitle:'Main NEDMP outputs', outputsSearchLabel:'Find an NEDMP output', outputsSearchPlaceholder:'Type a heading or section number', outputsNoMatch:'No matching NEDMP output.',
     },
     ar: {
       skip:'انتقل إلى المحتوى الرئيسي', state:'دولة الكويت', shortTitle:'الخطة الوطنية لإدارة البيانات البيئية', search:'البحث', accessibility:'إمكانية الوصول', admin:'الإدارة', brand:'الخطة الوطنية لإدارة البيانات البيئية في دولة الكويت',
-      navHome:'الرئيسية', navAbout:'حول الخطة', navStrategic:'الإطار الاستراتيجي', navEvidence:'الأدلة والتحليل التشخيصي', navEcosystem:'منظومة البيانات البيئية', navGovernance:'إطار الحوكمة', navImplementation:'خطة التنفيذ', navActions:'خطة العمل الاستراتيجية', navDocuments:'الوثائق', navUpdates:'مستجدات المشروع', navContact:'اتصل بنا',
-      heroKicker:'إطار وطني للبيانات البيئية', heroTitle:'الخطة الوطنية لإدارة البيانات البيئية في دولة الكويت', tagline:'بيانات أفضل. قرارات أفضل. بيئة أفضل للكويت.', heroSupport:'إطار وطني متكامل لحوكمة البيانات البيئية في الكويت وتحسينها وربطها ومشاركتها واستدامتها.', explore:'استكشف الخطة', downloadPlan:'تنزيل الخطة', viewEvidence:'استعرض الأدلة',
+      navHome:'الرئيسية', navAbout:'حول الخطة', navStrategic:'الإطار الاستراتيجي', navEnabling:'الشروط التمكينية', navEvidence:'الأدلة والتحليل التشخيصي', navEcosystem:'منظومة البيانات البيئية', navGovernance:'إطار الحوكمة', navImplementation:'خطة التنفيذ', navActions:'خطة العمل الاستراتيجية', navDocuments:'الوثائق', navUpdates:'مستجدات المشروع', navContact:'اتصل بنا',
+      heroKicker:'إطار وطني للبيانات البيئية', heroTitle:'الخطة الوطنية لإدارة البيانات البيئية في دولة الكويت', tagline:'بيانات أفضل. قرارات أفضل. بيئة أفضل للكويت.', heroSupport:'إطار وطني متكامل لحوكمة البيانات البيئية في الكويت وتحسينها وربطها ومشاركتها واستدامتها.', heroPhaseIntro:'تُمثّل الخطة الوطنية لإدارة البيانات البيئية ركيزة أساسية في تعزيز دور الهيئة العامة للبيئة كجهة رائدة في حماية البيئة وتحقيق التنمية المستدامة في دولة الكويت. من خلال هذه الخطة، ستتمكن الهيئة من توحيد الجهود بين مختلف الجهات الحكومية، وضمان توفير بيانات بيئية دقيقة وموثوقة لدعم اتخاذ قرارات مستنيرة وقائمة على معطيات علمية. كما ستسهم الخطة في تعزيز مبدأ الشفافية وإرساء آليات تواصل فعّالة مع الجمهور، ما يعزز الوعي البيئي ويُمكّن الكويت من التصدي للتحديات البيئية الحالية والمستقبلية بفاعلية وكفاءة.', explore:'استكشف الخطة', downloadPlan:'تنزيل الخطة', viewEvidence:'استعرض الأدلة',
       approvedFramework:'الإطار الاستراتيجي', visionHeading:'رؤية الخطة', vision:'تتمثل رؤية الخطة الوطنية لإدارة البيانات البيئية في إنشاء نظام وطني متكامل وموثوق وقابل للتشغيل البيني لإدارة البيانات البيئية، يوحّد مجموعات البيانات البيئية، ويحسّن جودتها وإمكانية الوصول إليها، ويعزز الشفافية، ويمكّن من صنع السياسات القائمة على الأدلة.',
-      aboutEyebrow:'التفويض والغرض', aboutTitle:'لماذا تحتاج الكويت إلى الخطة الوطنية لإدارة البيانات البيئية؟', aboutLead:'تحوّل الخطة ممارسات البيانات البيئية المتفرقة إلى إطار وطني متماسك للأدلة الموثوقة والتقارير المنسقة والقرارات المستنيرة.', mandateMessageTitle:'تفويض وطني منسق', mandateMessage:'يدعم المشروع التبادل المنهجي والدوري للبيانات البيئية، وتعزيز الشفافية، وصنع القرار القائم على الأدلة. تُعرض الأحكام القانونية كما وردت في التقارير المصدر ولا يقدم الموقع تفسيراً قانونياً لها.',
-      methodEyebrow:'من الاستراتيجية إلى التنفيذ', methodTitle:'خطة واحدة وأربع أدوات مترابطة', methodLead:'يجيب كل مستوى عن سؤال تنفيذي مختلف ويحافظ على مسار واضح من التوجه الوطني إلى الإنجاز السنوي.', processEyebrow:'منهجية تشاركية', processTitle:'كيف جرى تطوير الخطة؟', processLead:'تجمع المنهجية بين مشاركة أصحاب المصلحة، ومراجعة الأدلة، والتشخيص المؤسسي، وتصميم الحوكمة، والتخطيط المرحلي للتنفيذ.',
-      frameworkEyebrow:'الإطار الاستراتيجي', frameworkTitle:'خمسة أهداف تدعمها خمس ركائز', objectivesHeading:'الأهداف الاستراتيجية', pillarsHeading:'الركائز الأساسية', printSection:'طباعة هذا القسم', alignmentEyebrow:'المواءمة الوطنية والدولية', alignmentTitle:'استكشف المواءمة الاستراتيجية', alignmentLead:'اختر هدفاً وإطاراً لاستعراض العلاقة العملية المحددة في قاعدة أدلة الخطة.', objectiveLabel:'هدف الخطة', frameworkLabel:'الإطار',
+      aboutEyebrow:'التفويض والغرض', aboutTitle:'لماذا تحتاج الكويت إلى الخطة الوطنية لإدارة البيانات البيئية؟', aboutLead:'تأتي هذه المبادرة استجابةً لمتطلبات المواد 116، و117، و118 من قانون حماية البيئة في الكويت، وبشكل خاص المادة 116 التي تنص على ضرورة إنشاء نظام متكامل لإدارة البيانات البيئية، يضمن تبادل البيانات بين الجهات الحكومية والهيئة العامة للبيئة بشكل دوري وموثوق. من خلال هذه الخطة، سيتم تحسين نظم جمع البيانات وتحليلها، ما سيسهم في تعزيز الشفافية وتوفير المعلومات اللازمة لاتخاذ القرارات البيئية. كما ستتضمن الخطة نشر البيانات البيئية بشكل شفاف ومتاح للعامة، مع وضع آليات واضحة لتداول هذه البيانات وتحديد مسؤوليات الجهات المختلفة وفقًا للقانون.', mandateMessageTitle:'تفويض وطني منسق', mandateMessage:'يدعم المشروع التبادل المنهجي والدوري للبيانات البيئية، وتعزيز الشفافية، وصنع القرار القائم على الأدلة. تُعرض الأحكام القانونية كما وردت في التقارير المصدر ولا يقدم الموقع تفسيراً قانونياً لها.',
+      methodEyebrow:'من الاستراتيجية إلى التنفيذ', methodTitle:'خطة واحدة وأربع أدوات مترابطة', methodLead:'تجيب كل أداة عن سؤال تخطيطي مختلف وتحافظ على مسار واضح من التشخيص إلى الاستراتيجية الوطنية ثم التنفيذ.', processEyebrow:'منهجية تشاركية', processTitle:'كيف جرى تطوير الخطة؟', processLead:'تجمع المنهجية بين مشاركة أصحاب المصلحة، ومراجعة الأدلة، والتشخيص المؤسسي، وتصميم الحوكمة، والتخطيط المرحلي للتنفيذ.',
+      frameworkEyebrow:'الإطار الاستراتيجي', frameworkTitle:'خمسة أهداف تدعمها خمس ركائز', objectivesHeading:'الأهداف الاستراتيجية', objectivesDiagramCaption:'شكل. محاور الأهداف الاستراتيجية الداعمة للتنفيذ.', objectivesDiagramAlt:'خمسة محاور للأهداف الاستراتيجية: بناء القدرات، والترسيخ المؤسسي، ومشاركة البيانات، وجودة البيانات، والتشغيل البيني.', pillarsHeading:'الركائز الأساسية', pillarsDiagramCaption:'شكل. الركائز الأساسية الخمس للخطة الوطنية.', pillarsDiagramAlt:'الركائز الأساسية الخمس: حوكمة البيانات، وجودة البيانات، والتشغيل البيني، ومشاركة البيانات، وتنمية القدرات.', printSection:'طباعة هذا القسم', alignmentEyebrow:'المواءمة الوطنية والدولية', alignmentTitle:'استكشف المواءمة الاستراتيجية', alignmentLead:'اختر هدفاً وإطاراً لاستعراض العلاقة العملية المحددة في قاعدة أدلة الخطة.', objectiveLabel:'هدف الخطة', frameworkLabel:'الإطار',
+      enablingEyebrow:'الشروط التمكينية', enablingTitle:'تهيئة البيئة التي تُمكّن الحوكمة من العمل', enablingLead:'يعتمد التنفيذ الناجح على شروط سياسية وقانونية ومؤسسية وتقنية ومالية واجتماعية يعزز بعضها بعضاً.', enablingDiagramCaption:'شكل. الشروط التمكينية للحوكمة الفعالة للبيانات البيئية.', enablingDiagramAlt:'مخطط البيئة التمكينية الذي يربط الشروط السياسية والقانونية والتنسيقية والبشرية وشروط الثقة والسياسات والثقافة المؤسسية والتكنولوجيا والتمويل والمساءلة.', enablingSummary:'تعتمد الحوكمة الفعالة للبيانات البيئية على شروط تتجاوز التكنولوجيا. فالاستقرار السياسي والقيادة يحددان الاتجاه، ويوفر القانون والسياسات اليقين، ويعزز التنسيق والثقافة المؤسسية التعاون، وتمكّن القدرات البشرية والتكنولوجيا من التنفيذ، فيما تدعم الموارد المالية والثقة والمساءلة الأداء وثقة الجمهور. وتتعامل الخطة مع هذه الشروط بوصفها متطلبات مترابطة للتنفيذ.', enablingDirectionTitle:'التوجيه والشرعية', enablingDirectionText:'يوفر الاستقرار السياسي والقيادة والإطار القانوني الواضح واتساق السياسات السلطة والاستمرارية.', enablingCapacityTitle:'القدرة على التنفيذ', enablingCapacityText:'يحوّل التنسيق والثقافة المؤسسية والمهارات والتكنولوجيا والبنية التحتية والتمويل المستدام السياسات إلى ممارسة.', enablingTrustTitle:'الثقة والمساءلة', enablingTrustText:'تحافظ مشاركة أصحاب المصلحة والشفافية وثقة الجمهور والمسؤولية وإدارة الأداء على المشاركة والنتائج.',
       evidenceEyebrow:'الأدلة والتحليل التشخيصي', evidenceTitle:'قاعدة تقنية قادرة وفجوة في الحوكمة', downloadCsv:'تنزيل البيانات بصيغة CSV', evidenceWarningTitle:'تفسير النتائج ضمن سياقها', evidenceWarning:'تعكس النتائج الجهات التي استجابت للتقييم، وقد يختلف عدد الاستجابات بين البنود. ولا ينبغي اعتبارها تعداداً لجميع المؤسسات في الكويت.', governanceFirstTitle:'الحوكمة قبل التكنولوجيا', governanceFirstText:'يجب تحديد الأدوار والملكية والبيانات الوصفية وضمان الجودة ومراقبتها والتصنيف والأمن وقواعد الوصول قبل التوسع في التكامل أو النشر أو التحليلات المتقدمة.', methodologySummary:'كيف حُسبت هذه المؤشرات؟', methodologyText:'مؤشرات الجاهزية نتائج مركبة وردت في تقييم جميع أصحاب المصلحة. تستخدم اللوحة القيم المجمعة الأحدث، مع الاحتفاظ بمراجع الصفحات في سجل المصادر. ويختلف عدد الاستجابات بحسب اكتمال بنود الاستبيان.', tableAlternative:'بديل جدولي ميسّر', indicator:'المؤشر', value:'القيمة', source:'المصدر',
       ecosystemEyebrow:'منظومة البيانات', ecosystemTitle:'ربط دورة حياة البيانات البيئية', ecosystemLead:'تشمل منظومة البيانات البيئية في الكويت شبكات الرصد والسجلات الإدارية والمعلومات الجغرافية والإحصاءات والنمذجة ومجموعات بيانات التقارير ونظم المعلومات الوطنية.', ecosystemGapTitle:'تحدي المنظومة', ecosystemGapText:'تُنتج البيانات البيئية عبر مؤسسات ونظم متعددة. وتركز الخطة على توضيح أدوار دورة الحياة، وتسجيل مجموعات البيانات ذات الأولوية، وتحسين البيانات الوصفية والجودة، وحوكمة تدفقات البيانات المتكررة من خلال نظام eMISK والخدمات الوطنية المقترحة.',
-      governanceEyebrow:'إطار الحوكمة', governanceTitle:'قواعد وأدوار وضوابط لبيانات موثوقة', classificationEyebrow:'نموذج من خمسة مستويات', classificationTitle:'التصنيف قبل المشاركة', classificationLead:'يربط النموذج المقترح كل مجموعة بيانات بمسار وصول ومتطلبات أمنية وقرار نشر ومتطلبات مراجعة.', accessWorkflow:'مسار إتاحة البيانات', proposalNote:'ترتيب مقترح يخضع للموافقة الوطنية والمراجعة القانونية.',
+      governanceEyebrow:'إطار الحوكمة', governanceTitle:'قواعد وأدوار وضوابط لبيانات موثوقة', governanceDiagramLead:'يربط الإطار المقترح ملكية البيانات وجودتها وإتاحتها بضوابط الإدارة والأمن، ويحوّل الركائز الأساسية الخمس إلى قواعد وأدوار وقرارات وإجراءات خاضعة للمساءلة.', governanceDiagramCaption:'شكل. الإطار المقترح لحوكمة البيانات البيئية.', governanceDiagramAlt:'الإطار المقترح لحوكمة البيانات البيئية الذي يربط الملكية والجودة والإتاحة والإدارة والأمن بالركائز الأساسية الخمس للخطة.', classificationEyebrow:'نموذج من خمسة مستويات', classificationTitle:'التصنيف قبل المشاركة', classificationLead:'يربط النموذج المقترح كل مجموعة بيانات بمسار وصول ومتطلبات أمنية وقرار نشر ومتطلبات مراجعة.', accessWorkflow:'مسار إتاحة البيانات', proposalNote:'ترتيب مقترح يخضع للموافقة الوطنية والمراجعة القانونية.',
       implementationEyebrow:'خطة التنفيذ', implementationTitle:'برنامج مرحلي من التعبئة إلى الترسخ المؤسسي', approvalHeading:'الأفق المقترح: 2027–2031', approvalText:'فترة التنفيذ والمسؤوليات والهياكل والميزانيات والأهداف استرشادية، وتظل خاضعة للتحقق والاعتماد من الجهات الوطنية المختصة.', phasesHeading:'خمس مراحل للتنفيذ', workstreamsHeading:'خمسة مسارات عمل', sequenceEyebrow:'تسلسل يبدأ بالحوكمة', sequenceTitle:'بناء قواعد التشغيل قبل توسيع التكنولوجيا', sequenceLead:'يحافظ التسلسل على أسبقية القرارات المؤسسية والمعايير والضوابط على التكامل والنشر والاستخدام المتقدم.',
       actionsEyebrow:'خطة العمل الاستراتيجية', actionsTitle:'استكشف سجل التنفيذ المقترح', exportFiltered:'تصدير النتائج المصفاة CSV', printSummary:'طباعة الملخص', strategicActions:'إجراء استراتيجي', tasks:'مهمة', milestones:'معلم تنفيذي', kpis:'مؤشر أداء رئيسي', searchActions:'البحث في الإجراءات', pillar:'الركيزة', priority:'الأولوية', statusLabel:'الحالة', cards:'بطاقات', table:'جدول', timeline:'خط زمني', downloadActionPlan:'تنزيل خطة العمل الاستراتيجية الكاملة',
       documentsEyebrow:'مكتبة الوثائق', documentsTitle:'قاعدة أدلة الخطة في مكان واحد', documentsLead:'تصفح الإطار الاستراتيجي والتحليلات التشخيصية وأدوات الحوكمة وخطط التنفيذ والوثائق المصدر التي استُخدمت في إعداد الخطة.', featuredDocument:'وثيقة مميزة', consolidatedTitle:'الخطة الوطنية لإدارة البيانات البيئية في دولة الكويت', consolidatedDesc:'الوثيقة الاستراتيجية المجمعة التي تغطي التفويض الوطني والرؤية والأهداف والركائز وتوجه التنفيذ.', downloadPdf:'تنزيل PDF', libraryNoteTitle:'حزمة النشر', libraryNote:'تستخدم جميع الروابط مسارات نسبية لضمان العمل محلياً وعلى GitHub Pages. وتُحفظ أسماء الملفات الأصلية في خريطة البيانات الوصفية.', exportManifest:'تصدير سجل الوثائق', searchDocuments:'البحث في الوثائق', category:'الفئة', language:'اللغة', fileType:'نوع الملف', sort:'الترتيب',
       updatesEyebrow:'مستجدات المشروع', updatesTitle:'المعالم والمنشورات المعتمدة', validationStatus:'الاعتماد الوطني', updatesPlaceholderTitle:'سيتم نشر مستجدات المشروع بعد اعتمادها وطنياً.', updatesPlaceholderText:'تتيح واجهة الإدارة إعداد المستجدات المعتمدة باللغتين العربية والإنجليزية وإدراجها في نسخة منشورة لاحقة.',
       contactEyebrow:'اتصل بنا', contactTitle:'بيانات الاتصال بالمشروع', contactLead:'ستُضاف بيانات الاتصال بعد تأكيدها من الجهة الوطنية المختصة.', contactPlaceholder:'يلزم استكمال البيانات من المسؤول', contactPlaceholderText:'لم يُنشر بريد إلكتروني أو رقم هاتف أو عنوان مكتب لعدم وجود بيانات اتصال معتمدة ضمن حزمة المصادر المقدمة.',
-      footerTitle:'الخطة الوطنية لإدارة البيانات البيئية في دولة الكويت', footerDesc:'منصة معرفية ثنائية اللغة لقاعدة أدلة الخطة وأدوات التنفيذ المقترحة.', footerExplore:'استكشف', footerResources:'الموارد', footerManage:'الإدارة', sourceMethodology:'المصادر والمنهجية', privacy:'إشعار الخصوصية', switchArabic:'English', lastUpdated:'آخر تحديث', authority:'الهيئة العامة للبيئة، وفق المسمى المعتمد', noTracking:'لا توجد أدوات تتبع أو إعلانات أو تحليلات من أطراف ثالثة.', disclaimer:'يعرض هذا الموقع قاعدة أدلة الخطة الوطنية لإدارة البيانات البيئية وأدوات التنفيذ المقترحة. وتظل المسؤوليات والتواريخ والهياكل والأهداف المقترحة خاضعة للتحقق والاعتماد من الجهات الوطنية المختصة.',
+      footerTitle:'الخطة الوطنية لإدارة البيانات البيئية في دولة الكويت', footerDesc:'منصة معرفية ثنائية اللغة لقاعدة أدلة الخطة وأدوات التنفيذ المقترحة.', footerExplore:'استكشف', footerResources:'الموارد', footerManage:'الإدارة', sourceMethodology:'المصادر والمنهجية', privacy:'إشعار الخصوصية', switchArabic:'English', versionLabel:'الإصدار', lastUpdated:'آخر تحديث', authority:'الهيئة العامة للبيئة، وفق المسمى المعتمد', noTracking:'لا توجد أدوات تتبع أو إعلانات أو تحليلات من أطراف ثالثة.', disclaimer:'يعرض هذا الموقع قاعدة أدلة الخطة الوطنية لإدارة البيانات البيئية وأدوات التنفيذ المقترحة. وتظل المسؤوليات والتواريخ والهياكل والأهداف المقترحة خاضعة للتحقق والاعتماد من الجهات الوطنية المختصة.',
       searchSite:'البحث في الخطة', searchTerm:'عبارة البحث', actionDetail:'تفاصيل الإجراء', documentMetadata:'البيانات الوصفية للوثيقة', accessibilityIntro:'اضبط العرض في هذا المتصفح. تُحفظ التفضيلات محلياً.', increaseText:'تكبير النص', decreaseText:'تصغير النص', highContrast:'تباين عالٍ', reduceMotion:'تقليل الحركة', reset:'إعادة الضبط', methodologyIntro:'يتبع الموقع تسلسلاً موثقاً لأولوية المصادر ولا يحسب متوسطاً للقيم المتعارضة. وتستخدم أحدث قيمة معتمدة في المؤشرات الرئيسية، مع الاحتفاظ بملاحظات النطاق والإصدار أدناه.', report:'التقرير', supports:'المحتوى المدعوم', pages:'الصفحات', privacyText:'يستخدم هذا الموقع الثابت التخزين المحلي لتفضيل اللغة وإمكانية الوصول وإعدادات المحتوى العام، والتخزين المؤقت لجلسة الإدارة التجريبية. ولا يستخدم تحليلات أو إعلانات أو وحدات تتبع أو ملفات تعريف ارتباط بعيدة.',
       staticWarningTitle:'أداة تحكم تجريبية لموقع ثابت', staticWarning:'بوابة كلمة المرور في المتصفح ليست مصادقة آمنة من جهة الخادم. لا تخزن معلومات سرية أو وثائق خاصة أو رموز وصول أو بيانات مقيدة في هذا الموقع العام.', password:'كلمة المرور', signIn:'تسجيل الدخول', publishingHelp:'مسار النشر',
       all:'الكل', nationalOverview:'نظرة وطنية عامة', production:'إنتاج البيانات', sharing:'مشاركة البيانات', governanceSecurity:'الحوكمة والأمن', results:'نتيجة', noResults:'لم يتم العثور على نتائج.', details:'عرض التفاصيل', download:'تنزيل', metadata:'البيانات الوصفية', copyLink:'نسخ الرابط', recentlyUpdated:'محدّث مؤخراً', proposed:'مقترح', planned:'مخطط', inProgress:'قيد التنفيذ', critical:'حرج', highPriority:'أولوية عالية', mediumPriority:'أولوية متوسطة', start:'البدء', completion:'الاكتمال', kpi:'مؤشر الأداء', target:'المستهدف', sourcePage:'صفحة المصدر', respondentBase:'قاعدة المستجيبين', actionId:'رمز الإجراء', programme:'البرنامج', progressLabel:'نسبة الإنجاز', approvalNote:'ملاحظة الاعتماد', tasksAndMilestones:'المهام والمعالم التنفيذية', responsible:'الدور القيادي',
       title:'العنوان', subtitle:'العنوان الفرعي', taglineLabel:'الشعار النصي', horizon:'أفق التنفيذ', projectStatus:'حالة المشروع', footerText:'نص التذييل', contactDetails:'بيانات الاتصال', themeColours:'ألوان الموقع', saveChanges:'حفظ التغييرات', undo:'تراجع', redo:'إعادة', exportJson:'تصدير JSON', importJson:'استيراد JSON', exportHtml:'تصدير ملف index.html المحدّث', exportInstructions:'تعليمات حزمة الموقع', validate:'تشغيل فحوص الجودة', logout:'تسجيل الخروج', resetDefaults:'استعادة إعدادات المصدر', general:'عام', bilingual:'المحتوى ثنائي اللغة', sections:'الأقسام', documentsAdmin:'الوثائق', dataCharts:'البيانات والرسوم', qualityControl:'ضبط الجودة', versionRecovery:'الإصدار والاستعادة', adminIntro:'تُحفظ التعديلات في هذا المتصفح فقط إلى أن يتم تصدير ملف index.html محدّث وإيداعه في المستودع.', english:'الإنجليزية', arabic:'العربية', visible:'ظاهر', moveUp:'تحريك لأعلى', moveDown:'تحريك لأسفل', configVersion:'إصدار الإعدادات', lastEdited:'آخر تعديل', translationsComplete:'الحقول الأساسية متاحة باللغتين.', idsUnique:'لا توجد رموز مكررة للإجراءات أو الوثائق.', linksValid:'تستخدم ملفات الوثائق مسارات نسبية آمنة.', sourceNotesPresent:'تتضمن المؤشرات الرئيسية ملاحظات مصدرية.', localOnly:'تم حفظ التغييرات محلياً.', invalidImport:'ملف الإعدادات المحدد غير صالح.', loginFailed:'تعذر تسجيل الدخول. حاول مرة أخرى.', loginLocked:'محاولات كثيرة. انتظر قبل إعادة المحاولة.', loggedOut:'انتهت جلسة الإدارة.', languageChanged:'تم تغيير اللغة.', copied:'تم نسخ الرابط.', pendingUpload:'الوثيقة بانتظار الرفع',
       deployment1:'ضع ملف index.html في جذر المستودع.', deployment2:'ضع جميع التقارير في مجلد documents بالأسماء المهيأة.', deployment3:'اعتمد الملفات وادفعها إلى الفرع main.', deployment4:'من Settings ثم Pages اختر Deploy from a branch ثم main والمجلد الجذري.', deployment5:'اختبر العربية والإنجليزية والتنزيلات وتصميم الهاتف والبحث وتصدير الإدارة ووحدة أخطاء المتصفح على رابط المشروع المنشور.',
-      heroArtTitle:'مشهد البيانات البيئية في الكويت', heroArtDesc:'رسم أصلي يربط شبكات الرصد ومجموعات البيانات والمؤسسات وأفق مدينة الكويت.', ecosystemArtTitle:'منظومة البيانات البيئية', ecosystemArtDesc:'شبكة تربط منتجي البيانات والقيمين عليها ومستودعاتها ونظام eMISK وخدمات التقارير والمستخدمين.', menuOpen:'فتح القائمة', menuClose:'إغلاق القائمة', close:'إغلاق', more:'المزيد'
+      heroArtTitle:'عملية تطوير الخطة الوطنية من ثماني مراحل', heroArtDesc:'تُعرض مراحل تطوير الخطة الوطنية الثماني بالتتابع، بدءاً من الرؤية الوطنية والأهداف والركائز وصولاً إلى خطة العمل الاستراتيجية.', brandLogoAlt:'الخطة الوطنية لإدارة البيانات البيئية في دولة الكويت', ecosystemArtTitle:'منظومة البيانات البيئية', ecosystemArtDesc:'شبكة تربط منتجي البيانات والقيمين عليها ومستودعاتها ونظام eMISK وخدمات التقارير والمستخدمين.', menuOpen:'فتح القائمة', menuClose:'إغلاق القائمة', close:'إغلاق', more:'المزيد', homeButton:'الرئيسية', homeButtonAria:'العودة إلى أعلى الصفحة', searchNedmp:'البحث في مخرجات الخطة', outputsMenuTitle:'المخرجات الرئيسية للخطة', outputsSearchLabel:'ابحث عن مخرج من مخرجات الخطة', outputsSearchPlaceholder:'اكتب عنواناً أو رقم قسم', outputsNoMatch:'لا يوجد مخرج مطابق.'
     }
   };
 
   const siteData = {
-    meta:{version:'1.0.0',lastUpdated:'2026-07-17',horizon:'2027–2031',statusEn:'Proposed implementation instruments subject to national approval',statusAr:'أدوات تنفيذ مقترحة تخضع للاعتماد الوطني'},
+    meta:{version:'1.8.0',lastUpdated:'2026-07-19',horizon:'2027–2031',statusEn:'Proposed implementation instruments subject to national approval',statusAr:'أدوات تنفيذ مقترحة تخضع للاعتماد الوطني'},
+    outputs:[
+      {id:1,titleEn:'Introduction',titleAr:'المقدمة',href:'#about'},
+      {id:2,titleEn:'Mandate',titleAr:'التفويض',href:'#about'},
+      {id:3,titleEn:'Methodology',titleAr:'المنهجية',href:'#about'},
+      {id:4,titleEn:'Vision',titleAr:'الرؤية',href:'#vision'},
+      {id:5,titleEn:'Strategic Objectives',titleAr:'الأهداف الاستراتيجية',href:'#strategic-framework'},
+      {id:6,titleEn:'Foundational Pillars',titleAr:'الركائز الأساسية',href:'#strategic-framework'},
+      {id:7,titleEn:'Enabling Conditions',titleAr:'الشروط التمكينية',href:'#enabling-conditions'},
+      {id:8,titleEn:'Alignment with Key International Frameworks',titleAr:'المواءمة مع الأطر الدولية الرئيسية',href:'#strategic-framework'},
+      {id:9,titleEn:'Data Required for Integrated Environmental Assessment',titleAr:'البيانات المطلوبة للتقييم البيئي المتكامل',href:'#ecosystem'},
+      {id:10,titleEn:'Situational Analysis',titleAr:'تحليل الوضع الراهن',href:'#evidence'},
+      {id:11,titleEn:'Strategic Challenges',titleAr:'التحديات الاستراتيجية',href:'#evidence'},
+      {id:12,titleEn:'Data Classification Model',titleAr:'نموذج تصنيف البيانات',href:'#governance'},
+      {id:13,titleEn:'Data Governance Framework',titleAr:'إطار حوكمة البيانات',href:'#governance'},
+      {id:14,titleEn:'Strategic Interventions',titleAr:'التدخلات الاستراتيجية',href:'#actions'},
+      {id:15,titleEn:'Environmental Data Classification',titleAr:'تصنيف البيانات البيئية',href:'#governance'},
+      {id:16,titleEn:'Implementation Plan KPIs',titleAr:'مؤشرات أداء خطة التنفيذ',href:'#implementation'},
+      {id:17,titleEn:'NEDMP Roadmap',titleAr:'خارطة طريق الخطة الوطنية لإدارة البيانات البيئية',href:'#implementation'},
+      {id:18,titleEn:'Strategic Recommendations',titleAr:'التوصيات الاستراتيجية',href:'#actions'},
+      {id:19,titleEn:'References',titleAr:'المراجع',href:'#documents'}
+    ],
     mandate:[
       {id:'M1',titleEn:'Environment Protection Law No. 42 of 2014',titleAr:'قانون حماية البيئة رقم 42 لسنة 2014',descEn:'Provides the legal foundation cited by the NEDMP source reports.',descAr:'يوفر الأساس القانوني المشار إليه في تقارير الخطة.',source:'S1',page:'6–7'},
       {id:'M2',titleEn:'Articles 116, 117 and 118',titleAr:'المواد 116 و117 و118',descEn:'Support systematic environmental-data management and periodic exchange.',descAr:'تدعم الإدارة المنهجية للبيانات البيئية وتبادلها بصورة دورية.',source:'S1',page:'6–7'},
@@ -615,10 +767,10 @@
       {id:'M5',titleEn:'Reporting obligations',titleAr:'التزامات التقارير البيئية',descEn:'Strengthens national and international environmental reporting through governed data flows.',descAr:'تعزز التقارير البيئية الوطنية والدولية من خلال تدفقات بيانات محكومة.',source:'NEDMP',page:'17, 30'}
     ],
     hierarchy:[
+      {titleEn:'Situational Analysis',titleAr:'تحليل الوضع الراهن',descEn:'Establishes the current-state evidence, readiness gaps and strategic challenges.',descAr:'يحدد أدلة الوضع الراهن وفجوات الجاهزية والتحديات الاستراتيجية.'},
       {titleEn:'Strategic NEDMP',titleAr:'الخطة الوطنية الاستراتيجية',descEn:'Defines the mandate, vision, objectives and pillars.',descAr:'تحدد التفويض والرؤية والأهداف والركائز.'},
       {titleEn:'Implementation Plan',titleAr:'خطة التنفيذ',descEn:'Defines governance, workstreams, phases, resources and risks.',descAr:'تحدد الحوكمة ومسارات العمل والمراحل والموارد والمخاطر.'},
-      {titleEn:'Strategic Action Plan',titleAr:'خطة العمل الاستراتيجية',descEn:'Defines actions, tasks, responsibilities, milestones, KPIs and targets.',descAr:'تحدد الإجراءات والمهام والمسؤوليات والمعالم ومؤشرات الأداء والمستهدفات.'},
-      {titleEn:'Annual workplans',titleAr:'خطط العمل السنوية',descEn:'Confirm budgets, named units, procurement and delivery schedules.',descAr:'تؤكد الميزانيات والوحدات المسماة والمشتريات وجداول التنفيذ.'}
+      {titleEn:'Strategic Action Plan',titleAr:'خطة العمل الاستراتيجية',descEn:'Defines actions, tasks, responsibilities, milestones, KPIs and targets.',descAr:'تحدد الإجراءات والمهام والمسؤوليات والمعالم ومؤشرات الأداء والمستهدفات.'}
     ],
     process:[
       {en:'Stakeholder participation, consensus and vision',ar:'مشاركة أصحاب المصلحة وبناء التوافق والرؤية'},
@@ -664,7 +816,9 @@
       {id:'overview',titleEn:'National overview',titleAr:'نظرة وطنية عامة',interpretationEn:'Technical readiness is stronger than governance readiness, supporting a governance-first sequence.',interpretationAr:'الجاهزية التقنية أعلى من جاهزية الحوكمة، مما يدعم تسلسلاً يبدأ بالحوكمة.',items:[['Overall data availability','التوافر العام للبيانات',70.9],['Environmental data gap','فجوة البيانات البيئية',29.1],['Interoperability readiness','جاهزية التشغيل البيني',74.1],['Data-quality readiness','جاهزية جودة البيانات',73.4],['Governance readiness','جاهزية الحوكمة',57.6]],source:'S4III pp. 7–8'},
       {id:'production',titleEn:'Data production',titleAr:'إنتاج البيانات',interpretationEn:'Regular production and monitoring sources provide a strong base for national inventory and standardization.',interpretationAr:'يوفر الإنتاج الدوري ومصادر الرصد قاعدة قوية للحصر الوطني والتوحيد القياسي.',items:[['Institutions producing data regularly','المؤسسات المنتجة للبيانات بانتظام',81.5],['Field monitoring sources','مصادر الرصد الميداني',86.7],['Measuring station data','بيانات محطات القياس',63.3],['Survey or statistical data','بيانات المسوح أو الإحصاءات',60.0]],source:'S4III pp. 5, 9'},
       {id:'sharing',titleEn:'Data sharing',titleAr:'مشاركة البيانات',interpretationEn:'Formal access foundations exist, but open-data practice and machine-readable exchange remain uneven.',interpretationAr:'توجد أسس رسمية للإتاحة، لكن ممارسات البيانات المفتوحة والتبادل المقروء آلياً ما زالت متفاوتة.',items:[['Formal accessibility policies','سياسات رسمية لإتاحة البيانات',78.1],['No open-data practices','عدم وجود ممارسات للبيانات المفتوحة',40.6],['Official request mechanisms','آليات الطلبات الرسمية',81.3],['Machine-readable formats','الصيغ المقروءة آلياً',40.0],['Electronic portals','البوابات الإلكترونية',56.3]],source:'S4III pp. 9–10'},
-      {id:'governance',titleEn:'Governance and security',titleAr:'الحوكمة والأمن',interpretationEn:'Quality controls are more established than documented SOPs, reinforcing the need for common national instruments.',interpretationAr:'ضوابط الجودة أكثر رسوخاً من إجراءات التشغيل القياسية الموثقة، مما يؤكد الحاجة إلى أدوات وطنية مشتركة.',items:[['QA/QC fully implemented','تطبيق كامل لضمان الجودة ومراقبتها',61.3],['Tested backup and recovery','نسخ احتياطي وتعافٍ مختبران',53.1],['Security and breach response','الأمن والاستجابة للحوادث',54.8],['Documented SOPs in place','إجراءات تشغيل قياسية موثقة',35.5],['Mandatory reporting data fully available','توافر كامل لبيانات التقارير الإلزامية',56.3]],source:'S4III pp. 11–15'}
+      {id:'governance',titleEn:'Governance and security',titleAr:'الحوكمة والأمن',interpretationEn:'Quality controls are more established than documented SOPs, reinforcing the need for common national instruments.',interpretationAr:'ضوابط الجودة أكثر رسوخاً من إجراءات التشغيل القياسية الموثقة، مما يؤكد الحاجة إلى أدوات وطنية مشتركة.',items:[['QA/QC fully implemented','تطبيق كامل لضمان الجودة ومراقبتها',61.3],['Tested backup and recovery','نسخ احتياطي وتعافٍ مختبران',53.1],['Security and breach response','الأمن والاستجابة للحوادث',54.8],['Documented SOPs in place','إجراءات تشغيل قياسية موثقة',35.5],['Mandatory reporting data fully available','توافر كامل لبيانات التقارير الإلزامية',56.3]],source:'S4III pp. 11–15'},
+      {id:'data-gaps',titleEn:'Data Gaps',titleAr:'فجوات البيانات',interpretationEn:'The assessment identifies the largest reported environmental-data deficiencies in human settlements (64.7%), land resources (47.1%) and biodiversity (44.1%). These gaps should be prioritized through the national dataset registry, named custodians, recurrent update cycles and reporting-critical remediation.',interpretationAr:'يحدد التقييم أكبر أوجه النقص المبلغ عنها في بيانات المستوطنات البشرية (64.7%) وموارد الأراضي (47.1%) والتنوع البيولوجي (44.1%). وينبغي إعطاء الأولوية لهذه الفجوات من خلال السجل الوطني لمجموعات البيانات، وتحديد الجهات القائمة عليها، ودورات التحديث المنتظمة، ومعالجة الفجوات الحرجة للتقارير.',items:[['Human settlements','المستوطنات البشرية',64.7],['Land resources','موارد الأراضي',47.1],['Biodiversity','التنوع البيولوجي',44.1],['Environmental scenarios','السيناريوهات البيئية',38.2],['Transport','النقل',35.3],['Climate change','تغير المناخ',29.4],['Water resources','الموارد المائية',26.5],['Marine and coastal environment','البيئة البحرية والساحلية',20.6],['Air, atmosphere and meteorology','الهواء والغلاف الجوي والأرصاد الجوية',20.6],['Waste management','إدارة النفايات',14.7]],image:'./assets/nedmp-data-gaps.png',imageAltEn:'Horizontal bar chart of environmental data gaps: human settlements 64.7%, land resources 47.1%, biodiversity 44.1%, environmental scenarios 38.2%, transport 35.3%, climate change 29.4%, water resources 26.5%, marine and coastal environment 20.6%, air, atmosphere and meteorology 20.6%, and waste management 14.7%.',imageAltAr:'رسم بياني شريطي أفقي لفجوات البيانات البيئية: المستوطنات البشرية 64.7%، وموارد الأراضي 47.1%، والتنوع البيولوجي 44.1%، والسيناريوهات البيئية 38.2%، والنقل 35.3%، وتغير المناخ 29.4%، والموارد المائية 26.5%، والبيئة البحرية والساحلية 20.6%، والهواء والغلاف الجوي والأرصاد الجوية 20.6%، وإدارة النفايات 14.7%.',captionEn:'Figure. Environmental data gap and deficiency analysis. Source: All-stakeholder assessment, Figure 40, p. 30.',captionAr:'شكل. تحليل فجوات ونواقص البيانات البيئية. المصدر: تقييم جميع أصحاب المصلحة، الشكل 40، الصفحة 30.',source:'S4III p. 30'},
+      {id:'strategic-challenges',titleEn:'Strategic Challenges',titleAr:'التحديات الاستراتيجية',interpretationEn:'The strategic barriers are systemic, not only technical. Skills and human resources (71.6%) and institutional integration and coordination (70.6%) are critical, followed by infrastructure and technologies (66.7%); policy and regulatory constraints (62.7%) and finance and sustainability (60.8%) remain high priorities.',interpretationAr:'تتسم العوائق الاستراتيجية بطابع منهجي ولا تقتصر على الجوانب التقنية. وتُعد المهارات والموارد البشرية (71.6%) والتكامل والتنسيق المؤسسي (70.6%) تحديين حرجين، تليهما البنية التحتية والتقنيات (66.7%)؛ بينما تظل قيود السياسات والأطر التنظيمية (62.7%) والتمويل والاستدامة (60.8%) من الأولويات العالية.',items:[['Skills and human resources','المهارات والموارد البشرية',71.6],['Institutional integration and coordination','التكامل والتنسيق المؤسسي',70.6],['Infrastructure and technologies','البنية التحتية والتقنيات',66.7],['Policies and regulatory framework','السياسات والإطار التنظيمي',62.7],['Finance and sustainability','التمويل والاستدامة',60.8]],image:'./assets/nedmp-strategic-challenges.png',imageAltEn:'Stacked bar chart of strategic challenges showing weighted scores of 71.6% for skills and human resources, 70.6% for institutional integration and coordination, 66.7% for infrastructure and technologies, 62.7% for policies and the regulatory framework, and 60.8% for finance and sustainability.',imageAltAr:'رسم بياني شريطي تراكمي للتحديات الاستراتيجية يوضح درجات مرجحة تبلغ 71.6% للمهارات والموارد البشرية، و70.6% للتكامل والتنسيق المؤسسي، و66.7% للبنية التحتية والتقنيات، و62.7% للسياسات والإطار التنظيمي، و60.8% للتمويل والاستدامة.',captionEn:'Figure. Strategic assessment of environmental-data management challenges. Source: All-stakeholder assessment, Figure 43, p. 32.',captionAr:'شكل. التقييم الاستراتيجي لتحديات إدارة البيانات البيئية. المصدر: تقييم جميع أصحاب المصلحة، الشكل 43، الصفحة 32.',source:'S4III p. 32'}
     ],
     lifecycle:[
       {en:'Produce and observe',ar:'الإنتاج والرصد',descEn:'Monitoring, administrative, statistical, GIS, remote-sensing and modelling data.',descAr:'بيانات الرصد والبيانات الإدارية والإحصائية والجغرافية والاستشعار عن بُعد والنمذجة.'},
@@ -803,9 +957,9 @@
   const AUTH_KEY = 'nedmp-admin-session';
   const ADMIN_DIGEST = '108c02657d844d8ac674575c4a8d18494e840218e43da300b02936387f08e003';
   const SESSION_LIMIT = 15 * 60 * 1000;
-  const allowedSections = ['about','strategic-framework','evidence','ecosystem','governance','implementation','actions','documents','updates','contact'];
+  const allowedSections = ['about','strategic-framework','enabling-conditions','evidence','ecosystem','governance','implementation','actions','documents','updates','contact'];
   const defaultConfig = {
-    version:'1.0.0',lastEdited:'2026-07-17',
+    version:'1.8.0',lastEdited:'2026-07-19',
     meta:{
       titleEn:'Kuwait National Environmental Data Management Plan',titleAr:'الخطة الوطنية لإدارة البيانات البيئية في دولة الكويت',
       taglineEn:'Better Data. Better Decisions. Better Environment for Kuwait.',taglineAr:'بيانات أفضل. قرارات أفضل. بيئة أفضل للكويت.',
@@ -848,14 +1002,15 @@
     const source=raw&&raw.overrides&&typeof raw.overrides==='object'?raw.overrides:raw;
     const clean=clone(defaultConfig);
     if(!source||typeof source!=='object'||Array.isArray(source))return clean;
-    clean.version=textValue(source.version,40)||clean.version;
+    clean.version=defaultConfig.version;
     clean.lastEdited=textValue(source.lastEdited,40)||clean.lastEdited;
+    if(clean.lastEdited<'2026-07-19')clean.lastEdited='2026-07-19';
     if(source.meta&&typeof source.meta==='object')Object.keys(clean.meta).forEach(key=>{if(typeof source.meta[key]==='string')clean.meta[key]=textValue(source.meta[key],2000);});
     if(source.theme&&typeof source.theme==='object')Object.keys(clean.theme).forEach(key=>{if(validHex(source.theme[key]))clean.theme[key]=source.theme[key].toUpperCase();});
     if(Array.isArray(source.sections)){
       const seen=new Set();const safe=[];
       source.sections.forEach((item,index)=>{if(item&&allowedSections.includes(item.id)&&!seen.has(item.id)){seen.add(item.id);safe.push({id:item.id,visible:item.visible!==false,order:Number.isFinite(item.order)?item.order:index});}});
-      allowedSections.forEach(id=>{if(!seen.has(id))safe.push({id,visible:true,order:safe.length});});clean.sections=safe.sort((a,b)=>a.order-b.order).map((item,index)=>({...item,order:index}));
+      allowedSections.forEach(id=>{if(!seen.has(id))safe.push({id,visible:true,order:safe.length});});const ordered=safe.sort((a,b)=>a.order-b.order);const enablingIndex=ordered.findIndex(item=>item.id==='enabling-conditions'),strategicIndex=ordered.findIndex(item=>item.id==='strategic-framework');if(enablingIndex>=0&&strategicIndex>=0&&enablingIndex!==strategicIndex+1){const [enabling]=ordered.splice(enablingIndex,1);ordered.splice(ordered.findIndex(item=>item.id==='strategic-framework')+1,0,enabling);}clean.sections=ordered.map((item,index)=>({...item,order:index}));
     }
     if(Array.isArray(source.indicators))clean.indicators=source.indicators.slice(0,12).map((item,index)=>({id:textValue(item.id,60)||`indicator-${index+1}`,value:Math.max(0,Math.min(100,Number(item.value)||0)),labelEn:textValue(item.labelEn,180),labelAr:textValue(item.labelAr,180),source:textValue(item.source,50),page:textValue(item.page,50)})).filter(item=>item.labelEn&&item.labelAr);
     if(source.documentOverrides&&typeof source.documentOverrides==='object'&&!Array.isArray(source.documentOverrides)){
@@ -895,16 +1050,48 @@
     byId('footerLanguage').textContent=lang==='ar'?'English':'العربية';
     byId('mobileToggle').setAttribute('aria-label',t('menuOpen'));byId('mobileClose').setAttribute('aria-label',t('menuClose'));
     document.querySelectorAll('[data-close]').forEach(node=>node.setAttribute('aria-label',t('close')));
-    byId('heroArtTitle').textContent=t('heroArtTitle');byId('heroArtDesc').textContent=t('heroArtDesc');byId('ecoSvgTitle').textContent=t('ecosystemArtTitle');byId('ecoSvgDesc').textContent=t('ecosystemArtDesc');
+    const languageImages=lang==='ar'?{
+      phases:'./assets/nedmp-development-phases-ar.png',
+      objectives:'./assets/nedmp-strategic-objectives-summary-ar.png',
+      pillars:'./assets/nedmp-foundational-pillars-summary-ar.png'
+    }:{
+      phases:'./assets/nedmp-development-phases-v3.png',
+      objectives:'./assets/nedmp-strategic-objectives-summary.png',
+      pillars:'./assets/nedmp-foundational-pillars-summary.png'
+    };
+    [['heroPhasesImage',languageImages.phases],['objectivesSummaryImage',languageImages.objectives],['pillarsSummaryImage',languageImages.pillars]].forEach(([id,src])=>{const image=byId(id);if(image.getAttribute('src')!==src)image.src=src;});
+    document.querySelector('.brand-logo').alt=t('brandLogoAlt');byId('heroPhasesImage').alt=t('heroArtDesc');byId('objectivesSummaryImage').alt=t('objectivesDiagramAlt');byId('pillarsSummaryImage').alt=t('pillarsDiagramAlt');byId('enablingConditionsImage').alt=t('enablingDiagramAlt');byId('governanceFrameworkImage').alt=t('governanceDiagramAlt');byId('floatingHome').setAttribute('aria-label',t('homeButtonAria'));byId('ecoSvgTitle').textContent=t('ecosystemArtTitle');byId('ecoSvgDesc').textContent=t('ecosystemArtDesc');
     document.title=state.config.meta.seoTitle||t('brand');
     const meta=document.querySelector('meta[name="description"]');if(meta)meta.content=state.config.meta.seoDescription;
     renderDynamicContent();buildMobileNavigation();
   }
   function switchLanguage(){state.lang=state.lang==='en'?'ar':'en';localStorage.setItem(LANGUAGE_KEY,state.lang);applyLanguage();byId('announcer').textContent=t('languageChanged');}
+  function renderEcosystemSvgLabels(){
+    const labels=state.lang==='ar'?{center1:'المنظومة الوطنية',center2:'للبيانات',producers1:'المنتجون',producers2:'والمالكون',stewards1:'القيمون',stewards2:'وأمناء البيانات',systems1:'النظم',systems2:'و eMISK',reporting1:'خدمات',reporting2:'التقارير',monitoring:'الرصد البيئي',users:'المستخدمون'}:{center1:'NATIONAL DATA',center2:'ECOSYSTEM',producers1:'PRODUCERS',producers2:'& OWNERS',stewards1:'STEWARDS',stewards2:'& CUSTODIANS',systems1:'SYSTEMS',systems2:'& eMISK',reporting1:'REPORTING',reporting2:'SERVICES',monitoring:'MONITORING',users:'USERS'};
+    document.querySelectorAll('[data-eco-label]').forEach(node=>{node.textContent=labels[node.dataset.ecoLabel]||'';});
+  }
+  function renderOutputsMenu(){
+    const menu=byId('outputsMenu');menu.replaceChildren();menu.setAttribute('aria-label',t('outputsMenuTitle'));menu.append(make('div','outputs-menu-head',t('outputsMenuTitle')));
+    const filter=make('div','outputs-filter'),label=make('label','',t('outputsSearchLabel')),input=document.createElement('input'),count=make('p','outputs-count'),list=make('div','outputs-list');
+    input.id='outputsFilter';input.type='search';input.autocomplete='off';input.placeholder=t('outputsSearchPlaceholder');label.htmlFor=input.id;count.id='outputsCount';count.setAttribute('aria-live','polite');list.id='outputsList';append(filter,label,input,count);append(menu,filter,list);input.addEventListener('input',()=>renderOutputsResults(input.value));renderOutputsResults('');
+  }
+  function renderOutputsResults(query){
+    const list=byId('outputsList'),count=byId('outputsCount');if(!list||!count)return;const term=query.trim().toLocaleLowerCase();const matches=siteData.outputs.filter(item=>!term||[item.id,item.titleEn,item.titleAr].join(' ').toLocaleLowerCase().includes(term));list.replaceChildren();count.textContent=state.lang==='ar'?`${matches.length} من ${siteData.outputs.length} مخرجاً`:`${matches.length} of ${siteData.outputs.length} outputs`;
+    if(!matches.length){list.append(make('p','outputs-empty',t('outputsNoMatch')));return;}
+    matches.forEach(item=>{const link=make('a','output-link');link.href=item.href;append(link,make('span','output-index',String(item.id).padStart(2,'0')),make('span','',state.lang==='ar'?item.titleAr:item.titleEn));link.addEventListener('click',()=>setOutputsMenu(false));list.append(link);});
+  }
+  function setOutputsMenu(open){const menu=byId('outputsMenu'),control=byId('outputsMenuButton');if(!menu||!control)return;menu.hidden=!open;control.setAttribute('aria-expanded',String(open));if(open)window.setTimeout(()=>byId('outputsFilter')?.focus(),0);}
+  function handleOutputsKey(event){
+    const menu=byId('outputsMenu'),control=byId('outputsMenuButton'),links=[...menu.querySelectorAll('.outputs-list a')];
+    if(event.key==='Escape'){event.preventDefault();setOutputsMenu(false);control.focus();return;}
+    if(!links.length||event.key!=='ArrowDown'&&event.key!=='ArrowUp')return;event.preventDefault();
+    const current=links.indexOf(document.activeElement),next=event.key==='ArrowDown'?(current+1)%links.length:(current<=0?links.length-1:current-1);links[next].focus();
+  }
   function buildMobileNavigation(){
     const links=byId('drawerLinks');links.replaceChildren();
-    const navItems=[['home','navHome'],['about','navAbout'],['strategic-framework','navStrategic'],['evidence','navEvidence'],['ecosystem','navEcosystem'],['governance','navGovernance'],['implementation','navImplementation'],['actions','navActions'],['documents','navDocuments'],['updates','navUpdates'],['contact','navContact']];
+    const navItems=[['home','navHome'],['about','navAbout'],['strategic-framework','navStrategic'],['enabling-conditions','navEnabling'],['evidence','navEvidence'],['ecosystem','navEcosystem'],['governance','navGovernance'],['implementation','navImplementation'],['actions','navActions'],['documents','navDocuments'],['updates','navUpdates'],['contact','navContact']];
     navItems.forEach(([id,key])=>{const item=document.createElement('a');item.href=`#${id}`;item.textContent=t(key);item.addEventListener('click',closeMobileMenu);links.append(item);});
+    const outputs=make('details','drawer-outputs');const summary=make('summary','',t('searchNedmp'));const list=make('div','drawer-output-list');siteData.outputs.forEach(item=>{const link=make('a','');link.href=item.href;append(link,make('span','output-index',String(item.id).padStart(2,'0')),make('span','',state.lang==='ar'?item.titleAr:item.titleEn));link.addEventListener('click',closeMobileMenu);list.append(link);});append(outputs,summary,list);links.append(outputs);
     const langButton=button(state.lang==='ar'?'English':'العربية','');langButton.addEventListener('click',()=>{switchLanguage();closeMobileMenu();});links.append(langButton);
     const adminButton=button(t('admin'),'');adminButton.addEventListener('click',()=>{closeMobileMenu();openAdmin();});links.append(adminButton);
   }
@@ -928,7 +1115,20 @@
   function renderAlignmentOutput(){const objective=siteData.objectives.find(item=>item.id===byId('alignmentObjective').value)||siteData.objectives[0];const framework=siteData.frameworks.find(item=>item.id===byId('alignmentFramework').value)||siteData.frameworks[0];const root=byId('alignmentOutput');root.replaceChildren();append(root,make('span','tag',`${objective.id} × ${field(framework,'nameEn','nameAr')}`),make('h3','',bilingual(objective,'title')),make('p','',bilingual(objective,'desc')));const focus=make('p','');focus.append(make('strong','',state.lang==='ar'?'محور الإطار: ':'Framework focus: '),document.createTextNode(field(framework,'focusEn','focusAr')));root.append(focus,make('p','note',state.lang==='ar'?'توضح هذه القراءة علاقة عملية مستمدة من دراسات المواءمة، ولا تنشئ التزاماً قانونياً جديداً.':'This practical reading is drawn from the alignment studies and does not create a new legal obligation.'));}
   function renderMetrics(){const root=byId('readinessMetrics');root.replaceChildren();state.config.indicators.forEach(item=>{const metric=make('article','metric');const head=make('div','metric-head');append(head,make('h3','',state.lang==='ar'?item.labelAr:item.labelEn),make('span','metric-value',`${item.value.toFixed(1)}%`));const bar=make('div','bar');bar.setAttribute('role','progressbar');bar.setAttribute('aria-valuemin','0');bar.setAttribute('aria-valuemax','100');bar.setAttribute('aria-valuenow',String(item.value));const fill=make('span');fill.style.setProperty('--value',`${item.value}%`);bar.append(fill);append(metric,head,bar,make('span','metric-source',`${item.source} · ${t('pages')} ${item.page}`));root.append(metric);});}
   function renderEvidenceTabs(){const root=byId('evidenceTabs');root.replaceChildren();siteData.evidenceViews.forEach(view=>{const tab=button(field(view,'titleEn','titleAr'),'tab');tab.setAttribute('role','tab');tab.setAttribute('aria-selected',String(state.evidenceView===view.id));tab.addEventListener('click',()=>{state.evidenceView=view.id;renderEvidenceTabs();renderEvidenceChart();});root.append(tab);});}
-  function renderEvidenceChart(){const view=siteData.evidenceViews.find(item=>item.id===state.evidenceView)||siteData.evidenceViews[0];byId('evidenceChartTitle').textContent=field(view,'titleEn','titleAr');byId('evidenceChartInterpretation').textContent=field(view,'interpretationEn','interpretationAr');const root=byId('evidenceChart');root.replaceChildren();view.items.forEach(item=>{const row=make('div','chart-row');const label=make('span','',state.lang==='ar'?item[1]:item[0]);const track=make('div','chart-track');const fill=make('div','chart-fill');fill.style.setProperty('--value',`${item[2]}%`);track.append(fill);append(row,label,track,make('span','chart-value',`${item[2].toFixed(1)}%`));root.append(row);});root.setAttribute('aria-label',`${field(view,'titleEn','titleAr')}. ${field(view,'interpretationEn','interpretationAr')}`);}
+  function renderEvidenceChart(){
+    const view=siteData.evidenceViews.find(item=>item.id===state.evidenceView)||siteData.evidenceViews[0];
+    byId('evidenceChartTitle').textContent=field(view,'titleEn','titleAr');
+    byId('evidenceChartInterpretation').textContent=field(view,'interpretationEn','interpretationAr');
+    const root=byId('evidenceChart');root.replaceChildren();
+    const imageView=Boolean(view.image);root.classList.toggle('has-image',imageView);root.closest('.evidence-layout').classList.toggle('image-view',imageView);
+    if(imageView){
+      const figure=make('figure','evidence-visual');const image=document.createElement('img');image.src=view.image;image.alt=field(view,'imageAltEn','imageAltAr');image.loading='eager';
+      append(figure,image,make('figcaption','',field(view,'captionEn','captionAr')));root.append(figure);root.setAttribute('role','group');
+    }else{
+      view.items.forEach(item=>{const row=make('div','chart-row');const label=make('span','',state.lang==='ar'?item[1]:item[0]);const track=make('div','chart-track');const fill=make('div','chart-fill');fill.style.setProperty('--value',`${item[2]}%`);track.append(fill);append(row,label,track,make('span','chart-value',`${item[2].toFixed(1)}%`));root.append(row);});root.setAttribute('role','img');
+    }
+    root.setAttribute('aria-label',`${field(view,'titleEn','titleAr')}. ${field(view,'interpretationEn','interpretationAr')}`);
+  }
   function renderEvidenceTable(){const body=byId('evidenceTableBody');body.replaceChildren();state.config.indicators.forEach(item=>{const row=document.createElement('tr');append(row,make('td','',state.lang==='ar'?item.labelAr:item.labelEn),make('td','',`${item.value.toFixed(1)}%`),make('td','',`${item.source}, ${t('pages')} ${item.page}`));body.append(row);});}
   function renderEcosystem(){const root=byId('lifecycle');root.replaceChildren();siteData.lifecycle.forEach((item,index)=>{const row=make('div','lifecycle-step');append(row,make('b','',index+1),append(make('div'),make('h3','',state.lang==='ar'?item.ar:item.en),make('p','',field(item,'descEn','descAr'))));root.append(row);});}
   function renderGovernance(){const functions=byId('governanceFunctions');functions.replaceChildren();siteData.governanceFunctions.forEach((item,index)=>{const card=make('article','card');append(card,make('span','number',index+1),make('h3','',state.lang==='ar'?item.ar:item.en),make('p','',field(item,'descEn','descAr')));functions.append(card);});const levels=byId('classificationLevels');levels.replaceChildren();siteData.classificationLevels.forEach(item=>{const card=make('article','class-level');append(card,make('span','objective-code',item.id),make('h3','',bilingual(item,'title')),make('p','',bilingual(item,'access')),make('p','note',bilingual(item,'security')),make('p','note',bilingual(item,'review')));levels.append(card);});const workflow=byId('accessWorkflow');workflow.replaceChildren();siteData.accessWorkflow.forEach(item=>workflow.append(make('div','workflow-step',state.lang==='ar'?item[1]:item[0])));}
@@ -965,7 +1165,7 @@
   async function copyText(value){try{if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(value);}else{const area=make('textarea');area.value=value;area.style.position='fixed';area.style.opacity='0';document.body.append(area);area.select();document.execCommand('copy');area.remove();}toast(t('copied'));}catch(error){toast(value);}}
   function renderSources(){const body=byId('sourceRegistryBody');body.replaceChildren();const sourceArabic={S1:['القسم الأول – التفويض والرؤية والأهداف والركائز','التفويض والأهداف والركائز'],S2:['القسم الثاني – المواءمة مع الأطر الوطنية والدولية','المواءمة الوطنية والدولية'],S3:['القسم الثالث – مقارنة أفضل الممارسات','الممارسات الدولية ومبادئ الحوكمة'],S4I:['القسم الرابع، الجزء الأول – الوضع الراهن للبيانات البيئية الوطنية','النظم الوطنية ومجموعات البيانات والفجوات'],S4II:['القسم الرابع، الجزء الثاني – تقييم الهيئة العامة للبيئة','جاهزية الإدارات واحتياجات التنفيذ'],S4III:['القسم الرابع، الجزء الثالث – تقييم جميع أصحاب المصلحة','المؤشرات التشخيصية الرئيسية'],S6:['إطار تصنيف البيانات وحوكمتها','قواعد التصنيف والإتاحة والحوكمة'],NEDMP:['الخطة الوطنية لإدارة البيانات البيئية','التفويض والرؤية والأهداف والركائز المجمعة'],IP:['خطة تنفيذ الخطة الوطنية لإدارة البيانات البيئية','مسارات العمل والمراحل والحوكمة والتمويل والمخاطر والرصد'],SAP:['خطة العمل الاستراتيجية','30 إجراءً و90 مهمة و60 معلماً و30 مؤشر أداء'],WP:['خطة عمل الخطة – مايو 2026','منشأ المشروع وحالة الأنشطة وتاريخ التطوير'],TOR:['الشروط المرجعية للمشروع','نطاق المشروع ومخرجاته'],AR:['وثيقة مشروع الخطة باللغة العربية','المصطلحات العربية والمبررات والمنهجية']};siteData.sources.forEach(source=>{const row=document.createElement('tr');const ar=sourceArabic[source.id]||[source.title,source.supports];append(row,make('td','',source.id),make('td','',state.lang==='ar'?ar[0]:source.title),make('td','',state.lang==='ar'?ar[1]:source.supports),make('td','',source.pages));body.append(row);});const glossary=byId('glossaryList');glossary.replaceChildren();siteData.glossary.forEach(item=>{const card=make('div','card');append(card,make('strong','',item[0]),make('p','',state.lang==='ar'?item[2]:item[1]));glossary.append(card);});}
   function renderUpdates(){const root=byId('updatesContent');const updates=state.config.updates.filter(item=>item.published).sort((a,b)=>b.date.localeCompare(a.date));root.replaceChildren();if(!updates.length){root.className='updates-placeholder';append(root,make('div','updates-date',t('validationStatus')),append(make('div'),make('h3','',t('updatesPlaceholderTitle')),make('p','',t('updatesPlaceholderText'))));return;}root.className='doc-grid';updates.forEach(item=>{const card=make('article','card card-accent');append(card,make('span','tag',state.lang==='ar'?item.categoryAr:item.categoryEn),make('h3','',state.lang==='ar'?item.titleAr:item.titleEn),make('time','note',formatDate(item.date)),make('p','',state.lang==='ar'?item.summaryAr:item.summaryEn));root.append(card);});}
-  function renderDynamicContent(){renderMandate();renderHierarchy();renderProcess();renderObjectives();renderPillars();renderAlignmentControls();renderMetrics();renderEvidenceTabs();renderEvidenceChart();renderEvidenceTable();renderEcosystem();renderGovernance();renderImplementation();renderActions();renderDocuments();renderSources();renderUpdates();byId('lastUpdated').textContent=formatDate(state.config.lastEdited);}
+  function renderDynamicContent(){renderMandate();renderHierarchy();renderProcess();renderObjectives();renderPillars();renderAlignmentControls();renderMetrics();renderEvidenceTabs();renderEvidenceChart();renderEvidenceTable();renderEcosystemSvgLabels();renderOutputsMenu();renderEcosystem();renderGovernance();renderImplementation();renderActions();renderDocuments();renderSources();renderUpdates();byId('siteVersion').textContent=state.config.version;byId('lastUpdated').textContent=formatDate(state.config.lastEdited);}
   function applyConfiguration(){applyTheme();applySections();applyLanguage();}
 
   // 13. Search and accessible dialogs
@@ -973,11 +1173,13 @@
     const records=[
       {type:'Section',titleEn:'About the NEDMP',titleAr:'حول الخطة',textEn:'Mandate purpose methodology stakeholder participation environmental data lifecycle',textAr:'التفويض الغرض المنهجية مشاركة أصحاب المصلحة دورة حياة البيانات',href:'#about'},
       {type:'Section',titleEn:'Strategic Framework',titleAr:'الإطار الاستراتيجي',textEn:'Vision objectives pillars alignment Kuwait Vision 2035 Law 42',textAr:'الرؤية الأهداف الركائز المواءمة رؤية الكويت 2035 قانون 42',href:'#strategic-framework'},
+      {type:'Section',titleEn:'Enabling Conditions',titleAr:'الشروط التمكينية',textEn:'Political stability leadership legal framework policy coordination institutional culture human capital technology infrastructure finance trust accountability transparency',textAr:'الاستقرار السياسي القيادة الإطار القانوني السياسات التنسيق الثقافة المؤسسية رأس المال البشري التكنولوجيا البنية التحتية التمويل الثقة المساءلة الشفافية',href:'#enabling-conditions'},
       {type:'Section',titleEn:'Evidence and Diagnostics',titleAr:'الأدلة والتحليل التشخيصي',textEn:'Availability gap interoperability quality governance readiness questionnaire',textAr:'التوافر الفجوة التشغيل البيني الجودة الحوكمة الجاهزية الاستبيان',href:'#evidence'},
       {type:'Section',titleEn:'Data Ecosystem',titleAr:'منظومة البيانات البيئية',textEn:'eMISK lifecycle monitoring GIS repositories users owners stewards custodians',textAr:'دورة الحياة الرصد نظم المعلومات الجغرافية المستودعات المستخدمون المالكون القيمون الأمناء',href:'#ecosystem'},
       {type:'Section',titleEn:'Governance Framework',titleAr:'إطار الحوكمة',textEn:'Classification access workflow ownership security metadata QA QC',textAr:'التصنيف الإتاحة المسار الملكية الأمن البيانات الوصفية ضمان الجودة',href:'#governance'},
       {type:'Section',titleEn:'Implementation Plan',titleAr:'خطة التنفيذ',textEn:'Workstreams phases roadmap resources risk monitoring governance-first',textAr:'مسارات العمل المراحل خارطة الطريق الموارد المخاطر الرصد الحوكمة أولاً',href:'#implementation'}
     ];
+    siteData.outputs.forEach(item=>records.push({type:'NEDMP output',titleEn:`${item.id}. ${item.titleEn}`,titleAr:`${item.id}. ${item.titleAr}`,textEn:'National Environmental Data Management Plan main output',textAr:'مخرج رئيسي للخطة الوطنية لإدارة البيانات البيئية',href:item.href}));
     siteData.objectives.forEach(item=>records.push({type:'Objective',titleEn:`${item.id} ${item.titleEn}`,titleAr:`${item.id} ${item.titleAr}`,textEn:`${item.descEn} ${item.challengeEn} ${item.resultEn}`,textAr:`${item.descAr} ${item.challengeAr} ${item.resultAr}`,href:'#strategic-framework'}));
     siteData.pillars.forEach(item=>records.push({type:'Pillar',titleEn:`${item.id} ${item.titleEn}`,titleAr:`${item.id} ${item.titleAr}`,textEn:item.descEn,textAr:item.descAr,href:'#strategic-framework'}));
     effectiveActions().forEach(item=>records.push({type:'Action',titleEn:`${item.id} ${item.titleEn}`,titleAr:`${item.id} ${item.titleAr}`,textEn:`${item.kpiEn} ${item.source}`,textAr:`${item.kpiAr} ${item.source}`,href:'#actions',actionId:item.id}));
@@ -1008,7 +1210,7 @@
   function renderAdminPanel(panel){panel.replaceChildren();const renderer={general:renderAdminGeneral,bilingual:renderAdminBilingual,sections:renderAdminSections,documents:renderAdminDocuments,indicators:renderAdminIndicators,actions:renderAdminActions,updates:renderAdminUpdates,quality:renderAdminQuality,version:renderAdminVersion}[state.adminTab]||renderAdminGeneral;renderer(panel);}
   function renderAdminGeneral(panel){append(panel,make('h3','',t('general')));const grid=make('div','field-grid');append(grid,adminInput(t('horizon'),'adminHorizon',state.config.meta.horizon),adminInput(`${t('projectStatus')} (EN)`,'adminStatusEn',state.config.meta.statusEn),adminInput(`${t('projectStatus')} (AR)`,'adminStatusAr',state.config.meta.statusAr));panel.append(grid,make('h3','',t('themeColours')));const colours=make('div','field-grid');Object.keys(state.config.theme).forEach(key=>colours.append(adminInput(key,`theme-${key}`,state.config.theme[key],'color')));panel.append(colours);const save=button(t('saveChanges'),'btn');save.addEventListener('click',()=>{snapshot();state.config.meta.horizon=textValue(byId('adminHorizon').value,80);state.config.meta.statusEn=textValue(byId('adminStatusEn').value,500);state.config.meta.statusAr=textValue(byId('adminStatusAr').value,500);Object.keys(state.config.theme).forEach(key=>{const value=byId(`theme-${key}`).value;if(validHex(value))state.config.theme[key]=value.toUpperCase();});saveConfig(t('localOnly'));});const resetColours=button(state.lang==='ar'?'استعادة الألوان الافتراضية':'Reset colours');resetColours.addEventListener('click',()=>{snapshot();state.config.theme=clone(defaultConfig.theme);saveConfig(t('localOnly'));renderAdmin();});append(panel,make('div','actions-row'),save,resetColours);}
   function renderAdminBilingual(panel){append(panel,make('h3','',t('bilingual')));const fields=[['titleEn',`${t('title')} (EN)`],['titleAr',`${t('title')} (AR)`],['taglineEn',`${t('taglineLabel')} (EN)`],['taglineAr',`${t('taglineLabel')} (AR)`],['footerEn',`${t('footerText')} (EN)`],['footerAr',`${t('footerText')} (AR)`],['contactEn',`${t('contactDetails')} (EN)`],['contactAr',`${t('contactDetails')} (AR)`]];fields.forEach(([key,label])=>panel.append(adminInput(label,`meta-${key}`,state.config.meta[key],key.startsWith('footer')||key.startsWith('contact')?'textarea':'text')));const save=button(t('saveChanges'),'btn');save.addEventListener('click',()=>{snapshot();fields.forEach(([key])=>state.config.meta[key]=textValue(byId(`meta-${key}`).value,2000));saveConfig(t('localOnly'));});panel.append(save);}
-  function sectionLabel(id){const map={about:'navAbout','strategic-framework':'navStrategic',evidence:'navEvidence',ecosystem:'navEcosystem',governance:'navGovernance',implementation:'navImplementation',actions:'navActions',documents:'navDocuments',updates:'navUpdates',contact:'navContact'};return t(map[id]||id);}
+  function sectionLabel(id){const map={about:'navAbout','strategic-framework':'navStrategic','enabling-conditions':'navEnabling',evidence:'navEvidence',ecosystem:'navEcosystem',governance:'navGovernance',implementation:'navImplementation',actions:'navActions',documents:'navDocuments',updates:'navUpdates',contact:'navContact'};return t(map[id]||id);}
   function renderAdminSections(panel){append(panel,make('h3','',t('sections')));state.config.sections.forEach((item,index)=>{const row=make('div','card');const top=make('div','actions-row');const checkbox=document.createElement('input');checkbox.type='checkbox';checkbox.checked=item.visible;checkbox.setAttribute('aria-label',`${t('visible')}: ${sectionLabel(item.id)}`);checkbox.addEventListener('change',()=>{snapshot();item.visible=checkbox.checked;saveConfig(t('localOnly'));});const title=make('strong','',`${index+1}. ${sectionLabel(item.id)}`);const up=button('↑','icon-btn');up.title=t('moveUp');up.disabled=index===0;up.addEventListener('click',()=>moveSection(index,-1));const down=button('↓','icon-btn');down.title=t('moveDown');down.disabled=index===state.config.sections.length-1;down.addEventListener('click',()=>moveSection(index,1));append(top,checkbox,title,up,down);row.append(top);panel.append(row);});}
   function moveSection(index,direction){const target=index+direction;if(target<0||target>=state.config.sections.length)return;snapshot();const list=state.config.sections;[list[index],list[target]]=[list[target],list[index]];list.forEach((item,i)=>item.order=i);saveConfig(t('localOnly'));renderAdmin();}
   function renderAdminDocuments(panel){
@@ -1030,7 +1232,7 @@
   function redoConfig(){if(!state.redo.length)return;state.undo.push(clone(state.config));state.config=state.redo.pop();saveConfig(t('localOnly'));renderAdmin();}
   function resetConfiguration(){if(!window.confirm(state.lang==='ar'?'استعادة إعدادات المصدر ومسح التعديلات المحلية؟':'Restore the source configuration and clear local edits?'))return;snapshot();state.config=clone(defaultConfig);localStorage.removeItem(STORAGE_KEY);applyConfiguration();renderAdmin();toast(t('localOnly'));}
   function handleConfigImport(event){const file=event.target.files[0];event.target.value='';if(!file||file.size>2*1024*1024){toast(t('invalidImport'));return;}const reader=new FileReader();reader.onload=()=>{try{const parsed=JSON.parse(String(reader.result));const normalized=normalizeConfig(parsed);snapshot();state.config=normalized;saveConfig(t('localOnly'));if(isAuthenticated())renderAdmin();}catch(error){toast(t('invalidImport'));}};reader.onerror=()=>toast(t('invalidImport'));reader.readAsText(file);}
-  function exportUpdatedHtml(){const cloneRoot=document.documentElement.cloneNode(true);cloneRoot.lang='en';cloneRoot.dir='ltr';cloneRoot.querySelectorAll('dialog').forEach(dialog=>dialog.removeAttribute('open'));cloneRoot.querySelectorAll('.mobile-drawer').forEach(drawer=>drawer.classList.remove('open'));const payload={version:state.config.version,lastEdited:state.config.lastEdited,overrides:state.config};const safeJson=JSON.stringify(payload).replace(/<\//g,'<\\/').replace(/<!--/g,'<\\!--');const config=cloneRoot.querySelector('#embedded-config');if(config)config.textContent=safeJson;const html=`<!doctype html>\n${cloneRoot.outerHTML}`;downloadBlob('index.html',html,'text/html;charset=utf-8');}
+  function exportUpdatedHtml(){const cloneRoot=document.documentElement.cloneNode(true);cloneRoot.lang='en';cloneRoot.dir='ltr';cloneRoot.querySelectorAll('dialog').forEach(dialog=>dialog.removeAttribute('open'));cloneRoot.querySelectorAll('.mobile-drawer').forEach(drawer=>drawer.classList.remove('open'));const payload={version:state.config.version,lastEdited:state.config.lastEdited,overrides:state.config};const safeJson=JSON.stringify(payload).replace(/<\//g,'<\\/').replace(/<!--/g,'<\\!--');const config=cloneRoot.querySelector('#embedded-config');if(config)config.textContent=safeJson;const html=`<!doctype html>\n${cloneRoot.outerHTML}`;downloadBlob(`Kuwait_NEDMP_v${state.config.version}.html`,html,'text/html;charset=utf-8');}
   function showPublishingHelp(){const root=byId('helpBody');root.replaceChildren();const list=document.createElement('ol');['deployment1','deployment2','deployment3','deployment4','deployment5'].forEach(key=>list.append(make('li','',t(key))));append(root,list,make('p','callout warning',state.lang==='ar'?'لا تضع مستندات خاصة أو بيانات اعتماد أو بيانات مقيدة في المستودع العام. فعّل HTTPS واختبر رابط المشروع بعد كل نشر.':'Do not place private documents, credentials or restricted data in the public repository. Enable HTTPS and test the project URL after every publication.'));openDialog('helpDialog');}
 
   // 22. Initialization and interaction wiring
@@ -1042,6 +1244,7 @@
   function wireEvents(){
     byId('languageButton').addEventListener('click',switchLanguage);byId('footerLanguage').addEventListener('click',switchLanguage);
     byId('mobileToggle').addEventListener('click',openMobileMenu);byId('navMore').addEventListener('click',openMobileMenu);byId('mobileClose').addEventListener('click',closeMobileMenu);byId('mobileDrawer').addEventListener('keydown',trapMobileFocus);byId('mobileDrawer').addEventListener('click',event=>{if(event.target===byId('mobileDrawer'))closeMobileMenu();});
+    byId('outputsMenuButton').addEventListener('click',event=>{event.stopPropagation();setOutputsMenu(byId('outputsMenu').hidden);});byId('outputsMenuButton').addEventListener('keydown',event=>{if(event.key==='ArrowDown'){event.preventDefault();setOutputsMenu(true);}});byId('outputsMenu').addEventListener('keydown',handleOutputsKey);document.addEventListener('click',event=>{if(!event.target.closest('.outputs-menu'))setOutputsMenu(false);});
     document.querySelectorAll('[data-open]').forEach(control=>control.addEventListener('click',()=>openDialog(control.dataset.open)));
     document.querySelectorAll('[data-admin-open]').forEach(control=>control.addEventListener('click',openAdmin));
     document.querySelectorAll('[data-close]').forEach(control=>control.addEventListener('click',()=>closeDialog(control.closest('dialog'))));
