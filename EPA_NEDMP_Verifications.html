@@ -1781,7 +1781,7 @@
       downloadBlobFile(attachmentBlob, attachmentFilename);
       const eml = buildEmlDraft({
         to: 'ahmed.abdelrehim@un.org',
-        cc: 'y.aleidan@epa.gov.kw, ahrehim@gmail.com',
+        cc: 'y.aleidan@epa.gov.kw, n.alhousaini@epa.gov.kw, mohamad.ismail@un.org',
         subject: subjectText,
         body: bodyText,
         attachmentFilename,
@@ -1791,7 +1791,7 @@
       downloadTextFile(eml, `EPA_NEDMP_department_verification_${sanitizeFilename(department)}_email_draft_v25.eml`, 'message/rfc822;charset=utf-8');
       const subject = encodeURIComponent(subjectText);
       const body = encodeURIComponent(bodyText);
-      const cc = encodeURIComponent('y.aleidan@epa.gov.kw,ahrehim@gmail.com');
+      const cc = encodeURIComponent('y.aleidan@epa.gov.kw,n.alhousaini@epa.gov.kw,mohamad.ismail@un.org');
       window.location.href = `mailto:ahmed.abdelrehim@un.org?cc=${cc}&subject=${subject}&body=${body}`;
       showToast(currentT().emailPrepared);
     }
