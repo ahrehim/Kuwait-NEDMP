@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Environmental Data Governance Web Portal | West Asia Workshop</title>
+    <style>
+        :root {
+            --unep-blue: #00875a;
+            --unep-teal: #00a884;
+            --unep-dark: #0f2d3d;
+            --unep-light: #f4f8f7;
+            --accent-gold: #e6a100;
+            --text-dark: #2c3e50;
+            --border-color: #dcdfe6;
+            --card-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+        }
+
+        body {
+            background-color: var(--unep-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* Banner & Header */
+        header {
+            background: linear-gradient(135deg, var(--unep-dark) 0%, #1a4f66 100%);
+            color: white;
+            padding: 2rem 1.5rem;
+            border-bottom: 5px solid var(--unep-teal);
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+
+        .header-titles h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+            color: #ffffff;
+        }
+
+        .header-titles h2 {
+            font-size: 1.1rem;
+            color: var(--unep-teal);
+            font-weight: 400;
+        }
+
+        .header-badges {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* Navigation Bar */
+        nav {
+            background-color: #ffffff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            overflow-x: auto;
+        }
+
+        .nav-btn {
+            padding: 1rem 1.3rem;
+            border: none;
+            background: none;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .nav-btn:hover {
+            color: var(--unep-blue);
+            background-color: #f8faf9;
+        }
+
+        .nav-btn.active {
+            color: var(--unep-blue);
+            border-bottom-color: var(--unep-blue);
+            background-color: #f0f7f4;
+        }
+
+        /* Main Container */
+        main {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Cards & Components */
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.8rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--card-shadow);
+            border-left: 4px solid var(--unep-blue);
+        }
+
+        .card h3 {
+            color: var(--unep-dark);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+            color: var(--unep-dark);
+            font-size: 0.9rem;
+        }
+
+        input[type="text"], select, textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 0.95rem;
+            background-color: #fafafa;
+            transition: border-color 0.2s ease;
+        }
+
+        input[type="text"]:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--unep-blue);
+            background-color: #ffffff;
+        }
+
+        button.btn-submit {
+            background-color: var(--unep-blue);
+            color: white;
+            padding: 0.8rem 1.8rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        button.btn-submit:hover {
+            background-color: #006a46;
+        }
+
+        button.btn-secondary {
+            background-color: #6c757d;
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        button.btn-secondary:hover {
+            background-color: #495057;
+        }
+
+        /* Agenda Timetable */
+        .agenda-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .agenda-table th, .agenda-table td {
+            padding: 0.85rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.9rem;
+        }
+
+        .agenda-table th {
+            background-color: var(--unep-dark);
+            color: white;
+        }
+
+        .agenda-table tr:hover {
+            background-color: #f9fbfb;
+        }
+
+        .break-row {
+            background-color: #f0f4f6;
+            font-style: italic;
+            font-weight: 600;
+        }
+
+        /* Dynamic Tags & Dashboard Tables */
+        .tag {
+            display: inline-block;
+            padding: 0.25rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            background: #eef7f4;
+            color: var(--unep-blue);
+        }
+
+        .result-card {
+            background: #ffffff;
+            border: 1px solid #e1e6e8;
+            border-radius: 6px;
+            padding: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .pillar-badge {
+            background: #e8f4f8;
+            color: #1a4f66;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        @media print {
+            nav, .btn-submit, .btn-secondary { display: none; }
+            body { background: white; }
+            .card { box-shadow: none; border: 1px solid #ccc; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header / Banner -->
+    <header>
+        <div class="header-container">
+            <div class="header-titles">
+                <h1>Advancing Environmental Data Governance</h1>
+                <h2>Second Regional Workshop: From Foundations to Implementation</h2>
+            </div>
+            <div class="header-badges">
+                <span class="badge">📍 Manama, Bahrain</span>
+                <span class="badge">📅 20–22 October 2026</span>
+                <span class="badge">🌐 West Asia Region</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Portal Navigation -->
+    <nav>
+        <div class="nav-container">
+            <button class="nav-btn active" onclick="switchTab('overview')">Overview & Rationale</button>
+            <button class="nav-btn" onclick="switchTab('agenda')">Workshop Agenda</button>
+            <button class="nav-btn" onclick="switchTab('ex1')">Exercise 1: Data Flow Mapping</button>
+            <button class="nav-btn" onclick="switchTab('ex2')">Exercise 2: Governance Mechanism</button>
+            <button class="nav-btn" onclick="switchTab('ex3')">Exercise 3: Capacity Assessment</button>
+            <button class="nav-btn" onclick="switchTab('backend')">📊 Live Results Dashboard</button>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main>
+
+        <!-- TAB 1: RATIONALE & OVERVIEW -->
+        <section id="overview" class="tab-content active">
+            <div class="card">
+                <h3>Background & Rationale</h3>
+                <p>Environmental decision-making in West Asia depends on reliable, timely, and actionable data to address challenges like water scarcity, climate change, pollution, land degradation, and biodiversity loss. Currently, environmental data across the region is distributed among multiple institutions with varying coordination, standards, and capacities.</p>
+                <p style="margin-top: 0.8rem;">Building on the 2025 foundational workshop, this second workshop focuses on practical implementation—aligning national frameworks with the voluntary principles of the <strong>Global Environmental Data Strategy (GEDS)</strong>.</p>
+            </div>
+
+            <div class="grid-3">
+                <div class="card">
+                    <h3>GEDS Pillars</h3>
+                    <ul style="padding-left: 1.2rem;">
+                        <li><strong>Management:</strong> Governance & workflows</li>
+                        <li><strong>Quality & Provenance:</strong> Metadata & validation</li>
+                        <li><strong>Interoperability:</strong> Shared definitions & APIs</li>
+                        <li><strong>Accessibility:</strong> Open & secure data flows</li>
+                        <li><strong>Capacity-Building:</strong> Sustained institutional growth</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>Target Participants</h3>
+                    <ul style="padding-left: 1.2rem;">
+                        <li>Ministry of Environment Officials</li>
+                        <li>National Statistical Offices (NSOs)</li>
+                        <li>IT & Digital Transformation Units</li>
+                        <li>Environmental Data Managers & Analysts</li>
+                        <li>UNEP & Regional Partner Delegations</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>Key Outcomes</h3>
+                    <ul style="padding-left: 1.2rem;">
+                        <li>Institutional Data-Flow Maps</li>
+                        <li>National Coordination Frameworks</li>
+                        <li>Dataset Standardization Priorities</li>
+                        <li>National Capacity Roadmaps</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 2: WORKSHOP AGENDA -->
+        <section id="agenda" class="tab-content">
+            <div class="card">
+                <h3>Full Regional Workshop Agenda</h3>
+                <p style="margin-bottom: 1rem;">Select a day below to explore all detailed sessions, speakers, and workshop exercises:</p>
+                
+                <div>
+                    <button class="btn-secondary" onclick="showDay(1)">Day 1: Institutional Governance</button>
+                    <button class="btn-secondary" onclick="showDay(2)">Day 2: Data Collection & Standards</button>
+                    <button class="btn-secondary" onclick="showDay(3)">Day 3: Capacity & Implementation</button>
+                </div>
+
+                <!-- DAY 1 AGENDA -->
+                <div id="day1-agenda">
+                    <div style="background: #eef7f4; padding: 1rem; border-radius: 6px; margin: 1rem 0; border-left: 4px solid var(--unep-blue);">
+                        <h4 style="color:var(--unep-dark);">Day 1: Strengthening Institutional Coordination and Governance</h4>
+                        <p style="font-size: 0.9rem; color: #555;"><em>Guiding Question: Who is responsible for what, and how should institutions work together to manage environmental data effectively?</em></p>
+                    </div>
+                    <table class="agenda-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 15%;">Time</th>
+                                <th style="width: 20%;">Session Type</th>
+                                <th>Title and Description</th>
+                                <th style="width: 25%;">Speakers / Facilitators</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>09:00 – 09:15</td>
+                                <td>Registration</td>
+                                <td>Arrival and Registration</td>
+                                <td>—</td>
+                            </tr>
+                            <tr>
+                                <td>09:15 – 09:30</td>
+                                <td>Opening</td>
+                                <td>Welcoming and Opening Remarks</td>
+                                <td>Eng. Layla Ali Sabeel (Supreme Council for Environment)<br>Dr. Abdul-Majeid Haddad (UNEP ROWA)</td>
+                            </tr>
+                            <tr class="break-row">
+                                <td>09:30 – 09:45</td>
+                                <td>Photo Session</td>
+                                <td>Group Photo</td>
+                                <td>All Participants</td>
+                            </tr>
+                            <tr>
+                                <td>09:45 – 10:30</td>
+                                <td>Session 1: Presentation</td>
+                                <td><strong>Recap of the 2025 Workshop:</strong> Review of what was covered in 2025 Workshop; present participant feedback; explain how this year’s themes were selected.</td>
+                                <td>Mohamad Najibeddine (UNEP)</td>
+                            </tr>
+                            <tr>
+                                <td>10:30 – 11:15</td>
+                                <td>Session 2: Presentation</td>
+                                <td><strong>Global Environmental Data Strategy and Foundational Priorities for West Asia:</strong> Introduce GEDS vision, pillars, and intervention points.</td>
+                                <td>UNEP Representative</td>
+                            </tr>
+                            <tr class="break-row">
+                                <td>11:15 – 11:30</td>
+                                <td>Break</td>
+                                <td>Morning Break</td>
+                                <td>—</td>
+                            </tr>
+                            <tr>
+                                <td>11:30 – 12:15</td>
+                                <td>Session 3: Member States</td>
+                                <td><strong>Country Progress Since the First Workshop:</strong> Each country presents one development since 2025, one continuing foundational challenge, and one expected workshop result.</td>
+                                <td>All Participants / Facilitator</td>
+                            </tr>
+                            <tr>
+                                <td>12:15 – 13:00</td>
+                                <td>Session 4: Presentation</td>
+                                <td><strong>What Effective National Environmental Data Governance Requires:</strong> Practical elements of institutional governance: leadership, mandates, custodianship, coordination, accountability, and data-sharing arrangements.</td>
+                                <td>UNEP Expert / Presenter</td>
+                            </tr>
+                            <tr class="break-row">
+                                <td>13:00 – 14:00</td>
+                                <td>Lunch</td>
+                                <td>Lunch Break</td>
+                                <td>—</td>
+                            </tr>
+                            <tr>
+                                <td>14:00 – 14:30</td>
+                                <td>Session 5: Exercise</td>
+                                <td><strong>Mapping Institutions, Responsibilities and Data Flows:</strong> Countries identify data producers, custodians, validators, statistical authorities, platform managers, reporting entities, and users.</td>
+                                <td>All Participants / Facilitator</td>
+                            </tr>
+                            <tr>
+                                <td>14:30 – 15:00</td>
+                                <td>Session 6: Working Session</td>
+                                <td><strong>Designing a National Coordination Mechanism:</strong> Countries translate actor and data-flow maps into a practical coordination arrangement.</td>
+                                <td>All Participants / Facilitator</td>
+                            </tr>
+                            <tr class="break-row">
+                                <td>15:00 – 15:15</td>
+                                <td>Break</td>
+                                <td>Afternoon Break</td>
+                                <td>—</td>
+                            </tr>
+                            <tr>
+                                <td>15:15 – 16:00</td>
+                                <td>Session 7: Exercise</td>
+                                <td><strong>Country Reflections and Peer Feedback:</strong> Present main findings from mapping & coordination exercises (Sessions 5 & 6), highlighting gaps in roles, mandates, data flows, and proposed approaches.</td>
+                                <td>All Participants / Facilitator</td>
+                            </tr>
+                            <tr>
+                                <td>16:00 – 16:15</td>
+                                <td>Wrap-up</td>
+                                <td>Day 1 Wrap-up</td>
+                                <td>Session Chairs</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- DAY 2 AGENDA -->
+                <div id="day2-agenda" style="display:none;">
+                    <div style="background: #eef7f4; padding: 1rem; border-radius: 6px; margin: 1rem 0; border-left: 4px solid var(--unep-blue);">
+                        <h4 style="color:var(--unep-dark);">Day 2: Strengthening Data Collection, Management and Standardization</h4>
+                        <p style="font-size: 0.9rem; color: #555;"><em>Guiding Question: How should environmental data be collected, managed, and standardized so that they are reliable, consistent, and fit for use?</em></p>
+                    </div>
+                    <table class="agenda-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 15%;">Time</th>
+                                <th style="width: 20%;">Session Type</th>
+                                <th>Title and Description</th>
+                                <th style="width: 25%;">Speakers / Facilitators</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>09:00 – 09:15</td>
+                                <td>Plenary</td>
+                                <td>Recap and Framing of Day 2</td>
+                                <td>Workshop Secretariat</td>
+                            </tr>
+                            <tr>
+                                <td>09:15 – 09:45</td>
+                                <td>Session 8: Presentation</td>
+                                <td><strong>Designing Effective Environmental Data Collection Systems:</strong> Support participants in examining how priority environmental data are collected from multiple entities and identify practical arrangements for continuity, completeness, and accountability.</td>
+                                <td>Data Technical Lead</td>
+                            </tr>
+                            <tr>
+                                <td>09:45 – 10:45</td>
+                                <td>Session 9: Country Exercise</td>
+                                <td><strong>Mapping a Priority Data Collection Process:</strong> Support participants in visualizing how one priority dataset moves from the original source to the national environmental information or reporting system.</td>
+                                <td>All Participants</td>
+                            </tr>
+                            <tr class="break-row">
+                                <td>10:45 – 11:00</td>
+                                <td>Break</td>
+                                <td>Morning Break</td>
+                                <td>—</td>
+                            </tr>
+                            <tr>
+                                <td>11:00 – 11:30</td>
+                                <td>Session 10: Presentation</td>
+                                <td><strong>Strengthening Environmental Data Management and Quality:</strong> Support participants in applying quality assurance, metadata, and provenance requirements throughout the environmental data lifecycle.</td>
+                                <td>Data Management Specialist</td>
+                            </tr>
+                            <tr>
+                                <td>11:30 – 12:30</td>
+                                <td>Session 11: Country Exercise</td>
+                                <td><strong>Identifying Gaps and Improving the Data Workflow:</strong> Support participants in assessing one priority dataset against common management, quality, and provenance criteria.</td>
+                                <td>All Participants</td>
+                            </tr>
+                            <tr>
+                                <td>12:30 – 13:00</td>
+                                <td>Session 12: Plenary Session</td>
+                                <td><strong>Review of Data Collection and Management Challenges:</strong> Participants share recurring problems and practical solutions.</td>
+                                <td>All Participants</td>
+                            </tr>
+                            <tr class="break-row">
+                                <td>13:00 – 14:00</td>
+                                <td>Lunch</td>
+                                <td>Lunch Break</td>
+                                <td>—</td>
+                            </tr>
+                            <tr>
+                                <td>14:00 – 14:45</td>
+                                <td>Session 13 & 14</td>
+                                <td><strong>Data Standardization & Minimum Standards Exercise:</strong> Common definitions, core data elements, methodologies, and developing an implementable national specification for one dataset/indicator.</td>
+                                <td>Technical Presenters & Participants</td>
+                            </tr>
+                            <tr class="break-row">
+                                <td>14:45 – 15:00</td>
+                                <td>Break</td>
+                                <td>Afternoon Break</td>
+                                <td>—</td>
+                            </tr>
+                            <tr>
+                                <td>15:00 – 15:45</td>
+                                <td>Session 15: Presentation</td>
+                                <td><strong>Linking Standardized Data to National, SDG, SOE and MEA Reporting:</strong> Identify opportunities for one standardized dataset to support multiple reporting processes and reduce duplication.</td>
+                                <td>Reporting Specialists</td>
+                            </tr>
+                            <tr>
+                                <td>15:45 – 16:00</td>
+                                <td>Wrap-up</td>
+                                <td>Day 2 Wrap-up</td>
+                                <td>Session Chairs</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- DAY 3 AGENDA -->
+                <div id="day3-agenda" style="display:none;">
+                    <div style="background: #eef7f4; padding: 1rem; border-radius: 6px; margin: 1rem 0; border-left: 4px solid var(--unep-blue);">
+                        <h4 style="color:var(--unep-dark);">Day 3: Building Capacity and Enabling Implementation</h4>
+                        <p style="font-size: 0.9rem; color: #555;"><em>Guiding Question: What human, institutional, technical, and financial capacities—and which appropriate digital tools—are needed to implement and sustain these improvements?</em></p>
+                    </div>
+                    <table class="agenda-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 15%;">Time</th>
+                                <th style="width: 20%;">Session Type</th>
+                                <th>Title and Description</th>
+                                <th style="width: 25%;">Speakers / Facilitators</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>09:00 – 09:15</td>
+                                <td>Plenary</td>
+                                <td>Recap and Framing of Day 3</td>
+                                <td>Workshop Secretariat</td>
+                            </tr>
+                            <tr>
+                                <td>09:15 – 10:00</td>
+                                <td>Session 16: Presentation</td>
+                                <td><strong>Building Capacities Needed for Environmental Data Systems:</strong> Understanding types of capacity required to sustain environmental data systems beyond viewing capacity-building primarily as training.</td>
+                                <td>Capacity Lead</td>
+                            </tr>
+                            <tr>
+                                <td>09:45 – 10:15</td>
+                                <td>Session 17: Country Exercise</td>
+                                <td><strong>Assessing National Environmental Data Capacity Needs:</strong> Identify specific human, institutional, technical, and financial capacity gaps blocking progress from Days 1 and 2.</td>
+                                <td>All Participants</td>
+                            </tr>
+                            <tr>
+                                <td>10:15 – 11:30</td>
+                                <td>Session 18: Presentation</td>
+                                <td><strong>Digital Tools and Innovative Technologies as Enablers:</strong> Demonstrate how digital tools support improvements in data collection, management, quality, standardization, and exchange.</td>
+                                <td>Digital Transformation Expert</td>
+                            </tr>
+                            <tr class="break-row">
+                                <td>11:30 – 11:45</td>
+                                <td>Break</td>
+                                <td>Morning Break</td>
+                                <td>—</td>
+                            </tr>
+                            <tr>
+                                <td>11:45 – 12:30</td>
+                                <td>Session 19: Country Exercise</td>
+                                <td><strong>Selecting Digital Solutions for Priority Data Challenges:</strong> Support participants in selecting concrete problems and determining if digital solutions can realistically address them.</td>
+                                <td>All Participants</td>
+                            </tr>
+                            <tr class="break-row">
+                                <td>12:30 – 13:30</td>
+                                <td>Lunch</td>
+                                <td>Lunch Break</td>
+                                <td>—</td>
+                            </tr>
+                            <tr>
+                                <td>13:30 – 14:15</td>
+                                <td>Session 20: Presentation</td>
+                                <td><strong>Requirements for Responsible and Sustainable Digital Transformation:</strong> Evaluate digital solutions according to technical potential, reliability, affordability, sustainability, and governance implications.</td>
+                                <td>Tech Governance Lead</td>
+                            </tr>
+                            <tr>
+                                <td>14:15 – 14:45</td>
+                                <td>Session 21: Working Session</td>
+                                <td><strong>Institutionalizing Environmental Data Capacity Development:</strong> Explore how participants can move from one-off training activities toward sustained institutional capability.</td>
+                                <td>All Participants</td>
+                            </tr>
+                            <tr class="break-row">
+                                <td>14:45 – 15:00</td>
+                                <td>Break</td>
+                                <td>Afternoon Coffee</td>
+                                <td>—</td>
+                            </tr>
+                            <tr>
+                                <td>15:00 – 15:30</td>
+                                <td>Closing Session</td>
+                                <td><strong>What’s Next? Priorities for Action, Capacity Needs, and Regional Cooperation:</strong> Reflection on next steps and identifying follow-up areas for UNEP and partners.</td>
+                                <td>UNEP ROWA & Delegates</td>
+                            </tr>
+                            <tr>
+                                <td>15:30 – 15:45</td>
+                                <td>Wrap-up</td>
+                                <td>Final Wrap-up of Workshop</td>
+                                <td>Secretariat</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 3: EXERCISE 1 -->
+        <section id="ex1" class="tab-content">
+            <div class="card">
+                <h3>Exercise 1: Mapping Institutions, Responsibilities & Data Flows</h3>
+                <p>Identify environmental data actors, their specific responsibilities, how data flows between them, and key bottlenecks.</p>
+                <form id="form-ex1" onsubmit="handleEx1Submit(event)" style="margin-top: 1.2rem;">
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label for="ex1-country">Country / Territory:</label>
+                            <select id="ex1-country" required>
+                                <option value="">-- Select Country --</option>
+                                <option value="Bahrain">Bahrain</option>
+                                <option value="Iraq">Iraq</option>
+                                <option value="Jordan">Jordan</option>
+                                <option value="Kuwait">Kuwait</option>
+                                <option value="Lebanon">Lebanon</option>
+                                <option value="Oman">Oman</option>
+                                <option value="Palestine">Palestine</option>
+                                <option value="Qatar">Qatar</option>
+                                <option value="Saudi Arabia">Saudi Arabia</option>
+                                <option value="Syria">Syria</option>
+                                <option value="UAE">United Arab Emirates</option>
+                                <option value="Yemen">Yemen</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="ex1-domain">Environmental Domain:</label>
+                            <select id="ex1-domain">
+                                <option value="Water Quality & Scarcity">Water Quality & Scarcity</option>
+                                <option value="Air Quality & Emissions">Air Quality & Emissions</option>
+                                <option value="Waste & Circular Economy">Waste & Circular Economy</option>
+                                <option value="Biodiversity & Land Conservation">Biodiversity & Land Conservation</option>
+                                <option value="Climate Change Indicators">Climate Change Indicators</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label for="ex1-institution">Institution Name:</label>
+                            <input type="text" id="ex1-institution" placeholder="e.g., Environment Authority, NSO, Water Ministry" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="ex1-role">Primary Mandated Role:</label>
+                            <select id="ex1-role" required>
+                                <option value="Data Producer">Data Producer</option>
+                                <option value="Data Custodian">Data Custodian</option>
+                                <option value="Data Validator">Data Validator</option>
+                                <option value="Statistical Authority">Statistical Authority</option>
+                                <option value="Platform Manager">Platform Manager</option>
+                                <option value="Reporting Entity (SDG/MEA)">Reporting Entity (SDG/MEA)</option>
+                                <option value="Data User / Decision Maker">Data User / Decision Maker</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ex1-dataflow">Data Flow Direction (Source -> Recipient):</label>
+                        <input type="text" id="ex1-dataflow" placeholder="e.g., Raw sensor data sent from Ministry of Water to Environment Authority for validation" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ex1-bottlenecks">Overlaps, Gaps, or Bottlenecks Identified:</label>
+                        <textarea id="ex1-bottlenecks" rows="3" placeholder="Describe delays, legal restrictions, missing APIs, or unclear mandates..." required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-submit">Submit Institution Map Entry</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- TAB 4: EXERCISE 2 -->
+        <section id="ex2" class="tab-content">
+            <div class="card">
+                <h3>Exercise 2: Designing a National Coordination Mechanism</h3>
+                <p>Translate actor and data-flow maps into practical coordination arrangements to formalize responsibilities.</p>
+                <form id="form-ex2" onsubmit="handleEx2Submit(event)" style="margin-top: 1.2rem;">
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label for="ex2-country">Country / Territory:</label>
+                            <select id="ex2-country" required>
+                                <option value="">-- Select Country --</option>
+                                <option value="Bahrain">Bahrain</option>
+                                <option value="Iraq">Iraq</option>
+                                <option value="Jordan">Jordan</option>
+                                <option value="Kuwait">Kuwait</option>
+                                <option value="Lebanon">Lebanon</option>
+                                <option value="Oman">Oman</option>
+                                <option value="Palestine">Palestine</option>
+                                <option value="Qatar">Qatar</option>
+                                <option value="Saudi Arabia">Saudi Arabia</option>
+                                <option value="Syria">Syria</option>
+                                <option value="UAE">United Arab Emirates</option>
+                                <option value="Yemen">Yemen</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="ex2-mechanism">Selected Coordination Mechanism:</label>
+                            <select id="ex2-mechanism" required>
+                                <option value="Inter-Ministerial Committee">Inter-Ministerial Committee</option>
+                                <option value="Technical Working Group">Technical Working Group</option>
+                                <option value="Dedicated Coordination Unit">Dedicated Coordination Unit</option>
+                                <option value="Formal Responsibility Matrix (RACI)">Formal Responsibility Matrix (RACI)</option>
+                                <option value="Data-Sharing Protocol / MoU Framework">Data-Sharing Protocol / MoU Framework</option>
+                                <option value="Hybrid / Combination Approach">Hybrid / Combination Approach</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label for="ex2-lead">Lead Hosting Institution:</label>
+                            <input type="text" id="ex2-lead" placeholder="e.g., Supreme Council for Environment" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="ex2-frequency">Meeting / Operations Frequency:</label>
+                            <select id="ex2-frequency">
+                                <option value="Monthly">Monthly</option>
+                                <option value="Quarterly">Quarterly</option>
+                                <option value="Bi-annually">Bi-annually</option>
+                                <option value="Ad-hoc / Continuous Platform">Ad-hoc / Continuous Platform</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ex2-mandate">Scope, Key Functions & Mandate Details:</label>
+                        <textarea id="ex2-mandate" rows="3" placeholder="Outline specific powers, data approval rights, and governance protocols..." required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-submit">Submit Coordination Arrangement</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- TAB 5: EXERCISE 3 -->
+        <section id="ex3" class="tab-content">
+            <div class="card">
+                <h3>Exercise 3: Assessing National Environmental Data Capacity Needs</h3>
+                <p>Identify human, institutional, technical, and financial gaps blocking effective data governance implementation.</p>
+                <form id="form-ex3" onsubmit="handleEx3Submit(event)" style="margin-top: 1.2rem;">
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label for="ex3-country">Country / Territory:</label>
+                            <select id="ex3-country" required>
+                                <option value="">-- Select Country --</option>
+                                <option value="Bahrain">Bahrain</option>
+                                <option value="Iraq">Iraq</option>
+                                <option value="Jordan">Jordan</option>
+                                <option value="Kuwait">Kuwait</option>
+                                <option value="Lebanon">Lebanon</option>
+                                <option value="Oman">Oman</option>
+                                <option value="Palestine">Palestine</option>
+                                <option value="Qatar">Qatar</option>
+                                <option value="Saudi Arabia">Saudi Arabia</option>
+                                <option value="Syria">Syria</option>
+                                <option value="UAE">United Arab Emirates</option>
+                                <option value="Yemen">Yemen</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="ex3-category">Capacity Dimension:</label>
+                            <select id="ex3-category" required>
+                                <option value="Human Capacity">Human Capacity (Skills, Staffing, Data Literacy)</option>
+                                <option value="Institutional Capacity">Institutional Capacity (Mandates, Law, MoUs)</option>
+                                <option value="Technical Capacity">Technical Capacity (IT, Standards, Software, APIs)</option>
+                                <option value="Financial Capacity">Financial Capacity (Sustainable Funding, Hardware)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label for="ex3-preset">Standard Capacity Gap (Dropdown):</label>
+                            <select id="ex3-preset" onchange="toggleCustomTopic(this.value)">
+                                <option value="Lack of specialized staff in GIS & Data Science">Lack of specialized staff in GIS & Data Science</option>
+                                <option value="Unclear legal mandates for inter-agency data sharing">Unclear legal mandates for inter-agency data sharing</option>
+                                <option value="Absence of standardized metadata and data dictionary">Absence of standardized metadata and data dictionary</option>
+                                <option value="Outdated digital infrastructure & cloud architecture">Outdated digital infrastructure & cloud architecture</option>
+                                <option value="Insufficient long-term budget for monitoring stations">Insufficient long-term budget for monitoring stations</option>
+                                <option value="OTHER">-- Add Custom Topic / Specific Need --</option>
+                            </select>
+                        </div>
+                        <div class="form-group" id="custom-topic-group" style="display:none;">
+                            <label for="ex3-custom">Custom Capacity Topic / Need:</label>
+                            <input type="text" id="ex3-custom" placeholder="Type custom gap or topic name...">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ex3-action">Proposed Priority Solution / Digital Tool Needed:</label>
+                        <textarea id="ex3-action" rows="3" placeholder="Propose practical digital or non-digital interventions (e.g., Automated validation portal, UNEP training)..." required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-submit">Submit Capacity Need Assessment</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- TAB 6: BACKEND / RESULTS DASHBOARD -->
+        <section id="backend" class="tab-content">
+            <div class="card">
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
+                    <div>
+                        <h3>Regional Workshop Live Dashboard & Submissions</h3>
+                        <p>Real-time compilation of submissions across West Asian member states.</p>
+                    </div>
+                    <div>
+                        <button class="btn-secondary" onclick="window.print()">🖨️ Print / Export PDF</button>
+                        <button class="btn-secondary" style="background:#dc3545;" onclick="clearAllData()">🗑️ Clear Local Submissions</button>
+                    </div>
+                </div>
+
+                <div class="grid-3" style="margin-top: 1.5rem;">
+                    <div style="background:#f0f7f4; padding:1rem; border-radius:6px; text-align:center;">
+                        <h4 style="font-size:1.8rem; color:var(--unep-blue);" id="count-ex1">0</h4>
+                        <p style="font-size:0.85rem; font-weight:600;">Data Flow Maps</p>
+                    </div>
+                    <div style="background:#f0f7f4; padding:1rem; border-radius:6px; text-align:center;">
+                        <h4 style="font-size:1.8rem; color:var(--unep-blue);" id="count-ex2">0</h4>
+                        <p style="font-size:0.85rem; font-weight:600;">Governance Proposals</p>
+                    </div>
+                    <div style="background:#f0f7f4; padding:1rem; border-radius:6px; text-align:center;">
+                        <h4 style="font-size:1.8rem; color:var(--unep-blue);" id="count-ex3">0</h4>
+                        <p style="font-size:0.85rem; font-weight:600;">Capacity Needs Logged</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard Results Output -->
+            <div class="card">
+                <h4 style="margin-bottom:1rem; color:var(--unep-dark);">Mapped Institutional Data Flows (Exercise 1)</h4>
+                <div id="results-ex1"><em>No submissions yet.</em></div>
+            </div>
+
+            <div class="card">
+                <h4 style="margin-bottom:1rem; color:var(--unep-dark);">National Coordination Arrangements (Exercise 2)</h4>
+                <div id="results-ex2"><em>No submissions yet.</em></div>
+            </div>
+
+            <div class="card">
+                <h4 style="margin-bottom:1rem; color:var(--unep-dark);">National Capacity Needs & Solutions (Exercise 3)</h4>
+                <div id="results-ex3"><em>No submissions yet.</em></div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // Tab Navigation Switcher
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+            
+            document.getElementById(tabId).classList.add('active');
+            
+            // Highlight active button
+            const activeBtn = Array.from(document.querySelectorAll('.nav-btn')).find(
+                btn => btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(tabId)
+            );
+            if (activeBtn) activeBtn.classList.add('active');
+
+            if (tabId === 'backend') {
+                renderDashboard();
+            }
+        }
+
+        // Agenda Day Switcher
+        function showDay(dayNum) {
+            document.getElementById('day1-agenda').style.display = dayNum === 1 ? 'block' : 'none';
+            document.getElementById('day2-agenda').style.display = dayNum === 2 ? 'block' : 'none';
+            document.getElementById('day3-agenda').style.display = dayNum === 3 ? 'block' : 'none';
+        }
+
+        // Exercise 3 Custom Input Toggle
+        function toggleCustomTopic(val) {
+            const group = document.getElementById('custom-topic-group');
+            if (val === 'OTHER') {
+                group.style.display = 'block';
+            } else {
+                group.style.display = 'none';
+            }
+        }
+
+        // LocalStorage Helpers
+        function getStorage(key) {
+            return JSON.parse(localStorage.getItem(key) || '[]');
+        }
+
+        function setStorage(key, data) {
+            localStorage.setItem(key, JSON.stringify(data));
+        }
+
+        // Form Handlers
+        function handleEx1Submit(e) {
+            e.preventDefault();
+            const record = {
+                country: document.getElementById('ex1-country').value,
+                domain: document.getElementById('ex1-domain').value,
+                institution: document.getElementById('ex1-institution').value,
+                role: document.getElementById('ex1-role').value,
+                dataflow: document.getElementById('ex1-dataflow').value,
+                bottlenecks: document.getElementById('ex1-bottlenecks').value,
+                timestamp: new Date().toLocaleString()
+            };
+            const current = getStorage('ex1_data');
+            current.push(record);
+            setStorage('ex1_data', current);
+            alert('Institution mapping recorded successfully!');
+            document.getElementById('form-ex1').reset();
+        }
+
+        function handleEx2Submit(e) {
+            e.preventDefault();
+            const record = {
+                country: document.getElementById('ex2-country').value,
+                mechanism: document.getElementById('ex2-mechanism').value,
+                lead: document.getElementById('ex2-lead').value,
+                frequency: document.getElementById('ex2-frequency').value,
+                mandate: document.getElementById('ex2-mandate').value,
+                timestamp: new Date().toLocaleString()
+            };
+            const current = getStorage('ex2_data');
+            current.push(record);
+            setStorage('ex2_data', current);
+            alert('Coordination mechanism submission recorded successfully!');
+            document.getElementById('form-ex2').reset();
+        }
+
+        function handleEx3Submit(e) {
+            e.preventDefault();
+            const presetVal = document.getElementById('ex3-preset').value;
+            const customVal = document.getElementById('ex3-custom').value;
+            const topic = (presetVal === 'OTHER') ? customVal : presetVal;
+
+            const record = {
+                country: document.getElementById('ex3-country').value,
+                category: document.getElementById('ex3-category').value,
+                topic: topic,
+                action: document.getElementById('ex3-action').value,
+                timestamp: new Date().toLocaleString()
+            };
+            const current = getStorage('ex3_data');
+            current.push(record);
+            setStorage('ex3_data', current);
+            alert('Capacity assessment entry submitted successfully!');
+            document.getElementById('form-ex3').reset();
+            document.getElementById('custom-topic-group').style.display = 'none';
+        }
+
+        // Dashboard Renderer
+        function renderDashboard() {
+            const ex1 = getStorage('ex1_data');
+            const ex2 = getStorage('ex2_data');
+            const ex3 = getStorage('ex3_data');
+
+            document.getElementById('count-ex1').innerText = ex1.length;
+            document.getElementById('count-ex2').innerText = ex2.length;
+            document.getElementById('count-ex3').innerText = ex3.length;
+
+            // Render Ex 1
+            const container1 = document.getElementById('results-ex1');
+            if (ex1.length === 0) container1.innerHTML = '<em>No submissions yet.</em>';
+            else {
+                container1.innerHTML = ex1.map(item => `
+                    <div class="result-card">
+                        <div style="display:flex; justify-content:space-between; margin-bottom:0.4rem;">
+                            <strong>${item.country}</strong> &nbsp;<span class="tag">${item.domain}</span>
+                        </div>
+                        <p><strong>Institution:</strong> ${item.institution} (<span class="pillar-badge">${item.role}</span>)</p>
+                        <p><strong>Data Flow:</strong> ${item.dataflow}</p>
+                        <p style="color:#c0392b;"><strong>Bottlenecks/Gaps:</strong> ${item.bottlenecks}</p>
+                    </div>
+                `).join('');
+            }
+
+            // Render Ex 2
+            const container2 = document.getElementById('results-ex2');
+            if (ex2.length === 0) container2.innerHTML = '<em>No submissions yet.</em>';
+            else {
+                container2.innerHTML = ex2.map(item => `
+                    <div class="result-card">
+                        <p><strong>Country:</strong> ${item.country}</p>
+                        <p><strong>Selected Mechanism:</strong> <span class="tag">${item.mechanism}</span></p>
+                        <p><strong>Host Institution:</strong> ${item.lead} | <strong>Frequency:</strong> ${item.frequency}</p>
+                        <p><strong>Mandate & Governance:</strong> ${item.mandate}</p>
+                    </div>
+                `).join('');
+            }
+
+            // Render Ex 3
+            const container3 = document.getElementById('results-ex3');
+            if (ex3.length === 0) container3.innerHTML = '<em>No submissions yet.</em>';
+            else {
+                container3.innerHTML = ex3.map(item => `
+                    <div class="result-card">
+                        <p><strong>Country:</strong> ${item.country} | <strong>Dimension:</strong> <span class="pillar-badge">${item.category}</span></p>
+                        <p><strong>Gap / Need Identified:</strong> ${item.topic}</p>
+                        <p style="color:var(--unep-blue);"><strong>Proposed Action/Solution:</strong> ${item.action}</p>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function clearAllData() {
+            if (confirm("Are you sure you want to clear all stored workshop submissions?")) {
+                localStorage.removeItem('ex1_data');
+                localStorage.removeItem('ex2_data');
+                localStorage.removeItem('ex3_data');
+                renderDashboard();
+            }
+        }
+    </script>
+</body>
+</html>
