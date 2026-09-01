@@ -7,6 +7,8 @@
     <!-- Firebase SDKs for Online Cloud Backend -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
+    <!-- PowerPoint export for submitted working-group exercises -->
+    <script src="https://cdn.jsdelivr.net/npm/pptxgenjs@4.0.1/dist/pptxgen.bundle.js"></script>
     <style>
         :root {
             --unep-blue: #00875a;
@@ -762,6 +764,125 @@
             margin-top: 1rem;
         }
 
+        .admin-hub-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(235px, 1fr));
+            gap: 1rem;
+            margin-top: 1.4rem;
+        }
+
+        .admin-hub-card {
+            width: 100%;
+            min-height: 190px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            text-align: left;
+            gap: 0.65rem;
+            padding: 1.25rem;
+            border: 1px solid #d4e4de;
+            border-top: 5px solid var(--unep-blue);
+            border-radius: 9px;
+            background: #ffffff;
+            color: var(--text-dark);
+            cursor: pointer;
+            box-shadow: 0 3px 10px rgba(15,45,61,0.07);
+            transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+        }
+
+        .admin-hub-card:hover,
+        .admin-hub-card:focus-visible {
+            transform: translateY(-3px);
+            border-color: var(--unep-blue);
+            box-shadow: 0 9px 22px rgba(15,45,61,0.14);
+            outline: none;
+        }
+
+        .admin-hub-card-number {
+            display: inline-grid;
+            place-items: center;
+            width: 2.15rem;
+            height: 2.15rem;
+            border-radius: 50%;
+            background: var(--unep-blue);
+            color: #ffffff;
+            font-size: 1rem;
+            font-weight: 800;
+        }
+
+        .admin-hub-card h4 {
+            color: var(--unep-dark);
+            font-size: 1.05rem;
+            line-height: 1.3;
+        }
+
+        .admin-hub-card p {
+            color: #5e717a;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .admin-hub-card-action {
+            margin-top: auto;
+            color: var(--unep-blue);
+            font-weight: 800;
+            font-size: 0.86rem;
+        }
+
+        .administrator-panel { display: none; }
+        .administrator-panel.active { display: block; }
+
+        .administrator-panel-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .administrator-panel-header h3 { margin-bottom: 0.3rem; }
+
+        .admin-function-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .admin-function-card {
+            border: 1px solid #d8e6e1;
+            border-radius: 8px;
+            background: #f8fbfa;
+            padding: 1.15rem;
+        }
+
+        .admin-function-card h4 {
+            color: var(--unep-dark);
+            margin-bottom: 0.45rem;
+        }
+
+        .admin-function-card p {
+            color: #5e717a;
+            font-size: 0.9rem;
+            margin-bottom: 0.9rem;
+        }
+
+        .admin-function-card.danger-function {
+            background: #fff5f5;
+            border-color: #efc2c7;
+        }
+
+        .admin-participation-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        html[dir="rtl"] .admin-hub-card { text-align: right; align-items: flex-start; }
+        html[dir="rtl"] button.dashboard-stat::after { content: 'فتح التقارير'; }
+
         .document-item {
             display: flex;
             justify-content: space-between;
@@ -1281,6 +1402,7 @@
             var exercisePasswordConfigLoaded2026 = false;
             var lastSubmittedRecords2026 = {};
             var selectedAdministratorReportExercise2026 = null;
+            var selectedResetScope2026 = 'all';
             var workshopPasswordHash2026 = '163f81c92f881aa610f068eb5d425acb056ff1883a2cd6f9c74b38d1f365e2b0';
             var administratorPasswordHash2026 = '1510b830657806e463a3d5cf6fc5bb547c1f5d817d7602ce920123e7c3c42ee9';
             var defaultExercisePasswordHashes2026 = {
@@ -1880,14 +2002,18 @@
                 'Additional comments, opinions or suggestions': 'تعليقات أو آراء أو مقترحات إضافية',
                 'Add any points not captured above, including minority views or support requested from UNEP and partners.': 'أضيفوا أي نقاط لم ترد أعلاه، بما في ذلك الآراء المخالفة أو الدعم المطلوب من برنامج الأمم المتحدة للبيئة والشركاء.',
                 'Group Report': 'تقرير المجموعة',
+                'Group Presentation': 'عرض المجموعة',
                 'This button becomes available after the group submits the exercise.': 'يتاح هذا الزر بعد أن ترسل المجموعة إجابات التمرين.',
+                'Download a PowerPoint presentation of this submitted group response.': 'تنزيل عرض PowerPoint لإجابة المجموعة المقدمة.',
+                'Preparing PowerPoint...': 'جارٍ إعداد عرض PowerPoint...',
+                'The PowerPoint presentation could not be created. Please check the internet connection and try again.': 'تعذر إنشاء عرض PowerPoint. يرجى التحقق من الاتصال بالإنترنت والمحاولة مجدداً.',
                 'Clear entered data': 'مسح البيانات المدخلة',
                 'Clear responses entered on this form without deleting any saved submission.': 'مسح الإجابات المدخلة في هذا النموذج دون حذف أي إجابة محفوظة.',
                 'Submission saved successfully.': 'حُفظت الإجابة بنجاح.',
                 'The online workshop database is unavailable.': 'قاعدة بيانات ورشة العمل على الإنترنت غير متاحة.',
                 'Saving online...': 'جارٍ الحفظ على الإنترنت...',
                 'Open a presentation-ready report of this submitted group response.': 'فتح تقرير جاهز للعرض عن إجابة المجموعة المقدمة.',
-                'Submission saved to the live workshop database. The Group Report button is now available.': 'حُفظت الإجابة في قاعدة بيانات ورشة العمل المباشرة. أصبح زر تقرير المجموعة متاحاً الآن.',
+                'Submission saved to the live workshop database. The Group Report and Group Presentation buttons are now available.': 'حُفظت الإجابة في قاعدة بيانات ورشة العمل المباشرة. أصبح زرا تقرير المجموعة وعرض المجموعة متاحين الآن.',
                 'The submission could not be saved online. No local copy was created; please check the connection and try again.': 'تعذر حفظ الإجابة على الإنترنت. لم تُنشأ نسخة محلية؛ يرجى التحقق من الاتصال والمحاولة مجدداً.',
                 'No response recorded.': 'لم تُسجل إجابة.',
                 'Workshop partner logo': 'شعار شريك ورشة العمل'
@@ -2081,6 +2207,13 @@
                 'Not recorded': 'غير مسجل',
                 'Additional input': 'مدخل إضافي',
                 'Comments, opinions and suggestions': 'تعليقات وآراء ومقترحات',
+                'Workshop exercise': 'تمرين ورشة العمل',
+                'Exercise purpose and expected output': 'هدف التمرين والناتج المتوقع',
+                'Key findings': 'النتائج الرئيسية',
+                'Thematic profile': 'الملف الموضوعي',
+                'Relative share of detected themes': 'الحصة النسبية للموضوعات المرصودة',
+                'Generated from the workshop portal': 'أُنشئ من بوابة ورشة العمل',
+                'Continuation': 'تابع',
                 'Working Group not specified': 'مجموعة العمل غير محددة',
                 'No group submissions are available for this exercise.': 'لا توجد إجابات مجموعات متاحة لهذا التمرين.',
                 'Administrator consolidated report · 20–22 October 2026': 'تقرير موحد للمسؤول · 20–22 أكتوبر 2026',
@@ -2098,6 +2231,85 @@
                 'Working group': 'مجموعة العمل'
             });
 
+            Object.assign(arabicTranslations2026, {
+                'Administration Home': 'الصفحة الرئيسية للإدارة',
+                'Select an administrative function to manage workshop data, access controls, documents, analysis and reports.': 'اختر وظيفة إدارية لإدارة بيانات ورشة العمل وضوابط الدخول والوثائق والتحليلات والتقارير.',
+                'Workshop Exercises': 'تمارين ورشة العمل',
+                'Review submission counts and open group or consolidated reports for each exercise.': 'راجع أعداد الإجابات وافتح تقارير المجموعات أو التقارير الموحدة لكل تمرين.',
+                'Manage Passwords': 'إدارة كلمات المرور',
+                'Manage participant registration and exercise access passwords.': 'إدارة كلمات مرور تسجيل المشاركين والدخول إلى التمارين.',
+                'Publish Workshop Documents': 'نشر وثائق ورشة العمل',
+                'Publish, test or remove document links available to participants.': 'نشر روابط الوثائق المتاحة للمشاركين أو اختبارها أو إزالتها.',
+                'Review registered participants by country, institution, role and working group.': 'راجع المشاركين المسجلين حسب البلد والمؤسسة والدور ومجموعة العمل.',
+                'Review participation metrics, exercise activity, selected options and automatic summaries.': 'راجع مؤشرات المشاركة ونشاط التمارين والخيارات المحددة والملخصات الآلية.',
+                'Reset Data': 'مسح البيانات',
+                'Reset exercise submissions, participant registrations, password settings or all portal data.': 'امسح إجابات التمارين أو تسجيلات المشاركين أو إعدادات كلمات المرور أو جميع بيانات البوابة.',
+                'Consolidated Reports': 'التقارير الموحدة',
+                'Produce detailed all-exercise reports and integrated analytical reports or presentations.': 'أنشئ تقارير تفصيلية لجميع التمارين وتقارير أو عروض تحليلية متكاملة.',
+                'Open function →': 'فتح الوظيفة ←',
+                'Back to Administration Home': 'العودة إلى الصفحة الرئيسية للإدارة',
+                '← Back to Administration Home': 'العودة إلى الصفحة الرئيسية للإدارة ←',
+                'Exercise Data and Reports': 'بيانات التمارين وتقاريرها',
+                'Use the exercise cards to open group-level or all-groups reports. Export functions apply to the workshop dataset currently available online.': 'استخدم بطاقات التمارين لفتح تقارير مجموعة محددة أو تقارير جميع المجموعات. وتطبق وظائف التصدير على مجموعة بيانات ورشة العمل المتاحة حالياً على الإنترنت.',
+                'Data Exports': 'تصدير البيانات',
+                'Export the complete workshop dataset for archiving or further analysis.': 'صدّر مجموعة بيانات ورشة العمل الكاملة للأرشفة أو لإجراء مزيد من التحليل.',
+                'Participant Register': 'سجل المشاركين',
+                'Open the registered-participant table and review country, institution, role and working-group assignments.': 'افتح جدول المشاركين المسجلين وراجع البلد والمؤسسة والدور وتوزيع مجموعات العمل.',
+                'Open List of Participants': 'فتح قائمة المشاركين',
+                'Registered participants and represented countries': 'المشاركون المسجلون والبلدان الممثلة',
+                'Exercise submissions': 'إجابات التمارين',
+                'Participant registrations': 'تسجيلات المشاركين',
+                'Password settings': 'إعدادات كلمات المرور',
+                'All workshop data': 'جميع بيانات ورشة العمل',
+                'Reset Exercise Data': 'مسح بيانات التمارين',
+                'Permanently delete submissions from all seven exercises.': 'احذف نهائياً الإجابات المقدمة في جميع التمارين السبعة.',
+                'Reset Registration Data': 'مسح بيانات التسجيل',
+                'Permanently delete all participant registrations.': 'احذف نهائياً جميع تسجيلات المشاركين.',
+                'Reset Password Data': 'مسح بيانات كلمات المرور',
+                'Delete custom registration and exercise passwords and restore the requested defaults.': 'احذف كلمات مرور التسجيل والتمارين المخصصة واستعد القيم الافتراضية المطلوبة.',
+                'Reset registrations, exercise submissions, password settings and published document links.': 'امسح التسجيلات وإجابات التمارين وإعدادات كلمات المرور وروابط الوثائق المنشورة.',
+                'Choose only the data category that should be permanently removed. Every reset requires the administrator password and an exact confirmation phrase.': 'اختر فقط فئة البيانات التي ينبغي حذفها نهائياً. ويتطلب كل مسح كلمة مرور المسؤول وعبارة تأكيد مطابقة.',
+                'Reset Selected Workshop Data': 'مسح بيانات ورشة العمل المحددة',
+                'This action permanently removes the selected workshop portal data:': 'يؤدي هذا الإجراء إلى حذف بيانات بوابة ورشة العمل المحددة نهائياً:',
+                'Permanently Reset Selected Data': 'مسح البيانات المحددة نهائياً',
+                'Resetting selected data...': 'جارٍ مسح البيانات المحددة...',
+                'Exercise data were reset successfully.': 'مُسحت بيانات التمارين بنجاح.',
+                'Registration data were reset successfully. You will now be signed out because participant registrations were removed.': 'مُسحت بيانات التسجيل بنجاح. سيتم تسجيل خروجك الآن لأن تسجيلات المشاركين أُزيلت.',
+                'Password settings were reset successfully. The requested default passwords are now active.': 'مُسحت إعدادات كلمات المرور بنجاح. وأصبحت كلمات المرور الافتراضية المطلوبة فعالة الآن.',
+                'The selected workshop data could not be reset. No successful reset was confirmed; check the database connection and permissions.': 'تعذر مسح بيانات ورشة العمل المحددة ولم يُؤكد نجاح العملية. تحقق من اتصال قاعدة البيانات وأذوناتها.',
+                'All Exercises and Groups Report': 'تقرير جميع التمارين والمجموعات',
+                'Produce a detailed report covering every exercise and the latest eligible submission from each working group.': 'أنشئ تقريراً تفصيلياً يغطي كل تمرين وأحدث إجابة مؤهلة من كل مجموعة عمل.',
+                'Generate Detailed Report': 'إنشاء التقرير التفصيلي',
+                'Integrated Analytical Report': 'التقرير التحليلي المتكامل',
+                'Produce a cross-exercise analysis of participation, response coverage, recurring themes and priority findings.': 'أنشئ تحليلاً شاملاً للتمارين يتناول المشاركة وتغطية الإجابات والموضوعات المتكررة والنتائج ذات الأولوية.',
+                'Generate Analytical Report': 'إنشاء التقرير التحليلي',
+                'Integrated PowerPoint Presentation': 'عرض PowerPoint تحليلي متكامل',
+                'Download an editable presentation summarizing all exercises, groups, response patterns and cross-cutting themes.': 'نزّل عرضاً تقديمياً قابلاً للتحرير يلخص جميع التمارين والمجموعات وأنماط الإجابات والموضوعات المشتركة.',
+                'Generate PowerPoint': 'إنشاء عرض PowerPoint',
+                'Preparing integrated PowerPoint...': 'جارٍ إعداد عرض PowerPoint المتكامل...',
+                'No exercise submissions are available for consolidated analysis.': 'لا توجد إجابات تمارين متاحة للتحليل الموحد.',
+                'Detailed All Exercises and Groups Report': 'التقرير التفصيلي لجميع التمارين والمجموعات',
+                'Integrated Workshop Analytical Report': 'التقرير التحليلي المتكامل لورشة العمل',
+                'Integrated analysis': 'التحليل المتكامل',
+                'Integrated summary': 'الملخص المتكامل',
+                'All exercises and working groups': 'جميع التمارين ومجموعات العمل',
+                'Cross-exercise overview': 'نظرة عامة شاملة للتمارين',
+                'Activity by exercise': 'النشاط حسب التمرين',
+                'Integrated thematic profile': 'الملف الموضوعي المتكامل',
+                'Latest group inputs': 'أحدث مدخلات المجموعات',
+                'Exercises with submitted data': 'التمارين التي تتضمن بيانات مقدمة',
+                'Working groups represented': 'مجموعات العمل الممثلة',
+                'Countries represented': 'البلدان الممثلة',
+                'Total recorded submissions': 'إجمالي الإجابات المسجلة',
+                'Working groups:': 'مجموعات العمل:',
+                'Countries:': 'البلدان:',
+                'Percentages show each exercise’s share of the latest eligible group inputs included in this integrated analysis.': 'تبين النسب حصة كل تمرين من أحدث مدخلات المجموعات المؤهلة المشمولة في هذا التحليل المتكامل.',
+                'This is an automatically generated descriptive synthesis of the latest eligible group inputs. It should be reviewed by the workshop facilitation team before formal circulation.': 'هذا تجميع وصفي أُنشئ آلياً لأحدث مدخلات المجموعات المؤهلة. وينبغي أن يراجعه فريق تيسير ورشة العمل قبل تعميمه رسمياً.',
+                'A theme percentage is the share of latest eligible group inputs containing at least one related term. Percentages may overlap because one input can address several themes.': 'تمثل نسبة الموضوع حصة أحدث مدخلات المجموعات المؤهلة التي تتضمن مصطلحاً واحداً ذا صلة على الأقل. وقد تتداخل النسب لأن المدخل الواحد يمكن أن يتناول عدة موضوعات.',
+                'The integrated report could not be created.': 'تعذر إنشاء التقرير المتكامل.',
+                'The integrated PowerPoint presentation could not be created. Please try again.': 'تعذر إنشاء عرض PowerPoint المتكامل. يرجى المحاولة مجدداً.'
+            });
+
             function isArabic2026() { return currentLanguage2026 === 'ar'; }
 
             function translateDynamicText2026(text) {
@@ -2110,6 +2322,7 @@
                 if ((match = text.match(/^Exercise (\d+) access$/))) return 'الدخول إلى التمرين ' + match[1];
                 if ((match = text.match(/^Exercise (\d+) Reports$/))) return 'تقارير التمرين ' + match[1];
                 if ((match = text.match(/^Exercise (\d+) Group Report$/))) return 'تقرير المجموعة للتمرين ' + match[1];
+                if ((match = text.match(/^Exercise (\d+) Group Presentation$/))) return 'عرض المجموعة للتمرين ' + match[1];
                 if ((match = text.match(/^Exercise (\d+) Consolidated Report$/))) return 'التقرير الموحد للتمرين ' + match[1];
                 if ((match = text.match(/^Exercise (\d+) · (.+)$/))) return 'التمرين ' + match[1] + ' · ' + translateText2026(match[2]);
                 if ((match = text.match(/^Day (\d+): (.+)$/))) return 'اليوم ' + match[1] + ': ' + translateText2026(match[2]);
@@ -2633,7 +2846,10 @@
                 var navigationTab = exerciseTab ? 'exercises' : (agendaDayTab ? 'agenda' : tabId);
                 var button = document.querySelector('.nav-btn[data-tab="' + navigationTab + '"]');
                 if (button) button.classList.add('active');
-                if (tabId === 'backend') renderDashboard2026();
+                if (tabId === 'backend') {
+                    renderDashboard2026();
+                    if (administratorUnlocked2026()) showAdministratorHome2026();
+                }
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
 
@@ -3290,12 +3506,22 @@
                     var record = lastSubmittedRecords2026[exercise.id];
                     if (record) generateGroupReport2026(exercise, record);
                 });
+                var groupPresentation = createElement2026('button', 'btn-secondary', 'Group Presentation');
+                groupPresentation.type = 'button';
+                groupPresentation.id = exercise.id + '-group-presentation';
+                groupPresentation.disabled = !lastSubmittedRecords2026[exercise.id];
+                groupPresentation.title = 'This button becomes available after the group submits the exercise.';
+                groupPresentation.addEventListener('click', function () {
+                    var record = lastSubmittedRecords2026[exercise.id];
+                    if (record) generateGroupPresentation2026(exercise, record, groupPresentation);
+                });
                 var clear = createElement2026('button', 'btn-clear', 'Clear entered data');
                 clear.type = 'button';
                 clear.title = 'Clear responses entered on this form without deleting any saved submission.';
                 clear.addEventListener('click', function () { clearExerciseForm2026(exercise); });
                 formActions.appendChild(submit);
                 formActions.appendChild(groupReport);
+                formActions.appendChild(groupPresentation);
                 formActions.appendChild(clear);
                 form.appendChild(formActions);
                 var message = createElement2026('div', 'form-message', 'Submission saved successfully.');
@@ -3376,8 +3602,13 @@
                         reportButton.disabled = false;
                         reportButton.title = 'Open a presentation-ready report of this submitted group response.';
                     }
+                    var presentationButton = document.getElementById(exercise.id + '-group-presentation');
+                    if (presentationButton) {
+                        presentationButton.disabled = false;
+                        presentationButton.title = 'Download a PowerPoint presentation of this submitted group response.';
+                    }
                     var message = document.getElementById(exercise.id + '-message');
-                    message.textContent = 'Submission saved to the live workshop database. The Group Report button is now available.';
+                    message.textContent = 'Submission saved to the live workshop database. The Group Report and Group Presentation buttons are now available.';
                     message.style.background = '#d4edda';
                     message.style.color = '#155724';
                     message.style.display = 'block';
@@ -3762,6 +3993,276 @@
                     pages += reportPageShell2026('<div class="workshop-kicker">Exercise ' + exerciseNumber + ' · Additional input</div><h2 class="question-title">Comments, opinions and suggestions</h2>' + reportResponseHtml2026(record.comments), pageNumber++);
                 }
                 openProfessionalReport2026('Exercise ' + exerciseNumber + ' Group Report', exercise.title, pages);
+            }
+
+            function presentationTextOptions2026(options) {
+                return Object.assign({
+                    fontFace: 'Arial',
+                    color: '263B46',
+                    margin: 0,
+                    valign: 'mid',
+                    breakLine: false,
+                    fit: 'shrink',
+                    rtlMode: isArabic2026(),
+                    align: isArabic2026() ? 'right' : 'left'
+                }, options || {});
+            }
+
+            function addPresentationLogos2026(slide, compact) {
+                var logos = reportLogos2026().slice(0, 2);
+                var positions = compact ? [
+                    { x: 10.55, y: 0.13, w: 1.15, h: 0.38 },
+                    { x: 11.82, y: 0.13, w: 1.05, h: 0.38 }
+                ] : [
+                    { x: 0.55, y: 0.18, w: 2.25, h: 0.48 },
+                    { x: 10.35, y: 0.18, w: 2.35, h: 0.48 }
+                ];
+                logos.forEach(function (logo, index) {
+                    try {
+                        slide.addImage({ data: logo.src, x: positions[index].x, y: positions[index].y, w: positions[index].w, h: positions[index].h, transparency: 0 });
+                    } catch (error) {
+                        console.warn('A workshop partner logo could not be added to the PowerPoint presentation.', error);
+                    }
+                });
+            }
+
+            function addPresentationSlideFrame2026(pptx, slide, sectionTitle, slideNumber) {
+                slide.background = { color: 'FFFFFF' };
+                slide.addShape(pptx.ShapeType.rect, { x: 0, y: 0, w: 13.333, h: 0.68, line: { color: '0F2D3D', transparency: 100 }, fill: { color: '0F2D3D' } });
+                slide.addShape(pptx.ShapeType.rect, { x: 0, y: 0.68, w: 13.333, h: 0.08, line: { color: '00A884', transparency: 100 }, fill: { color: '00A884' } });
+                slide.addText(translateText2026(sectionTitle), presentationTextOptions2026({ x: 0.48, y: 0.14, w: 9.7, h: 0.34, fontSize: 17, bold: true, color: 'FFFFFF', valign: 'mid' }));
+                addPresentationLogos2026(slide, true);
+                slide.addShape(pptx.ShapeType.line, { x: 0.48, y: 7.08, w: 12.36, h: 0, line: { color: 'D8E6E1', width: 1 } });
+                slide.addText(translateText2026('UNEP Regional Office for West Asia · Supreme Council for Environment, Bahrain'), presentationTextOptions2026({ x: 0.48, y: 7.14, w: 10.9, h: 0.18, fontSize: 8.5, color: '6B7C84', valign: 'mid' }));
+                slide.addText(String(slideNumber), presentationTextOptions2026({ x: 12.15, y: 7.14, w: 0.65, h: 0.18, fontSize: 9, bold: true, color: '00875A', align: 'right', rtlMode: false }));
+            }
+
+            function addPresentationHeading2026(slide, title, subtitle) {
+                slide.addText(translateText2026(title), presentationTextOptions2026({ x: 0.62, y: 0.98, w: 12.05, h: 0.58, fontSize: 25, bold: true, color: '0F2D3D', valign: 'top' }));
+                if (subtitle) {
+                    slide.addText(translateText2026(subtitle), presentationTextOptions2026({ x: 0.64, y: 1.58, w: 12, h: 0.34, fontSize: 12.5, color: '57707C', valign: 'top' }));
+                }
+            }
+
+            function addPresentationBulletList2026(pptx, slide, items, box) {
+                var values = (items || []).filter(Boolean);
+                if (!values.length) return;
+                var rowHeight = Math.min(0.92, box.h / values.length);
+                var fontSize = values.join(' ').length > 750 ? 14 : (values.join(' ').length > 480 ? 16 : 18);
+                values.forEach(function (value, index) {
+                    var y = box.y + (index * rowHeight);
+                    var markerX = isArabic2026() ? box.x + box.w - 0.16 : box.x;
+                    var textX = isArabic2026() ? box.x : box.x + 0.28;
+                    slide.addShape(pptx.ShapeType.ellipse, {
+                        x: markerX,
+                        y: y + 0.14,
+                        w: 0.12,
+                        h: 0.12,
+                        line: { color: '00A884', transparency: 100 },
+                        fill: { color: '00A884' }
+                    });
+                    slide.addText(String(value), presentationTextOptions2026({
+                        x: textX,
+                        y: y,
+                        w: box.w - 0.34,
+                        h: rowHeight - 0.04,
+                        fontSize: fontSize,
+                        color: '263B46',
+                        valign: 'top'
+                    }));
+                });
+            }
+
+            function splitPresentationText2026(value, maximumCharacters) {
+                var text = String(value || '').replace(/\r/g, '').replace(/[ \t]+/g, ' ').trim();
+                if (!text) return [];
+                var limit = maximumCharacters || 800;
+                var chunks = [];
+                while (text.length > limit) {
+                    var minimumBreak = Math.floor(limit * 0.58);
+                    var candidates = [text.lastIndexOf('\n', limit), text.lastIndexOf('. ', limit), text.lastIndexOf('؛ ', limit), text.lastIndexOf('; ', limit), text.lastIndexOf('، ', limit), text.lastIndexOf(', ', limit), text.lastIndexOf(' ', limit)];
+                    var splitAt = Math.max.apply(Math, candidates);
+                    if (splitAt < minimumBreak) splitAt = limit;
+                    chunks.push(text.slice(0, splitAt + (text.charAt(splitAt) === ' ' ? 0 : 1)).trim());
+                    text = text.slice(splitAt + 1).trim();
+                }
+                if (text) chunks.push(text);
+                return chunks;
+            }
+
+            function presentationResponseChunks2026(response) {
+                if (Array.isArray(response)) {
+                    var items = responseValues2026(response).map(function (value) { return translateText2026(value); });
+                    var groups = [];
+                    var current = [];
+                    var length = 0;
+                    items.forEach(function (item) {
+                        var parts = splitPresentationText2026(item, 560);
+                        parts.forEach(function (part) {
+                            if (current.length >= 6 || (current.length && length + part.length > 720)) {
+                                groups.push({ type: 'list', items: current });
+                                current = [];
+                                length = 0;
+                            }
+                            current.push(part);
+                            length += part.length;
+                        });
+                    });
+                    if (current.length) groups.push({ type: 'list', items: current });
+                    return groups;
+                }
+                return splitPresentationText2026(translateText2026(response || 'No response recorded.'), 900).map(function (text) {
+                    return { type: 'text', text: text };
+                });
+            }
+
+            function safePresentationFilename2026(value) {
+                return String(value || 'group-presentation')
+                    .replace(/[<>:"/\\|?*\u0000-\u001f]/g, '-')
+                    .replace(/\s+/g, '-')
+                    .replace(/-+/g, '-')
+                    .replace(/^-|-$/g, '')
+                    .slice(0, 110) || 'group-presentation';
+            }
+
+            function addPresentationMetric2026(pptx, slide, x, value, label) {
+                slide.addShape(pptx.ShapeType.roundRect, { x: x, y: 1.92, w: 2.85, h: 1.02, rectRadius: 0.06, line: { color: 'D8E6E1', width: 1 }, fill: { color: 'F4F8F7' } });
+                slide.addText(String(value), presentationTextOptions2026({ x: x + 0.16, y: 2.04, w: 2.53, h: 0.38, fontSize: 24, bold: true, color: '00875A', align: 'center', rtlMode: false }));
+                slide.addText(translateText2026(label), presentationTextOptions2026({ x: x + 0.14, y: 2.46, w: 2.57, h: 0.28, fontSize: 10.5, bold: true, color: '57707C', align: 'center' }));
+            }
+
+            async function generateGroupPresentation2026(exercise, record, triggerButton) {
+                var originalLabel = 'Group Presentation';
+                if (!window.PptxGenJS) {
+                    window.alert('The PowerPoint presentation could not be created. Please check the internet connection and try again.');
+                    return;
+                }
+                if (triggerButton) {
+                    triggerButton.disabled = true;
+                    triggerButton.textContent = translateText2026('Preparing PowerPoint...');
+                }
+                try {
+                    var pptx = new window.PptxGenJS();
+                    var exerciseNumber = exercises2026.indexOf(exercise) + 1;
+                    var groupName = translateText2026(record.group || 'Not specified');
+                    var countryName = translateText2026(record.country || 'Not specified');
+                    var workshopTitle = translateText2026('Advancing Environmental Data Governance to Support Environmental Decision-Making in West Asia');
+                    var presentationTitle = translateText2026('Exercise ' + exerciseNumber + ' Group Presentation');
+                    var analysis = analyzeExerciseRecords2026(exercise, [record]);
+                    var slideNumber = 1;
+
+                    pptx.layout = 'LAYOUT_WIDE';
+                    pptx.author = 'UNEP Regional Office for West Asia';
+                    pptx.company = 'United Nations Environment Programme';
+                    pptx.subject = translateText2026(exercise.title);
+                    pptx.title = presentationTitle;
+                    pptx.lang = isArabic2026() ? 'ar-BH' : 'en-US';
+                    pptx.rtlMode = isArabic2026();
+                    pptx.theme = {
+                        headFontFace: 'Arial',
+                        bodyFontFace: 'Arial',
+                        lang: isArabic2026() ? 'ar-BH' : 'en-US'
+                    };
+
+                    var coverSlide = pptx.addSlide();
+                    coverSlide.background = { color: '0F2D3D' };
+                    coverSlide.addShape(pptx.ShapeType.rect, { x: 0, y: 0, w: 13.333, h: 0.87, line: { color: 'FFFFFF', transparency: 100 }, fill: { color: 'FFFFFF' } });
+                    coverSlide.addShape(pptx.ShapeType.rect, { x: 0, y: 0.87, w: 13.333, h: 0.1, line: { color: '00A884', transparency: 100 }, fill: { color: '00A884' } });
+                    addPresentationLogos2026(coverSlide, false);
+                    coverSlide.addText(workshopTitle, presentationTextOptions2026({ x: 0.72, y: 1.35, w: 11.9, h: 1.05, fontSize: 25, bold: true, color: 'FFFFFF', valign: 'top' }));
+                    coverSlide.addShape(pptx.ShapeType.rect, { x: 0.72, y: 2.68, w: 11.9, h: 1.45, line: { color: '00A884', width: 1.5 }, fill: { color: '1A4F66' } });
+                    coverSlide.addText(presentationTitle, presentationTextOptions2026({ x: 1.05, y: 2.94, w: 11.2, h: 0.48, fontSize: 28, bold: true, color: 'FFFFFF', align: 'center' }));
+                    coverSlide.addText(translateText2026(exercise.title), presentationTextOptions2026({ x: 1.05, y: 3.48, w: 11.2, h: 0.34, fontSize: 15.5, color: 'DDF3EC', align: 'center' }));
+                    var coverMeta = [
+                        [translateText2026('Working Group'), groupName],
+                        [translateText2026('Country'), countryName],
+                        [translateText2026('Submitted by'), record.participantName || translateText2026('Not specified')]
+                    ];
+                    coverMeta.forEach(function (entry, index) {
+                        var x = 0.72 + (index * 4.05);
+                        coverSlide.addShape(pptx.ShapeType.roundRect, { x: x, y: 4.62, w: 3.72, h: 1.05, rectRadius: 0.05, line: { color: '3D6A79', width: 1 }, fill: { color: '163B4D', transparency: 10 } });
+                        coverSlide.addText(entry[0], presentationTextOptions2026({ x: x + 0.18, y: 4.78, w: 3.36, h: 0.23, fontSize: 9.5, bold: true, color: '00D6A4' }));
+                        coverSlide.addText(entry[1], presentationTextOptions2026({ x: x + 0.18, y: 5.08, w: 3.36, h: 0.34, fontSize: 15, bold: true, color: 'FFFFFF' }));
+                    });
+                    coverSlide.addText(translateText2026('Regional Workshop · 20–22 October 2026 · Manama, Bahrain'), presentationTextOptions2026({ x: 0.72, y: 6.62, w: 11.9, h: 0.28, fontSize: 11, bold: true, color: 'DDF3EC', align: 'center' }));
+                    coverSlide.addText(String(slideNumber++), presentationTextOptions2026({ x: 12.15, y: 7.12, w: 0.65, h: 0.18, fontSize: 9, color: 'A9C6BC', align: 'right', rtlMode: false }));
+
+                    var purposeSlide = pptx.addSlide();
+                    addPresentationSlideFrame2026(pptx, purposeSlide, 'Workshop exercise', slideNumber++);
+                    addPresentationHeading2026(purposeSlide, 'Exercise ' + exerciseNumber + ': ' + exercise.title, 'Exercise purpose and expected output');
+                    var purposeRows = [
+                        [translateText2026('Objective:'), translateText2026(exercise.objective)],
+                        [translateText2026('Expected outcome:'), translateText2026(exercise.outcome)],
+                        [translateText2026('Group presentation:'), translateText2026(exercise.report)]
+                    ];
+                    purposeRows.forEach(function (entry, index) {
+                        var y = 2.02 + (index * 1.42);
+                        purposeSlide.addShape(pptx.ShapeType.roundRect, { x: 0.68, y: y, w: 11.95, h: 1.08, rectRadius: 0.05, line: { color: index === 2 ? 'E6A100' : 'D8E6E1', width: 1.2 }, fill: { color: index === 2 ? 'FFF8E5' : 'F4F8F7' } });
+                        purposeSlide.addText(entry[0], presentationTextOptions2026({ x: 0.92, y: y + 0.16, w: 2.05, h: 0.27, fontSize: 11, bold: true, color: index === 2 ? 'A46E00' : '00875A' }));
+                        purposeSlide.addText(entry[1], presentationTextOptions2026({ x: 2.95, y: y + 0.13, w: 9.34, h: 0.72, fontSize: 15.5, color: '263B46', valign: 'top' }));
+                    });
+
+                    var summarySlide = pptx.addSlide();
+                    addPresentationSlideFrame2026(pptx, summarySlide, 'Analytical Summary of the Results', slideNumber++);
+                    addPresentationHeading2026(summarySlide, 'Analytical Summary of the Results', groupName + ' · ' + countryName);
+                    addPresentationMetric2026(pptx, summarySlide, 0.68, analysis.totalRecords, analysis.totalRecords === 1 ? 'Input analyzed' : 'Inputs analyzed');
+                    addPresentationMetric2026(pptx, summarySlide, 3.72, analysis.completionPercentage + '%', 'Required-answer coverage');
+                    addPresentationMetric2026(pptx, summarySlide, 6.76, analysis.narrativeInputCount, 'Inputs with written findings');
+                    addPresentationMetric2026(pptx, summarySlide, 9.8, analysis.commentsPercentage + '%', 'Inputs with extra comments');
+                    summarySlide.addText(translateText2026('Key findings'), presentationTextOptions2026({ x: 0.68, y: 3.3, w: 11.95, h: 0.34, fontSize: 18, bold: true, color: '0F2D3D' }));
+                    addPresentationBulletList2026(pptx, summarySlide, analysis.findings, { x: 0.72, y: 3.76, w: 11.8, h: 2.82 });
+
+                    if (analysis.themes.length) {
+                        var themeSlide = pptx.addSlide();
+                        addPresentationSlideFrame2026(pptx, themeSlide, 'Thematic profile', slideNumber++);
+                        addPresentationHeading2026(themeSlide, 'Relative thematic emphasis in the group response', 'Relative share of detected themes');
+                        analysis.themes.slice(0, 7).forEach(function (theme, index) {
+                            var y = 2.02 + (index * 0.62);
+                            var share = Math.max(0, Math.min(100, Number(theme.share) || 0));
+                            themeSlide.addText(translateText2026(theme.label), presentationTextOptions2026({ x: 0.7, y: y, w: 3.55, h: 0.32, fontSize: 12.5, bold: true, color: '0F2D3D' }));
+                            themeSlide.addShape(pptx.ShapeType.roundRect, { x: 4.38, y: y + 0.05, w: 6.95, h: 0.22, rectRadius: 0.04, line: { color: 'E1EBE7', transparency: 100 }, fill: { color: 'E1EBE7' } });
+                            themeSlide.addShape(pptx.ShapeType.roundRect, { x: 4.38, y: y + 0.05, w: Math.max(0.04, 6.95 * share / 100), h: 0.22, rectRadius: 0.04, line: { color: '00A884', transparency: 100 }, fill: { color: index === 0 ? '00875A' : '00A884' } });
+                            themeSlide.addText(share + '%', presentationTextOptions2026({ x: 11.52, y: y - 0.02, w: 0.78, h: 0.32, fontSize: 12.5, bold: true, color: '00875A', align: 'right', rtlMode: false }));
+                        });
+                    }
+
+                    (record.answers || []).forEach(function (answer, answerIndex) {
+                        var responseChunks = presentationResponseChunks2026(answer.response);
+                        responseChunks.forEach(function (chunk, chunkIndex) {
+                            var answerSlide = pptx.addSlide();
+                            addPresentationSlideFrame2026(pptx, answerSlide, 'Exercise ' + exerciseNumber + ' Group Presentation', slideNumber++);
+                            addPresentationHeading2026(answerSlide, 'Finding ' + (answerIndex + 1) + (chunkIndex ? ' · ' + translateText2026('Continuation') : ''), answer.question);
+                            answerSlide.addShape(pptx.ShapeType.roundRect, { x: 0.68, y: 2.05, w: 11.95, h: 4.62, rectRadius: 0.05, line: { color: 'D8E6E1', width: 1.2 }, fill: { color: 'F4F8F7' } });
+                            if (chunk.type === 'list') {
+                                addPresentationBulletList2026(pptx, answerSlide, chunk.items, { x: 0.98, y: 2.36, w: 11.32, h: 3.98 });
+                            } else {
+                                var textSize = chunk.text.length > 760 ? 14 : (chunk.text.length > 480 ? 16 : 19);
+                                answerSlide.addText(chunk.text, presentationTextOptions2026({ x: 1.02, y: 2.38, w: 11.22, h: 3.92, fontSize: textSize, color: '263B46', valign: 'top', paraSpaceAfterPt: 7 }));
+                            }
+                        });
+                    });
+
+                    if (record.comments) {
+                        splitPresentationText2026(translateText2026(record.comments), 900).forEach(function (commentChunk, commentIndex) {
+                            var commentSlide = pptx.addSlide();
+                            addPresentationSlideFrame2026(pptx, commentSlide, 'Additional comments, opinions and suggestions', slideNumber++);
+                            addPresentationHeading2026(commentSlide, 'Additional comments, opinions and suggestions', commentIndex ? translateText2026('Continuation') : groupName);
+                            commentSlide.addShape(pptx.ShapeType.roundRect, { x: 0.68, y: 2.05, w: 11.95, h: 4.62, rectRadius: 0.05, line: { color: 'E6A100', width: 1.2 }, fill: { color: 'FFF8E5' } });
+                            commentSlide.addText(commentChunk, presentationTextOptions2026({ x: 1.02, y: 2.4, w: 11.22, h: 3.92, fontSize: commentChunk.length > 700 ? 15 : 19, color: '263B46', valign: 'top', paraSpaceAfterPt: 7 }));
+                        });
+                    }
+
+                    var filename = safePresentationFilename2026('Exercise-' + exerciseNumber + '-' + (record.group || 'Group') + '-Presentation') + '.pptx';
+                    await pptx.writeFile({ fileName: filename, compression: true });
+                } catch (error) {
+                    console.warn('The PowerPoint group presentation could not be created.', error);
+                    window.alert('The PowerPoint presentation could not be created. Please check the internet connection and try again.');
+                } finally {
+                    if (triggerButton) {
+                        triggerButton.disabled = false;
+                        triggerButton.textContent = translateText2026(originalLabel);
+                    }
+                }
             }
 
             function latestGroupSubmissions2026(records) {
@@ -4382,6 +4883,7 @@
                     renderExerciseResults2026(exercise, records);
                 });
                 renderParticipantList2026();
+                renderAdministratorParticipationSummary2026();
                 renderAnalytics2026();
             }
 
@@ -4747,18 +5249,63 @@
                 return overlay;
             }
 
-            function resetConfirmationPhrase2026() {
-                return isArabic2026() ? 'حذف جميع البيانات' : 'RESET ALL DATA';
+            function resetScopeDetails2026(scope) {
+                var definitions = {
+                    exercises: {
+                        title: 'Reset Exercise Data',
+                        phrase: isArabic2026() ? 'حذف بيانات التمارين' : 'RESET EXERCISE DATA',
+                        items: ['All seven exercise submissions'],
+                        success: 'Exercise data were reset successfully.',
+                        signsOut: false
+                    },
+                    registrations: {
+                        title: 'Reset Registration Data',
+                        phrase: isArabic2026() ? 'حذف بيانات التسجيل' : 'RESET REGISTRATION DATA',
+                        items: ['Participant registrations'],
+                        success: 'Registration data were reset successfully. You will now be signed out because participant registrations were removed.',
+                        signsOut: true
+                    },
+                    passwords: {
+                        title: 'Reset Password Data',
+                        phrase: isArabic2026() ? 'حذف بيانات كلمات المرور' : 'RESET PASSWORD DATA',
+                        items: ['Registration-password settings', 'Custom exercise-password settings'],
+                        success: 'Password settings were reset successfully. The requested default passwords are now active.',
+                        signsOut: false
+                    },
+                    all: {
+                        title: 'Reset All Workshop Data',
+                        phrase: isArabic2026() ? 'حذف جميع البيانات' : 'RESET ALL DATA',
+                        items: ['Participant registrations', 'All seven exercise submissions', 'Published workshop document links', 'Registration-password settings', 'Custom exercise-password settings'],
+                        success: 'All workshop database data were reset successfully. You will now be signed out because participant registrations were removed.',
+                        signsOut: true
+                    }
+                };
+                return definitions[scope] || definitions.all;
             }
 
-            function openResetAllData2026() {
+            function resetConfirmationPhrase2026(scope) {
+                return resetScopeDetails2026(scope || selectedResetScope2026).phrase;
+            }
+
+            function openResetData2026(scope) {
                 if (!administratorUnlocked2026()) {
                     window.alert('Administrator access is required.');
                     return;
                 }
+                selectedResetScope2026 = ['exercises', 'registrations', 'passwords', 'all'].indexOf(scope) >= 0 ? scope : 'all';
                 var modal = document.getElementById('reset-all-data-modal');
                 if (!modal) return;
-                var phrase = resetConfirmationPhrase2026();
+                var details = resetScopeDetails2026(selectedResetScope2026);
+                var modalTitle = document.getElementById('reset-modal-title');
+                var warningLead = document.getElementById('reset-warning-lead');
+                var warningList = document.getElementById('reset-warning-list');
+                if (modalTitle) modalTitle.textContent = translateText2026(details.title);
+                if (warningLead) warningLead.textContent = translateText2026('This action permanently removes the selected workshop portal data:');
+                if (warningList) {
+                    warningList.innerHTML = '';
+                    details.items.forEach(function (item) { warningList.appendChild(createElement2026('li', '', item)); });
+                }
+                var phrase = resetConfirmationPhrase2026(selectedResetScope2026);
                 var phraseText = document.getElementById('reset-confirmation-instruction');
                 if (phraseText) phraseText.textContent = translateText2026('To confirm, type the following phrase exactly:') + ' ' + phrase;
                 var password = document.getElementById('reset-administrator-password');
@@ -4774,6 +5321,10 @@
                 if (password) password.focus();
             }
 
+            function openResetAllData2026() {
+                openResetData2026('all');
+            }
+
             function closeResetAllData2026() {
                 var modal = document.getElementById('reset-all-data-modal');
                 if (modal) {
@@ -4782,14 +5333,18 @@
                 }
             }
 
-            function resetDatabaseUpdates2026() {
-                var updates = {
-                    participant_registrations: null,
-                    registration_access_passwords: null,
-                    exercise_access_passwords: null,
-                    workshop_documents: null
-                };
-                exercises2026.forEach(function (exercise) { updates[exercise.key] = null; });
+            function resetDatabaseUpdates2026(scope) {
+                var selectedScope = scope || 'all';
+                var updates = {};
+                if (selectedScope === 'registrations' || selectedScope === 'all') updates.participant_registrations = null;
+                if (selectedScope === 'passwords' || selectedScope === 'all') {
+                    updates.registration_access_passwords = null;
+                    updates.exercise_access_passwords = null;
+                }
+                if (selectedScope === 'all') updates.workshop_documents = null;
+                if (selectedScope === 'exercises' || selectedScope === 'all') {
+                    exercises2026.forEach(function (exercise) { updates[exercise.key] = null; });
+                }
                 return updates;
             }
 
@@ -4816,7 +5371,8 @@
                     if (password) password.focus();
                     return;
                 }
-                if (!confirmation || confirmation.value.trim() !== resetConfirmationPhrase2026()) {
+                var details = resetScopeDetails2026(selectedResetScope2026);
+                if (!confirmation || confirmation.value.trim() !== resetConfirmationPhrase2026(selectedResetScope2026)) {
                     showResetMessage2026('The confirmation phrase does not match. No data were deleted.', 'error');
                     if (confirmation) confirmation.focus();
                     return;
@@ -4830,28 +5386,39 @@
                     return;
                 }
                 resetButton.disabled = true;
-                resetButton.textContent = translateText2026('Resetting workshop data...');
+                resetButton.textContent = translateText2026('Resetting selected data...');
                 try {
-                    await promiseWithTimeout2026(database2026.ref('/').update(resetDatabaseUpdates2026()), 30000, 'Resetting workshop data timed out.');
-                    liveRegistrations2026 = [];
-                    liveDocuments2026 = [];
-                    liveRegistrationPasswordConfig2026 = null;
-                    registrationPasswordConfigLoaded2026 = true;
-                    liveExercisePasswordConfig2026 = {};
-                    lastSubmittedRecords2026 = {};
-                    exercises2026.forEach(function (exercise) { liveData2026[exercise.key] = []; });
+                    await promiseWithTimeout2026(database2026.ref('/').update(resetDatabaseUpdates2026(selectedResetScope2026)), 30000, 'Resetting workshop data timed out.');
+                    if (selectedResetScope2026 === 'registrations' || selectedResetScope2026 === 'all') liveRegistrations2026 = [];
+                    if (selectedResetScope2026 === 'all') liveDocuments2026 = [];
+                    if (selectedResetScope2026 === 'passwords' || selectedResetScope2026 === 'all') {
+                        liveRegistrationPasswordConfig2026 = null;
+                        registrationPasswordConfigLoaded2026 = true;
+                        liveExercisePasswordConfig2026 = {};
+                        exercisePasswordConfigLoaded2026 = true;
+                    }
+                    if (selectedResetScope2026 === 'exercises' || selectedResetScope2026 === 'all') {
+                        lastSubmittedRecords2026 = {};
+                        exercises2026.forEach(function (exercise) { liveData2026[exercise.key] = []; });
+                    }
                     renderDocuments2026();
                     renderAdministratorDocuments2026();
                     renderParticipantList2026();
                     renderRegistrationPasswordManager2026();
+                    renderExercisePasswordManager2026();
                     renderDashboard2026();
-                    showResetMessage2026('All workshop database data were reset successfully. You will now be signed out because participant registrations were removed.', 'success');
-                    window.setTimeout(signOutPortal2026, 2600);
+                    showResetMessage2026(details.success, 'success');
+                    if (details.signsOut) {
+                        window.setTimeout(signOutPortal2026, 2600);
+                    } else {
+                        resetButton.disabled = false;
+                        resetButton.textContent = translateText2026('Permanently Reset Selected Data');
+                    }
                 } catch (error) {
                     console.warn('Workshop database reset failed.', error);
-                    showResetMessage2026('The workshop data could not be reset. No successful reset was confirmed; check the database connection and permissions.', 'error');
+                    showResetMessage2026('The selected workshop data could not be reset. No successful reset was confirmed; check the database connection and permissions.', 'error');
                     resetButton.disabled = false;
-                    resetButton.textContent = translateText2026('Permanently Reset All Data');
+                    resetButton.textContent = translateText2026('Permanently Reset Selected Data');
                 }
             }
 
@@ -4865,13 +5432,15 @@
                     if (event.target === overlay) closeResetAllData2026();
                 });
                 var dialog = createElement2026('div', 'modal-dialog');
-                dialog.appendChild(createElement2026('h3', '', 'Reset All Workshop Data'));
+                var title = createElement2026('h3', '', 'Reset Selected Workshop Data');
+                title.id = 'reset-modal-title';
+                dialog.appendChild(title);
                 var warning = createElement2026('div', 'danger-panel');
-                warning.appendChild(createElement2026('strong', '', 'This action permanently removes all data entered in this workshop portal:'));
+                var warningLead = createElement2026('strong', '', 'This action permanently removes the selected workshop portal data:');
+                warningLead.id = 'reset-warning-lead';
+                warning.appendChild(warningLead);
                 var list = createElement2026('ul');
-                ['Participant registrations', 'All seven exercise submissions', 'Published workshop document links', 'Registration-password settings', 'Custom exercise-password settings'].forEach(function (item) {
-                    list.appendChild(createElement2026('li', '', item));
-                });
+                list.id = 'reset-warning-list';
                 warning.appendChild(list);
                 warning.appendChild(createElement2026('p', '', 'Original files hosted in external repositories are not deleted. This database reset cannot be undone.'));
                 dialog.appendChild(warning);
@@ -4893,7 +5462,7 @@
                 message.setAttribute('role', 'status');
                 dialog.appendChild(message);
                 var actions = createElement2026('div', 'form-actions');
-                var reset = createElement2026('button', 'btn-danger', 'Permanently Reset All Data');
+                var reset = createElement2026('button', 'btn-danger', 'Permanently Reset Selected Data');
                 reset.id = 'reset-all-data-submit';
                 reset.type = 'button';
                 reset.addEventListener('click', resetAllWorkshopData2026);
@@ -4905,6 +5474,440 @@
                 dialog.appendChild(actions);
                 overlay.appendChild(dialog);
                 return overlay;
+            }
+
+            function integratedWorkshopAnalysis2026() {
+                var exerciseRows = [];
+                var latestRecords = [];
+                var totalRecordedSubmissions = 0;
+                var completedAnswers = 0;
+                var totalPossibleAnswers = 0;
+                var groupSet = {};
+                var countrySet = {};
+
+                exercises2026.forEach(function (exercise, index) {
+                    var allRecords = liveData2026[exercise.key] || [];
+                    var selectedRecords = latestGroupSubmissions2026(allRecords);
+                    var analysis = analyzeExerciseRecords2026(exercise, selectedRecords);
+                    totalRecordedSubmissions += allRecords.length;
+                    completedAnswers += analysis.completedAnswers;
+                    totalPossibleAnswers += analysis.totalPossibleAnswers;
+                    selectedRecords.forEach(function (record) {
+                        latestRecords.push({ exercise: exercise, record: record });
+                        if (record.group && record.group !== 'No group') groupSet[record.group] = true;
+                        if (record.country) countrySet[record.country] = true;
+                    });
+                    exerciseRows.push({
+                        exercise: exercise,
+                        number: index + 1,
+                        label: 'Exercise ' + (index + 1),
+                        title: exercise.short,
+                        recordedSubmissions: allRecords.length,
+                        latestInputs: selectedRecords.length,
+                        completionPercentage: analysis.completionPercentage,
+                        analysis: analysis,
+                        records: selectedRecords,
+                        percentage: 0
+                    });
+                });
+
+                exerciseRows.forEach(function (row) {
+                    row.percentage = percentage2026(row.latestInputs, latestRecords.length);
+                });
+
+                var themes = themeDefinitions2026().map(function (theme) {
+                    return { label: theme.label, keywords: theme.keywords, score: 0, recordsWithTheme: 0, percentage: 0, share: 0 };
+                });
+                latestRecords.forEach(function (item) {
+                    var parts = [];
+                    (item.record.answers || []).forEach(function (answer) {
+                        parts = parts.concat(responseValues2026(answer.response));
+                    });
+                    if (item.record.comments) parts.push(item.record.comments);
+                    var text = parts.join(' ').toLowerCase();
+                    themes.forEach(function (theme) {
+                        var score = theme.keywords.reduce(function (sum, keyword) {
+                            return sum + (textContainsKeyword2026(text, keyword) ? 1 : 0);
+                        }, 0);
+                        if (score) theme.recordsWithTheme += 1;
+                        theme.score += score;
+                    });
+                });
+                var totalThemeScore = themes.reduce(function (sum, theme) { return sum + theme.score; }, 0);
+                themes.forEach(function (theme) {
+                    theme.percentage = percentage2026(theme.recordsWithTheme, latestRecords.length);
+                    theme.share = percentage2026(theme.score, totalThemeScore);
+                });
+                themes = themes.filter(function (theme) { return theme.score > 0; }).sort(function (a, b) {
+                    return b.recordsWithTheme - a.recordsWithTheme || b.score - a.score || a.label.localeCompare(b.label);
+                });
+
+                var exercisesWithData = exerciseRows.filter(function (row) { return row.latestInputs > 0; }).length;
+                var overallCompletion = percentage2026(completedAnswers, totalPossibleAnswers);
+                var mostActive = exerciseRows.slice().sort(function (a, b) {
+                    return b.latestInputs - a.latestInputs || a.number - b.number;
+                })[0];
+                var findings = [];
+                if (isArabic2026()) {
+                    findings.push('يغطي التحليل ' + latestRecords.length + ' من أحدث مدخلات المجموعات عبر ' + exercisesWithData + ' من أصل ' + exercises2026.length + ' تمارين، من بين ' + totalRecordedSubmissions + ' إجابة مسجلة في قاعدة البيانات.');
+                    findings.push('بلغت نسبة إكمال الإجابات المطلوبة في أحدث مدخلات المجموعات ' + overallCompletion + '٪.');
+                    if (mostActive && mostActive.latestInputs) findings.push('سجل التمرين ' + mostActive.number + ' أكبر عدد من أحدث مدخلات المجموعات، بعدد ' + mostActive.latestInputs + ' مدخلات.');
+                    if (themes.length) findings.push('كان الموضوع المشترك الأكثر تكراراً هو «' + translateText2026(themes[0].label) + '»، وظهر في ' + themes[0].recordsWithTheme + ' من المدخلات (' + themes[0].percentage + '٪).');
+                } else {
+                    findings.push('The analysis covers ' + latestRecords.length + ' latest group input(s) across ' + exercisesWithData + ' of ' + exercises2026.length + ' exercises, drawn from ' + totalRecordedSubmissions + ' recorded submission(s) in the database.');
+                    findings.push('Required-answer completion across the latest group inputs was ' + overallCompletion + '%.');
+                    if (mostActive && mostActive.latestInputs) findings.push('Exercise ' + mostActive.number + ' had the largest number of latest group inputs, with ' + mostActive.latestInputs + '.');
+                    if (themes.length) findings.push('The most recurrent cross-cutting theme was ' + themes[0].label.toLowerCase() + ', detected in ' + themes[0].recordsWithTheme + ' input(s) (' + themes[0].percentage + '%).');
+                }
+
+                return {
+                    totalRecordedSubmissions: totalRecordedSubmissions,
+                    latestInputCount: latestRecords.length,
+                    exercisesWithData: exercisesWithData,
+                    workingGroupCount: Object.keys(groupSet).length,
+                    countryCount: Object.keys(countrySet).length,
+                    countries: Object.keys(countrySet).sort(),
+                    groups: Object.keys(groupSet).sort(),
+                    completionPercentage: overallCompletion,
+                    exerciseRows: exerciseRows,
+                    themes: themes,
+                    findings: findings
+                };
+            }
+
+            function ensureConsolidatedData2026() {
+                var analysis = integratedWorkshopAnalysis2026();
+                if (!analysis.totalRecordedSubmissions) {
+                    window.alert('No exercise submissions are available for consolidated analysis.');
+                    return null;
+                }
+                return analysis;
+            }
+
+            function generateAllExercisesGroupsReport2026() {
+                var integrated = ensureConsolidatedData2026();
+                if (!integrated) return;
+                var pageNumber = 1;
+                var cover = '<div class="workshop-kicker">Regional Workshop · 20–22 October 2026 · Manama, Bahrain</div>' +
+                    '<div class="workshop-title">Advancing Environmental Data Governance to Support Environmental Decision-Making in West Asia</div>' +
+                    '<div class="cover-band"><h1>Detailed All Exercises and Groups Report</h1><p>All exercises and working groups</p></div>' +
+                    '<div class="meta-grid"><div class="meta-card"><strong>Total recorded submissions</strong>' + integrated.totalRecordedSubmissions + '</div>' +
+                    '<div class="meta-card"><strong>Latest group inputs</strong>' + integrated.latestInputCount + '</div>' +
+                    '<div class="meta-card"><strong>Exercises with submitted data</strong>' + integrated.exercisesWithData + ' / ' + exercises2026.length + '</div>' +
+                    '<div class="meta-card"><strong>Working groups represented</strong>' + integrated.workingGroupCount + '</div></div>';
+                var pages = reportPageShell2026(cover, pageNumber++);
+
+                integrated.exerciseRows.forEach(function (row) {
+                    var exercise = row.exercise;
+                    var groups = row.records.map(function (record) { return translateText2026(record.group || 'Not specified'); }).filter(function (value, index, array) { return array.indexOf(value) === index; });
+                    var countries = row.records.map(function (record) { return translateText2026(record.country || 'Not specified'); }).filter(function (value, index, array) { return array.indexOf(value) === index; });
+                    var overview = '<div class="workshop-kicker">Exercise ' + row.number + ' · ' + escapeHtml2026(exercise.day) + '</div>' +
+                        '<h2 class="question-title">' + escapeHtml2026(exercise.title) + '</h2>' +
+                        '<div class="meta-grid"><div class="meta-card"><strong>Total recorded submissions</strong>' + row.recordedSubmissions + '</div>' +
+                        '<div class="meta-card"><strong>Latest group inputs</strong>' + row.latestInputs + '</div>' +
+                        '<div class="meta-card"><strong>Required-answer coverage</strong>' + row.completionPercentage + '%</div></div>' +
+                        '<div class="highlight-box"><strong>Working groups:</strong> ' + escapeHtml2026(groups.length ? groups.join(isArabic2026() ? '، ' : ', ') : translateText2026('None specified')) + '<br>' +
+                        '<strong>Countries:</strong> ' + escapeHtml2026(countries.length ? countries.join(isArabic2026() ? '، ' : ', ') : translateText2026('Not specified')) + '</div>' +
+                        '<h3>Group findings</h3><ul class="analysis-list">' + row.analysis.findings.map(function (finding) { return '<li>' + escapeHtml2026(finding) + '</li>'; }).join('') + '</ul>';
+                    pages += reportPageShell2026(overview, pageNumber++);
+
+                    exercise.questions.forEach(function (question, questionIndex) {
+                        var responses = [];
+                        row.records.forEach(function (record) {
+                            var answer = answerForQuestion2026(record, question[1]);
+                            if (answer) responses.push({ record: record, response: answer.response });
+                        });
+                        if (!responses.length) return;
+                        var content = '<div class="workshop-kicker">Exercise ' + row.number + ' · All working groups</div>' +
+                            '<span class="question-number">Question ' + (questionIndex + 1) + '</span><h2 class="question-title">' + escapeHtml2026(question[1]) + '</h2>' +
+                            responses.map(function (item) {
+                                var source = translateText2026(item.record.group || 'Not specified') + (item.record.country ? ' · ' + translateText2026(item.record.country) : '');
+                                return '<div class="group-response"><strong>' + escapeHtml2026(source) + '</strong><div>' + reportResponseHtml2026(item.response) + '</div></div>';
+                            }).join('');
+                        pages += reportPageShell2026(content, pageNumber++);
+                    });
+
+                    var comments = row.records.filter(function (record) { return record.comments; });
+                    if (comments.length) {
+                        var commentContent = '<div class="workshop-kicker">Exercise ' + row.number + ' · Additional input</div><h2 class="question-title">Additional comments, opinions and suggestions</h2>' + comments.map(function (record) {
+                            return '<div class="group-response"><strong>' + escapeHtml2026(translateText2026(record.group || 'Not specified')) + '</strong><div>' + reportResponseHtml2026(record.comments) + '</div></div>';
+                        }).join('');
+                        pages += reportPageShell2026(commentContent, pageNumber++);
+                    }
+                });
+                openProfessionalReport2026('Detailed All Exercises and Groups Report', 'All exercises and working groups', pages);
+            }
+
+            function generateIntegratedWorkshopReport2026() {
+                var integrated = ensureConsolidatedData2026();
+                if (!integrated) return;
+                var pageNumber = 1;
+                var cover = '<div class="workshop-kicker">Regional Workshop · 20–22 October 2026 · Manama, Bahrain</div>' +
+                    '<div class="workshop-title">Advancing Environmental Data Governance to Support Environmental Decision-Making in West Asia</div>' +
+                    '<div class="cover-band"><h1>Integrated Workshop Analytical Report</h1><p>Cross-exercise overview</p></div>' +
+                    '<div class="meta-grid"><div class="meta-card"><strong>Total recorded submissions</strong>' + integrated.totalRecordedSubmissions + '</div>' +
+                    '<div class="meta-card"><strong>Latest group inputs</strong>' + integrated.latestInputCount + '</div>' +
+                    '<div class="meta-card"><strong>Exercises with submitted data</strong>' + integrated.exercisesWithData + ' / ' + exercises2026.length + '</div>' +
+                    '<div class="meta-card"><strong>Countries represented</strong>' + integrated.countryCount + '</div></div>';
+                var pages = reportPageShell2026(cover, pageNumber++);
+                var overview = '<div class="workshop-kicker">Integrated analysis</div><h2 class="question-title">Analytical Summary of the Results</h2>' +
+                    '<div class="analysis-metrics"><div class="analysis-metric"><strong>' + integrated.latestInputCount + '</strong><span>Latest group inputs</span></div>' +
+                    '<div class="analysis-metric"><strong>' + integrated.completionPercentage + '%</strong><span>Required-answer coverage</span></div>' +
+                    '<div class="analysis-metric"><strong>' + integrated.workingGroupCount + '</strong><span>Working groups represented</span></div>' +
+                    '<div class="analysis-metric"><strong>' + integrated.countryCount + '</strong><span>Countries represented</span></div></div>' +
+                    '<h3>Consolidated findings</h3><ul class="analysis-list">' + integrated.findings.map(function (finding) { return '<li>' + escapeHtml2026(finding) + '</li>'; }).join('') + '</ul>' +
+                    '<div class="analysis-method"><strong>Interpretation note:</strong> This is an automatically generated descriptive synthesis of the latest eligible group inputs. It should be reviewed by the workshop facilitation team before formal circulation.</div>';
+                pages += reportPageShell2026(overview, pageNumber++);
+
+                var activity = '<div class="workshop-kicker">Cross-exercise overview</div><h2 class="question-title">Activity by exercise</h2>' +
+                    '<div class="analysis-chart">' + analysisBarChartHtml2026(integrated.exerciseRows.map(function (row) { return { label: row.label + ': ' + row.title, percentage: row.percentage }; }), 'percentage') + '</div>' +
+                    '<div class="analysis-method">Percentages show each exercise’s share of the latest eligible group inputs included in this integrated analysis.</div>';
+                pages += reportPageShell2026(activity, pageNumber++);
+
+                var themes = '<div class="workshop-kicker">Cross-exercise overview</div><h2 class="question-title">Integrated thematic profile</h2>' +
+                    '<div class="analysis-chart">' + analysisBarChartHtml2026(integrated.themes, 'percentage') + '</div>' +
+                    '<div class="analysis-method">A theme percentage is the share of latest eligible group inputs containing at least one related term. Percentages may overlap because one input can address several themes.</div>';
+                pages += reportPageShell2026(themes, pageNumber++);
+
+                integrated.exerciseRows.forEach(function (row) {
+                    var exercisePage = '<div class="workshop-kicker">Exercise ' + row.number + ' · Integrated summary</div><h2 class="question-title">' + escapeHtml2026(row.exercise.title) + '</h2>' +
+                        '<div class="analysis-metrics"><div class="analysis-metric"><strong>' + row.recordedSubmissions + '</strong><span>Total recorded submissions</span></div>' +
+                        '<div class="analysis-metric"><strong>' + row.latestInputs + '</strong><span>Latest group inputs</span></div>' +
+                        '<div class="analysis-metric"><strong>' + row.completionPercentage + '%</strong><span>Required-answer coverage</span></div></div>' +
+                        '<h3>Group findings</h3><ul class="analysis-list">' + row.analysis.findings.map(function (finding) { return '<li>' + escapeHtml2026(finding) + '</li>'; }).join('') + '</ul>';
+                    pages += reportPageShell2026(exercisePage, pageNumber++);
+                });
+                openProfessionalReport2026('Integrated Workshop Analytical Report', 'Cross-exercise overview', pages);
+            }
+
+            async function generateIntegratedWorkshopPresentation2026(triggerButton) {
+                var integrated = ensureConsolidatedData2026();
+                if (!integrated) return;
+                if (!window.PptxGenJS) {
+                    window.alert('The integrated PowerPoint presentation could not be created. Please try again.');
+                    return;
+                }
+                if (triggerButton) {
+                    triggerButton.disabled = true;
+                    triggerButton.textContent = translateText2026('Preparing integrated PowerPoint...');
+                }
+                try {
+                    var pptx = new window.PptxGenJS();
+                    var slideNumber = 1;
+                    var workshopTitle = translateText2026('Advancing Environmental Data Governance to Support Environmental Decision-Making in West Asia');
+                    pptx.layout = 'LAYOUT_WIDE';
+                    pptx.author = 'UNEP Regional Office for West Asia';
+                    pptx.company = 'United Nations Environment Programme';
+                    pptx.subject = translateText2026('Integrated Workshop Analytical Report');
+                    pptx.title = translateText2026('Integrated PowerPoint Presentation');
+                    pptx.lang = isArabic2026() ? 'ar-BH' : 'en-US';
+                    pptx.rtlMode = isArabic2026();
+                    pptx.theme = { headFontFace: 'Arial', bodyFontFace: 'Arial', lang: isArabic2026() ? 'ar-BH' : 'en-US' };
+
+                    var coverSlide = pptx.addSlide();
+                    coverSlide.background = { color: '0F2D3D' };
+                    coverSlide.addShape(pptx.ShapeType.rect, { x: 0, y: 0, w: 13.333, h: 0.87, line: { color: 'FFFFFF', transparency: 100 }, fill: { color: 'FFFFFF' } });
+                    coverSlide.addShape(pptx.ShapeType.rect, { x: 0, y: 0.87, w: 13.333, h: 0.1, line: { color: '00A884', transparency: 100 }, fill: { color: '00A884' } });
+                    addPresentationLogos2026(coverSlide, false);
+                    coverSlide.addText(workshopTitle, presentationTextOptions2026({ x: 0.72, y: 1.35, w: 11.9, h: 1.05, fontSize: 25, bold: true, color: 'FFFFFF', valign: 'top' }));
+                    coverSlide.addShape(pptx.ShapeType.rect, { x: 0.72, y: 2.72, w: 11.9, h: 1.5, line: { color: '00A884', width: 1.5 }, fill: { color: '1A4F66' } });
+                    coverSlide.addText(translateText2026('Integrated PowerPoint Presentation'), presentationTextOptions2026({ x: 1.05, y: 3.02, w: 11.2, h: 0.48, fontSize: 27, bold: true, color: 'FFFFFF', align: 'center' }));
+                    coverSlide.addText(translateText2026('Cross-exercise overview'), presentationTextOptions2026({ x: 1.05, y: 3.56, w: 11.2, h: 0.3, fontSize: 15, color: 'DDF3EC', align: 'center' }));
+                    coverSlide.addText(translateText2026('Regional Workshop · 20–22 October 2026 · Manama, Bahrain'), presentationTextOptions2026({ x: 0.72, y: 6.62, w: 11.9, h: 0.28, fontSize: 11, bold: true, color: 'DDF3EC', align: 'center' }));
+                    coverSlide.addText(String(slideNumber++), presentationTextOptions2026({ x: 12.15, y: 7.12, w: 0.65, h: 0.18, fontSize: 9, color: 'A9C6BC', align: 'right', rtlMode: false }));
+
+                    var summarySlide = pptx.addSlide();
+                    addPresentationSlideFrame2026(pptx, summarySlide, 'Cross-exercise overview', slideNumber++);
+                    addPresentationHeading2026(summarySlide, 'Integrated Workshop Analytical Report', 'Analytical Summary of the Results');
+                    addPresentationMetric2026(pptx, summarySlide, 0.68, integrated.totalRecordedSubmissions, 'Total recorded submissions');
+                    addPresentationMetric2026(pptx, summarySlide, 3.72, integrated.latestInputCount, 'Latest group inputs');
+                    addPresentationMetric2026(pptx, summarySlide, 6.76, integrated.workingGroupCount, 'Working groups represented');
+                    addPresentationMetric2026(pptx, summarySlide, 9.8, integrated.countryCount, 'Countries represented');
+                    summarySlide.addText(translateText2026('Key findings'), presentationTextOptions2026({ x: 0.68, y: 3.3, w: 11.95, h: 0.34, fontSize: 18, bold: true, color: '0F2D3D' }));
+                    addPresentationBulletList2026(pptx, summarySlide, integrated.findings, { x: 0.72, y: 3.76, w: 11.8, h: 2.82 });
+
+                    var activitySlide = pptx.addSlide();
+                    addPresentationSlideFrame2026(pptx, activitySlide, 'Activity by exercise', slideNumber++);
+                    addPresentationHeading2026(activitySlide, 'Activity by exercise', 'Latest group inputs');
+                    integrated.exerciseRows.forEach(function (row, index) {
+                        var y = 1.95 + (index * 0.63);
+                        var maximum = Math.max.apply(null, integrated.exerciseRows.map(function (item) { return item.latestInputs; })) || 1;
+                        activitySlide.addText(translateText2026(row.label + ': ' + row.title), presentationTextOptions2026({ x: 0.68, y: y, w: 3.65, h: 0.34, fontSize: 12.2, bold: true, color: '0F2D3D' }));
+                        activitySlide.addShape(pptx.ShapeType.roundRect, { x: 4.45, y: y + 0.06, w: 6.65, h: 0.22, line: { color: 'E1EBE7', transparency: 100 }, fill: { color: 'E1EBE7' } });
+                        activitySlide.addShape(pptx.ShapeType.roundRect, { x: 4.45, y: y + 0.06, w: Math.max(0.04, 6.65 * row.latestInputs / maximum), h: 0.22, line: { color: '00A884', transparency: 100 }, fill: { color: '00A884' } });
+                        activitySlide.addText(String(row.latestInputs), presentationTextOptions2026({ x: 11.35, y: y, w: 0.75, h: 0.3, fontSize: 12.5, bold: true, color: '00875A', align: 'right', rtlMode: false }));
+                    });
+
+                    if (integrated.themes.length) {
+                        var themeSlide = pptx.addSlide();
+                        addPresentationSlideFrame2026(pptx, themeSlide, 'Integrated thematic profile', slideNumber++);
+                        addPresentationHeading2026(themeSlide, 'Integrated thematic profile', 'Recurring themes (% of analyzed inputs)');
+                        integrated.themes.slice(0, 7).forEach(function (theme, index) {
+                            var y = 2.02 + (index * 0.62);
+                            themeSlide.addText(translateText2026(theme.label), presentationTextOptions2026({ x: 0.7, y: y, w: 3.55, h: 0.32, fontSize: 12.5, bold: true, color: '0F2D3D' }));
+                            themeSlide.addShape(pptx.ShapeType.roundRect, { x: 4.38, y: y + 0.05, w: 6.95, h: 0.22, line: { color: 'E1EBE7', transparency: 100 }, fill: { color: 'E1EBE7' } });
+                            themeSlide.addShape(pptx.ShapeType.roundRect, { x: 4.38, y: y + 0.05, w: Math.max(0.04, 6.95 * theme.percentage / 100), h: 0.22, line: { color: '00A884', transparency: 100 }, fill: { color: index === 0 ? '00875A' : '00A884' } });
+                            themeSlide.addText(theme.percentage + '%', presentationTextOptions2026({ x: 11.52, y: y - 0.02, w: 0.78, h: 0.32, fontSize: 12.5, bold: true, color: '00875A', align: 'right', rtlMode: false }));
+                        });
+                    }
+
+                    integrated.exerciseRows.forEach(function (row) {
+                        var slide = pptx.addSlide();
+                        addPresentationSlideFrame2026(pptx, slide, 'Exercise ' + row.number + ' · Integrated summary', slideNumber++);
+                        addPresentationHeading2026(slide, 'Exercise ' + row.number + ': ' + row.exercise.title, row.latestInputs + ' ' + translateText2026('Latest group inputs') + ' · ' + row.completionPercentage + '% ' + translateText2026('Required-answer coverage'));
+                        addPresentationBulletList2026(pptx, slide, row.analysis.findings, { x: 0.74, y: 2.05, w: 11.75, h: 4.35 });
+                    });
+
+                    await pptx.writeFile({ fileName: 'Integrated-Workshop-Analytical-Presentation-2026.pptx', compression: true });
+                } catch (error) {
+                    console.warn('Integrated PowerPoint generation failed.', error);
+                    window.alert('The integrated PowerPoint presentation could not be created. Please try again.');
+                } finally {
+                    if (triggerButton) {
+                        triggerButton.disabled = false;
+                        triggerButton.textContent = translateText2026('Generate PowerPoint');
+                    }
+                }
+            }
+
+            function openAdministratorPanel2026(panelId) {
+                if (!administratorUnlocked2026()) {
+                    window.alert('Administrator access is required.');
+                    return;
+                }
+                var home = document.getElementById('administrator-home');
+                if (home) home.style.display = 'none';
+                Array.prototype.forEach.call(document.querySelectorAll('#administrator-content .administrator-panel'), function (panel) {
+                    panel.classList.remove('active');
+                    panel.style.display = 'none';
+                });
+                var target = document.getElementById(panelId);
+                if (target) {
+                    target.classList.add('active');
+                    target.style.display = 'block';
+                    if (panelId === 'administrator-panel-analysis') renderAnalytics2026();
+                    if (panelId === 'administrator-panel-participants') renderAdministratorParticipationSummary2026();
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }
+
+            function showAdministratorHome2026() {
+                Array.prototype.forEach.call(document.querySelectorAll('#administrator-content .administrator-panel'), function (panel) {
+                    panel.classList.remove('active');
+                    panel.style.display = 'none';
+                });
+                var home = document.getElementById('administrator-home');
+                if (home) {
+                    home.style.display = 'block';
+                    home.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }
+
+            function buildAdministratorPanelHeader2026(title, description) {
+                var header = createElement2026('div', 'card administrator-panel-header');
+                var text = document.createElement('div');
+                text.appendChild(createElement2026('h3', '', title));
+                if (description) text.appendChild(createElement2026('p', '', description));
+                var back = createElement2026('button', 'btn-secondary', '← Back to Administration Home');
+                back.type = 'button';
+                back.addEventListener('click', showAdministratorHome2026);
+                header.appendChild(text);
+                header.appendChild(back);
+                return header;
+            }
+
+            function buildAdministratorHubCard2026(number, title, description, panelId) {
+                var card = createElement2026('button', 'admin-hub-card');
+                card.type = 'button';
+                card.addEventListener('click', function () { openAdministratorPanel2026(panelId); });
+                card.appendChild(createElement2026('span', 'admin-hub-card-number', String(number)));
+                card.appendChild(createElement2026('h4', '', title));
+                card.appendChild(createElement2026('p', '', description));
+                card.appendChild(createElement2026('span', 'admin-hub-card-action', 'Open function →'));
+                return card;
+            }
+
+            function renderAdministratorParticipationSummary2026() {
+                var count = document.getElementById('administrator-participant-count');
+                var countries = document.getElementById('administrator-participant-countries');
+                var countrySet = {};
+                liveRegistrations2026.forEach(function (participant) { if (participant.country) countrySet[participant.country] = true; });
+                if (count) count.textContent = String(liveRegistrations2026.length);
+                if (countries) countries.textContent = String(Object.keys(countrySet).length);
+            }
+
+            function buildAdministratorParticipationCard2026() {
+                var card = createElement2026('div', 'card');
+                card.appendChild(createElement2026('h3', '', 'Participant Register'));
+                card.appendChild(createElement2026('p', '', 'Open the registered-participant table and review country, institution, role and working-group assignments.'));
+                var metrics = createElement2026('div', 'admin-participation-metrics');
+                var participants = createElement2026('div', 'dashboard-stat');
+                var participantCount = createElement2026('h4', '', '0');
+                participantCount.id = 'administrator-participant-count';
+                participants.appendChild(participantCount);
+                participants.appendChild(createElement2026('p', '', 'Registered participants'));
+                var countries = createElement2026('div', 'dashboard-stat');
+                var countryCount = createElement2026('h4', '', '0');
+                countryCount.id = 'administrator-participant-countries';
+                countries.appendChild(countryCount);
+                countries.appendChild(createElement2026('p', '', 'Countries represented'));
+                metrics.appendChild(participants);
+                metrics.appendChild(countries);
+                card.appendChild(metrics);
+                var open = createElement2026('button', 'btn-submit', 'Open List of Participants');
+                open.type = 'button';
+                open.addEventListener('click', openParticipantList2026);
+                card.appendChild(open);
+                window.setTimeout(renderAdministratorParticipationSummary2026, 0);
+                return card;
+            }
+
+            function buildResetOptionsCard2026() {
+                var card = createElement2026('div', 'card');
+                card.appendChild(createElement2026('h3', '', 'Reset Data'));
+                card.appendChild(createElement2026('p', '', 'Choose only the data category that should be permanently removed. Every reset requires the administrator password and an exact confirmation phrase.'));
+                var grid = createElement2026('div', 'admin-function-grid');
+                [
+                    ['exercises', 'Reset Exercise Data', 'Permanently delete submissions from all seven exercises.'],
+                    ['registrations', 'Reset Registration Data', 'Permanently delete all participant registrations.'],
+                    ['passwords', 'Reset Password Data', 'Delete custom registration and exercise passwords and restore the requested defaults.'],
+                    ['all', 'Reset All Workshop Data', 'Reset registrations, exercise submissions, password settings and published document links.']
+                ].forEach(function (definition) {
+                    var item = createElement2026('div', 'admin-function-card danger-function');
+                    item.appendChild(createElement2026('h4', '', definition[1]));
+                    item.appendChild(createElement2026('p', '', definition[2]));
+                    var button = createElement2026('button', 'btn-danger', definition[1]);
+                    button.type = 'button';
+                    button.addEventListener('click', function () { openResetData2026(definition[0]); });
+                    item.appendChild(button);
+                    grid.appendChild(item);
+                });
+                card.appendChild(grid);
+                return card;
+            }
+
+            function buildConsolidatedReportsCard2026() {
+                var card = createElement2026('div', 'card');
+                card.appendChild(createElement2026('h3', '', 'Consolidated Reports'));
+                var grid = createElement2026('div', 'admin-function-grid');
+                var products = [
+                    ['All Exercises and Groups Report', 'Produce a detailed report covering every exercise and the latest eligible submission from each working group.', 'Generate Detailed Report', generateAllExercisesGroupsReport2026],
+                    ['Integrated Analytical Report', 'Produce a cross-exercise analysis of participation, response coverage, recurring themes and priority findings.', 'Generate Analytical Report', generateIntegratedWorkshopReport2026],
+                    ['Integrated PowerPoint Presentation', 'Download an editable presentation summarizing all exercises, groups, response patterns and cross-cutting themes.', 'Generate PowerPoint', null]
+                ];
+                products.forEach(function (product, index) {
+                    var item = createElement2026('div', 'admin-function-card');
+                    item.appendChild(createElement2026('h4', '', product[0]));
+                    item.appendChild(createElement2026('p', '', product[1]));
+                    var button = createElement2026('button', index === 2 ? 'btn-submit' : 'btn-secondary', product[2]);
+                    button.type = 'button';
+                    if (index === 2) button.addEventListener('click', function () { generateIntegratedWorkshopPresentation2026(button); });
+                    else button.addEventListener('click', product[3]);
+                    item.appendChild(button);
+                    grid.appendChild(item);
+                });
+                card.appendChild(grid);
+                return card;
             }
 
             function buildDashboard2026() {
@@ -4936,7 +5939,9 @@
                 adminContent.id = 'administrator-content';
                 adminContent.style.display = administratorUnlocked2026() ? 'block' : 'none';
 
-                var topCard = createElement2026('div', 'card');
+                var adminHome = document.createElement('div');
+                adminHome.id = 'administrator-home';
+                var homeCard = createElement2026('div', 'card');
                 var top = createElement2026('div');
                 top.style.display = 'flex';
                 top.style.justifyContent = 'space-between';
@@ -4945,17 +5950,37 @@
                 top.style.gap = '1rem';
 
                 var heading = createElement2026('div');
-                heading.appendChild(createElement2026('h3', '', 'Regional Workshop Administration & Analytics'));
-                heading.appendChild(createElement2026('p', '', 'Protected analysis of participant registrations and the seven revised country and working-group exercises.'));
+                heading.appendChild(createElement2026('h3', '', 'Administration Home'));
+                heading.appendChild(createElement2026('p', '', 'Select an administrative function to manage workshop data, access controls, documents, analysis and reports.'));
                 var actions = createElement2026('div');
                 var status = createElement2026('span', 'status-indicator status-offline', 'Connecting Online Database...');
                 status.id = 'backend-status';
                 actions.appendChild(status);
                 top.appendChild(heading);
                 top.appendChild(actions);
-                topCard.appendChild(top);
-                topCard.appendChild(createElement2026('p', 'online-required', 'GitHub Pages deployment is supported. Registrations, exercise submissions, password settings and workshop document links use the configured Firebase Realtime Database. Documents remain hosted in their original trusted repositories. No persistent local fallback is used.'));
+                homeCard.appendChild(top);
+                homeCard.appendChild(createElement2026('p', 'online-required', 'GitHub Pages deployment is supported. Registrations, exercise submissions, password settings and workshop document links use the configured Firebase Realtime Database. Documents remain hosted in their original trusted repositories. No persistent local fallback is used.'));
+                var hub = createElement2026('div', 'admin-hub-grid');
+                [
+                    [1, 'Workshop Exercises', 'Review submission counts and open group or consolidated reports for each exercise.', 'administrator-panel-exercises'],
+                    [2, 'Manage Passwords', 'Manage participant registration and exercise access passwords.', 'administrator-panel-passwords'],
+                    [3, 'Publish Workshop Documents', 'Publish, test or remove document links available to participants.', 'administrator-panel-documents'],
+                    [4, 'List of Participants', 'Review registered participants by country, institution, role and working group.', 'administrator-panel-participants'],
+                    [5, 'Workshop Participation and Response Analysis', 'Review participation metrics, exercise activity, selected options and automatic summaries.', 'administrator-panel-analysis'],
+                    [6, 'Reset Data', 'Reset exercise submissions, participant registrations, password settings or all portal data.', 'administrator-panel-reset'],
+                    [7, 'Consolidated Reports', 'Produce detailed all-exercise reports and integrated analytical reports or presentations.', 'administrator-panel-consolidated']
+                ].forEach(function (definition) {
+                    hub.appendChild(buildAdministratorHubCard2026(definition[0], definition[1], definition[2], definition[3]));
+                });
+                homeCard.appendChild(hub);
+                adminHome.appendChild(homeCard);
+                adminContent.appendChild(adminHome);
 
+                var exercisePanel = createElement2026('div', 'administrator-panel');
+                exercisePanel.id = 'administrator-panel-exercises';
+                exercisePanel.appendChild(buildAdministratorPanelHeader2026('Workshop Exercises', 'Use the exercise cards to open group-level or all-groups reports. Export functions apply to the workshop dataset currently available online.'));
+                var exerciseCard = createElement2026('div', 'card');
+                exerciseCard.appendChild(createElement2026('h3', '', 'Exercise Data and Reports'));
                 var summary = createElement2026('div', 'dashboard-summary');
                 exercises2026.forEach(function (exercise, index) {
                     var stat = createElement2026('button', 'dashboard-stat');
@@ -4969,7 +5994,7 @@
                     stat.appendChild(createElement2026('p', '', 'Exercise ' + (index + 1) + ': ' + exercise.short));
                     summary.appendChild(stat);
                 });
-                topCard.appendChild(summary);
+                exerciseCard.appendChild(summary);
 
                 var adminActions = createElement2026('div', 'admin-actions');
                 var printButton = createElement2026('button', 'btn-secondary', '🖨️ Print / Export PDF');
@@ -4981,23 +6006,44 @@
                 var csvButton = createElement2026('button', 'btn-secondary', 'Export CSV');
                 csvButton.type = 'button';
                 csvButton.addEventListener('click', exportCsv2026);
-                var participantsButton = createElement2026('button', 'btn-secondary', '👥 List of Participants');
-                participantsButton.type = 'button';
-                participantsButton.addEventListener('click', openParticipantList2026);
-                var resetButton = createElement2026('button', 'btn-danger', 'Reset All Data');
-                resetButton.type = 'button';
-                resetButton.addEventListener('click', openResetAllData2026);
                 adminActions.appendChild(printButton);
                 adminActions.appendChild(jsonButton);
                 adminActions.appendChild(csvButton);
-                adminActions.appendChild(participantsButton);
-                adminActions.appendChild(resetButton);
-                topCard.appendChild(adminActions);
-                adminContent.appendChild(topCard);
-                adminContent.appendChild(buildRegistrationPasswordManager2026());
-                adminContent.appendChild(buildExercisePasswordManager2026());
-                adminContent.appendChild(buildDocumentUploadCard2026());
+                exerciseCard.appendChild(adminActions);
+                exercisePanel.appendChild(exerciseCard);
+                exercises2026.forEach(function (exercise, index) {
+                    var resultsCard = createElement2026('div', 'card');
+                    resultsCard.appendChild(createElement2026('h3', '', 'Exercise ' + (index + 1) + ': ' + exercise.title));
+                    var results = document.createElement('div');
+                    results.id = 'results-' + exercise.id;
+                    results.appendChild(createElement2026('p', 'empty-state', 'No submissions yet.'));
+                    resultsCard.appendChild(results);
+                    exercisePanel.appendChild(resultsCard);
+                });
+                adminContent.appendChild(exercisePanel);
 
+                var passwordPanel = createElement2026('div', 'administrator-panel');
+                passwordPanel.id = 'administrator-panel-passwords';
+                passwordPanel.appendChild(buildAdministratorPanelHeader2026('Manage Passwords', 'Manage participant registration and exercise access passwords.'));
+                passwordPanel.appendChild(buildRegistrationPasswordManager2026());
+                passwordPanel.appendChild(buildExercisePasswordManager2026());
+                adminContent.appendChild(passwordPanel);
+
+                var documentPanel = createElement2026('div', 'administrator-panel');
+                documentPanel.id = 'administrator-panel-documents';
+                documentPanel.appendChild(buildAdministratorPanelHeader2026('Publish Workshop Documents', 'Publish, test or remove document links available to participants.'));
+                documentPanel.appendChild(buildDocumentUploadCard2026());
+                adminContent.appendChild(documentPanel);
+
+                var participantPanel = createElement2026('div', 'administrator-panel');
+                participantPanel.id = 'administrator-panel-participants';
+                participantPanel.appendChild(buildAdministratorPanelHeader2026('List of Participants', 'Review registered participants by country, institution, role and working group.'));
+                participantPanel.appendChild(buildAdministratorParticipationCard2026());
+                adminContent.appendChild(participantPanel);
+
+                var analysisPanel = createElement2026('div', 'administrator-panel');
+                analysisPanel.id = 'administrator-panel-analysis';
+                analysisPanel.appendChild(buildAdministratorPanelHeader2026('Workshop Participation and Response Analysis', 'Review participation metrics, exercise activity, selected options and automatic summaries.'));
                 var analyticsCard = createElement2026('div', 'card');
                 analyticsCard.appendChild(createElement2026('h3', '', 'Workshop Participation and Response Analysis'));
                 var analyticsMetrics = createElement2026('div', 'dashboard-summary');
@@ -5025,17 +6071,21 @@
                 insights.id = 'analytics-insights';
                 insightPanel.appendChild(insights);
                 analyticsCard.appendChild(insightPanel);
-                adminContent.appendChild(analyticsCard);
+                analysisPanel.appendChild(analyticsCard);
+                adminContent.appendChild(analysisPanel);
 
-                exercises2026.forEach(function (exercise, index) {
-                    var resultsCard = createElement2026('div', 'card');
-                    resultsCard.appendChild(createElement2026('h3', '', 'Exercise ' + (index + 1) + ': ' + exercise.title));
-                    var results = document.createElement('div');
-                    results.id = 'results-' + exercise.id;
-                    results.appendChild(createElement2026('p', 'empty-state', 'No submissions yet.'));
-                    resultsCard.appendChild(results);
-                    adminContent.appendChild(resultsCard);
-                });
+                var resetPanel = createElement2026('div', 'administrator-panel');
+                resetPanel.id = 'administrator-panel-reset';
+                resetPanel.appendChild(buildAdministratorPanelHeader2026('Reset Data', 'Reset exercise submissions, participant registrations, password settings or all portal data.'));
+                resetPanel.appendChild(buildResetOptionsCard2026());
+                adminContent.appendChild(resetPanel);
+
+                var consolidatedPanel = createElement2026('div', 'administrator-panel');
+                consolidatedPanel.id = 'administrator-panel-consolidated';
+                consolidatedPanel.appendChild(buildAdministratorPanelHeader2026('Consolidated Reports', 'Produce detailed all-exercise reports and integrated analytical reports or presentations.'));
+                consolidatedPanel.appendChild(buildConsolidatedReportsCard2026());
+                adminContent.appendChild(consolidatedPanel);
+
                 section.appendChild(adminContent);
                 section.appendChild(buildAdministratorReportModal2026());
                 section.appendChild(buildParticipantListModal2026());
@@ -5050,6 +6100,7 @@
                 database2026.ref('participant_registrations').on('value', function (snapshot) {
                     liveRegistrations2026 = snapshot.val() ? Object.values(snapshot.val()) : [];
                     renderParticipantList2026();
+                    renderAdministratorParticipationSummary2026();
                     renderAnalytics2026();
                 }, function (error) {
                     console.warn('Could not synchronize participant registrations.', error);
