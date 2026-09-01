@@ -6,6 +6,7 @@
     <title>Environmental Data Governance Web Portal | West Asia Workshop</title>
     <!-- Firebase SDKs for Online Cloud Backend -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-storage-compat.js"></script>
     <style>
@@ -228,7 +229,7 @@
             font-size: 0.9rem;
         }
 
-        input[type="text"], input[type="email"], input[type="password"], input[type="file"], select, textarea {
+        input[type="text"], input[type="email"], input[type="url"], input[type="password"], input[type="file"], select, textarea {
             width: 100%;
             padding: 0.75rem;
             border: 1px solid var(--border-color);
@@ -238,7 +239,7 @@
             transition: border-color 0.2s ease;
         }
 
-        input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus, input[type="file"]:focus, select:focus, textarea:focus {
+        input[type="text"]:focus, input[type="email"]:focus, input[type="url"]:focus, input[type="password"]:focus, input[type="file"]:focus, select:focus, textarea:focus {
             outline: none;
             border-color: var(--unep-blue);
             background-color: #ffffff;
@@ -259,6 +260,14 @@
         button.btn-submit:hover {
             background-color: #006a46;
         }
+
+        button.btn-submit:disabled,
+        button.btn-secondary:disabled {
+            opacity: 0.52;
+            cursor: not-allowed;
+        }
+
+        button.btn-submit:disabled:hover { background-color: var(--unep-blue); }
 
         button.btn-secondary {
             background-color: #6c757d;
@@ -475,6 +484,32 @@
             text-align: center;
         }
 
+        button.dashboard-stat {
+            width: 100%;
+            border: 1px solid #d6e7e1;
+            color: var(--text-dark);
+            cursor: pointer;
+            font: inherit;
+            transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+        }
+
+        button.dashboard-stat:hover,
+        button.dashboard-stat:focus-visible {
+            transform: translateY(-2px);
+            border-color: var(--unep-blue);
+            box-shadow: 0 6px 16px rgba(15,45,61,0.12);
+            outline: none;
+        }
+
+        button.dashboard-stat::after {
+            content: 'Open reports';
+            display: block;
+            margin-top: 0.55rem;
+            color: var(--unep-blue);
+            font-size: 0.76rem;
+            font-weight: 700;
+        }
+
         .dashboard-stat h4 {
             font-size: 1.8rem;
             color: var(--unep-blue);
@@ -632,6 +667,99 @@
             font-weight: 600;
         }
 
+        .form-actions {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.7rem;
+            margin-top: 1rem;
+        }
+
+        .exercise-access-gate {
+            border: 1px solid #cfe1da;
+            border-left: 5px solid var(--unep-blue);
+            border-radius: 7px;
+            background: #f5faf8;
+            padding: 1.15rem;
+            margin-top: 1.2rem;
+        }
+
+        .exercise-access-gate h4 { color: var(--unep-dark); }
+
+        .exercise-access-form {
+            display: grid;
+            grid-template-columns: minmax(220px, 1fr) auto;
+            gap: 0.7rem;
+            align-items: end;
+            margin-top: 0.8rem;
+        }
+
+        .exercise-access-form .form-group { margin: 0; }
+
+        .inline-error {
+            display: none;
+            grid-column: 1 / -1;
+            color: #842029;
+            background: #f8d7da;
+            border-radius: 5px;
+            padding: 0.65rem 0.8rem;
+            font-weight: 600;
+        }
+
+        .password-entry {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.7rem 0.8rem;
+            margin-top: 0.55rem;
+            border: 1px solid #dde8e4;
+            background: #fafcfb;
+            border-radius: 6px;
+        }
+
+        .service-diagnostics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+            gap: 0.65rem;
+            margin: 1rem 0;
+        }
+
+        .service-diagnostic {
+            border: 1px solid #dce7e3;
+            border-radius: 6px;
+            padding: 0.7rem 0.8rem;
+            background: #fafcfb;
+            font-size: 0.84rem;
+        }
+
+        .service-diagnostic strong { display: block; color: var(--unep-dark); }
+
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 4000;
+            display: none;
+            place-items: center;
+            padding: 1.2rem;
+            background: rgba(10, 31, 42, 0.72);
+        }
+
+        .modal-overlay.open { display: grid; }
+
+        .modal-dialog {
+            width: min(650px, 100%);
+            max-height: 90vh;
+            overflow: auto;
+            background: white;
+            border-radius: 9px;
+            padding: 1.5rem;
+            box-shadow: 0 22px 60px rgba(0,0,0,0.3);
+            border-top: 6px solid var(--unep-blue);
+        }
+
+        .modal-dialog h3 { color: var(--unep-dark); }
+
         .online-required {
             border-left: 4px solid var(--accent-gold);
             background: #fff8e5;
@@ -644,6 +772,7 @@
             .agenda-table { display: block; overflow-x: auto; }
             .add-option-row { flex-direction: column; }
             .bar-row { grid-template-columns: 100px minmax(90px, 1fr) 32px; }
+            .exercise-access-form { grid-template-columns: 1fr; }
         }
 
         @media print {
@@ -920,20 +1049,82 @@
             var liveRegistrations2026 = [];
             var liveDocuments2026 = [];
             var storage2026 = null;
+            var auth2026 = null;
+            var firebaseUser2026 = null;
+            var firebaseAuthError2026 = '';
             var participant2026 = null;
+            var liveExercisePasswordConfig2026 = {};
+            var exercisePasswordConfigLoaded2026 = false;
+            var lastSubmittedRecords2026 = {};
+            var selectedAdministratorReportExercise2026 = null;
             var workshopPasswordHash2026 = '163f81c92f881aa610f068eb5d425acb056ff1883a2cd6f9c74b38d1f365e2b0';
             var administratorPasswordHash2026 = '1510b830657806e463a3d5cf6fc5bb547c1f5d817d7602ce920123e7c3c42ee9';
+            var defaultExercisePasswordHashes2026 = {
+                ex1: '84495a14c3d57a1da1fcc0af4876017294eb6be70f6e9d8452512d83eedb74ed',
+                ex2: '0306ca7310c5772b62f269c12c1b7204bb8d19ea4f57834d01ba9756446dcbbf',
+                ex3: '940cc66344b4be8f1fde6f15622cf4b8cc3ccf23f3500be2673c4bdc0892a12d',
+                ex4: '650cb81d7c41241804f41a4edbb66c499a2779eb2e41d65e4885fc2542b159db',
+                ex5: '0a05882d3fa731f21799e2ba0050870d27da8fe16cc0887da2eb643898c9e38a',
+                ex6: '1917016f68e3bd2b3b74673268a6810f06f9d6fca89fdc591d41f86363ae8c3a',
+                ex7: '154b7133f727546ab75f83f6d1c7c4a7d4b9f5ac42490e19033d00b89e2409cd'
+            };
 
-            function passwordMatches2026(value, expectedHash) {
+            function hashText2026(value) {
                 if (!window.crypto || !window.crypto.subtle || !window.TextEncoder) {
-                    return Promise.resolve(false);
+                    return Promise.reject(new Error('Secure password checking is not supported by this browser.'));
                 }
                 var bytes = new TextEncoder().encode(value);
                 return window.crypto.subtle.digest('SHA-256', bytes).then(function (buffer) {
                     return Array.prototype.map.call(new Uint8Array(buffer), function (byte) {
                         return byte.toString(16).padStart(2, '0');
-                    }).join('') === expectedHash;
+                    }).join('');
                 });
+            }
+
+            function passwordMatches2026(value, expectedHash) {
+                return hashText2026(value).then(function (hash) { return hash === expectedHash; }).catch(function () { return false; });
+            }
+
+            function normalizePasswordEntries2026(config) {
+                if (!config || !config.entries) return [];
+                var entries = Array.isArray(config.entries) ? config.entries : Object.keys(config.entries).map(function (key) {
+                    return config.entries[key];
+                });
+                return entries.filter(function (entry) {
+                    return entry && /^[a-f0-9]{64}$/i.test(entry.hash || '');
+                }).map(function (entry, index) {
+                    return {
+                        label: String(entry.label || ('Password ' + (index + 1))),
+                        hash: String(entry.hash).toLowerCase(),
+                        createdAt: entry.createdAt || ''
+                    };
+                });
+            }
+
+            function effectiveExercisePasswords2026(exerciseId) {
+                var configured = normalizePasswordEntries2026(liveExercisePasswordConfig2026[exerciseId]);
+                if (configured.length) return configured;
+                return [{
+                    label: 'Default exercise password',
+                    hash: defaultExercisePasswordHashes2026[exerciseId],
+                    createdAt: ''
+                }];
+            }
+
+            function exerciseUnlocked2026(exerciseId) {
+                try {
+                    return sessionStorage.getItem('workshop_exercise_access_' + exerciseId) === 'granted';
+                } catch (error) {
+                    return false;
+                }
+            }
+
+            function grantExerciseAccess2026(exerciseId) {
+                try {
+                    sessionStorage.setItem('workshop_exercise_access_' + exerciseId, 'granted');
+                } catch (error) {
+                    console.warn('Exercise access could not be retained in this browser session.', error);
+                }
             }
 
             function getStoredParticipantId2026() {
@@ -972,6 +1163,17 @@
                     if (!firebase.apps.length) firebase.initializeApp(firebaseConfig2026);
                     database2026 = firebase.database();
                     storage2026 = firebase.storage();
+                    auth2026 = typeof firebase.auth === 'function' ? firebase.auth() : null;
+                    if (auth2026) {
+                        auth2026.onAuthStateChanged(function (user) {
+                            firebaseUser2026 = user || null;
+                            firebaseAuthError2026 = '';
+                            updateOnlineStatus2026();
+                            updateServiceDiagnostics2026();
+                        });
+                    } else {
+                        firebaseAuthError2026 = 'Firebase Authentication SDK is unavailable.';
+                    }
                     online2026 = true;
                     if (!connectionMonitorStarted2026) {
                         connectionMonitorStarted2026 = true;
@@ -985,22 +1187,78 @@
                     console.warn('The online workshop services could not be initialized.', error);
                     database2026 = null;
                     storage2026 = null;
+                    auth2026 = null;
+                    firebaseUser2026 = null;
                     online2026 = false;
                     firebaseConnected2026 = false;
                     return false;
                 }
             }
 
+            function ensureFirebaseAuth2026(timeoutMilliseconds) {
+                if (auth2026 && auth2026.currentUser) {
+                    firebaseUser2026 = auth2026.currentUser;
+                    return Promise.resolve(firebaseUser2026);
+                }
+                if (!auth2026) return Promise.reject(new Error('Firebase Authentication is unavailable.'));
+                var authentication = auth2026.signInAnonymously().then(function (credential) {
+                    firebaseUser2026 = credential.user;
+                    firebaseAuthError2026 = '';
+                    updateOnlineStatus2026();
+                    updateServiceDiagnostics2026();
+                    return credential.user;
+                }).catch(function (error) {
+                    firebaseAuthError2026 = error && error.message ? error.message : 'Anonymous authentication failed.';
+                    updateOnlineStatus2026();
+                    updateServiceDiagnostics2026();
+                    throw error;
+                });
+                return promiseWithTimeout2026(authentication, timeoutMilliseconds || 12000, 'Firebase Authentication did not respond in time.');
+            }
+
+            function promiseWithTimeout2026(promise, timeoutMilliseconds, message) {
+                return new Promise(function (resolve, reject) {
+                    var completed = false;
+                    var timer = window.setTimeout(function () {
+                        if (completed) return;
+                        completed = true;
+                        reject(new Error(message || 'The online request timed out.'));
+                    }, timeoutMilliseconds);
+                    promise.then(function (value) {
+                        if (completed) return;
+                        completed = true;
+                        window.clearTimeout(timer);
+                        resolve(value);
+                    }).catch(function (error) {
+                        if (completed) return;
+                        completed = true;
+                        window.clearTimeout(timer);
+                        reject(error);
+                    });
+                });
+            }
+
             function updateOnlineStatus2026() {
                 var status = document.getElementById('backend-status');
-                if (!status) return;
-                if (online2026 && firebaseConnected2026) {
-                    status.textContent = '🌐 Online Database and File Storage Active';
-                    status.className = 'status-indicator status-online';
-                } else {
-                    status.textContent = '⚠️ No online connection — submissions are disabled';
-                    status.className = 'status-indicator status-offline';
+                if (status) {
+                    if (online2026 && firebaseConnected2026) {
+                        status.textContent = firebaseUser2026 ? '🌐 Database online · File upload authenticated' : '🌐 Database online · File upload sign-in pending';
+                        status.className = 'status-indicator status-online';
+                    } else {
+                        status.textContent = '⚠️ No online connection — submissions are disabled';
+                        status.className = 'status-indicator status-offline';
+                    }
                 }
+                updateServiceDiagnostics2026();
+            }
+
+            function updateServiceDiagnostics2026() {
+                var databaseStatus = document.getElementById('diagnostic-database');
+                var authenticationStatus = document.getElementById('diagnostic-authentication');
+                var storageStatus = document.getElementById('diagnostic-storage');
+                if (databaseStatus) databaseStatus.textContent = firebaseConnected2026 ? 'Connected' : 'Not connected';
+                if (authenticationStatus) authenticationStatus.textContent = firebaseUser2026 ? 'Authenticated for uploads' : (firebaseAuthError2026 ? 'Authentication needs attention' : 'Not authenticated yet');
+                if (storageStatus) storageStatus.textContent = storage2026 ? (firebaseUser2026 ? 'Ready to test upload' : 'Waiting for authentication') : 'Unavailable';
             }
 
             function waitForOnlineConnection2026(timeoutMilliseconds) {
@@ -1242,9 +1500,13 @@
                         sessionStorage.removeItem('workshop_admin_2026');
                         sessionStorage.removeItem('workshop_participant_id_2026');
                         sessionStorage.removeItem('workshop_participant_2026');
+                        exercises2026.forEach(function (exercise) {
+                            sessionStorage.removeItem('workshop_exercise_access_' + exercise.id);
+                        });
                     } catch (error) {
                         console.warn('Session storage is unavailable.', error);
                     }
+                    if (auth2026 && auth2026.currentUser) auth2026.signOut().catch(function () {});
                     window.location.reload();
                 });
                 actions.appendChild(administration);
@@ -1580,6 +1842,65 @@
                 return select;
             }
 
+            function buildExerciseAccessGate2026(exercise, index) {
+                var gate = createElement2026('div', 'exercise-access-gate');
+                gate.id = exercise.id + '-access-gate';
+                gate.style.display = exerciseUnlocked2026(exercise.id) ? 'none' : 'block';
+                gate.appendChild(createElement2026('h4', '', 'Exercise ' + (index + 1) + ' access'));
+                gate.appendChild(createElement2026('p', '', 'Enter the password provided by the facilitator to open this exercise. Access remains active for this browser session.'));
+
+                var form = createElement2026('form', 'exercise-access-form');
+                var passwordGroup = registrationField2026(exercise.id + '-access-password', 'Exercise password', 'password', true, 'Enter the exercise password');
+                form.appendChild(passwordGroup);
+                var openButton = createElement2026('button', 'btn-submit', 'Open exercise');
+                openButton.type = 'submit';
+                form.appendChild(openButton);
+                var errorBox = createElement2026('div', 'inline-error');
+                errorBox.id = exercise.id + '-access-error';
+                errorBox.setAttribute('role', 'alert');
+                form.appendChild(errorBox);
+
+                form.addEventListener('submit', async function (event) {
+                    event.preventDefault();
+                    errorBox.style.display = 'none';
+                    var input = document.getElementById(exercise.id + '-access-password');
+                    var candidate = input.value;
+                    if (!candidate) {
+                        errorBox.textContent = 'Enter the exercise password.';
+                        errorBox.style.display = 'block';
+                        input.focus();
+                        return;
+                    }
+                    openButton.disabled = true;
+                    openButton.textContent = 'Checking...';
+                    try {
+                        var candidateHash = await hashText2026(candidate);
+                        var permitted = effectiveExercisePasswords2026(exercise.id).some(function (entry) {
+                            return entry.hash === candidateHash;
+                        });
+                        if (!permitted) {
+                            errorBox.textContent = 'Incorrect exercise password. Please check with the facilitator.';
+                            errorBox.style.display = 'block';
+                            input.select();
+                            return;
+                        }
+                        grantExerciseAccess2026(exercise.id);
+                        gate.style.display = 'none';
+                        var exerciseForm = document.getElementById('form-' + exercise.id);
+                        exerciseForm.style.display = 'block';
+                        exerciseForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    } catch (error) {
+                        errorBox.textContent = error.message || 'The password could not be checked in this browser.';
+                        errorBox.style.display = 'block';
+                    } finally {
+                        openButton.disabled = false;
+                        openButton.textContent = 'Open exercise';
+                    }
+                });
+                gate.appendChild(form);
+                return gate;
+            }
+
             function buildExercise2026(exercise, index) {
                 var section = createElement2026('section', 'tab-content');
                 section.id = exercise.id;
@@ -1596,10 +1917,12 @@
                 addTextLine2026(note, 'Expected outcome:', exercise.outcome);
                 addTextLine2026(note, 'Group presentation:', exercise.report);
                 card.appendChild(note);
+                card.appendChild(buildExerciseAccessGate2026(exercise, index));
 
                 var form = document.createElement('form');
                 form.id = 'form-' + exercise.id;
                 form.style.marginTop = '1.2rem';
+                form.style.display = exerciseUnlocked2026(exercise.id) ? 'block' : 'none';
                 form.addEventListener('submit', function (event) {
                     handleExerciseSubmit2026(event, exercise);
                 });
@@ -1639,9 +1962,21 @@
                 commentsBlock.appendChild(comments);
                 form.appendChild(commentsBlock);
 
+                var formActions = createElement2026('div', 'form-actions');
                 var submit = createElement2026('button', 'btn-submit', 'Submit Exercise ' + (index + 1));
                 submit.type = 'submit';
-                form.appendChild(submit);
+                var groupReport = createElement2026('button', 'btn-secondary', 'Group Report');
+                groupReport.type = 'button';
+                groupReport.id = exercise.id + '-group-report';
+                groupReport.disabled = !lastSubmittedRecords2026[exercise.id];
+                groupReport.title = 'This button becomes available after the group submits the exercise.';
+                groupReport.addEventListener('click', function () {
+                    var record = lastSubmittedRecords2026[exercise.id];
+                    if (record) generateGroupReport2026(exercise, record);
+                });
+                formActions.appendChild(submit);
+                formActions.appendChild(groupReport);
+                form.appendChild(formActions);
                 var message = createElement2026('div', 'form-message', 'Submission saved successfully.');
                 message.id = exercise.id + '-message';
                 message.setAttribute('role', 'status');
@@ -1713,8 +2048,14 @@
                 submitButton.disabled = true;
                 submitButton.textContent = 'Saving online...';
                 saveRecord2026(exercise.key, record).then(function () {
+                    lastSubmittedRecords2026[exercise.id] = record;
+                    var reportButton = document.getElementById(exercise.id + '-group-report');
+                    if (reportButton) {
+                        reportButton.disabled = false;
+                        reportButton.title = 'Open a presentation-ready report of this submitted group response.';
+                    }
                     var message = document.getElementById(exercise.id + '-message');
-                    message.textContent = 'Submission saved to the live workshop database.';
+                    message.textContent = 'Submission saved to the live workshop database. The Group Report button is now available.';
                     message.style.background = '#d4edda';
                     message.style.color = '#155724';
                     message.style.display = 'block';
@@ -1744,6 +2085,166 @@
 
             function displayResponse2026(response) {
                 return Array.isArray(response) ? response.join(', ') : (response || '—');
+            }
+
+            function escapeHtml2026(value) {
+                return String(value === undefined || value === null ? '' : value)
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;')
+                    .replace(/'/g, '&#039;');
+            }
+
+            function reportResponseHtml2026(response) {
+                if (Array.isArray(response)) {
+                    return '<ul class="response-list">' + response.map(function (item) {
+                        return '<li>' + escapeHtml2026(item) + '</li>';
+                    }).join('') + '</ul>';
+                }
+                return '<div class="narrative-response">' + escapeHtml2026(response || 'No response recorded.').replace(/\n/g, '<br>') + '</div>';
+            }
+
+            function reportLogos2026() {
+                return Array.prototype.map.call(document.querySelectorAll('.logo-box img'), function (logo) {
+                    return { src: logo.src, alt: logo.alt || 'Workshop partner logo' };
+                });
+            }
+
+            function openProfessionalReport2026(reportTitle, reportSubtitle, pagesHtml) {
+                var reportWindow = window.open('', '_blank');
+                if (!reportWindow) {
+                    window.alert('The report window was blocked by the browser. Please allow pop-ups for this workshop portal and try again.');
+                    return;
+                }
+                var logos = reportLogos2026();
+                var logosHtml = logos.map(function (logo) {
+                    return '<img src="' + escapeHtml2026(logo.src) + '" alt="' + escapeHtml2026(logo.alt) + '">';
+                }).join('');
+                var generated = new Date().toLocaleString();
+                var reportHtml = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">' +
+                    '<title>' + escapeHtml2026(reportTitle) + '</title><style>' +
+                    ':root{--unep:#00875a;--dark:#0f2d3d;--teal:#00a884;--light:#f4f8f7;--gold:#e6a100}' +
+                    '*{box-sizing:border-box}body{margin:0;background:#e9f0ed;color:#263b46;font-family:Segoe UI,Arial,sans-serif;line-height:1.45}' +
+                    '.report-controls{position:fixed;right:18px;top:18px;z-index:20;display:flex;gap:8px}.report-controls button{border:0;border-radius:5px;padding:10px 14px;background:#0f2d3d;color:#fff;font-weight:700;cursor:pointer;box-shadow:0 2px 8px #0003}' +
+                    '.report-page{width:min(1120px,calc(100% - 32px));min-height:720px;margin:22px auto;background:#fff;padding:48px 58px 52px;border-top:9px solid var(--unep);box-shadow:0 8px 26px #15372d26;position:relative;page-break-after:always}' +
+                    '.report-page:last-of-type{page-break-after:auto}.partner-logos{height:60px;display:flex;justify-content:space-between;align-items:center;gap:24px;border-bottom:1px solid #dce7e3;padding-bottom:12px;margin-bottom:32px}.partner-logos img{max-height:48px;max-width:44%;object-fit:contain}' +
+                    '.workshop-kicker{color:var(--unep);font-size:14px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}.workshop-title{color:var(--dark);font-size:30px;line-height:1.16;margin:9px 0}.report-subtitle{color:#57707c;font-size:18px;margin:0 0 26px}' +
+                    '.cover-band{background:linear-gradient(135deg,var(--dark),#1a4f66);color:white;border-left:8px solid var(--teal);padding:28px 30px;margin:32px 0}.cover-band h1{font-size:32px;line-height:1.2;margin:0 0 10px}.cover-band p{font-size:18px;margin:4px 0;color:#e4f4ef}' +
+                    '.meta-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:24px 0}.meta-card{background:var(--light);border:1px solid #d8e6e1;border-radius:6px;padding:14px}.meta-card strong{display:block;color:var(--unep);font-size:12px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px}' +
+                    '.page-number{position:absolute;right:58px;bottom:22px;color:#78909a;font-size:12px}.report-footer{position:absolute;left:58px;bottom:22px;color:#78909a;font-size:12px}' +
+                    '.question-number{display:inline-block;background:var(--unep);color:white;border-radius:20px;padding:5px 12px;font-size:13px;font-weight:800;margin-bottom:14px}.question-title{color:var(--dark);font-size:26px;line-height:1.25;margin:0 0 24px}.response-list{padding-left:24px;font-size:20px}.response-list li{margin:12px 0;padding-left:5px}.narrative-response{font-size:20px;white-space:normal;background:var(--light);border-left:5px solid var(--teal);padding:22px 24px;border-radius:5px}' +
+                    '.frequency-table{width:100%;border-collapse:collapse;margin-top:16px}.frequency-table th,.frequency-table td{padding:12px 14px;text-align:left;border-bottom:1px solid #dce7e3}.frequency-table th{background:var(--dark);color:#fff}.frequency-table td:last-child{font-size:20px;font-weight:800;color:var(--unep);width:110px}' +
+                    '.group-response{border:1px solid #dce7e3;border-left:5px solid var(--teal);border-radius:5px;padding:14px 16px;margin:12px 0}.group-response strong{color:var(--dark)}.group-response .narrative-response{font-size:15px;padding:10px 12px;margin-top:7px}' +
+                    '.highlight-box{background:#fff8e5;border-left:5px solid var(--gold);padding:17px 20px;border-radius:5px;margin-top:20px}' +
+                    '@media(max-width:760px){.report-page{padding:32px 26px}.meta-grid{grid-template-columns:1fr}.report-controls{position:static;padding:10px;justify-content:center}.report-footer{left:26px}.page-number{right:26px}}' +
+                    '@media print{@page{size:A4 landscape;margin:0}.report-controls{display:none}body{background:#fff}.report-page{width:100%;min-height:210mm;margin:0;box-shadow:none;padding:16mm 18mm 14mm}.report-footer{left:18mm}.page-number{right:18mm}}' +
+                    '</style></head><body><div class="report-controls"><button id="report-fullscreen" type="button">Presentation mode</button><button id="report-print" type="button">Print / Save PDF</button></div>' +
+                    pagesHtml.replace(/\{\{REPORT_LOGOS\}\}/g, logosHtml).replace(/\{\{GENERATED_AT\}\}/g, escapeHtml2026(generated)) +
+                    '</body></html>';
+                reportWindow.document.open();
+                reportWindow.document.write(reportHtml);
+                reportWindow.document.close();
+                reportWindow.document.getElementById('report-print').addEventListener('click', function () { reportWindow.print(); });
+                reportWindow.document.getElementById('report-fullscreen').addEventListener('click', function () {
+                    var root = reportWindow.document.documentElement;
+                    if (root.requestFullscreen) root.requestFullscreen();
+                });
+                reportWindow.focus();
+            }
+
+            function reportPageShell2026(content, pageNumber) {
+                return '<section class="report-page"><div class="partner-logos">{{REPORT_LOGOS}}</div>' + content +
+                    '<div class="report-footer">UNEP Regional Office for West Asia · Supreme Council for Environment, Bahrain</div>' +
+                    '<div class="page-number">' + escapeHtml2026(pageNumber) + '</div></section>';
+            }
+
+            function generateGroupReport2026(exercise, record) {
+                var exerciseNumber = exercises2026.indexOf(exercise) + 1;
+                var pageNumber = 1;
+                var cover = '<div class="workshop-kicker">Regional Workshop · 20–22 October 2026 · Manama, Bahrain</div>' +
+                    '<div class="workshop-title">Advancing Environmental Data Governance to Support Decision-Making in West Asia</div>' +
+                    '<div class="cover-band"><h1>Exercise ' + exerciseNumber + ' Group Report</h1><p>' + escapeHtml2026(exercise.title) + '</p></div>' +
+                    '<div class="meta-grid"><div class="meta-card"><strong>Working Group</strong>' + escapeHtml2026(record.group || 'Not specified') + '</div>' +
+                    '<div class="meta-card"><strong>Country</strong>' + escapeHtml2026(record.country || 'Not specified') + '</div>' +
+                    '<div class="meta-card"><strong>Submitted</strong>' + escapeHtml2026(record.displayTime || record.timestamp || 'Not recorded') + '</div></div>' +
+                    '<div class="highlight-box"><strong>Group presentation:</strong> ' + escapeHtml2026(exercise.report) + '</div>';
+                var pages = reportPageShell2026(cover, pageNumber++);
+                (record.answers || []).forEach(function (answer, index) {
+                    var answerContent = '<div class="workshop-kicker">Exercise ' + exerciseNumber + ' · ' + escapeHtml2026(record.group || 'Working Group') + '</div>' +
+                        '<span class="question-number">Finding ' + (index + 1) + '</span><h2 class="question-title">' + escapeHtml2026(answer.question) + '</h2>' +
+                        reportResponseHtml2026(answer.response);
+                    pages += reportPageShell2026(answerContent, pageNumber++);
+                });
+                if (record.comments) {
+                    pages += reportPageShell2026('<div class="workshop-kicker">Exercise ' + exerciseNumber + ' · Additional input</div><h2 class="question-title">Comments, opinions and suggestions</h2>' + reportResponseHtml2026(record.comments), pageNumber++);
+                }
+                openProfessionalReport2026('Exercise ' + exerciseNumber + ' Group Report', exercise.title, pages);
+            }
+
+            function latestGroupSubmissions2026(records) {
+                var latest = {};
+                records.forEach(function (record) {
+                    var group = record.group || 'Working Group not specified';
+                    if (!latest[group] || String(record.timestamp || '') > String(latest[group].timestamp || '')) latest[group] = record;
+                });
+                return Object.keys(latest).sort().map(function (group) { return latest[group]; });
+            }
+
+            function generateConsolidatedExerciseReport2026(exercise, records) {
+                var exerciseNumber = exercises2026.indexOf(exercise) + 1;
+                var selectedRecords = latestGroupSubmissions2026(records);
+                if (!selectedRecords.length) {
+                    window.alert('No group submissions are available for this exercise.');
+                    return;
+                }
+                var groups = selectedRecords.map(function (record) { return record.group || 'Not specified'; });
+                var countries = selectedRecords.map(function (record) { return record.country || ''; }).filter(Boolean).filter(function (value, index, array) { return array.indexOf(value) === index; });
+                var pageNumber = 1;
+                var cover = '<div class="workshop-kicker">Administrator consolidated report · 20–22 October 2026</div>' +
+                    '<div class="workshop-title">Advancing Environmental Data Governance to Support Decision-Making in West Asia</div>' +
+                    '<div class="cover-band"><h1>Exercise ' + exerciseNumber + ' Consolidated Report</h1><p>' + escapeHtml2026(exercise.title) + '</p></div>' +
+                    '<div class="meta-grid"><div class="meta-card"><strong>Groups represented</strong>' + selectedRecords.length + ' of 6</div>' +
+                    '<div class="meta-card"><strong>Working groups</strong>' + escapeHtml2026(groups.join(', ')) + '</div>' +
+                    '<div class="meta-card"><strong>Countries</strong>' + escapeHtml2026(countries.join(', ') || 'Not specified') + '</div></div>' +
+                    '<div class="highlight-box">The report uses the latest submission from each working group so that resubmissions do not give one group additional weight. Generated {{GENERATED_AT}}.</div>';
+                var pages = reportPageShell2026(cover, pageNumber++);
+
+                exercise.questions.forEach(function (question, questionIndex) {
+                    var questionText = question[1];
+                    var questionType = question[3];
+                    var responses = [];
+                    selectedRecords.forEach(function (record) {
+                        var answer = (record.answers || []).find(function (item) { return item.question === questionText; });
+                        if (answer) responses.push({ group: record.group || 'Not specified', country: record.country || '', response: answer.response });
+                    });
+                    var content = '<div class="workshop-kicker">Exercise ' + exerciseNumber + ' · All working groups</div><span class="question-number">Question ' + (questionIndex + 1) + '</span><h2 class="question-title">' + escapeHtml2026(questionText) + '</h2>';
+                    if (questionType === 'single' || questionType === 'multi') {
+                        var counts = {};
+                        responses.forEach(function (item) {
+                            var values = Array.isArray(item.response) ? item.response : [item.response];
+                            values.forEach(function (value) { if (value) counts[value] = (counts[value] || 0) + 1; });
+                        });
+                        var rows = Object.keys(counts).sort(function (a, b) { return counts[b] - counts[a] || a.localeCompare(b); });
+                        content += '<table class="frequency-table"><thead><tr><th>Selected option</th><th>Groups</th></tr></thead><tbody>' + rows.map(function (value) {
+                            return '<tr><td>' + escapeHtml2026(value) + '</td><td>' + counts[value] + '</td></tr>';
+                        }).join('') + '</tbody></table>';
+                    } else {
+                        content += responses.map(function (item) {
+                            return '<div class="group-response"><strong>' + escapeHtml2026(item.group) + (item.country ? ' · ' + escapeHtml2026(item.country) : '') + '</strong><div>' + reportResponseHtml2026(item.response) + '</div></div>';
+                        }).join('');
+                    }
+                    pages += reportPageShell2026(content, pageNumber++);
+                });
+
+                var comments = selectedRecords.filter(function (record) { return record.comments; });
+                if (comments.length) {
+                    var commentContent = '<div class="workshop-kicker">Exercise ' + exerciseNumber + ' · All working groups</div><h2 class="question-title">Additional comments, opinions and suggestions</h2>' + comments.map(function (record) {
+                        return '<div class="group-response"><strong>' + escapeHtml2026(record.group || 'Working group') + (record.country ? ' · ' + escapeHtml2026(record.country) : '') + '</strong><div>' + reportResponseHtml2026(record.comments) + '</div></div>';
+                    }).join('');
+                    pages += reportPageShell2026(commentContent, pageNumber++);
+                }
+                openProfessionalReport2026('Exercise ' + exerciseNumber + ' Consolidated Report', exercise.title, pages);
             }
 
             function renderExerciseResults2026(exercise, records) {
@@ -1992,6 +2493,143 @@
                 downloadFile2026('workshop-exercise-submissions-2026.csv', 'text/csv;charset=utf-8', csv);
             }
 
+            function saveExercisePasswordEntries2026(exerciseId, entries) {
+                if (!administratorUnlocked2026()) return Promise.reject(new Error('Administrator access is required.'));
+                if (!database2026 || !firebaseConnected2026) return Promise.reject(new Error('The online database is unavailable.'));
+                return promiseWithTimeout2026(database2026.ref('exercise_access_passwords/' + exerciseId).set({
+                    entries: entries,
+                    updatedAt: new Date().toISOString(),
+                    updatedBy: participant2026 ? participant2026.name : 'Workshop administrator'
+                }), 15000, 'Saving the password configuration timed out.');
+            }
+
+            function renderExercisePasswordManager2026() {
+                var selector = document.getElementById('password-manager-exercise');
+                var list = document.getElementById('password-manager-list');
+                var note = document.getElementById('password-manager-note');
+                if (!selector || !list) return;
+                var exerciseId = selector.value || exercises2026[0].id;
+                var entries = effectiveExercisePasswords2026(exerciseId);
+                list.innerHTML = '';
+                entries.forEach(function (entry, index) {
+                    var row = createElement2026('div', 'password-entry');
+                    var details = document.createElement('div');
+                    details.appendChild(createElement2026('strong', '', entry.label));
+                    details.appendChild(createElement2026('p', 'document-meta', 'Password value is securely masked · entry ' + (index + 1)));
+                    row.appendChild(details);
+                    var remove = createElement2026('button', 'btn-secondary', 'Remove');
+                    remove.type = 'button';
+                    remove.disabled = entries.length <= 1;
+                    remove.title = entries.length <= 1 ? 'At least one password must remain. Use Replace all passwords to change it.' : 'Remove this password entry';
+                    remove.addEventListener('click', function () {
+                        var remaining = entries.filter(function (_, entryIndex) { return entryIndex !== index; });
+                        saveExercisePasswordEntries2026(exerciseId, remaining).catch(function (error) {
+                            window.alert(error.message || 'The password could not be removed.');
+                        });
+                    });
+                    row.appendChild(remove);
+                    list.appendChild(row);
+                });
+                if (note) {
+                    note.textContent = liveExercisePasswordConfig2026[exerciseId] ?
+                        'Online configuration active: ' + entries.length + ' password' + (entries.length === 1 ? '' : 's') + ' accepted.' :
+                        'The requested default password is active. Add another password or replace it below.';
+                }
+            }
+
+            async function updateExercisePasswords2026(mode) {
+                var selector = document.getElementById('password-manager-exercise');
+                var passwordInput = document.getElementById('password-manager-new-password');
+                var labelInput = document.getElementById('password-manager-label');
+                var message = document.getElementById('password-manager-message');
+                var exerciseId = selector.value;
+                var password = passwordInput.value;
+                var label = labelInput.value.trim();
+                message.style.display = 'none';
+                if (!password || password.length < 6) {
+                    message.textContent = 'Enter a password of at least six characters.';
+                    message.style.background = '#f8d7da';
+                    message.style.color = '#842029';
+                    message.style.display = 'block';
+                    passwordInput.focus();
+                    return;
+                }
+                try {
+                    var hash = await hashText2026(password);
+                    var current = mode === 'replace' ? [] : effectiveExercisePasswords2026(exerciseId).slice();
+                    if (current.some(function (entry) { return entry.hash === hash; })) {
+                        throw new Error('This password is already accepted for the selected exercise.');
+                    }
+                    current.push({
+                        label: label || (mode === 'replace' ? 'Primary password' : 'Additional password ' + (current.length + 1)),
+                        hash: hash,
+                        createdAt: new Date().toISOString()
+                    });
+                    await saveExercisePasswordEntries2026(exerciseId, current);
+                    passwordInput.value = '';
+                    labelInput.value = '';
+                    message.textContent = mode === 'replace' ? 'All previous passwords were replaced successfully.' : 'The additional password was added successfully.';
+                    message.style.background = '#d4edda';
+                    message.style.color = '#155724';
+                    message.style.display = 'block';
+                } catch (error) {
+                    message.textContent = error.message || 'The password configuration could not be saved.';
+                    message.style.background = '#f8d7da';
+                    message.style.color = '#842029';
+                    message.style.display = 'block';
+                }
+            }
+
+            function buildExercisePasswordManager2026() {
+                var card = createElement2026('div', 'card');
+                card.appendChild(createElement2026('h3', '', 'Manage Exercise Passwords'));
+                card.appendChild(createElement2026('p', '', 'Each exercise has its own access password. Add an accepted password or replace all existing passwords without changing the participant registration password. Password values are stored only as cryptographic hashes.'));
+                card.appendChild(createElement2026('p', 'online-required', 'Initial defaults follow the requested naming pattern: excercise1 for Exercise 1, excercise2 for Exercise 2, through excercise7 for Exercise 7. Once replaced, an initial default is no longer accepted.'));
+                var grid = createElement2026('div', 'grid-2');
+                grid.style.marginTop = '1rem';
+                var selectorGroup = createElement2026('div', 'form-group');
+                var selectorLabel = createElement2026('label', '', 'Exercise');
+                selectorLabel.htmlFor = 'password-manager-exercise';
+                var selector = document.createElement('select');
+                selector.id = 'password-manager-exercise';
+                exercises2026.forEach(function (exercise, index) {
+                    var option = createElement2026('option', '', 'Exercise ' + (index + 1) + ': ' + exercise.short);
+                    option.value = exercise.id;
+                    selector.appendChild(option);
+                });
+                selector.addEventListener('change', renderExercisePasswordManager2026);
+                selectorGroup.appendChild(selectorLabel);
+                selectorGroup.appendChild(selector);
+                grid.appendChild(selectorGroup);
+                grid.appendChild(registrationField2026('password-manager-label', 'Password label (not the password)', 'text', false, 'e.g., Facilitator password'));
+                card.appendChild(grid);
+                card.appendChild(registrationField2026('password-manager-new-password', 'New password', 'password', true, 'Enter at least six characters'));
+                var actions = createElement2026('div', 'form-actions');
+                var add = createElement2026('button', 'btn-submit', 'Add accepted password');
+                add.type = 'button';
+                add.addEventListener('click', function () { updateExercisePasswords2026('add'); });
+                var replace = createElement2026('button', 'btn-secondary', 'Replace all passwords');
+                replace.type = 'button';
+                replace.addEventListener('click', function () {
+                    if (window.confirm('Replace every accepted password for the selected exercise with the new password?')) updateExercisePasswords2026('replace');
+                });
+                actions.appendChild(add);
+                actions.appendChild(replace);
+                card.appendChild(actions);
+                var message = createElement2026('div', 'form-message');
+                message.id = 'password-manager-message';
+                message.setAttribute('role', 'status');
+                card.appendChild(message);
+                var note = createElement2026('p', 'online-required');
+                note.id = 'password-manager-note';
+                card.appendChild(note);
+                var list = document.createElement('div');
+                list.id = 'password-manager-list';
+                card.appendChild(list);
+                window.setTimeout(renderExercisePasswordManager2026, 0);
+                return card;
+            }
+
             function renderDashboard2026() {
                 if (!administratorUnlocked2026()) return;
                 exercises2026.forEach(function (exercise) {
@@ -2001,111 +2639,201 @@
                 renderAnalytics2026();
             }
 
-            function uploadWorkshopDocument2026(event) {
+            function showUploadMessage2026(message, type) {
+                var progress = document.getElementById('document-upload-progress');
+                if (!progress) return;
+                progress.textContent = message;
+                progress.style.display = 'block';
+                if (type === 'success') {
+                    progress.style.background = '#d4edda';
+                    progress.style.color = '#155724';
+                } else if (type === 'error') {
+                    progress.style.background = '#f8d7da';
+                    progress.style.color = '#842029';
+                } else {
+                    progress.style.background = '#e8f4f8';
+                    progress.style.color = '#1a4f66';
+                }
+            }
+
+            function publishDocumentMetadata2026(metadata) {
+                if (!database2026 || !firebaseConnected2026) return Promise.reject(new Error('The online database is unavailable.'));
+                return promiseWithTimeout2026(database2026.ref('workshop_documents').push(metadata), 15000, 'Publishing the document link timed out.');
+            }
+
+            function uploadStorageFile2026(file, title, storagePath) {
+                return new Promise(function (resolve, reject) {
+                    var storageReference = storage2026.ref().child(storagePath);
+                    var uploadTask = storageReference.put(file, {
+                        contentType: file.type || 'application/octet-stream',
+                        customMetadata: { workshopTitle: title }
+                    });
+                    var finished = false;
+                    var watchdog = null;
+                    function finishWithError(error) {
+                        if (finished) return;
+                        finished = true;
+                        if (watchdog) window.clearTimeout(watchdog);
+                        reject(error);
+                    }
+                    function resetWatchdog() {
+                        if (watchdog) window.clearTimeout(watchdog);
+                        watchdog = window.setTimeout(function () {
+                            try { uploadTask.cancel(); } catch (error) {}
+                            finishWithError(new Error('The upload did not make progress for 45 seconds and was cancelled.'));
+                        }, 45000);
+                    }
+                    resetWatchdog();
+                    uploadTask.on('state_changed', function (snapshot) {
+                        resetWatchdog();
+                        var percentage = snapshot.totalBytes ? Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100) : 0;
+                        showUploadMessage2026('Uploading ' + percentage + '%...', 'progress');
+                    }, function (error) {
+                        finishWithError(error);
+                    }, async function () {
+                        if (finished) return;
+                        finished = true;
+                        if (watchdog) window.clearTimeout(watchdog);
+                        try {
+                            resolve(await promiseWithTimeout2026(uploadTask.snapshot.ref.getDownloadURL(), 15000, 'The download link could not be retrieved in time.'));
+                        } catch (error) {
+                            reject(error);
+                        }
+                    });
+                });
+            }
+
+            async function uploadWorkshopDocument2026(event) {
                 event.preventDefault();
                 var titleInput = document.getElementById('document-title');
                 var fileInput = document.getElementById('document-file');
-                var progress = document.getElementById('document-upload-progress');
+                var urlInput = document.getElementById('document-public-url');
                 var submitButton = document.getElementById('document-upload-submit');
                 var title = titleInput.value.trim();
+                var publicUrl = urlInput.value.trim();
                 var file = fileInput.files && fileInput.files[0];
 
                 if (!administratorUnlocked2026()) {
-                    progress.textContent = 'Administrator access is required.';
-                    progress.style.display = 'block';
+                    showUploadMessage2026('Administrator access is required.', 'error');
                     return;
                 }
-                if (!online2026 || !firebaseConnected2026 || !database2026 || !storage2026) {
-                    progress.textContent = 'The online database or file storage service is unavailable. The file was not uploaded.';
-                    progress.style.background = '#f8d7da';
-                    progress.style.color = '#842029';
-                    progress.style.display = 'block';
+                if (!online2026 || !firebaseConnected2026 || !database2026) {
+                    showUploadMessage2026('The online workshop database is unavailable. Nothing was published.', 'error');
                     return;
                 }
-                if (!title || !file) {
-                    progress.textContent = 'Enter a document title and select a file.';
-                    progress.style.display = 'block';
+                if (!title || (!file && !publicUrl)) {
+                    showUploadMessage2026('Enter a document title and either select a file or provide a public HTTPS link.', 'error');
                     return;
                 }
-                if (file.size > 50 * 1024 * 1024) {
-                    progress.textContent = 'The selected file exceeds the 50 MB upload limit.';
-                    progress.style.display = 'block';
+                if (publicUrl && !/^https:\/\//i.test(publicUrl)) {
+                    showUploadMessage2026('The document link must begin with https://.', 'error');
+                    urlInput.focus();
+                    return;
+                }
+                if (file && file.size > 50 * 1024 * 1024) {
+                    showUploadMessage2026('The selected file exceeds the 50 MB upload limit.', 'error');
                     return;
                 }
 
-                var safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
-                var storagePath = 'workshop_documents/' + Date.now() + '_' + safeName;
-                var storageReference = storage2026.ref().child(storagePath);
-                var uploadTask = storageReference.put(file, {
-                    contentType: file.type || 'application/octet-stream',
-                    customMetadata: { workshopTitle: title }
-                });
                 submitButton.disabled = true;
-                progress.style.background = '#e8f4f8';
-                progress.style.color = '#1a4f66';
-                progress.style.display = 'block';
-                progress.textContent = 'Uploading 0%...';
-
-                uploadTask.on('state_changed', function (snapshot) {
-                    var percentage = snapshot.totalBytes ? Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100) : 0;
-                    progress.textContent = 'Uploading ' + percentage + '%...';
-                }, function (error) {
-                    console.warn('Document upload failed.', error);
-                    progress.textContent = 'Upload failed. Confirm the Firebase Storage configuration and security rules, then try again.';
-                    progress.style.background = '#f8d7da';
-                    progress.style.color = '#842029';
-                    submitButton.disabled = false;
-                }, async function () {
-                    try {
-                        var url = await uploadTask.snapshot.ref.getDownloadURL();
-                        var now = new Date();
-                        var metadata = {
+                try {
+                    var now = new Date();
+                    var metadata;
+                    if (file) {
+                        if (!storage2026) throw new Error('Firebase Storage is unavailable.');
+                        showUploadMessage2026('Authenticating the secure file upload...', 'progress');
+                        await ensureFirebaseAuth2026(12000);
+                        var safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+                        var storagePath = 'workshop_documents/' + Date.now() + '_' + safeName;
+                        showUploadMessage2026('Uploading 0%...', 'progress');
+                        var downloadUrl = await uploadStorageFile2026(file, title, storagePath);
+                        metadata = {
                             title: title,
                             fileName: file.name,
                             size: file.size,
                             type: file.type || 'Document',
-                            url: url,
+                            url: downloadUrl,
                             storagePath: storagePath,
+                            source: 'firebase-storage',
                             uploadedAt: now.toISOString(),
                             displayTime: now.toLocaleString(),
                             uploadedBy: participant2026 ? participant2026.name : 'Workshop administrator'
                         };
-                        await database2026.ref('workshop_documents').push(metadata);
-                        titleInput.value = '';
-                        fileInput.value = '';
-                        progress.textContent = 'Document published successfully.';
-                        progress.style.background = '#d4edda';
-                        progress.style.color = '#155724';
-                    } catch (error) {
-                        console.warn('Document metadata could not be published.', error);
-                        progress.textContent = 'The file uploaded, but its title and download link could not be published.';
-                        progress.style.background = '#f8d7da';
-                        progress.style.color = '#842029';
-                    } finally {
-                        submitButton.disabled = false;
+                    } else {
+                        showUploadMessage2026('Publishing the document link...', 'progress');
+                        var urlName = publicUrl.split('/').pop().split('?')[0] || 'External document';
+                        metadata = {
+                            title: title,
+                            fileName: decodeURIComponent(urlName),
+                            size: 0,
+                            type: 'External link',
+                            url: publicUrl,
+                            storagePath: '',
+                            source: 'public-link',
+                            uploadedAt: now.toISOString(),
+                            displayTime: now.toLocaleString(),
+                            uploadedBy: participant2026 ? participant2026.name : 'Workshop administrator'
+                        };
                     }
-                });
+                    await publishDocumentMetadata2026(metadata);
+                    titleInput.value = '';
+                    fileInput.value = '';
+                    urlInput.value = '';
+                    showUploadMessage2026(file ? 'Document uploaded and published successfully.' : 'Document link published successfully.', 'success');
+                } catch (error) {
+                    console.warn('Document publishing failed.', error);
+                    var code = String(error && error.code || '');
+                    var message = String(error && error.message || '');
+                    if (code.indexOf('auth/') === 0 || /anonymous|authentication/i.test(message)) {
+                        showUploadMessage2026('Upload authentication failed. Enable Anonymous sign-in in Firebase Authentication, then try again; meanwhile, you can publish a public HTTPS document link below.', 'error');
+                    } else if (code.indexOf('storage/unauthorized') >= 0) {
+                        showUploadMessage2026('Firebase Storage rejected the upload. Update the Storage rules to permit authenticated uploads to workshop_documents, or publish a public HTTPS document link.', 'error');
+                    } else if (/45 seconds|timed out/i.test(message)) {
+                        showUploadMessage2026(message + ' Check Firebase Authentication and Storage rules, or use the public-link option.', 'error');
+                    } else {
+                        showUploadMessage2026('The document could not be published: ' + (message || 'unknown online service error') + ' You can also publish a public HTTPS document link.', 'error');
+                    }
+                } finally {
+                    submitButton.disabled = false;
+                    updateServiceDiagnostics2026();
+                }
             }
 
             function buildDocumentUploadCard2026() {
                 var card = createElement2026('div', 'card');
                 card.appendChild(createElement2026('h3', '', 'Publish Workshop Documents'));
-                card.appendChild(createElement2026('p', '', 'Upload a file to the online workshop repository and provide the title that participants will see under “Workshop Documents”.'));
+                card.appendChild(createElement2026('p', '', 'Upload a file to the online workshop repository or publish an existing public HTTPS link. In both cases, provide the title participants will see under “Workshop Documents”.'));
+                var diagnostics = createElement2026('div', 'service-diagnostics');
+                [['Online database', 'diagnostic-database'], ['Upload authentication', 'diagnostic-authentication'], ['File storage', 'diagnostic-storage']].forEach(function (item) {
+                    var diagnostic = createElement2026('div', 'service-diagnostic');
+                    diagnostic.appendChild(createElement2026('strong', '', item[0]));
+                    var value = createElement2026('span', '', 'Checking...');
+                    value.id = item[1];
+                    diagnostic.appendChild(value);
+                    diagnostics.appendChild(diagnostic);
+                });
+                card.appendChild(diagnostics);
                 var form = document.createElement('form');
                 form.style.marginTop = '1rem';
                 form.addEventListener('submit', uploadWorkshopDocument2026);
                 form.appendChild(registrationField2026('document-title', 'Document title', 'text', true, 'e.g., Day 1 presentation: Global Environmental Data Strategy'));
                 var fileGroup = createElement2026('div', 'form-group');
-                var fileLabel = createElement2026('label', '', 'Select file *');
+                var fileLabel = createElement2026('label', '', 'Select file (maximum 50 MB)');
                 fileLabel.htmlFor = 'document-file';
                 var fileInput = document.createElement('input');
                 fileInput.id = 'document-file';
                 fileInput.type = 'file';
-                fileInput.required = true;
                 fileInput.accept = '.pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.csv,.txt,.png,.jpg,.jpeg';
                 fileGroup.appendChild(fileLabel);
                 fileGroup.appendChild(fileInput);
                 form.appendChild(fileGroup);
+                var orText = createElement2026('p', '', '— or —');
+                orText.style.textAlign = 'center';
+                orText.style.fontWeight = '700';
+                orText.style.color = '#6b7c84';
+                form.appendChild(orText);
+                var urlGroup = registrationField2026('document-public-url', 'Public HTTPS document link', 'url', false, 'https://example.org/workshop-document.pdf');
+                form.appendChild(urlGroup);
                 var submit = createElement2026('button', 'btn-submit', 'Upload and publish document');
                 submit.id = 'document-upload-submit';
                 submit.type = 'submit';
@@ -2115,7 +2843,99 @@
                 progress.setAttribute('role', 'status');
                 form.appendChild(progress);
                 card.appendChild(form);
+                window.setTimeout(updateServiceDiagnostics2026, 0);
                 return card;
+            }
+
+            function openAdministratorReportDialog2026(exercise) {
+                selectedAdministratorReportExercise2026 = exercise;
+                var modal = document.getElementById('administrator-report-modal');
+                var title = document.getElementById('administrator-report-modal-title');
+                var message = document.getElementById('administrator-report-modal-message');
+                var selector = document.getElementById('administrator-report-scope');
+                if (!modal || !title || !selector) return;
+                title.textContent = 'Exercise ' + (exercises2026.indexOf(exercise) + 1) + ' Reports';
+                selector.value = 'all';
+                if (message) {
+                    message.textContent = (liveData2026[exercise.key] || []).length + ' submission(s) are currently available for ' + exercise.short + '.';
+                }
+                modal.classList.add('open');
+                modal.setAttribute('aria-hidden', 'false');
+                selector.focus();
+            }
+
+            function closeAdministratorReportDialog2026() {
+                var modal = document.getElementById('administrator-report-modal');
+                if (modal) {
+                    modal.classList.remove('open');
+                    modal.setAttribute('aria-hidden', 'true');
+                }
+            }
+
+            function generateAdministratorSelectedReport2026() {
+                var exercise = selectedAdministratorReportExercise2026;
+                var selector = document.getElementById('administrator-report-scope');
+                if (!exercise || !selector) return;
+                var records = liveData2026[exercise.key] || [];
+                if (selector.value === 'all') {
+                    generateConsolidatedExerciseReport2026(exercise, records);
+                } else {
+                    var groupRecords = records.filter(function (record) { return record.group === selector.value; });
+                    var latest = latestGroupSubmissions2026(groupRecords)[0];
+                    if (!latest) {
+                        window.alert('No submission is available for ' + selector.value + ' in this exercise.');
+                        return;
+                    }
+                    generateGroupReport2026(exercise, latest);
+                }
+            }
+
+            function buildAdministratorReportModal2026() {
+                var overlay = createElement2026('div', 'modal-overlay');
+                overlay.id = 'administrator-report-modal';
+                overlay.setAttribute('role', 'dialog');
+                overlay.setAttribute('aria-modal', 'true');
+                overlay.setAttribute('aria-hidden', 'true');
+                overlay.addEventListener('click', function (event) {
+                    if (event.target === overlay) closeAdministratorReportDialog2026();
+                });
+                var dialog = createElement2026('div', 'modal-dialog');
+                var title = createElement2026('h3', '', 'Exercise Reports');
+                title.id = 'administrator-report-modal-title';
+                dialog.appendChild(title);
+                dialog.appendChild(createElement2026('p', '', 'Choose a single working group report or a consolidated report that compares the latest response from every group. Reports open in a professional presentation and print layout.'));
+                var group = createElement2026('div', 'form-group');
+                group.style.marginTop = '1rem';
+                var label = createElement2026('label', '', 'Report scope');
+                label.htmlFor = 'administrator-report-scope';
+                var selector = document.createElement('select');
+                selector.id = 'administrator-report-scope';
+                var consolidated = createElement2026('option', '', 'All groups — consolidated report');
+                consolidated.value = 'all';
+                selector.appendChild(consolidated);
+                workingGroups2026.forEach(function (workingGroup) {
+                    var option = createElement2026('option', '', workingGroup + ' — latest submitted response');
+                    option.value = workingGroup;
+                    selector.appendChild(option);
+                });
+                group.appendChild(label);
+                group.appendChild(selector);
+                dialog.appendChild(group);
+                var message = createElement2026('p', 'online-required');
+                message.id = 'administrator-report-modal-message';
+                dialog.appendChild(message);
+                var actions = createElement2026('div', 'form-actions');
+                var generate = createElement2026('button', 'btn-submit', 'Generate report');
+                generate.type = 'button';
+                generate.addEventListener('click', generateAdministratorSelectedReport2026);
+                var cancel = createElement2026('button', 'btn-secondary', 'Cancel');
+                cancel.type = 'button';
+                cancel.addEventListener('click', closeAdministratorReportDialog2026);
+                actions.appendChild(generate);
+                actions.appendChild(cancel);
+                dialog.appendChild(actions);
+                overlay.appendChild(dialog);
+                return overlay;
             }
 
             function buildDashboard2026() {
@@ -2165,11 +2985,15 @@
                 top.appendChild(heading);
                 top.appendChild(actions);
                 topCard.appendChild(top);
-                topCard.appendChild(createElement2026('p', 'online-required', 'GitHub Pages deployment is supported. Registrations, exercise submissions and document metadata require the configured Firebase Realtime Database; uploaded files require Firebase Storage. No persistent local fallback is used.'));
+                topCard.appendChild(createElement2026('p', 'online-required', 'GitHub Pages deployment is supported. Registrations, exercise submissions, password settings and document metadata use the configured Firebase Realtime Database. Direct file uploads use Firebase Anonymous Authentication and Storage; public document links use the database only. No persistent local fallback is used.'));
 
                 var summary = createElement2026('div', 'dashboard-summary');
                 exercises2026.forEach(function (exercise, index) {
-                    var stat = createElement2026('div', 'dashboard-stat');
+                    var stat = createElement2026('button', 'dashboard-stat');
+                    stat.type = 'button';
+                    stat.title = 'Choose a group report or an all-groups consolidated report';
+                    stat.setAttribute('aria-label', 'Open reports for Exercise ' + (index + 1) + ': ' + exercise.short);
+                    stat.addEventListener('click', function () { openAdministratorReportDialog2026(exercise); });
                     var number = createElement2026('h4', '', '0');
                     number.id = 'count-' + exercise.id;
                     stat.appendChild(number);
@@ -2193,6 +3017,7 @@
                 adminActions.appendChild(csvButton);
                 topCard.appendChild(adminActions);
                 adminContent.appendChild(topCard);
+                adminContent.appendChild(buildExercisePasswordManager2026());
                 adminContent.appendChild(buildDocumentUploadCard2026());
 
                 var analyticsCard = createElement2026('div', 'card');
@@ -2234,6 +3059,7 @@
                     adminContent.appendChild(resultsCard);
                 });
                 section.appendChild(adminContent);
+                section.appendChild(buildAdministratorReportModal2026());
                 if (administratorUnlocked2026()) gate.style.display = 'none';
                 return section;
             }
@@ -2268,6 +3094,15 @@
                 updateOnlineStatus2026();
 
                 if (online2026 && database2026) {
+                    database2026.ref('exercise_access_passwords').on('value', function (snapshot) {
+                        liveExercisePasswordConfig2026 = snapshot.val() || {};
+                        exercisePasswordConfigLoaded2026 = true;
+                        renderExercisePasswordManager2026();
+                    }, function (error) {
+                        console.warn('Could not synchronize exercise password settings; requested default passwords remain active.', error);
+                        exercisePasswordConfigLoaded2026 = false;
+                        renderExercisePasswordManager2026();
+                    });
                     database2026.ref('workshop_documents').on('value', function (snapshot) {
                         liveDocuments2026 = snapshot.val() ? Object.values(snapshot.val()) : [];
                         renderDocuments2026();
