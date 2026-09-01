@@ -1275,6 +1275,8 @@
             var liveRegistrations2026 = [];
             var liveDocuments2026 = [];
             var participant2026 = null;
+            var liveRegistrationPasswordConfig2026 = null;
+            var registrationPasswordConfigLoaded2026 = false;
             var liveExercisePasswordConfig2026 = {};
             var exercisePasswordConfigLoaded2026 = false;
             var lastSubmittedRecords2026 = {};
@@ -1352,7 +1354,7 @@
                 'Sign out': 'تسجيل الخروج',
                 'Background & Rationale': 'الخلفية والمبررات',
                 'Environmental decision-making in West Asia depends on reliable, timely and actionable data to address water scarcity, climate change, pollution, land degradation and biodiversity loss. Environmental data are often distributed among multiple institutions with different mandates, standards, systems and capacities.': 'يعتمد اتخاذ القرارات البيئية في غرب آسيا على بيانات موثوقة وحديثة وقابلة للاستخدام لمعالجة ندرة المياه وتغير المناخ والتلوث وتدهور الأراضي وفقدان التنوع البيولوجي. وغالباً ما تكون البيانات البيئية موزعة بين مؤسسات متعددة تختلف في ولاياتها ومعاييرها ونظمها وقدراتها.',
-                'Building on the 2025 foundational workshop, this second regional workshop shifts from introducing environmental data governance concepts to their practical application, aligned with the voluntary and enabling framework of the ': 'استناداً إلى ورشة العمل التأسيسية لعام 2025، تنتقل ورشة العمل الإقليمية الثانية من التعريف بمفاهيم حوكمة البيانات البيئية إلى تطبيقها عملياً، بما يتماشى مع الإطار الطوعي والتمكيني لـ',
+                'Building on the 2025 foundational workshop, this second regional workshop shifts from introducing environmental data governance concepts to their practical application, aligned with the voluntary and enabling framework of the': 'استناداً إلى ورشة العمل التأسيسية لعام 2025، تنتقل ورشة العمل الإقليمية الثانية من التعريف بمفاهيم حوكمة البيانات البيئية إلى تطبيقها عملياً، بما يتماشى مع الإطار الطوعي والتمكيني لـ',
                 'Global Environmental Data Strategy (GEDS)': 'الاستراتيجية العالمية للبيانات البيئية (GEDS)',
                 'Purpose': 'الغرض',
                 'This second workshop represents the implementation-oriented phase of the regional environmental data governance workshop series. It aims to support West Asian countries in translating the priorities identified during the first workshop into practical institutional, technical and capacity-development actions. Through presentations, country-based assessments, applied exercises and peer exchange, participants will examine their existing governance arrangements, environmental data flows, reporting requirements, data management and quality practices, and readiness for responsible digital transformation. The workshop will be informed by national circumstances and guided by the voluntary framework of the Global Environmental Data Strategy (GEDS).': 'تمثل ورشة العمل الثانية المرحلة الموجهة نحو التنفيذ ضمن سلسلة ورش العمل الإقليمية بشأن حوكمة البيانات البيئية. وتهدف إلى دعم بلدان غرب آسيا في ترجمة الأولويات التي حُددت خلال ورشة العمل الأولى إلى إجراءات مؤسسية وتقنية وعملية لتنمية القدرات. ومن خلال العروض والتقييمات القطرية والتمارين التطبيقية وتبادل الخبرات، سيستعرض المشاركون ترتيبات الحوكمة القائمة، وتدفقات البيانات البيئية، ومتطلبات الإبلاغ، وممارسات إدارة البيانات وجودتها، ومدى الاستعداد للتحول الرقمي المسؤول. وستراعي ورشة العمل الظروف الوطنية وتسترشد بالإطار الطوعي للاستراتيجية العالمية للبيانات البيئية (GEDS).',
@@ -1404,7 +1406,7 @@
                 'National Environmental Data Governance': 'حوكمة البيانات البيئية الوطنية',
                 'Elements of institutional governance: policies, standards, processes, roles and responsibilities.': 'عناصر الحوكمة المؤسسية: السياسات والمعايير والعمليات والأدوار والمسؤوليات.',
                 'Lunch Break': 'استراحة الغداء',
-                'Session 5: Country Exercise': 'الجلسة 5: تمرين قطري',
+                'Session 5: Country Exercise': 'الجلسة 5: تمرين',
                 'Mapping Environmental Data: Institutions, Responsibilities and Data Flows': 'رسم خريطة البيانات البيئية: المؤسسات والمسؤوليات وتدفقات البيانات',
                 'Countries identify data sources, producers, custodians, validators, statistical authorities and environmental data platforms.': 'تحدد البلدان مصادر البيانات ومنتجيها وأمناءها والجهات المتحققة منها والسلطات الإحصائية ومنصات البيانات البيئية.',
                 'All participants; Ahmed Abdelrehim': 'جميع المشاركين؛ أحمد عبد الرحيم',
@@ -1422,7 +1424,7 @@
                 'Session 8: Presentation': 'الجلسة 8: عرض تقديمي',
                 'Data for Integrated Environmental Assessments': 'البيانات اللازمة للتقييمات البيئية المتكاملة',
                 'Global, regional and national levels.': 'على المستويات العالمية والإقليمية والوطنية.',
-                'Session 9: Country Exercise': 'الجلسة 9: تمرين قطري',
+                'Session 9: Country Exercise': 'الجلسة 9: تمرين',
                 'Environmental Reporting Obligations': 'التزامات الإبلاغ البيئي',
                 'Support participants in identifying and reviewing their international, regional and national reporting obligations. Visualize how one priority dataset moves from the original source to the national environmental information or reporting system.': 'دعم المشاركين في تحديد التزامات الإبلاغ الدولية والإقليمية والوطنية ومراجعتها، وتوضيح كيفية انتقال مجموعة بيانات ذات أولوية من المصدر الأصلي إلى النظام الوطني للمعلومات البيئية أو الإبلاغ.',
                 'Session 14': 'الجلسة 14',
@@ -1431,7 +1433,7 @@
                 'Session 10: Presentation': 'الجلسة 10: عرض تقديمي',
                 'Strengthening Environmental Data Management and Quality': 'تعزيز إدارة البيانات البيئية وجودتها',
                 'Support participants in applying quality assurance, metadata and provenance requirements throughout the environmental data lifecycle.': 'دعم المشاركين في تطبيق متطلبات ضمان الجودة والبيانات الوصفية ومصدر البيانات طوال دورة حياة البيانات البيئية.',
-                'Session 11: Country Exercise': 'الجلسة 11: تمرين قطري',
+                'Session 11: Country Exercise': 'الجلسة 11: تمرين',
                 'Identifying Gaps and Improving the Data Workflow': 'تحديد الفجوات وتحسين مسار عمل البيانات',
                 'Support participants in assessing one priority dataset against common management, quality and provenance criteria and identifying practical improvements.': 'دعم المشاركين في تقييم مجموعة بيانات ذات أولوية وفق معايير مشتركة للإدارة والجودة والمصدر وتحديد تحسينات عملية.',
                 'Session 12: Plenary Session': 'الجلسة 12: جلسة عامة',
@@ -1446,7 +1448,7 @@
                 'Session 15: Presentation and Discussion': 'الجلسة 15: عرض ومناقشة',
                 'Building the Capacities Needed for Effective Environmental Data Systems': 'بناء القدرات اللازمة لنظم بيانات بيئية فعالة',
                 'Support participants in understanding the different types of capacity required to establish and sustain effective environmental data systems and to move beyond viewing capacity-building primarily as training.': 'دعم المشاركين في فهم أنواع القدرات اللازمة لإنشاء نظم بيانات بيئية فعالة واستدامتها، وتجاوز النظر إلى بناء القدرات باعتباره تدريباً فقط.',
-                'Session 16: Country Exercise': 'الجلسة 16: تمرين قطري',
+                'Session 16: Country Exercise': 'الجلسة 16: تمرين',
                 'Assessing National Environmental Data Capacity Needs': 'تقييم احتياجات القدرات الوطنية في مجال البيانات البيئية',
                 'Support participants in identifying the specific human, institutional, technical and financial capacity gaps preventing them from addressing the challenges identified during Days 1 and 2.': 'دعم المشاركين في تحديد الفجوات المحددة في القدرات البشرية والمؤسسية والتقنية والمالية التي تعوق معالجة التحديات المحددة خلال اليومين الأول والثاني.',
                 'Session 17: Presentation and Discussion': 'الجلسة 17: عرض ومناقشة',
@@ -1455,7 +1457,7 @@
                 'Session 18: Presentation and Discussion': 'الجلسة 18: عرض ومناقشة',
                 'Responsible and Sustainable Digital Transformation': 'التحول الرقمي المسؤول والمستدام',
                 'Evaluate digital solutions according to their technical potential, reliability, affordability, sustainability and governance implications.': 'تقييم الحلول الرقمية وفق إمكاناتها التقنية وموثوقيتها وتكلفتها واستدامتها وآثارها المرتبطة بالحوكمة.',
-                'Session 19: Country Exercise': 'الجلسة 19: تمرين قطري',
+                'Session 19: Country Exercise': 'الجلسة 19: تمرين',
                 'Digital Transformation Readiness': 'الاستعداد للتحول الرقمي',
                 'Support participants in identifying existing institutional readiness for digital transformation. Participants select a priority problem identified during Days 1 or 2 and determine whether a digital solution could realistically help address it.': 'دعم المشاركين في تحديد مستوى الاستعداد المؤسسي القائم للتحول الرقمي. ويختار المشاركون مشكلة ذات أولوية حُددت خلال اليوم الأول أو الثاني ويقررون ما إذا كان الحل الرقمي يمكن أن يسهم واقعياً في معالجتها.',
                 'Session 20: Country Working Session': 'الجلسة 20: جلسة عمل قطرية',
@@ -1796,6 +1798,7 @@
 
             Object.assign(arabicTranslations2026, {
                 'Secure password checking is not supported by this browser.': 'لا يدعم هذا المتصفح التحقق الآمن من كلمة المرور.',
+                'Firebase SDK is unavailable.': 'حزمة Firebase البرمجية غير متاحة.',
                 'Default exercise password': 'كلمة المرور الافتراضية للتمرين',
                 'Password': 'كلمة المرور',
                 'Participant registration · 20–22 October 2026 · Manama, Kingdom of Bahrain': 'تسجيل المشاركين · 20–22 أكتوبر 2026 · المنامة، مملكة البحرين',
@@ -2014,6 +2017,32 @@
             });
 
             Object.assign(arabicTranslations2026, {
+                'Default registration password': 'كلمة مرور التسجيل الافتراضية',
+                'Registration password settings could not be verified online. Please check the connection or contact the workshop organizers.': 'تعذر التحقق من إعدادات كلمات مرور التسجيل عبر الإنترنت. يرجى التحقق من الاتصال أو التواصل مع منظمي ورشة العمل.',
+                'Manage Registration Passwords': 'إدارة كلمات مرور التسجيل',
+                'Create one or more passwords that participants may use to register for the workshop portal. Administrators may add an accepted password or replace all existing registration passwords. Password values are stored only as cryptographic hashes.': 'أنشئ كلمة مرور واحدة أو أكثر يمكن للمشاركين استخدامها للتسجيل في بوابة ورشة العمل. ويمكن للمسؤول إضافة كلمة مرور مقبولة أو استبدال جميع كلمات مرور التسجيل القائمة. ولا تُحفظ قيم كلمات المرور إلا في صورة تجزئات مشفرة.',
+                'The initial registration password remains active until all registration passwords are replaced. Keep at least one accepted password available and share passwords only through an appropriate workshop communication channel.': 'تظل كلمة مرور التسجيل الأولية فعالة إلى أن تُستبدل جميع كلمات مرور التسجيل. أبقِ كلمة مرور واحدة مقبولة على الأقل، وشارك كلمات المرور فقط من خلال قناة اتصال مناسبة لورشة العمل.',
+                'Registration password label (not the password)': 'تسمية كلمة مرور التسجيل (وليست كلمة المرور)',
+                'e.g., Country delegation password': 'مثال: كلمة مرور الوفد القطري',
+                'New registration password': 'كلمة مرور تسجيل جديدة',
+                'Add accepted registration password': 'إضافة كلمة مرور تسجيل مقبولة',
+                'Replace all registration passwords': 'استبدال جميع كلمات مرور التسجيل',
+                'Replace every accepted participant registration password with the new password?': 'هل تريد استبدال كل كلمات مرور تسجيل المشاركين المقبولة بكلمة المرور الجديدة؟',
+                'At least one registration password must remain. Use Replace all registration passwords to change it.': 'يجب الإبقاء على كلمة مرور تسجيل واحدة على الأقل. استخدم «استبدال جميع كلمات مرور التسجيل» لتغييرها.',
+                'Remove this registration password entry': 'إزالة إدخال كلمة مرور التسجيل هذا',
+                'The registration password could not be removed.': 'تعذر إزالة كلمة مرور التسجيل.',
+                'The requested default registration password is active. Add another password or replace it below.': 'كلمة مرور التسجيل الافتراضية المطلوبة فعالة. أضف كلمة مرور أخرى أو استبدلها أدناه.',
+                'Enter a registration password of at least six characters.': 'أدخل كلمة مرور تسجيل من ستة أحرف على الأقل.',
+                'This password is already accepted for participant registration.': 'كلمة المرور هذه مقبولة بالفعل لتسجيل المشاركين.',
+                'Primary registration password': 'كلمة مرور التسجيل الأساسية',
+                'All previous registration passwords were replaced successfully.': 'استُبدلت جميع كلمات مرور التسجيل السابقة بنجاح.',
+                'The additional registration password was added successfully.': 'أُضيفت كلمة مرور التسجيل الإضافية بنجاح.',
+                'The registration password configuration could not be saved.': 'تعذر حفظ إعدادات كلمات مرور التسجيل.',
+                'Saving the registration password configuration timed out.': 'انتهت مهلة حفظ إعدادات كلمات مرور التسجيل.',
+                'Registration-password settings': 'إعدادات كلمات مرور التسجيل'
+            });
+
+            Object.assign(arabicTranslations2026, {
                 'The report window was blocked by the browser. Please allow pop-ups for this workshop portal and try again.': 'حظر المتصفح نافذة التقرير. يرجى السماح بالنوافذ المنبثقة لهذه البوابة والمحاولة مجدداً.',
                 'Presentation mode': 'وضع العرض',
                 'Print / Save PDF': 'طباعة / حفظ بصيغة PDF',
@@ -2103,7 +2132,10 @@
                 if ((match = text.match(/^No submission is available for (.+) in this exercise\.$/))) return 'لا توجد إجابة مقدمة لـ' + translateText2026(match[1]) + ' في هذا التمرين.';
                 if ((match = text.match(/^(\d+) submission\(s\) are currently available for (.+)\.$/))) return 'يتوفر حالياً ' + match[1] + ' من الإجابات المقدمة لـ' + translateText2026(match[2]) + '.';
                 if ((match = text.match(/^Password value is securely masked · entry (\d+)$/))) return 'قيمة كلمة المرور مخفية بأمان · الإدخال ' + match[1];
+                if ((match = text.match(/^Password (\d+)$/))) return 'كلمة المرور ' + match[1];
+                if ((match = text.match(/^Additional registration password (\d+)$/))) return 'كلمة مرور تسجيل إضافية ' + match[1];
                 if ((match = text.match(/^Additional password (\d+)$/))) return 'كلمة مرور إضافية ' + match[1];
+                if ((match = text.match(/^Online registration configuration active: (\d+) password(?:s)? accepted\.$/))) return 'إعداد التسجيل عبر الإنترنت فعال: عدد كلمات المرور المقبولة ' + match[1] + '.';
                 if ((match = text.match(/^Online configuration active: (\d+) password(?:s)? accepted\.$/))) return 'الإعداد على الإنترنت فعال: عدد كلمات المرور المقبولة ' + match[1] + '.';
                 if ((match = text.match(/^Open reports for Exercise (\d+): (.+)$/))) return 'فتح تقارير التمرين ' + match[1] + ': ' + translateText2026(match[2]);
                 if ((match = text.match(/^Submitted by (.+)$/))) return 'مقدم من: ' + match[1];
@@ -2221,6 +2253,32 @@
                         createdAt: entry.createdAt || ''
                     };
                 });
+            }
+
+            function effectiveRegistrationPasswords2026() {
+                var configured = normalizePasswordEntries2026(liveRegistrationPasswordConfig2026);
+                if (configured.length) return configured;
+                return [{
+                    label: 'Default registration password',
+                    hash: workshopPasswordHash2026,
+                    createdAt: ''
+                }];
+            }
+
+            async function loadRegistrationPasswordConfig2026() {
+                if (!database2026) return false;
+                if (!firebaseConnected2026 && !(await waitForOnlineConnection2026(6000))) return false;
+                try {
+                    var snapshot = await database2026.ref('registration_access_passwords').once('value');
+                    liveRegistrationPasswordConfig2026 = snapshot.val() || null;
+                    registrationPasswordConfigLoaded2026 = true;
+                    return true;
+                } catch (error) {
+                    console.warn('Could not load registration password settings; the requested default password remains active.', error);
+                    liveRegistrationPasswordConfig2026 = null;
+                    registrationPasswordConfigLoaded2026 = false;
+                    return false;
+                }
             }
 
             function effectiveExercisePasswords2026(exerciseId) {
@@ -2435,7 +2493,24 @@
                 form.addEventListener('submit', async function (event) {
                     event.preventDefault();
                     var password = document.getElementById('registration-password').value;
-                    if (!(await passwordMatches2026(password, workshopPasswordHash2026))) {
+                    if (database2026 && firebaseConnected2026) {
+                        await loadRegistrationPasswordConfig2026();
+                    }
+                    if (!registrationPasswordConfigLoaded2026) {
+                        errorBox.textContent = 'Registration password settings could not be verified online. Please check the connection or contact the workshop organizers.';
+                        errorBox.style.display = 'block';
+                        return;
+                    }
+                    var registrationPasswordAccepted = false;
+                    try {
+                        var candidateHash = await hashText2026(password);
+                        registrationPasswordAccepted = effectiveRegistrationPasswords2026().some(function (entry) {
+                            return entry.hash === candidateHash;
+                        });
+                    } catch (error) {
+                        registrationPasswordAccepted = false;
+                    }
+                    if (!registrationPasswordAccepted) {
                         errorBox.textContent = 'The workshop access password is incorrect. Please check the password provided by the organizers.';
                         errorBox.style.display = 'block';
                         document.getElementById('registration-password').focus();
@@ -2512,6 +2587,7 @@
                 if (accessGranted && participant2026) {
                     initializePortal2026();
                 } else {
+                    await loadRegistrationPasswordConfig2026();
                     document.body.classList.add('portal-locked');
                     buildRegistrationGate2026();
                 }
@@ -2602,7 +2678,7 @@
                 background.appendChild(createElement2026('p', '', 'Environmental decision-making in West Asia depends on reliable, timely and actionable data to address water scarcity, climate change, pollution, land degradation and biodiversity loss. Environmental data are often distributed among multiple institutions with different mandates, standards, systems and capacities.'));
                 var second = createElement2026('p');
                 second.style.marginTop = '0.8rem';
-                second.appendChild(document.createTextNode('Building on the 2025 foundational workshop, this second regional workshop shifts from introducing environmental data governance concepts to their practical application, aligned with the voluntary and enabling framework of the '));
+                second.appendChild(document.createTextNode(translateText2026('Building on the 2025 foundational workshop, this second regional workshop shifts from introducing environmental data governance concepts to their practical application, aligned with the voluntary and enabling framework of the') + ' '));
                 second.appendChild(createElement2026('strong', '', 'Global Environmental Data Strategy (GEDS)'));
                 second.appendChild(document.createTextNode('.'));
                 background.appendChild(second);
@@ -4043,6 +4119,125 @@
                 downloadFile2026('workshop-exercise-submissions-2026.csv', 'text/csv;charset=utf-8', csv);
             }
 
+            function saveRegistrationPasswordEntries2026(entries) {
+                if (!administratorUnlocked2026()) return Promise.reject(new Error('Administrator access is required.'));
+                if (!database2026 || !firebaseConnected2026) return Promise.reject(new Error('The online database is unavailable.'));
+                return promiseWithTimeout2026(database2026.ref('registration_access_passwords').set({
+                    entries: entries,
+                    updatedAt: new Date().toISOString(),
+                    updatedBy: participant2026 ? participant2026.name : 'Workshop administrator'
+                }), 15000, 'Saving the registration password configuration timed out.');
+            }
+
+            function renderRegistrationPasswordManager2026() {
+                var list = document.getElementById('registration-password-manager-list');
+                var note = document.getElementById('registration-password-manager-note');
+                if (!list) return;
+                var entries = effectiveRegistrationPasswords2026();
+                list.innerHTML = '';
+                entries.forEach(function (entry, index) {
+                    var row = createElement2026('div', 'password-entry');
+                    var details = document.createElement('div');
+                    details.appendChild(createElement2026('strong', '', entry.label));
+                    details.appendChild(createElement2026('p', 'document-meta', 'Password value is securely masked · entry ' + (index + 1)));
+                    row.appendChild(details);
+                    var remove = createElement2026('button', 'btn-secondary', 'Remove');
+                    remove.type = 'button';
+                    remove.disabled = entries.length <= 1;
+                    remove.title = entries.length <= 1 ? 'At least one registration password must remain. Use Replace all registration passwords to change it.' : 'Remove this registration password entry';
+                    remove.addEventListener('click', function () {
+                        var remaining = entries.filter(function (_, entryIndex) { return entryIndex !== index; });
+                        saveRegistrationPasswordEntries2026(remaining).catch(function (error) {
+                            window.alert(error.message || 'The registration password could not be removed.');
+                        });
+                    });
+                    row.appendChild(remove);
+                    list.appendChild(row);
+                });
+                if (note) {
+                    note.textContent = liveRegistrationPasswordConfig2026 ?
+                        'Online registration configuration active: ' + entries.length + ' password' + (entries.length === 1 ? '' : 's') + ' accepted.' :
+                        'The requested default registration password is active. Add another password or replace it below.';
+                }
+            }
+
+            async function updateRegistrationPasswords2026(mode) {
+                var passwordInput = document.getElementById('registration-password-manager-new-password');
+                var labelInput = document.getElementById('registration-password-manager-label');
+                var message = document.getElementById('registration-password-manager-message');
+                var password = passwordInput.value;
+                var label = labelInput.value.trim();
+                message.style.display = 'none';
+                if (!password || password.length < 6) {
+                    message.textContent = 'Enter a registration password of at least six characters.';
+                    message.style.background = '#f8d7da';
+                    message.style.color = '#842029';
+                    message.style.display = 'block';
+                    passwordInput.focus();
+                    return;
+                }
+                try {
+                    var hash = await hashText2026(password);
+                    var current = mode === 'replace' ? [] : effectiveRegistrationPasswords2026().slice();
+                    if (current.some(function (entry) { return entry.hash === hash; })) {
+                        throw new Error('This password is already accepted for participant registration.');
+                    }
+                    current.push({
+                        label: label || (mode === 'replace' ? 'Primary registration password' : 'Additional registration password ' + (current.length + 1)),
+                        hash: hash,
+                        createdAt: new Date().toISOString()
+                    });
+                    await saveRegistrationPasswordEntries2026(current);
+                    passwordInput.value = '';
+                    labelInput.value = '';
+                    message.textContent = mode === 'replace' ? 'All previous registration passwords were replaced successfully.' : 'The additional registration password was added successfully.';
+                    message.style.background = '#d4edda';
+                    message.style.color = '#155724';
+                    message.style.display = 'block';
+                } catch (error) {
+                    message.textContent = error.message || 'The registration password configuration could not be saved.';
+                    message.style.background = '#f8d7da';
+                    message.style.color = '#842029';
+                    message.style.display = 'block';
+                }
+            }
+
+            function buildRegistrationPasswordManager2026() {
+                var card = createElement2026('div', 'card');
+                card.appendChild(createElement2026('h3', '', 'Manage Registration Passwords'));
+                card.appendChild(createElement2026('p', '', 'Create one or more passwords that participants may use to register for the workshop portal. Administrators may add an accepted password or replace all existing registration passwords. Password values are stored only as cryptographic hashes.'));
+                card.appendChild(createElement2026('p', 'online-required', 'The initial registration password remains active until all registration passwords are replaced. Keep at least one accepted password available and share passwords only through an appropriate workshop communication channel.'));
+                var grid = createElement2026('div', 'grid-2');
+                grid.style.marginTop = '1rem';
+                grid.appendChild(registrationField2026('registration-password-manager-label', 'Registration password label (not the password)', 'text', false, 'e.g., Country delegation password'));
+                grid.appendChild(registrationField2026('registration-password-manager-new-password', 'New registration password', 'password', true, 'Enter at least six characters'));
+                card.appendChild(grid);
+                var actions = createElement2026('div', 'form-actions');
+                var add = createElement2026('button', 'btn-submit', 'Add accepted registration password');
+                add.type = 'button';
+                add.addEventListener('click', function () { updateRegistrationPasswords2026('add'); });
+                var replace = createElement2026('button', 'btn-secondary', 'Replace all registration passwords');
+                replace.type = 'button';
+                replace.addEventListener('click', function () {
+                    if (window.confirm('Replace every accepted participant registration password with the new password?')) updateRegistrationPasswords2026('replace');
+                });
+                actions.appendChild(add);
+                actions.appendChild(replace);
+                card.appendChild(actions);
+                var message = createElement2026('div', 'form-message');
+                message.id = 'registration-password-manager-message';
+                message.setAttribute('role', 'status');
+                card.appendChild(message);
+                var note = createElement2026('p', 'online-required');
+                note.id = 'registration-password-manager-note';
+                card.appendChild(note);
+                var list = document.createElement('div');
+                list.id = 'registration-password-manager-list';
+                card.appendChild(list);
+                window.setTimeout(renderRegistrationPasswordManager2026, 0);
+                return card;
+            }
+
             function saveExercisePasswordEntries2026(exerciseId, entries) {
                 if (!administratorUnlocked2026()) return Promise.reject(new Error('Administrator access is required.'));
                 if (!database2026 || !firebaseConnected2026) return Promise.reject(new Error('The online database is unavailable.'));
@@ -4590,6 +4785,7 @@
             function resetDatabaseUpdates2026() {
                 var updates = {
                     participant_registrations: null,
+                    registration_access_passwords: null,
                     exercise_access_passwords: null,
                     workshop_documents: null
                 };
@@ -4639,12 +4835,15 @@
                     await promiseWithTimeout2026(database2026.ref('/').update(resetDatabaseUpdates2026()), 30000, 'Resetting workshop data timed out.');
                     liveRegistrations2026 = [];
                     liveDocuments2026 = [];
+                    liveRegistrationPasswordConfig2026 = null;
+                    registrationPasswordConfigLoaded2026 = true;
                     liveExercisePasswordConfig2026 = {};
                     lastSubmittedRecords2026 = {};
                     exercises2026.forEach(function (exercise) { liveData2026[exercise.key] = []; });
                     renderDocuments2026();
                     renderAdministratorDocuments2026();
                     renderParticipantList2026();
+                    renderRegistrationPasswordManager2026();
                     renderDashboard2026();
                     showResetMessage2026('All workshop database data were reset successfully. You will now be signed out because participant registrations were removed.', 'success');
                     window.setTimeout(signOutPortal2026, 2600);
@@ -4670,7 +4869,7 @@
                 var warning = createElement2026('div', 'danger-panel');
                 warning.appendChild(createElement2026('strong', '', 'This action permanently removes all data entered in this workshop portal:'));
                 var list = createElement2026('ul');
-                ['Participant registrations', 'All seven exercise submissions', 'Published workshop document links', 'Custom exercise-password settings'].forEach(function (item) {
+                ['Participant registrations', 'All seven exercise submissions', 'Published workshop document links', 'Registration-password settings', 'Custom exercise-password settings'].forEach(function (item) {
                     list.appendChild(createElement2026('li', '', item));
                 });
                 warning.appendChild(list);
@@ -4795,6 +4994,7 @@
                 adminActions.appendChild(resetButton);
                 topCard.appendChild(adminActions);
                 adminContent.appendChild(topCard);
+                adminContent.appendChild(buildRegistrationPasswordManager2026());
                 adminContent.appendChild(buildExercisePasswordManager2026());
                 adminContent.appendChild(buildDocumentUploadCard2026());
 
@@ -4875,6 +5075,15 @@
                 updateOnlineStatus2026();
 
                 if (online2026 && database2026) {
+                    database2026.ref('registration_access_passwords').on('value', function (snapshot) {
+                        liveRegistrationPasswordConfig2026 = snapshot.val() || null;
+                        registrationPasswordConfigLoaded2026 = true;
+                        renderRegistrationPasswordManager2026();
+                    }, function (error) {
+                        console.warn('Could not synchronize registration password settings; the requested default registration password remains active.', error);
+                        registrationPasswordConfigLoaded2026 = false;
+                        renderRegistrationPasswordManager2026();
+                    });
                     database2026.ref('exercise_access_passwords').on('value', function (snapshot) {
                         liveExercisePasswordConfig2026 = snapshot.val() || {};
                         exercisePasswordConfigLoaded2026 = true;
