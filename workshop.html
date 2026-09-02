@@ -9,6 +9,8 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
     <!-- PowerPoint export for submitted working-group exercises -->
     <script src="https://cdn.jsdelivr.net/npm/pptxgenjs@4.0.1/dist/pptxgen.bundle.js"></script>
+    <!-- QR codes for direct access to agenda days and interactive exercises -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
     <style>
         :root {
             --unep-blue: #00875a;
@@ -115,6 +117,25 @@
         .language-toggle:hover,
         .language-toggle:focus-visible {
             background: var(--unep-teal);
+            color: var(--unep-dark);
+            outline: none;
+        }
+
+        .mobile-view-toggle {
+            background: var(--unep-teal);
+            color: var(--unep-dark);
+            border: 2px solid var(--unep-teal);
+            border-radius: 20px;
+            padding: 0.48rem 1rem;
+            font-weight: 800;
+            cursor: pointer;
+            font-size: 0.88rem;
+        }
+
+        .mobile-view-toggle:hover,
+        .mobile-view-toggle:focus-visible,
+        .mobile-view-toggle[aria-pressed="true"] {
+            background: #ffffff;
             color: var(--unep-dark);
             outline: none;
         }
@@ -481,6 +502,61 @@
             font-size: 0.88rem;
         }
 
+        .directory-card-body {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            gap: 1rem;
+            align-items: start;
+            margin-top: 0.15rem;
+        }
+
+        .directory-card-copy {
+            min-width: 0;
+        }
+
+        .qr-code-panel {
+            width: 104px;
+            flex: 0 0 104px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.35rem;
+            padding: 0.45rem;
+            border: 1px solid #d8e6e1;
+            border-radius: 7px;
+            background: #ffffff;
+        }
+
+        .qr-code-panel canvas,
+        .qr-code-panel img {
+            display: block;
+            width: 88px !important;
+            height: 88px !important;
+            max-width: 100%;
+        }
+
+        .qr-code-label {
+            color: #536a74;
+            font-size: 0.7rem;
+            font-weight: 700;
+            line-height: 1.2;
+            text-align: center;
+        }
+
+        .qr-code-fallback {
+            display: grid;
+            place-items: center;
+            width: 88px;
+            height: 88px;
+            padding: 0.4rem;
+            border: 1px dashed #9cb7ad;
+            color: #60717b;
+            font-size: 0.68rem;
+            line-height: 1.25;
+            text-align: center;
+        }
+
         .exercise-directory-top,
         .exercise-directory-footer {
             display: flex;
@@ -692,6 +768,25 @@
         .access-heading p {
             color: #cfe7e0;
             margin-top: 0.35rem;
+        }
+
+        .access-brand-bar {
+            min-height: 76px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.25rem;
+            padding: 0.8rem 1.5rem;
+            background: #ffffff;
+            border-bottom: 1px solid #dce7e3;
+        }
+
+        .access-brand-bar .logo-box {
+            max-width: 48%;
+        }
+
+        .access-brand-bar .logo-box img {
+            max-width: 100%;
         }
 
         .access-body { padding: 1.8rem; }
@@ -1109,11 +1204,153 @@
             margin-top: 0.8rem;
         }
 
+        body.mobile-view-mode {
+            width: min(430px, 100%);
+            min-height: 100vh;
+            margin: 0 auto;
+            box-shadow: 0 0 32px rgba(15,45,61,0.28);
+            overflow-x: hidden;
+        }
+
+        body.mobile-view-mode header {
+            padding: 0.8rem 0.75rem 1rem;
+        }
+
+        body.mobile-view-mode .header-container {
+            gap: 0.8rem;
+        }
+
+        body.mobile-view-mode .header-top-bar {
+            padding: 0.65rem 0.8rem;
+            flex-wrap: nowrap;
+        }
+
+        body.mobile-view-mode .logo-box {
+            min-width: 0;
+            max-width: 48%;
+        }
+
+        body.mobile-view-mode .logo-box img {
+            max-width: 100%;
+            max-height: 42px;
+        }
+
+        body.mobile-view-mode .header-main-content {
+            align-items: stretch;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        body.mobile-view-mode .header-titles h1 { font-size: 1.35rem; }
+        body.mobile-view-mode .header-titles h2 { font-size: 0.95rem; }
+        body.mobile-view-mode .header-badges { gap: 0.45rem; }
+        body.mobile-view-mode .badge { padding: 0.4rem 0.65rem; font-size: 0.75rem; }
+        body.mobile-view-mode .nav-container { max-width: 100%; }
+        body.mobile-view-mode .nav-btn { padding: 0.82rem 0.9rem; font-size: 0.84rem; }
+        body.mobile-view-mode main { margin: 1rem auto; padding: 0 0.75rem; }
+        body.mobile-view-mode .card { padding: 1rem; margin-bottom: 1rem; }
+        body.mobile-view-mode .agenda-title-banner { margin: -1rem -1rem 1rem; padding: 1rem; }
+        body.mobile-view-mode .grid-2,
+        body.mobile-view-mode .grid-3,
+        body.mobile-view-mode .exercise-directory-grid,
+        body.mobile-view-mode .choice-grid,
+        body.mobile-view-mode .analytics-grid,
+        body.mobile-view-mode .admin-hub-grid,
+        body.mobile-view-mode .admin-function-grid,
+        body.mobile-view-mode .admin-participation-metrics,
+        body.mobile-view-mode .dashboard-summary { grid-template-columns: 1fr; }
+        body.mobile-view-mode .directory-card-body { grid-template-columns: minmax(0, 1fr) 86px; gap: 0.7rem; }
+        body.mobile-view-mode .qr-code-panel { width: 86px; padding: 0.35rem; }
+        body.mobile-view-mode .qr-code-panel canvas,
+        body.mobile-view-mode .qr-code-panel img,
+        body.mobile-view-mode .qr-code-fallback { width: 72px !important; height: 72px !important; }
+        body.mobile-view-mode .add-option-row,
+        body.mobile-view-mode .document-item { flex-direction: column; align-items: stretch; }
+        body.mobile-view-mode .exercise-access-form { grid-template-columns: 1fr; }
+        body.mobile-view-mode .agenda-table { display: block; overflow-x: auto; }
+
         @media (max-width: 700px) {
-            .agenda-table { display: block; overflow-x: auto; }
-            .add-option-row { flex-direction: column; }
+            body { overflow-x: hidden; }
+            header { padding: 0.8rem 0.75rem 1rem; }
+            .header-container { gap: 0.8rem; }
+            .header-top-bar { padding: 0.65rem 0.8rem; flex-wrap: nowrap; }
+            .header-top-bar .logo-box { min-width: 0; max-width: 48%; }
+            .header-top-bar .logo-box img { max-width: 100%; max-height: 42px; }
+            .header-main-content { align-items: stretch; flex-direction: column; gap: 0.8rem; }
+            .header-titles h1 { font-size: 1.35rem; }
+            .header-titles h2 { font-size: 0.95rem; }
+            .header-badges { gap: 0.45rem; }
+            .badge { padding: 0.4rem 0.65rem; font-size: 0.75rem; }
+            .language-toggle,
+            .mobile-view-toggle { min-height: 44px; padding: 0.45rem 0.8rem; }
+            .nav-btn { min-height: 44px; padding: 0.8rem 0.9rem; font-size: 0.84rem; }
+            main { margin: 1rem auto; padding: 0 0.75rem; }
+            .card { padding: 1rem; margin-bottom: 1rem; }
+            .card h3 { font-size: 1.15rem; }
+            .agenda-title-banner { margin: -1rem -1rem 1rem; padding: 1rem; }
+            .grid-2,
+            .grid-3,
+            .exercise-directory-grid,
+            .choice-grid,
+            .analytics-grid,
+            .admin-hub-grid,
+            .admin-function-grid,
+            .admin-participation-metrics,
+            .dashboard-summary { grid-template-columns: 1fr; gap: 0.85rem; }
+            .exercise-directory-card { min-height: 0; padding: 0.9rem; }
+            .directory-card-body { grid-template-columns: minmax(0, 1fr) 86px; gap: 0.7rem; }
+            .qr-code-panel { width: 86px; padding: 0.35rem; }
+            .qr-code-panel canvas,
+            .qr-code-panel img,
+            .qr-code-fallback { width: 72px !important; height: 72px !important; }
+            .qr-code-label { font-size: 0.62rem; }
+            .exercise-directory-footer { gap: 0.45rem; font-size: 0.75rem; }
+            .access-shell { padding: 0.75rem; place-items: start center; }
+            .access-card { border-radius: 8px; }
+            .access-brand-bar { min-height: 64px; padding: 0.65rem 0.8rem; }
+            .access-brand-bar .logo-box img { max-height: 42px; }
+            .access-heading { padding: 1.1rem; }
+            .access-heading h1 { font-size: 1.25rem; }
+            .access-body { padding: 1rem; }
+            input[type="text"], input[type="email"], input[type="url"], input[type="password"], select, textarea { font-size: 1rem; min-height: 44px; }
+            button.btn-submit,
+            button.btn-secondary,
+            button.btn-clear,
+            button.btn-danger { min-height: 44px; }
+            .form-actions > button,
+            .admin-actions > button { flex: 1 1 100%; margin-right: 0; }
+            .add-option-row,
+            .document-item { flex-direction: column; align-items: stretch; }
+            .modal-overlay { padding: 0.6rem; }
+            .modal-dialog { max-height: 94vh; padding: 1rem; }
             .bar-row { grid-template-columns: 100px minmax(90px, 1fr) 32px; }
             .exercise-access-form { grid-template-columns: 1fr; }
+            .agenda-table,
+            .agenda-table tbody,
+            .agenda-table tr,
+            .agenda-table td { display: block; width: 100%; }
+            .agenda-table thead { display: none; }
+            .agenda-table { margin-top: 0.8rem; }
+            .agenda-table tr {
+                margin-bottom: 0.85rem;
+                border: 1px solid #dce7e3;
+                border-radius: 7px;
+                overflow: hidden;
+                background: #ffffff;
+            }
+            .agenda-table td {
+                display: grid;
+                grid-template-columns: minmax(78px, 30%) minmax(0, 1fr);
+                gap: 0.7rem;
+                padding: 0.7rem 0.8rem;
+                text-align: start;
+                font-size: 0.86rem;
+            }
+            .agenda-table td::before {
+                content: attr(data-label);
+                color: var(--unep-dark);
+                font-weight: 800;
+            }
         }
 
         @media print {
@@ -1147,6 +1384,7 @@
                     <span class="badge">📍 Manama, Kingdom of Bahrain</span>
                     <span class="badge">📅 20–22 October 2026</span>
                     <span class="badge">🌐 West Asia Region</span>
+                    <button id="mobile-view-toggle" class="mobile-view-toggle" type="button" aria-pressed="false">Mobile View</button>
                     <button id="language-toggle" class="language-toggle" type="button">العربية</button>
                 </div>
             </div>
@@ -1435,6 +1673,12 @@
                 '📍 Manama, Kingdom of Bahrain': '📍 المنامة، مملكة البحرين',
                 '📅 20–22 October 2026': '📅 20–22 أكتوبر 2026',
                 '🌐 West Asia Region': '🌐 إقليم غرب آسيا',
+                'Mobile View': 'عرض الهاتف',
+                'Desktop View': 'عرض سطح المكتب',
+                'Switch to mobile view': 'التبديل إلى عرض الهاتف',
+                'Switch to full-width view': 'التبديل إلى العرض الكامل',
+                'Scan to open': 'امسح الرمز للفتح',
+                'QR code unavailable': 'رمز الاستجابة السريعة غير متاح',
                 'UN Environment Programme': 'برنامج الأمم المتحدة للبيئة',
                 'Supreme Council for Environment - Kingdom of Bahrain': 'المجلس الأعلى للبيئة - مملكة البحرين',
                 'Bahrain': 'البحرين',
@@ -2436,6 +2680,124 @@
                 startTranslationObserver2026();
             }
 
+            function mobileViewEnabled2026() {
+                try { return sessionStorage.getItem('workshop_mobile_view_2026') === 'enabled'; }
+                catch (error) { return false; }
+            }
+
+            function updateMobileViewButton2026() {
+                var button = document.getElementById('mobile-view-toggle');
+                if (!button) return;
+                var enabled = document.body.classList.contains('mobile-view-mode');
+                button.setAttribute('aria-pressed', enabled ? 'true' : 'false');
+                button.textContent = translateText2026(enabled ? 'Desktop View' : 'Mobile View');
+                button.setAttribute('aria-label', translateText2026(enabled ? 'Switch to full-width view' : 'Switch to mobile view'));
+            }
+
+            function toggleMobileView2026() {
+                var enabled = !document.body.classList.contains('mobile-view-mode');
+                document.body.classList.toggle('mobile-view-mode', enabled);
+                try {
+                    if (enabled) sessionStorage.setItem('workshop_mobile_view_2026', 'enabled');
+                    else sessionStorage.removeItem('workshop_mobile_view_2026');
+                } catch (error) {
+                    console.warn('Mobile-view preference could not be saved.', error);
+                }
+                updateMobileViewButton2026();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            function initializeMobileView2026() {
+                document.body.classList.toggle('mobile-view-mode', mobileViewEnabled2026());
+                var button = document.getElementById('mobile-view-toggle');
+                if (button && !button.dataset.mobileViewReady) {
+                    button.dataset.mobileViewReady = 'true';
+                    button.addEventListener('click', toggleMobileView2026);
+                }
+                updateMobileViewButton2026();
+            }
+
+            function portalDeepLink2026(type, value) {
+                try {
+                    var url = new URL(window.location.href);
+                    url.hash = type + '=' + encodeURIComponent(String(value));
+                    return url.toString();
+                } catch (error) {
+                    return window.location.href.split('#')[0] + '#' + type + '=' + encodeURIComponent(String(value));
+                }
+            }
+
+            function buildQrPanel2026(url, accessibleLabel) {
+                var panel = createElement2026('div', 'qr-code-panel');
+                panel.title = translateText2026(accessibleLabel);
+                var holder = document.createElement('div');
+                holder.setAttribute('role', 'img');
+                holder.setAttribute('aria-label', translateText2026(accessibleLabel));
+                panel.appendChild(holder);
+                if (typeof window.QRCode === 'function') {
+                    try {
+                        new window.QRCode(holder, {
+                            text: url,
+                            width: 88,
+                            height: 88,
+                            colorDark: '#0f2d3d',
+                            colorLight: '#ffffff',
+                            correctLevel: window.QRCode.CorrectLevel ? window.QRCode.CorrectLevel.M : 0
+                        });
+                    } catch (error) {
+                        holder.className = 'qr-code-fallback';
+                        holder.textContent = translateText2026('QR code unavailable');
+                    }
+                } else {
+                    holder.className = 'qr-code-fallback';
+                    holder.textContent = translateText2026('QR code unavailable');
+                }
+                panel.appendChild(createElement2026('span', 'qr-code-label', 'Scan to open'));
+                return panel;
+            }
+
+            function portalTabFromHash2026() {
+                var hash = String(window.location.hash || '').replace(/^#/, '');
+                if (!hash) return '';
+                var exerciseMatch = hash.match(/^exercise=(ex\d+)$/);
+                if (exerciseMatch && exercises2026.some(function (exercise) { return exercise.id === exerciseMatch[1]; })) {
+                    return exerciseMatch[1];
+                }
+                var agendaMatch = hash.match(/^agenda=([1-3])$/);
+                if (agendaMatch) return 'agenda-day-' + agendaMatch[1];
+                if (['overview', 'agenda', 'exercises', 'documents', 'backend'].indexOf(hash) !== -1) return hash;
+                return '';
+            }
+
+            function updatePortalHash2026(tabId) {
+                var hash = tabId;
+                if (exercises2026.some(function (exercise) { return exercise.id === tabId; })) hash = 'exercise=' + tabId;
+                else if (/^agenda-day-[1-3]$/.test(tabId)) hash = 'agenda=' + tabId.replace('agenda-day-', '');
+                try {
+                    window.history.replaceState(null, '', window.location.href.split('#')[0] + '#' + hash);
+                } catch (error) {
+                    console.warn('The portal address could not be updated.', error);
+                }
+            }
+
+            function applyPortalDeepLink2026() {
+                if (document.body.classList.contains('portal-locked')) return;
+                var target = portalTabFromHash2026();
+                if (!target || !document.getElementById(target)) return;
+                switchTab2026(target);
+                if (exercises2026.some(function (exercise) { return exercise.id === target; })) {
+                    window.setTimeout(function () {
+                        var unlocked = exerciseUnlocked2026(target);
+                        var destination = unlocked ? document.getElementById('form-' + target) : document.getElementById(target + '-access-gate');
+                        if (destination) destination.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        if (!unlocked) {
+                            var password = document.getElementById(target + '-access-password');
+                            if (password) password.focus({ preventScroll: true });
+                        }
+                    }, 260);
+                }
+            }
+
             function hashText2026(value) {
                 if (!window.crypto || !window.crypto.subtle || !window.TextEncoder) {
                     return Promise.reject(new Error('Secure password checking is not supported by this browser.'));
@@ -2636,6 +2998,13 @@
                 var shell = createElement2026('div', 'access-shell');
                 shell.id = 'workshop-access-gate';
                 var card = createElement2026('div', 'access-card');
+                var brandBar = createElement2026('div', 'access-brand-bar');
+                Array.prototype.forEach.call(document.querySelectorAll('.header-top-bar .logo-box img'), function (image) {
+                    var logoBox = createElement2026('div', 'logo-box');
+                    logoBox.appendChild(image.cloneNode(true));
+                    brandBar.appendChild(logoBox);
+                });
+                if (brandBar.children.length) card.appendChild(brandBar);
                 var heading = createElement2026('div', 'access-heading');
                 heading.appendChild(createElement2026('h1', '', 'Advancing Environmental Data Governance to Support Environmental Decision-Making in West Asia'));
                 heading.appendChild(createElement2026('p', '', 'Participant registration · 20–22 October 2026 · Manama, Kingdom of Bahrain'));
@@ -2780,6 +3149,7 @@
 
             async function startPortal2026() {
                 applyDocumentLanguage2026();
+                initializeMobileView2026();
                 connectFirebase2026();
                 var storedParticipantId = getStoredParticipantId2026();
                 var accessGranted = false;
@@ -2841,6 +3211,7 @@
                 var target = document.getElementById(tabId);
                 if (!target) return;
                 target.classList.add('active');
+                updatePortalHash2026(tabId);
                 var exerciseTab = exercises2026.some(function (exercise) { return exercise.id === tabId; });
                 var agendaDayTab = /^agenda-day-[1-3]$/.test(tabId);
                 var navigationTab = exerciseTab ? 'exercises' : (agendaDayTab ? 'agenda' : tabId);
@@ -2999,8 +3370,17 @@
                     top.appendChild(createElement2026('span', 'exercise-number-badge', String(index + 1)));
                     top.appendChild(createElement2026('span', 'tag', exercise.day));
                     exerciseCard.appendChild(top);
-                    exerciseCard.appendChild(createElement2026('h4', '', exercise.title));
-                    exerciseCard.appendChild(createElement2026('p', '', exercise.objective));
+
+                    var body = createElement2026('div', 'directory-card-body');
+                    var copy = createElement2026('div', 'directory-card-copy');
+                    copy.appendChild(createElement2026('h4', '', exercise.title));
+                    copy.appendChild(createElement2026('p', '', exercise.objective));
+                    body.appendChild(copy);
+                    body.appendChild(buildQrPanel2026(
+                        portalDeepLink2026('exercise', exercise.id),
+                        translateText2026('Scan to open') + ' — ' + translateText2026('Exercise ' + (index + 1)) + ': ' + translateText2026(exercise.title)
+                    ));
+                    exerciseCard.appendChild(body);
 
                     var footer = createElement2026('div', 'exercise-directory-footer');
                     var status = createElement2026('span', 'exercise-access-status', exerciseUnlocked2026(exercise.id) ? 'Open for this session' : 'Password required');
@@ -3033,8 +3413,17 @@
                     top.appendChild(createElement2026('span', 'exercise-number-badge', String(day.day)));
                     top.appendChild(createElement2026('span', 'tag', day.date));
                     dayCard.appendChild(top);
-                    dayCard.appendChild(createElement2026('h4', '', day.theme));
-                    dayCard.appendChild(createElement2026('p', '', day.question));
+
+                    var body = createElement2026('div', 'directory-card-body');
+                    var copy = createElement2026('div', 'directory-card-copy');
+                    copy.appendChild(createElement2026('h4', '', day.theme));
+                    copy.appendChild(createElement2026('p', '', day.question));
+                    body.appendChild(copy);
+                    body.appendChild(buildQrPanel2026(
+                        portalDeepLink2026('agenda', day.day),
+                        translateText2026('Scan to open') + ' — ' + translateText2026('Day ' + day.day + ': ' + day.theme)
+                    ));
+                    dayCard.appendChild(body);
 
                     var footer = createElement2026('div', 'exercise-directory-footer');
                     footer.appendChild(createElement2026('span', 'exercise-access-status', day.rows.length + ' programme items'));
@@ -3085,13 +3474,20 @@
                 day.rows.forEach(function (row) {
                     var tableRow = document.createElement('tr');
                     if (row[5]) tableRow.className = 'break-row';
-                    tableRow.appendChild(createElement2026('td', '', row[0]));
-                    tableRow.appendChild(createElement2026('td', '', row[1]));
+                    var timeCell = createElement2026('td', '', row[0]);
+                    timeCell.setAttribute('data-label', translateText2026('Time'));
+                    tableRow.appendChild(timeCell);
+                    var sessionCell = createElement2026('td', '', row[1]);
+                    sessionCell.setAttribute('data-label', translateText2026('Session'));
+                    tableRow.appendChild(sessionCell);
                     var descriptionCell = document.createElement('td');
+                    descriptionCell.setAttribute('data-label', translateText2026('Title and Description'));
                     descriptionCell.appendChild(createElement2026('strong', '', row[2]));
                     if (row[3]) descriptionCell.appendChild(document.createTextNode(': ' + translateText2026(row[3])));
                     tableRow.appendChild(descriptionCell);
-                    tableRow.appendChild(createElement2026('td', '', row[4]));
+                    var speakerCell = createElement2026('td', '', row[4]);
+                    speakerCell.setAttribute('data-label', translateText2026('Speaker / Facilitator'));
+                    tableRow.appendChild(speakerCell);
                     body.appendChild(tableRow);
                 });
                 table.appendChild(body);
@@ -6192,8 +6588,10 @@
                 });
                 main.appendChild(buildDashboard2026());
                 initializeDataSync2026();
+                window.setTimeout(applyPortalDeepLink2026, 0);
             }
 
+            window.addEventListener('hashchange', applyPortalDeepLink2026);
             window.addEventListener('DOMContentLoaded', startPortal2026);
         }());
     </script>
