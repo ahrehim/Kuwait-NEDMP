@@ -589,6 +589,8 @@
             font-weight: 600;
         }
 
+        .exercise-access-status.closed { color: #8a6400; }
+
         .exercise-note {
             background: #f7faf9;
             border: 1px solid #dce9e4;
@@ -746,7 +748,7 @@
         }
 
         .access-card {
-            width: min(760px, 100%);
+            width: min(860px, 100%);
             background: white;
             border-radius: 10px;
             box-shadow: 0 18px 48px rgba(0,0,0,0.25);
@@ -790,6 +792,48 @@
         }
 
         .access-body { padding: 1.8rem; }
+
+        .access-mode-tabs {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0.65rem;
+            margin: 1rem 0 1.2rem;
+            padding: 0.35rem;
+            border: 1px solid #d8e6e1;
+            border-radius: 8px;
+            background: #f3f8f6;
+        }
+
+        .access-mode-button {
+            min-height: 44px;
+            border: 1px solid transparent;
+            border-radius: 6px;
+            background: transparent;
+            color: var(--unep-dark);
+            padding: 0.65rem 0.8rem;
+            font-weight: 750;
+            cursor: pointer;
+        }
+
+        .access-mode-button.active,
+        .access-mode-button:hover,
+        .access-mode-button:focus-visible {
+            background: var(--unep-blue);
+            color: #ffffff;
+            outline: none;
+        }
+
+        .access-pane[hidden] { display: none; }
+
+        .credential-note {
+            margin: -0.55rem 0 1rem;
+            padding: 0.75rem 0.85rem;
+            border-left: 4px solid var(--unep-teal);
+            border-radius: 0 6px 6px 0;
+            background: #eef8f5;
+            color: #34515e;
+            font-size: 0.86rem;
+        }
 
         .access-error {
             display: none;
@@ -1089,6 +1133,19 @@
 
         html[dir="rtl"] .danger-panel { border-right-color: #a61b29; }
 
+        html[dir="rtl"] .credential-note {
+            border-left: none;
+            border-right: 4px solid var(--unep-teal);
+            border-radius: 6px 0 0 6px;
+        }
+
+        html[dir="rtl"] .exercise-closed-message {
+            border-left-width: 1px;
+            border-right-width: 5px;
+            border-right-color: var(--accent-gold);
+            border-radius: 6px 0 0 6px;
+        }
+
         html[dir="rtl"] .question-block { border-left: 1px solid #e1e6e8; border-right: 4px solid var(--unep-teal); }
 
         html[dir="rtl"] .nav-spacer { margin-left: 0; margin-right: auto; }
@@ -1124,7 +1181,7 @@
 
         .exercise-access-form {
             display: grid;
-            grid-template-columns: minmax(220px, 1fr) auto;
+            grid-template-columns: repeat(2, minmax(200px, 1fr)) auto;
             gap: 0.7rem;
             align-items: end;
             margin-top: 0.8rem;
@@ -1141,6 +1198,61 @@
             padding: 0.65rem 0.8rem;
             font-weight: 600;
         }
+
+        .exercise-closed-message {
+            margin-top: 0.8rem;
+            padding: 0.8rem 0.9rem;
+            border: 1px solid #ebcf8a;
+            border-left: 5px solid var(--accent-gold);
+            border-radius: 6px;
+            background: #fff8e5;
+            color: #6f5200;
+            font-weight: 650;
+        }
+
+        .selected-group-display {
+            min-height: 46px;
+            display: flex;
+            align-items: center;
+            padding: 0.72rem 0.8rem;
+            border: 1px solid #cfe1da;
+            border-radius: 6px;
+            background: #eef8f5;
+            color: var(--unep-dark);
+            font-weight: 750;
+        }
+
+        .exercise-status-control {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+            margin: 0.1rem 0 1rem;
+            padding: 0.8rem 0.9rem;
+            border: 1px solid #dce7e3;
+            border-radius: 7px;
+            background: #f8fbfa;
+        }
+
+        .exercise-status-control-copy {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.65rem;
+        }
+
+        .exercise-status-badge {
+            display: inline-flex;
+            align-items: center;
+            border-radius: 999px;
+            padding: 0.3rem 0.7rem;
+            font-size: 0.8rem;
+            font-weight: 800;
+        }
+
+        .exercise-status-badge.open { background: #d4edda; color: #155724; }
+        .exercise-status-badge.closed { background: #fff3cd; color: #795b00; }
 
         .password-entry {
             display: flex;
@@ -1267,6 +1379,7 @@
         body.mobile-view-mode .add-option-row,
         body.mobile-view-mode .document-item { flex-direction: column; align-items: stretch; }
         body.mobile-view-mode .exercise-access-form { grid-template-columns: 1fr; }
+        body.mobile-view-mode .access-mode-tabs { grid-template-columns: 1fr; }
         body.mobile-view-mode .agenda-table { display: block; overflow-x: auto; }
 
         @media (max-width: 700px) {
@@ -1325,6 +1438,7 @@
             .modal-dialog { max-height: 94vh; padding: 1rem; }
             .bar-row { grid-template-columns: 100px minmax(90px, 1fr) 32px; }
             .exercise-access-form { grid-template-columns: 1fr; }
+            .access-mode-tabs { grid-template-columns: 1fr; }
             .agenda-table,
             .agenda-table tbody,
             .agenda-table tr,
@@ -1444,10 +1558,10 @@
                         ['11:30–12:15', 'Session 3: Country Progress Since the First Workshop', 'Country Progress and Expectations', 'Each country presents one development since 2025, one continuing foundational challenge and one expected workshop result.', 'All participants (Facilitator Name)', false],
                         ['12:15–13:00', 'Session 4: Presentation', 'National Environmental Data Governance', 'Elements of institutional governance: policies, standards, processes, roles and responsibilities.', 'Name of presenter', false],
                         ['13:00–14:00', 'Lunch Break', 'Lunch Break', '', '—', true],
-                        ['14:00–15:00', 'Session 5: Country Exercise', 'Mapping Environmental Data: Institutions, Responsibilities and Data Flows', 'Countries identify data sources, producers, custodians, validators, statistical authorities and environmental data platforms.', 'All participants; Ahmed Abdelrehim', false],
-                        ['14:00–15:00', 'Session 5: Country Exercise', 'Assessing Data-Sharing Arrangements and Interoperability Barriers', 'Countries explore existing data-sharing mechanisms, constraints and challenges.', 'Ahmed Abdelrehim', false],
+                        ['14:00–14:30', 'Session 5: Exercise 1', 'Mapping Environmental Data: Institutions, Responsibilities and Data Flows', 'Each group selects one thematic area to analyse the data flow and identifies data sources, producers, custodians, validators, statistical authorities and environmental data platforms.', 'All participants; Ahmed Abdelrehim', false],
+                        ['14:30–15:00', 'Session 6: Exercise 2', 'Assessing Data-Sharing Arrangements and Interoperability Barriers', 'Participants explore existing data-sharing mechanisms and identify institutional, legal, procedural and technical constraints.', 'Ahmed Abdelrehim', false],
                         ['15:00–15:15', 'Afternoon Break', 'Afternoon Break', '', '—', true],
-                        ['15:15–16:00', 'Session 7: Exercise', 'Country Reflections and Peer Feedback', 'Countries present the main findings from the institutional environmental data mapping and coordination exercises (Session 5), highlighting key gaps in roles, mandates and data flows, as well as their proposed approach for strengthening national coordination.', 'All participants (Facilitator Name)', false],
+                        ['15:15–16:00', 'Session 7: Countries present the main findings', 'Country Reflections and Peer Feedback', 'Countries present the main findings from the institutional environmental data mapping and coordination exercises, highlighting key gaps in roles, mandates and data flows, as well as their proposed approach for strengthening national coordination.', 'All participants (Facilitator Name)', false],
                         ['16:00–16:15', 'Day 1 Wrap-up', 'Day 1 Wrap-up', '', '—', true]
                     ]
                 },
@@ -1459,11 +1573,11 @@
                     rows: [
                         ['09:00–09:15', 'Recap and Framing', 'Recap and Framing', '', '—', true],
                         ['09:15–09:45', 'Session 8: Presentation', 'Data for Integrated Environmental Assessments', 'Global, regional and national levels.', 'Ahmed Abdelrehim', false],
-                        ['09:45–10:45', 'Session 9: Country Exercise', 'Environmental Reporting Obligations', 'Support participants in identifying and reviewing their international, regional and national reporting obligations. Visualize how one priority dataset moves from the original source to the national environmental information or reporting system.', 'Ahmed Abdelrehim', false],
+                        ['09:45–10:45', 'Session 9: Exercise 3', 'Environmental Reporting Obligations', 'Support participants in identifying and reviewing their international, regional and national reporting obligations. Visualize how one priority dataset moves from the original source to the national environmental information or reporting system.', 'Ahmed Abdelrehim', false],
                         ['10:45–11:00', 'Morning Break', 'Morning Break', '', '—', true],
-                        ['11:00–11:30', 'Session 14', 'Linking Standardized Data to National, SDG and MEA Reporting', 'Support participants in identifying opportunities for one standardized and validated dataset to support several reporting processes and reduce duplication.', '—', false],
+                        ['11:00–11:30', 'Session 9: Presentation and Discussion', 'Linking Standardized Data to National, SDG and MEA Reporting', 'Support participants in identifying opportunities for one standardized and validated dataset to support several reporting processes and reduce duplication.', '—', false],
                         ['11:30–12:30', 'Session 10: Presentation', 'Strengthening Environmental Data Management and Quality', 'Support participants in applying quality assurance, metadata and provenance requirements throughout the environmental data lifecycle.', '—', false],
-                        ['12:30–13:00', 'Session 11: Country Exercise', 'Identifying Gaps and Improving the Data Workflow', 'Support participants in assessing one priority dataset against common management, quality and provenance criteria and identifying practical improvements.', 'Ahmed Abdelrehim', false],
+                        ['12:30–13:00', 'Session 11: Exercise 4', 'Identifying Data Gaps and Improving the Data Workflow', 'Support participants in assessing one priority dataset against common management, quality and provenance criteria and identifying practical improvements.', 'Ahmed Abdelrehim', false],
                         ['13:00–14:00', 'Lunch Break', 'Lunch Break', '', '—', true],
                         ['14:00–14:45', 'Session 12: Plenary Session', 'Review of Data Collection and Management Challenges', 'Participants share recurring problems and practical solutions.', '—', false],
                         ['14:45–15:00', 'Session 13: Presentation', 'Data Standardization: Common Definitions, Core Data Elements and Methodologies', 'Clarify the practical levels of standardization required to achieve national consistency and reduce duplication.', '—', false],
@@ -1478,14 +1592,14 @@
                     question: 'What human, institutional, technical and financial capacities—and which appropriate digital tools—are needed to implement and sustain these improvements?',
                     rows: [
                         ['09:00–09:15', 'Recap and Framing', 'Recap and Framing', '', '—', true],
-                        ['09:15–10:00', 'Session 15: Presentation and Discussion', 'Building the Capacities Needed for Effective Environmental Data Systems', 'Support participants in understanding the different types of capacity required to establish and sustain effective environmental data systems and to move beyond viewing capacity-building primarily as training.', '—', false],
-                        ['10:00–10:45', 'Session 16: Country Exercise', 'Assessing National Environmental Data Capacity Needs', 'Support participants in identifying the specific human, institutional, technical and financial capacity gaps preventing them from addressing the challenges identified during Days 1 and 2.', 'Ahmed Abdelrehim', false],
-                        ['10:45–11:30', 'Session 17: Presentation and Discussion', 'Digital Tools and Innovative Technologies as Enablers of Environmental Data Governance', 'Show how digital tools can support practical improvements in environmental data collection, management, quality, standardization and exchange.', '—', false],
+                        ['09:15–10:00', 'Session 14: Presentation and Discussion', 'Building the Capacities Needed for Effective Environmental Data Systems', 'Support participants in understanding the different types of capacity required to establish and sustain effective environmental data systems and to move beyond viewing capacity-building primarily as training.', '—', false],
+                        ['10:00–10:45', 'Session 15: Exercise 5', 'Assessing National Environmental Data Capacity Needs', 'Support participants in identifying the specific human, institutional, technical and financial capacity gaps preventing them from addressing the challenges identified during Days 1 and 2.', 'Ahmed Abdelrehim', false],
+                        ['10:45–11:30', 'Session 16: Presentation and Discussion', 'Digital Tools and Innovative Technologies as Enablers of Environmental Data Governance', 'Show how digital tools can support practical improvements in environmental data collection, management, quality, standardization and exchange.', '—', false],
                         ['11:30–11:45', 'Morning Break', 'Morning Break', '', '—', true],
-                        ['11:45–12:30', 'Session 18: Presentation and Discussion', 'Responsible and Sustainable Digital Transformation', 'Evaluate digital solutions according to their technical potential, reliability, affordability, sustainability and governance implications.', '—', false],
+                        ['11:45–12:30', 'Session 17: Presentation and Discussion', 'Responsible and Sustainable Digital Transformation', 'Evaluate digital solutions according to their technical potential, reliability, affordability, sustainability and governance implications.', '—', false],
                         ['12:30–13:30', 'Lunch Break', 'Lunch Break', '', '—', true],
-                        ['13:30–14:15', 'Session 19: Country Exercise', 'Digital Transformation Readiness', 'Support participants in identifying existing institutional readiness for digital transformation. Participants select a priority problem identified during Days 1 or 2 and determine whether a digital solution could realistically help address it.', 'Ahmed Abdelrehim', false],
-                        ['14:15–14:45', 'Session 20: Country Working Session', 'Institutionalizing Environmental Data Capacity Development', 'Explore how participants can move from one-off training activities towards sustained institutional capability.', '—', false],
+                        ['13:30–14:15', 'Session 18: Exercise 6', 'Digital Transformation Readiness', 'Support participants in identifying existing institutional readiness for digital transformation. Participants select a priority problem identified during Days 1 or 2 and determine whether a digital solution could realistically help address it.', 'Ahmed Abdelrehim', false],
+                        ['14:15–14:45', 'Session 19: Exercise 7 / Country Working Session', 'Identification of Data Governance Challenges and Needs', 'Consolidate the findings from the workshop to identify priority environmental data governance challenges, needs, practical national actions and opportunities for regional cooperation.', 'All participants', false],
                         ['14:45–15:00', 'Afternoon Break', 'Afternoon Break', '', '—', true],
                         ['15:00–15:30', 'Closing Session', 'What’s Next? Priorities for Action, Capacity Needs and Regional Cooperation', 'Reflect on next steps and identify follow-up areas for UNEP and partners.', '—', false],
                         ['15:30–15:45', 'Wrap-up of Workshop', 'Wrap-up of Workshop', '', '—', true]
@@ -1493,42 +1607,64 @@
                 }
             ];
 
+            var governanceMaturityScale2026 = [
+                'Not established',
+                'Initial — informal and ad hoc',
+                'Developing — partly defined or documented',
+                'Established — formally adopted and generally applied',
+                'Advanced — routinely monitored and improved'
+            ];
+
+            var evidenceConfidenceScale2026 = [
+                'High — supported by formal documentation and group consensus',
+                'Moderate — supported by partial documentation or consistent experience',
+                'Low — based mainly on limited experience or incomplete information'
+            ];
+
             var exercises2026 = [
                 {
                     id: 'ex1',
                     key: 'exercise_1_data_flows',
                     day: 'Day 1',
-                    session: 'Session 5A · 14:00–15:00',
+                    session: 'Session 5 · 14:00–14:30',
                     short: 'Data Flow Mapping',
                     title: 'Mapping Environmental Data: Institutions, Responsibilities and Data Flows',
-                    objective: 'Map one priority environmental dataset from its original source through production, validation, custody, integration, reporting and use.',
-                    outcome: 'A shared institutional data-flow map showing the main actors, roles, transfer methods and gaps.',
-                    report: 'Present the selected dataset, its principal flow, unclear or missing responsibilities and one proposed coordination improvement.',
+                    objective: 'Assess and map one priority environmental data flow, including its institutional actors, formal responsibilities, hand-offs, validation points and use in decision-making.',
+                    outcome: 'A validated institutional and data-flow profile showing who produces, validates, holds, shares, reports and uses the data, together with the main accountability and coordination gaps.',
+                    report: 'Present the selected data theme, the end-to-end flow, the current governance maturity, the two most important gaps and one coordination action with a proposed lead institution.',
+                    assessment: 'Institutional landscape, mandates, accountability, environmental data flows and decision-use points.',
                     questions: [
                         ['dataset', 'Which environmental data theme will your group map?', 'Select one priority theme. Add a specific theme if it is not listed.', 'single', ['Air quality', 'Water quality and quantity', 'Waste', 'Biodiversity and ecosystems', 'Land degradation', 'Climate change and greenhouse gases', 'Marine and coastal environment', 'Chemicals and pollution']],
+                        ['decisionUses', 'Which decisions or official functions currently use this data?', 'Select all uses that are regular or formally expected.', 'multi', ['Policy formulation', 'Regulatory enforcement and compliance', 'Planning and target setting', 'Budget or resource allocation', 'Integrated environmental assessment', 'National environmental reporting', 'SDG or MEA reporting', 'Public information, alerts or early warning', 'The data are not routinely used for decisions']],
                         ['sources', 'What are the principal sources of this dataset?', 'Select all that apply.', 'multi', ['Environmental monitoring stations', 'Administrative records', 'Field surveys and sampling', 'Remote sensing / Earth observation', 'Research institutions', 'Private-sector operators', 'Local authorities / municipalities', 'Citizen-generated data']],
-                        ['actors', 'Which institutional roles are present in the current data flow?', 'Select all roles represented and identify the institutions in the text field below.', 'multi', ['Data producer', 'Data custodian', 'Data validator', 'National statistical authority', 'Environmental data platform manager', 'Reporting authority', 'Policy / decision-making user']],
+                        ['actors', 'Which institutional roles are present in the current data flow?', 'Select all roles represented and identify the institutions in the text field below.', 'multi', ['Policy or data owner', 'Data producer', 'Data custodian', 'Data steward or coordinator', 'Data validator or approval authority', 'National statistical authority', 'Environmental data platform manager', 'Indicator compiler or reporting authority', 'Policy / decision-making user']],
+                        ['roleClarity', 'How clearly are roles and responsibilities defined and applied for this data flow?', 'Use the common five-level governance maturity scale.', 'single', governanceMaturityScale2026.slice()],
                         ['transfer', 'How is the data currently transferred between institutions?', 'Select all that apply.', 'multi', ['Email attachments', 'Spreadsheets', 'Formal data-request process', 'Shared database or portal', 'Automated API / system integration', 'Physical media / paper', 'No regular transfer arrangement']],
+                        ['controls', 'Which governance controls are formally in place for this data flow?', 'Select all that apply.', 'multi', ['Documented workflow', 'Named data owner', 'Named data custodian or steward', 'Defined validation authority', 'Approval and release points', 'Update or reporting schedule', 'Escalation mechanism for delays or disputes', 'Audit trail or version history', 'No formal governance controls']],
                         ['mapDetails', 'Describe the institutions and the data flow in sequence.', 'Example: source → producer → validator → custodian/platform → reporting authority → decision-maker.', 'text', []],
-                        ['plenary', 'What are the two most important gaps and the proposed coordination improvement for plenary reporting?', '', 'text', []]
+                        ['plenary', 'State the two most important gaps and one proposed coordination action, including the lead institution and a realistic timeframe.', '', 'text', []]
                     ]
                 },
                 {
                     id: 'ex2',
                     key: 'exercise_2_sharing_interoperability',
                     day: 'Day 1',
-                    session: 'Session 5B · 14:00–15:00',
+                    session: 'Session 6 · 14:30–15:00',
                     short: 'Sharing & Interoperability',
                     title: 'Assessing Data-Sharing Arrangements and Interoperability Barriers',
-                    objective: 'Assess how environmental data are shared and identify the institutional, legal and technical barriers that prevent reliable exchange and reuse.',
-                    outcome: 'A prioritized list of data-sharing and interoperability barriers, together with practical measures to address them.',
-                    report: 'Present the strongest existing arrangement, the top three barriers and one priority measure for strengthening national coordination.',
+                    objective: 'Assess the policy, legal, institutional, procedural and technical arrangements for environmental data sharing and determine the maturity and principal barriers to interoperability.',
+                    outcome: 'A comparable national profile of data-sharing formality, access rules and interoperability maturity, with prioritized barriers and practical measures for improvement.',
+                    report: 'Present the strongest existing arrangement, the current interoperability level, the top three barriers and one priority measure with a lead institution, partners and timeframe.',
+                    assessment: 'Data-sharing governance, access rules, interoperability maturity, barriers and enabling measures.',
                     questions: [
                         ['arrangements', 'Which data-sharing arrangements currently exist?', 'Select all that apply.', 'multi', ['Law or regulation', 'National data policy', 'Memorandum of understanding', 'Standard operating procedure', 'Data-sharing agreement', 'Request-and-approval process', 'Shared national platform', 'Informal or ad hoc exchange', 'No established arrangement']],
+                        ['formality', 'How formal and consistently applied are the data-sharing arrangements?', 'Select the description that best represents current practice.', 'single', ['No regular sharing arrangement', 'Informal and relationship-dependent exchange', 'Documented bilateral arrangements for selected datasets', 'Standardized multi-agency arrangements that are partly applied', 'A governed national mechanism that is routinely applied and monitored']],
+                        ['accessRules', 'Which access and release conditions are currently used?', 'Select all that apply.', 'multi', ['Open or public access', 'Internal government access', 'Access on request and approval', 'Role-based or tiered access', 'Restricted or confidential data', 'Licensing or cost conditions', 'Data classification and access rules are not defined']],
                         ['barriers', 'What are the main barriers to data sharing?', 'Select the issues most relevant to your country discussion.', 'multi', ['Unclear institutional mandates', 'Legal or confidentiality restrictions', 'Limited trust between institutions', 'Unclear data ownership or custodianship', 'Inconsistent formats and classifications', 'Missing metadata', 'Data quality concerns', 'Cybersecurity concerns', 'Cost or licensing restrictions', 'Limited staff or technical capacity']],
                         ['interoperability', 'What best describes the current level of interoperability?', 'Select one.', 'single', ['No interoperability', 'Ad hoc manual exchange', 'Partly standardized exchange', 'Shared definitions and formats', 'Automated interoperable exchange']],
                         ['improvements', 'Which measures should be prioritized?', 'Select all that apply.', 'multi', ['Clarify mandates and ownership', 'Adopt a national data-sharing policy', 'Develop standard agreements / MoUs', 'Agree common definitions and formats', 'Introduce metadata requirements', 'Establish APIs or shared services', 'Strengthen security and access rules', 'Create a national coordination mechanism']],
-                        ['plenary', 'Summarize the group’s top three barriers and one priority action for plenary reporting.', '', 'text', []]
+                        ['evidence', 'How confident is the group in this assessment?', 'Consider the evidence available and the level of group consensus.', 'single', evidenceConfidenceScale2026.slice()],
+                        ['plenary', 'Summarize the top three barriers and one priority action, including the lead institution, key partners and timeframe.', '', 'text', []]
                     ]
                 },
                 {
@@ -1537,17 +1673,22 @@
                     day: 'Day 2',
                     session: 'Session 9 · 09:45–10:45',
                     short: 'Reporting Obligations',
-                    title: 'Environmental Reporting Obligations and Priority Dataset Flow',
-                    objective: 'Connect national, regional and international reporting obligations to the environmental datasets and institutional workflows required to meet them.',
-                    outcome: 'A reporting-obligation map for one priority dataset, showing its uses, flow, duplication and information gaps.',
-                    report: 'Present the selected reporting obligation, the dataset’s route from source to report and one opportunity to reduce duplication.',
+                    title: 'Environmental Reporting Obligations',
+                    objective: 'Identify national, regional and international environmental reporting obligations and assess how a priority dataset is produced, validated, reused and linked to assessment and decision-making processes.',
+                    outcome: 'An obligation-to-dataset map showing the reporting route, frequency, decision uses, degree of data reuse, duplication and priority information gaps.',
+                    report: 'Present the selected obligation and dataset, the reporting flow, the current level of decision use and data reuse, and one practical opportunity to reduce duplication.',
+                    assessment: 'Environmental reporting obligations, dataset reuse, reporting efficiency and use of evidence in decisions.',
                     questions: [
                         ['obligations', 'Which environmental reporting obligations does your institution support?', 'Select all that apply.', 'multi', ['National state-of-environment reporting', 'National policy or planning reports', 'Sustainable Development Goals', 'Multilateral environmental agreements', 'Regional environmental reporting', 'National statistical reporting', 'Sectoral reporting', 'Public environmental information portal']],
                         ['dataset', 'Which priority dataset or indicator will the group trace?', 'Select one.', 'single', ['Air-quality indicator', 'Water-quality or water-use indicator', 'Waste-generation or treatment indicator', 'Protected-area or biodiversity indicator', 'Land-degradation indicator', 'Greenhouse-gas or climate indicator', 'Marine or coastal indicator']],
+                        ['frequency', 'How frequently is this dataset or indicator expected to be updated or reported?', 'Select the principal official cycle.', 'single', ['Real time or near-real time', 'Monthly', 'Quarterly', 'Annual', 'Every two to five years', 'Ad hoc or on request', 'No agreed update or reporting cycle']],
                         ['uses', 'For what purposes is this dataset used?', 'Select all that apply.', 'multi', ['Policy formulation', 'Planning and target setting', 'Regulatory compliance', 'Budget or resource allocation', 'Integrated environmental assessment', 'National reporting', 'SDG reporting', 'MEA reporting', 'Public communication']],
+                        ['decisionUse', 'How systematically is this dataset used in environmental decision-making?', 'Select the description that best represents current practice.', 'single', ['Not used in decision-making', 'Used mainly for descriptive reporting', 'Sometimes informs policy or operational decisions', 'Routinely informs defined decision processes', 'Directly linked to formal planning, budgeting, regulation or performance review']],
                         ['flowStages', 'Which stages are included in the current reporting flow?', 'Select all that apply.', 'multi', ['Primary data collection', 'Quality control', 'Validation / approval', 'Aggregation and indicator calculation', 'Metadata documentation', 'Transmission to reporting authority', 'Publication / dissemination', 'Policy interpretation and use']],
+                        ['reuse', 'To what extent is the same validated dataset reused across reporting processes?', 'Select one.', 'single', ['Separate datasets are recreated for different reports', 'Reuse is limited and mostly manual', 'Some reports use a shared validated dataset', 'Most reports use one authoritative national dataset', 'Validated data are reused automatically across interoperable reporting systems']],
+                        ['constraints', 'Which factors reduce timely and consistent reporting?', 'Select all that apply.', 'multi', ['Unclear data owner or reporting responsibility', 'Different definitions or methodologies', 'Incompatible reporting formats', 'Different reporting deadlines', 'Delayed data access or provision', 'Quality or validation gaps', 'Missing metadata or provenance', 'Disconnected reporting systems', 'Limited analytical or reporting capacity']],
                         ['flow', 'Describe the priority dataset flow and identify where delays, duplication or data loss occur.', '', 'text', []],
-                        ['plenary', 'Identify one practical opportunity for the same validated dataset to support several reporting processes.', '', 'text', []]
+                        ['plenary', 'Identify one practical opportunity for the same validated dataset to support several reporting and decision processes, including the first action required.', '', 'text', []]
                     ]
                 },
                 {
@@ -1556,71 +1697,89 @@
                     day: 'Day 2',
                     session: 'Session 11 · 12:30–13:00',
                     short: 'Workflow & Quality',
-                    title: 'Identifying Gaps and Improving the Data Workflow',
-                    objective: 'Assess one priority dataset against practical data-management, quality, metadata and provenance requirements.',
-                    outcome: 'A focused workflow assessment with clearly prioritized improvements, responsibilities and next steps.',
-                    report: 'Present the most serious workflow weakness, its effect on data fitness for use and the proposed practical solution during the Day 2 plenary.',
+                    title: 'Identifying Data Gaps and Improving the Data Workflow',
+                    objective: 'Assess one priority dataset across its lifecycle against data availability, workflow, quality, metadata, provenance and standardization requirements.',
+                    outcome: 'A focused dataset and workflow maturity assessment with prioritized gaps, improvements, ownership and next steps.',
+                    report: 'Present the priority data gap or workflow weakness, its effect on fitness for use, and the proposed improvement with a responsible institution and timeframe.',
+                    assessment: 'Data availability, workflow maturity, quality dimensions, metadata, provenance and standardization.',
                     questions: [
                         ['workflow', 'Which workflow components are formally established for the selected dataset?', 'Select all that apply.', 'multi', ['Documented collection method', 'Validation rules', 'Quality-assurance procedure', 'Named data custodian', 'Update schedule', 'Version control', 'Metadata standard', 'Provenance / lineage record', 'Access and security classification', 'Archiving and retention procedure']],
-                        ['maturity', 'What best describes the overall maturity of the workflow?', 'Select one.', 'single', ['Not established', 'Ad hoc and person-dependent', 'Partly documented', 'Standardized across responsible institutions', 'Largely automated and monitored']],
+                        ['maturity', 'What best describes the overall maturity of the workflow?', 'Use the common five-level governance maturity scale.', 'single', governanceMaturityScale2026.slice()],
+                        ['qualityDimensions', 'Which data-quality dimensions are routinely assessed?', 'Select all that apply.', 'multi', ['Accuracy', 'Completeness', 'Timeliness', 'Consistency', 'Validity', 'Spatial coverage', 'Temporal coverage', 'Comparability', 'Accessibility', 'No quality dimensions are routinely assessed']],
                         ['qualityGaps', 'Which quality or provenance gaps most affect fitness for use?', 'Select all that apply.', 'multi', ['Incomplete coverage', 'Delayed updates', 'Inconsistent methodology', 'Unclear source or lineage', 'Missing metadata', 'Insufficient validation', 'Uncontrolled revisions', 'Different definitions across institutions', 'Limited accessibility', 'No documented quality indicators']],
+                        ['metadata', 'What best describes the status of metadata and provenance?', 'Select one.', 'single', ['No metadata or provenance records', 'Minimal records held by individual staff', 'Partial or inconsistent institutional records', 'A standard template is used for priority datasets', 'A maintained catalogue provides complete metadata, provenance and version history']],
+                        ['standards', 'How consistently are common definitions, core data elements and methodologies applied?', 'Select one.', 'single', ['No common standards', 'Different practices are used by each unit or institution', 'Some common definitions or methods are applied', 'Agreed national standards are applied to priority datasets', 'Standards are nationally governed, monitored and aligned with regional or international requirements']],
                         ['improvements', 'Which practical improvements should be prioritized?', 'Select all that apply.', 'multi', ['Assign a data custodian', 'Document the end-to-end workflow', 'Agree validation rules', 'Adopt a metadata template', 'Record provenance and revisions', 'Set an update calendar', 'Standardize definitions and methods', 'Automate selected checks', 'Create a quality dashboard']],
-                        ['plenary', 'State the priority improvement, the responsible institution and the expected benefit for plenary reporting.', '', 'text', []]
+                        ['plenary', 'State the priority improvement, responsible institution, timeframe and expected benefit for plenary reporting.', '', 'text', []]
                     ]
                 },
                 {
                     id: 'ex5',
                     key: 'exercise_5_capacity_needs',
                     day: 'Day 3',
-                    session: 'Session 16 · 10:00–10:45',
+                    session: 'Session 15 · 10:00–10:45',
                     short: 'Capacity Needs',
                     title: 'Assessing National Environmental Data Capacity Needs',
-                    objective: 'Identify the human, institutional, technical and financial capacity gaps preventing implementation of the improvements discussed on Days 1 and 2.',
-                    outcome: 'A prioritized national capacity-needs profile linked to specific governance and data-management challenges.',
-                    report: 'Present the most urgent capacity gap in each dimension and the first support action required.',
+                    objective: 'Identify and prioritize the human, institutional, technical and financial capacity gaps preventing implementation and sustained improvement of environmental data governance and management.',
+                    outcome: 'A prioritized national capacity-needs profile linked to specific governance challenges, current support mechanisms, urgency, proposed actions and possible sources of support.',
+                    report: 'Present the most urgent capacity gaps, their severity, the proposed support action, responsible lead and potential source of support.',
+                    assessment: 'Human, institutional, technical and financial capacity gaps, urgency, support mechanisms and implementation needs.',
                     questions: [
                         ['dimensions', 'In which capacity dimensions are the most significant gaps?', 'Select all that apply.', 'multi', ['Human resources and staffing', 'Technical skills and data literacy', 'Institutional mandates and procedures', 'Leadership and coordination', 'IT infrastructure and tools', 'Standards and methods', 'Sustainable financing', 'Procurement and maintenance', 'Partnerships and knowledge exchange']],
                         ['human', 'Which human-capacity needs are priorities?', 'Select all that apply.', 'multi', ['Data governance', 'Data management and quality', 'Statistics and indicators', 'GIS and Earth observation', 'Interoperability and APIs', 'Environmental assessment and reporting', 'Cybersecurity and privacy', 'Change management and leadership']],
                         ['institutional', 'Which institutional or technical enablers are needed?', 'Select all that apply.', 'multi', ['Clear mandates and accountability', 'Standard operating procedures', 'Data-sharing agreements', 'Competency framework', 'Shared data platform', 'Modern monitoring systems', 'Metadata and data catalogues', 'Quality-assurance tools', 'Dedicated budget line']],
+                        ['mechanisms', 'Which capacity-development mechanisms are currently available?', 'Select all that apply.', 'multi', ['Workforce or staffing plan', 'Competency framework', 'Induction or regular training programme', 'Training-of-trainers programme', 'Documented SOPs and guidance', 'Knowledge repository', 'Mentoring or community of practice', 'Partnership with universities or research institutions', 'Dedicated budget or procurement plan', 'No sustained mechanism']],
+                        ['severity', 'How severe is the highest-priority capacity gap?', 'Select one.', 'single', ['Low — manageable with existing resources', 'Moderate — affects some functions or datasets', 'High — substantially limits priority functions', 'Critical — prevents essential governance or reporting functions']],
                         ['urgency', 'How urgent is the highest-priority capacity gap?', 'Select one.', 'single', ['Immediate — within 6 months', 'Short term — 6 to 12 months', 'Medium term — 1 to 3 years', 'Long term — more than 3 years']],
-                        ['plenary', 'Describe the top capacity gaps, proposed support and the institution that should lead follow-up.', '', 'text', []]
+                        ['support', 'Which sources of support could realistically contribute?', 'Select all that apply.', 'multi', ['National government budget', 'Inter-agency resource sharing', 'UNEP or other international technical assistance', 'Regional peer learning', 'Universities or research institutions', 'Private-sector or technology partners', 'Development partners or donors', 'Professional networks and communities of practice']],
+                        ['plenary', 'Describe the top capacity gap, proposed action, lead institution, timeframe, resource need and preferred source of support.', '', 'text', []]
                     ]
                 },
                 {
                     id: 'ex6',
                     key: 'exercise_6_digital_readiness',
                     day: 'Day 3',
-                    session: 'Session 19 · 13:30–14:15',
+                    session: 'Session 18 · 13:30–14:15',
                     short: 'Digital Readiness',
                     title: 'Digital Transformation Readiness',
-                    objective: 'Assess whether national institutions are ready to apply an appropriate digital response to a priority governance or data-management problem.',
-                    outcome: 'A realistic readiness assessment, a fit-for-purpose digital option and the conditions required for implementation.',
-                    report: 'Present the problem, readiness level, proposed digital response, principal risk and immediate next step.',
+                    objective: 'Assess institutional, data, technical, human and financial readiness to apply a responsible and sustainable digital response to a priority environmental data problem.',
+                    outcome: 'A comparable digital-readiness profile, a fit-for-purpose digital option, a readiness decision, necessary safeguards and a realistic implementation path.',
+                    report: 'Present the problem, readiness maturity, proposed digital response, decision, principal risk, required safeguard and immediate next step.',
+                    assessment: 'Digital transformation readiness, solution fit, implementation conditions, safeguards, risks and sustainability.',
                     questions: [
                         ['problem', 'Which priority problem from Days 1 or 2 will the group address?', 'Select one.', 'single', ['Fragmented institutional data flows', 'Slow or irregular data collection', 'Weak data quality controls', 'Missing metadata or provenance', 'Inconsistent definitions and standards', 'Limited data sharing', 'Duplicated reporting', 'Limited access to decision-ready information']],
                         ['readiness', 'Which readiness conditions are already in place?', 'Select all that apply.', 'multi', ['Leadership commitment', 'Clear governance and ownership', 'Documented business process', 'Reliable source data', 'Common standards', 'Adequate infrastructure', 'Skilled staff', 'Sustainable financing', 'Cybersecurity and privacy controls', 'User engagement and change-management plan']],
+                        ['maturity', 'What is the institution’s overall digital transformation readiness?', 'Use the common five-level governance maturity scale.', 'single', governanceMaturityScale2026.slice()],
                         ['tools', 'Which digital approaches could realistically help?', 'Select all that apply.', 'multi', ['Online data-submission portal', 'Shared environmental data platform', 'Metadata catalogue', 'Automated validation rules', 'APIs and system integration', 'Dashboards and decision-support tools', 'GIS / Earth-observation services', 'Mobile field-data collection', 'Cloud services', 'Artificial intelligence / machine learning']],
                         ['decision', 'What is the group’s readiness decision?', 'Select one.', 'single', ['Ready to implement', 'Ready for a limited pilot', 'Proceed after specified governance or capacity conditions are met', 'Not currently ready', 'A non-digital solution is more appropriate']],
                         ['risks', 'Which implementation considerations require attention?', 'Select all that apply.', 'multi', ['Reliability', 'Affordability', 'Long-term maintenance', 'Vendor dependence', 'Data protection', 'Cybersecurity', 'Accessibility and inclusion', 'Environmental footprint', 'Institutional ownership', 'Interoperability']],
-                        ['plenary', 'Summarize the proposed solution, prerequisites, main risk and immediate next step.', '', 'text', []]
+                        ['safeguards', 'Which governance safeguards must be in place before implementation or scale-up?', 'Select all that apply.', 'multi', ['Clear data ownership and accountability', 'Privacy and information-security rules', 'Transparent procurement and vendor-exit arrangements', 'Interoperability and open standards', 'Accessibility and inclusion requirements', 'Human oversight and AI accountability', 'Performance, quality and risk monitoring', 'Long-term maintenance and financing plan', 'Environmental sustainability requirements']],
+                        ['path', 'What is the most appropriate implementation path?', 'Select one.', 'single', ['Improve governance and the underlying process before digitizing', 'Undertake a proof of concept', 'Conduct a limited pilot', 'Implement in phases and evaluate each stage', 'Proceed to full implementation and continuous monitoring']],
+                        ['plenary', 'Summarize the proposed solution, readiness conditions, main risk, required safeguard, responsible lead and immediate next step.', '', 'text', []]
                     ]
                 },
                 {
                     id: 'ex7',
-                    key: 'exercise_7_institutional_capacity',
+                    key: 'exercise_7_governance_challenges',
                     day: 'Day 3',
-                    session: 'Session 20 · 14:15–14:45',
-                    short: 'Sustained Capability',
-                    title: 'Institutionalizing Environmental Data Capacity Development',
-                    objective: 'Move from one-off training activities towards sustained institutional capability for environmental data governance and management.',
-                    outcome: 'A practical institutional capacity-development approach with ownership, continuity mechanisms and indicators of progress.',
-                    report: 'Present the proposed institutional mechanism, responsible unit, continuity measure and one indicator of success for the closing session.',
+                    session: 'Session 19 · 14:15–14:45',
+                    short: 'Governance Challenges & Needs',
+                    title: 'Identification of Data Governance Challenges and Needs',
+                    objective: 'Consolidate findings from all three workshop days into a country-level assessment of environmental data governance strengths, maturity, priority challenges, needs and opportunities for action and regional cooperation.',
+                    outcome: 'A concise country governance profile with an overall maturity rating, ranked challenges, priority national actions, implementation responsibilities, support needs and regional cooperation opportunities.',
+                    report: 'Present the country’s overall governance maturity, three priority challenges, one immediate national action with a lead institution, and one priority request for regional cooperation or support.',
+                    assessment: 'Cross-cutting country governance maturity, strengths, challenges, action priorities, support needs and regional cooperation.',
                     questions: [
-                        ['mechanisms', 'Which mechanisms would help institutionalize capacity development?', 'Select all that apply.', 'multi', ['Competency framework', 'Training-of-trainers programme', 'Induction programme for new staff', 'Regular refresher training', 'Documented SOPs and guidance', 'Knowledge repository', 'Mentoring and coaching', 'Community of practice', 'Partnership with universities', 'Dedicated annual budget']],
-                        ['ownership', 'Which unit should coordinate the capacity-development approach?', 'Select one.', 'single', ['Environmental information / data unit', 'Human resources / learning unit', 'Digital transformation / IT unit', 'Policy and planning unit', 'National statistics office', 'Inter-institutional coordination mechanism']],
-                        ['continuity', 'How should knowledge and capability be maintained?', 'Select all that apply.', 'multi', ['Annual learning plan', 'Minimum competency requirements', 'Updated training materials', 'Named subject-matter focal points', 'Peer learning between institutions', 'Routine practice exercises', 'Staff handover procedure', 'Monitoring of skills application', 'Regional knowledge exchange']],
-                        ['indicators', 'Which indicators could demonstrate progress?', 'Select all that apply.', 'multi', ['Staff meeting defined competencies', 'Reduced dependence on individual experts', 'Documented and followed workflows', 'Improved timeliness', 'Improved quality and metadata completeness', 'More regular inter-agency exchange', 'Reduced reporting duplication', 'Sustained budget allocation']],
-                        ['closing', 'Describe the proposed mechanism, responsible unit, first action and one measurable indicator for the closing session.', '', 'text', []]
+                        ['components', 'Which environmental data governance components most need strengthening?', 'Select all that apply.', 'multi', ['Policy and legal framework', 'Institutional coordination', 'Roles, mandates and accountability', 'Data-sharing and access arrangements', 'Interoperability', 'Common definitions, standards and methods', 'Data quality, metadata and provenance', 'Reporting and use in decision-making', 'Human and institutional capacity', 'Technical infrastructure and tools', 'Sustainable financing', 'Responsible digital governance']],
+                        ['maturity', 'What is the country’s overall maturity in environmental data governance?', 'Use the common five-level governance maturity scale.', 'single', governanceMaturityScale2026.slice()],
+                        ['strengths', 'Which foundations or strengths are already in place?', 'Select all that apply.', 'multi', ['Legal mandate or national policy', 'Inter-institutional coordination mechanism', 'Assigned data owners, custodians or stewards', 'Documented data-sharing arrangements', 'Common standards or methodologies', 'Environmental data platform or catalogue', 'Quality assurance and provenance controls', 'Regular national, SDG or MEA reporting', 'Use of evidence in formal decisions', 'Skilled staff and sustained financing']],
+                        ['challenges', 'Which challenges have the greatest effect on national performance?', 'Select all that apply.', 'multi', ['Fragmented mandates and weak coordination', 'Unclear roles or accountability', 'Irregular data provision', 'Insufficient coverage or availability', 'Inconsistent definitions and methods', 'Quality, metadata or provenance gaps', 'Limited access, sharing or interoperability', 'Duplicated or inefficient reporting', 'Limited use of data in decisions', 'Human or technical capacity gaps', 'Insufficient or unsustainable financing', 'Digital transformation or technology risks']],
+                        ['priorityChallenges', 'Describe the three highest-priority challenges and the evidence or practical effect of each.', 'Rank them 1–3 and explain why they require priority attention.', 'text', []],
+                        ['actions', 'Which national actions should be prioritized?', 'Select all that apply.', 'multi', ['Adopt or update a national environmental data governance framework', 'Establish or strengthen a coordination mechanism', 'Clarify mandates through a responsibility matrix', 'Create a national data inventory and metadata catalogue', 'Agree common definitions, standards and methodologies', 'Strengthen quality assurance and provenance controls', 'Develop interoperable data-sharing services or platforms', 'Increase access, publication and data reuse', 'Integrate validated data across reporting processes', 'Establish a sustained capacity-development plan', 'Prepare a responsible digital transformation roadmap', 'Secure sustainable financing and maintenance']],
+                        ['timeframe', 'What is the appropriate timeframe for the highest-priority national action?', 'Select one.', 'single', ['Immediate — within 6 months', 'Short term — 6 to 12 months', 'Medium term — 1 to 3 years', 'Long term — more than 3 years']],
+                        ['regionalSupport', 'Which forms of regional cooperation or external support would add the most value?', 'Select all that apply.', 'multi', ['Common guidance, models and templates', 'Shared definitions, indicators and methodologies', 'Regional metadata or interoperability standards', 'Peer learning and exchange of country practices', 'Targeted training and technical assistance', 'Regional community of practice', 'Resource mobilization and financing support', 'Regional knowledge hub or data platform', 'Joint pilots or demonstration projects']],
+                        ['commitment', 'Define one priority national commitment: action, lead institution, partners, first milestone, timeframe and support required.', '', 'text', []],
+                        ['evidence', 'How confident is the group in this overall country assessment?', 'Consider the evidence available and the level of group consensus.', 'single', evidenceConfidenceScale2026.slice()]
                     ]
                 }
             ];
@@ -1638,9 +1797,12 @@
             var registrationPasswordConfigLoaded2026 = false;
             var liveExercisePasswordConfig2026 = {};
             var exercisePasswordConfigLoaded2026 = false;
+            var liveExerciseStatus2026 = {};
+            var exerciseStatusLoaded2026 = false;
             var lastSubmittedRecords2026 = {};
             var selectedAdministratorReportExercise2026 = null;
             var selectedResetScope2026 = 'all';
+            var assessmentSchemaVersion2026 = 'west-asia-governance-assessment-v1';
             var workshopPasswordHash2026 = '163f81c92f881aa610f068eb5d425acb056ff1883a2cd6f9c74b38d1f365e2b0';
             var administratorPasswordHash2026 = '1510b830657806e463a3d5cf6fc5bb547c1f5d817d7602ce920123e7c3c42ee9';
             var defaultExercisePasswordHashes2026 = {
@@ -2554,6 +2716,366 @@
                 'The integrated PowerPoint presentation could not be created. Please try again.': 'تعذر إنشاء عرض PowerPoint المتكامل. يرجى المحاولة مجدداً.'
             });
 
+            Object.assign(arabicTranslations2026, {
+                'Session 5: Exercise 1': 'الجلسة 5: التمرين 1',
+                'Each group selects one thematic area to analyse the data flow and identifies data sources, producers, custodians, validators, statistical authorities and environmental data platforms.': 'تختار كل مجموعة مجالاً موضوعياً واحداً لتحليل تدفق البيانات وتحدد مصادر البيانات ومنتجيها وأمناءها وجهات التحقق منها والسلطات الإحصائية ومنصات البيانات البيئية.',
+                'Session 6: Exercise 2': 'الجلسة 6: التمرين 2',
+                'Participants explore existing data-sharing mechanisms and identify institutional, legal, procedural and technical constraints.': 'يستعرض المشاركون آليات تبادل البيانات القائمة ويحددون القيود المؤسسية والقانونية والإجرائية والتقنية.',
+                'Session 7: Countries present the main findings': 'الجلسة 7: عرض البلدان للنتائج الرئيسية',
+                'Countries present the main findings from the institutional environmental data mapping and coordination exercises, highlighting key gaps in roles, mandates and data flows, as well as their proposed approach for strengthening national coordination.': 'تعرض البلدان النتائج الرئيسية لتمارين رسم الخريطة المؤسسية للبيانات البيئية والتنسيق، مع إبراز الفجوات الأساسية في الأدوار والولايات وتدفقات البيانات، والنهج المقترح لتعزيز التنسيق الوطني.',
+                'Session 9: Exercise 3': 'الجلسة 9: التمرين 3',
+                'Session 9: Presentation and Discussion': 'الجلسة 9: عرض ومناقشة',
+                'Session 11: Exercise 4': 'الجلسة 11: التمرين 4',
+                'Identifying Data Gaps and Improving the Data Workflow': 'تحديد فجوات البيانات وتحسين مسار العمل',
+                'Session 14: Presentation and Discussion': 'الجلسة 14: عرض ومناقشة',
+                'Session 15: Exercise 5': 'الجلسة 15: التمرين 5',
+                'Session 16: Presentation and Discussion': 'الجلسة 16: عرض ومناقشة',
+                'Session 17: Presentation and Discussion': 'الجلسة 17: عرض ومناقشة',
+                'Session 18: Exercise 6': 'الجلسة 18: التمرين 6',
+                'Session 19: Exercise 7 / Country Working Session': 'الجلسة 19: التمرين 7 / جلسة عمل قطرية',
+                'Identification of Data Governance Challenges and Needs': 'تحديد تحديات واحتياجات حوكمة البيانات',
+                'Consolidate the findings from the workshop to identify priority environmental data governance challenges, needs, practical national actions and opportunities for regional cooperation.': 'تجميع نتائج ورشة العمل لتحديد التحديات والاحتياجات ذات الأولوية في حوكمة البيانات البيئية، والإجراءات الوطنية العملية وفرص التعاون الإقليمي.',
+
+                'Initial — informal and ad hoc': 'أولي — غير رسمي ومخصص للحالات',
+                'Developing — partly defined or documented': 'قيد التطوير — محدد أو موثق جزئياً',
+                'Established — formally adopted and generally applied': 'راسخ — معتمد رسمياً ومطبق بصورة عامة',
+                'Advanced — routinely monitored and improved': 'متقدم — يخضع للرصد والتحسين بصورة منتظمة',
+                'High — supported by formal documentation and group consensus': 'مرتفعة — تستند إلى وثائق رسمية وتوافق المجموعة',
+                'Moderate — supported by partial documentation or consistent experience': 'متوسطة — تستند إلى وثائق جزئية أو خبرة متسقة',
+                'Low — based mainly on limited experience or incomplete information': 'منخفضة — تستند أساساً إلى خبرة محدودة أو معلومات غير مكتملة',
+                'Assessment contribution:': 'المساهمة في التقييم:',
+
+                'Session 5 · 14:00–14:30': 'الجلسة 5 · 14:00–14:30',
+                'Assess and map one priority environmental data flow, including its institutional actors, formal responsibilities, hand-offs, validation points and use in decision-making.': 'تقييم ورسم خريطة تدفق أحد أنواع البيانات البيئية ذات الأولوية، بما يشمل الجهات المؤسسية والأدوار الرسمية ونقاط نقل البيانات والتحقق منها واستخدامها في اتخاذ القرار.',
+                'A validated institutional and data-flow profile showing who produces, validates, holds, shares, reports and uses the data, together with the main accountability and coordination gaps.': 'ملف مؤسسي معتمد لتدفق البيانات يوضح الجهات التي تنتج البيانات وتتحقق منها وتحفظها وتتبادلها وتبلغ عنها وتستخدمها، إلى جانب أبرز فجوات المساءلة والتنسيق.',
+                'Present the selected data theme, the end-to-end flow, the current governance maturity, the two most important gaps and one coordination action with a proposed lead institution.': 'عرض موضوع البيانات المختار ومسار التدفق من بدايته إلى نهايته ومستوى نضج الحوكمة الحالي وأهم فجوتين وإجراء واحد للتنسيق مع اقتراح المؤسسة القائدة.',
+                'Institutional landscape, mandates, accountability, environmental data flows and decision-use points.': 'المشهد المؤسسي والولايات والمساءلة وتدفقات البيانات البيئية ونقاط استخدامها في اتخاذ القرار.',
+                'Which decisions or official functions currently use this data?': 'ما القرارات أو الوظائف الرسمية التي تستخدم هذه البيانات حالياً؟',
+                'Select all uses that are regular or formally expected.': 'اختاروا جميع الاستخدامات المنتظمة أو المطلوبة رسمياً.',
+                'Regulatory enforcement and compliance': 'إنفاذ الأنظمة والامتثال',
+                'National environmental reporting': 'الإبلاغ البيئي الوطني',
+                'SDG or MEA reporting': 'الإبلاغ عن أهداف التنمية المستدامة أو الاتفاقات البيئية متعددة الأطراف',
+                'Public information, alerts or early warning': 'المعلومات العامة أو التنبيهات أو الإنذار المبكر',
+                'The data are not routinely used for decisions': 'لا تُستخدم البيانات بصورة منتظمة في اتخاذ القرارات',
+                'Policy or data owner': 'مالك السياسة أو البيانات',
+                'Data steward or coordinator': 'مشرف البيانات أو منسقها',
+                'Data validator or approval authority': 'جهة التحقق من البيانات أو اعتمادها',
+                'Indicator compiler or reporting authority': 'جهة تجميع المؤشرات أو جهة الإبلاغ',
+                'How clearly are roles and responsibilities defined and applied for this data flow?': 'ما مدى وضوح تحديد الأدوار والمسؤوليات وتطبيقها في تدفق البيانات هذا؟',
+                'Use the common five-level governance maturity scale.': 'استخدموا مقياس نضج الحوكمة الموحد المكون من خمسة مستويات.',
+                'Which governance controls are formally in place for this data flow?': 'ما ضوابط الحوكمة المطبقة رسمياً على تدفق البيانات هذا؟',
+                'Documented workflow': 'مسار عمل موثق',
+                'Named data owner': 'مالك بيانات محدد',
+                'Named data custodian or steward': 'أمين بيانات أو مشرف بيانات محدد',
+                'Defined validation authority': 'جهة تحقق محددة',
+                'Approval and release points': 'نقاط الاعتماد والإصدار',
+                'Update or reporting schedule': 'جدول زمني للتحديث أو الإبلاغ',
+                'Escalation mechanism for delays or disputes': 'آلية تصعيد للتأخيرات أو النزاعات',
+                'Audit trail or version history': 'سجل تدقيق أو تاريخ للإصدارات',
+                'No formal governance controls': 'لا توجد ضوابط حوكمة رسمية',
+                'State the two most important gaps and one proposed coordination action, including the lead institution and a realistic timeframe.': 'حددوا أهم فجوتين وإجراءً واحداً مقترحاً للتنسيق، بما في ذلك المؤسسة القائدة وإطار زمني واقعي.',
+
+                'Session 6 · 14:30–15:00': 'الجلسة 6 · 14:30–15:00',
+                'Assess the policy, legal, institutional, procedural and technical arrangements for environmental data sharing and determine the maturity and principal barriers to interoperability.': 'تقييم الترتيبات السياساتية والقانونية والمؤسسية والإجرائية والتقنية لتبادل البيانات البيئية وتحديد مستوى النضج والعوائق الرئيسية أمام التشغيل البيني.',
+                'A comparable national profile of data-sharing formality, access rules and interoperability maturity, with prioritized barriers and practical measures for improvement.': 'ملف وطني قابل للمقارنة يوضح مدى رسمية تبادل البيانات وقواعد الوصول ومستوى نضج التشغيل البيني، مع ترتيب العوائق والتدابير العملية للتحسين حسب الأولوية.',
+                'Present the strongest existing arrangement, the current interoperability level, the top three barriers and one priority measure with a lead institution, partners and timeframe.': 'عرض أقوى ترتيب قائم والمستوى الحالي للتشغيل البيني وأهم ثلاثة عوائق وتدبير واحد ذي أولوية، مع تحديد المؤسسة القائدة والشركاء والإطار الزمني.',
+                'Data-sharing governance, access rules, interoperability maturity, barriers and enabling measures.': 'حوكمة تبادل البيانات وقواعد الوصول ونضج التشغيل البيني والعوائق والتدابير التمكينية.',
+                'How formal and consistently applied are the data-sharing arrangements?': 'ما مدى رسمية ترتيبات تبادل البيانات واتساق تطبيقها؟',
+                'Select the description that best represents current practice.': 'اختاروا الوصف الذي يمثل الممارسة الحالية على أفضل وجه.',
+                'No regular sharing arrangement': 'لا يوجد ترتيب منتظم لتبادل البيانات',
+                'Informal and relationship-dependent exchange': 'تبادل غير رسمي يعتمد على العلاقات الشخصية',
+                'Documented bilateral arrangements for selected datasets': 'ترتيبات ثنائية موثقة لمجموعات بيانات مختارة',
+                'Standardized multi-agency arrangements that are partly applied': 'ترتيبات موحدة بين جهات متعددة تُطبق جزئياً',
+                'A governed national mechanism that is routinely applied and monitored': 'آلية وطنية محكومة تُطبق وتُرصد بصورة منتظمة',
+                'Which access and release conditions are currently used?': 'ما شروط الوصول والإفراج المستخدمة حالياً؟',
+                'Open or public access': 'وصول مفتوح أو عام',
+                'Internal government access': 'وصول داخلي للجهات الحكومية',
+                'Access on request and approval': 'الوصول بناءً على طلب وموافقة',
+                'Role-based or tiered access': 'وصول قائم على الأدوار أو المستويات',
+                'Restricted or confidential data': 'بيانات مقيدة أو سرية',
+                'Licensing or cost conditions': 'شروط ترخيص أو تكلفة',
+                'Data classification and access rules are not defined': 'تصنيف البيانات وقواعد الوصول غير محددة',
+                'How confident is the group in this assessment?': 'ما مدى ثقة المجموعة في هذا التقييم؟',
+                'Consider the evidence available and the level of group consensus.': 'راعوا الأدلة المتاحة ومستوى توافق المجموعة.',
+                'Summarize the top three barriers and one priority action, including the lead institution, key partners and timeframe.': 'لخصوا أهم ثلاثة عوائق وإجراءً واحداً ذا أولوية، مع تحديد المؤسسة القائدة والشركاء الرئيسيين والإطار الزمني.',
+
+                'Identify national, regional and international environmental reporting obligations and assess how a priority dataset is produced, validated, reused and linked to assessment and decision-making processes.': 'تحديد التزامات الإبلاغ البيئي الوطنية والإقليمية والدولية وتقييم كيفية إنتاج مجموعة بيانات ذات أولوية والتحقق منها وإعادة استخدامها وربطها بعمليات التقييم واتخاذ القرار.',
+                'An obligation-to-dataset map showing the reporting route, frequency, decision uses, degree of data reuse, duplication and priority information gaps.': 'خريطة تربط الالتزامات بمجموعات البيانات وتوضح مسار الإبلاغ وتواتره واستخدام البيانات في القرار ودرجة إعادة استخدامها والازدواجية وفجوات المعلومات ذات الأولوية.',
+                'Present the selected obligation and dataset, the reporting flow, the current level of decision use and data reuse, and one practical opportunity to reduce duplication.': 'عرض الالتزام ومجموعة البيانات المختارين ومسار الإبلاغ والمستوى الحالي لاستخدام البيانات في القرار وإعادة استخدامها وفرصة عملية واحدة للحد من الازدواجية.',
+                'Environmental reporting obligations, dataset reuse, reporting efficiency and use of evidence in decisions.': 'التزامات الإبلاغ البيئي وإعادة استخدام مجموعات البيانات وكفاءة الإبلاغ واستخدام الأدلة في القرارات.',
+                'How frequently is this dataset or indicator expected to be updated or reported?': 'ما التواتر المتوقع لتحديث مجموعة البيانات أو المؤشر أو الإبلاغ عنه؟',
+                'Select the principal official cycle.': 'اختاروا الدورة الرسمية الرئيسية.',
+                'Real time or near-real time': 'آني أو شبه آني',
+                'Monthly': 'شهري',
+                'Quarterly': 'ربع سنوي',
+                'Annual': 'سنوي',
+                'Every two to five years': 'كل سنتين إلى خمس سنوات',
+                'Ad hoc or on request': 'عند الحاجة أو بناءً على طلب',
+                'No agreed update or reporting cycle': 'لا توجد دورة متفق عليها للتحديث أو الإبلاغ',
+                'How systematically is this dataset used in environmental decision-making?': 'ما مدى منهجية استخدام مجموعة البيانات هذه في اتخاذ القرارات البيئية؟',
+                'Not used in decision-making': 'لا تُستخدم في اتخاذ القرار',
+                'Used mainly for descriptive reporting': 'تُستخدم أساساً للإبلاغ الوصفي',
+                'Sometimes informs policy or operational decisions': 'تُستخدم أحياناً في توجيه السياسات أو القرارات التشغيلية',
+                'Routinely informs defined decision processes': 'تُستخدم بانتظام في توجيه عمليات اتخاذ قرار محددة',
+                'Directly linked to formal planning, budgeting, regulation or performance review': 'مرتبطة مباشرة بالتخطيط الرسمي أو الموازنة أو التنظيم أو مراجعة الأداء',
+                'To what extent is the same validated dataset reused across reporting processes?': 'إلى أي مدى يُعاد استخدام مجموعة البيانات المتحقق من صحتها في عمليات الإبلاغ المختلفة؟',
+                'Separate datasets are recreated for different reports': 'تُعاد إنشاء مجموعات بيانات منفصلة للتقارير المختلفة',
+                'Reuse is limited and mostly manual': 'إعادة الاستخدام محدودة وتتم يدوياً في معظمها',
+                'Some reports use a shared validated dataset': 'تستخدم بعض التقارير مجموعة بيانات مشتركة متحققاً من صحتها',
+                'Most reports use one authoritative national dataset': 'تستخدم معظم التقارير مجموعة بيانات وطنية مرجعية واحدة',
+                'Validated data are reused automatically across interoperable reporting systems': 'تُعاد استخدام البيانات المتحقق من صحتها آلياً عبر نظم إبلاغ قابلة للتشغيل البيني',
+                'Which factors reduce timely and consistent reporting?': 'ما العوامل التي تحد من الإبلاغ المتسق وفي الوقت المناسب؟',
+                'Unclear data owner or reporting responsibility': 'عدم وضوح مالك البيانات أو مسؤولية الإبلاغ',
+                'Different definitions or methodologies': 'اختلاف التعريفات أو المنهجيات',
+                'Incompatible reporting formats': 'عدم توافق صيغ الإبلاغ',
+                'Different reporting deadlines': 'اختلاف المواعيد النهائية للإبلاغ',
+                'Delayed data access or provision': 'تأخر الوصول إلى البيانات أو توفيرها',
+                'Quality or validation gaps': 'فجوات في الجودة أو التحقق',
+                'Disconnected reporting systems': 'نظم إبلاغ غير مترابطة',
+                'Limited analytical or reporting capacity': 'محدودية القدرة التحليلية أو قدرة الإبلاغ',
+                'Identify one practical opportunity for the same validated dataset to support several reporting and decision processes, including the first action required.': 'حددوا فرصة عملية واحدة لاستخدام مجموعة البيانات المتحقق من صحتها في دعم عدة عمليات للإبلاغ واتخاذ القرار، مع تحديد أول إجراء مطلوب.',
+
+                'Assess one priority dataset across its lifecycle against data availability, workflow, quality, metadata, provenance and standardization requirements.': 'تقييم مجموعة بيانات ذات أولوية عبر دورة حياتها وفق متطلبات توافر البيانات ومسار العمل والجودة والبيانات الوصفية والمنشأ والتوحيد القياسي.',
+                'A focused dataset and workflow maturity assessment with prioritized gaps, improvements, ownership and next steps.': 'تقييم مركز لنضج مجموعة البيانات ومسار العمل يتضمن ترتيب الفجوات والتحسينات والملكية والخطوات التالية حسب الأولوية.',
+                'Present the priority data gap or workflow weakness, its effect on fitness for use, and the proposed improvement with a responsible institution and timeframe.': 'عرض فجوة البيانات أو ضعف مسار العمل ذي الأولوية وأثره على ملاءمة البيانات للاستخدام والتحسين المقترح مع تحديد المؤسسة المسؤولة والإطار الزمني.',
+                'Data availability, workflow maturity, quality dimensions, metadata, provenance and standardization.': 'توافر البيانات ونضج مسار العمل وأبعاد الجودة والبيانات الوصفية والمنشأ والتوحيد القياسي.',
+                'Which data-quality dimensions are routinely assessed?': 'ما أبعاد جودة البيانات التي تُقيّم بصورة منتظمة؟',
+                'Accuracy': 'الدقة',
+                'Completeness': 'الاكتمال',
+                'Timeliness': 'التوقيت المناسب',
+                'Consistency': 'الاتساق',
+                'Validity': 'الصلاحية',
+                'Spatial coverage': 'التغطية المكانية',
+                'Temporal coverage': 'التغطية الزمنية',
+                'Comparability': 'القابلية للمقارنة',
+                'Accessibility': 'إمكانية الوصول',
+                'No quality dimensions are routinely assessed': 'لا تُقيّم أي أبعاد للجودة بصورة منتظمة',
+                'What best describes the status of metadata and provenance?': 'ما الوصف الأفضل لحالة البيانات الوصفية وسجل المنشأ؟',
+                'No metadata or provenance records': 'لا توجد بيانات وصفية أو سجلات للمنشأ',
+                'Minimal records held by individual staff': 'سجلات محدودة يحتفظ بها موظفون أفراد',
+                'Partial or inconsistent institutional records': 'سجلات مؤسسية جزئية أو غير متسقة',
+                'A standard template is used for priority datasets': 'يُستخدم قالب موحد لمجموعات البيانات ذات الأولوية',
+                'A maintained catalogue provides complete metadata, provenance and version history': 'يوفر فهرس محدّث بيانات وصفية كاملة وسجل المنشأ وتاريخ الإصدارات',
+                'How consistently are common definitions, core data elements and methodologies applied?': 'ما مدى اتساق تطبيق التعريفات المشتركة وعناصر البيانات الأساسية والمنهجيات؟',
+                'No common standards': 'لا توجد معايير مشتركة',
+                'Different practices are used by each unit or institution': 'تستخدم كل وحدة أو مؤسسة ممارسات مختلفة',
+                'Some common definitions or methods are applied': 'تُطبق بعض التعريفات أو الأساليب المشتركة',
+                'Agreed national standards are applied to priority datasets': 'تُطبق معايير وطنية متفق عليها على مجموعات البيانات ذات الأولوية',
+                'Standards are nationally governed, monitored and aligned with regional or international requirements': 'تُحكم المعايير وتُرصد وطنياً وتتواءم مع المتطلبات الإقليمية أو الدولية',
+                'State the priority improvement, responsible institution, timeframe and expected benefit for plenary reporting.': 'حددوا التحسين ذي الأولوية والمؤسسة المسؤولة والإطار الزمني والمنفعة المتوقعة لعرضها في الجلسة العامة.',
+
+                'Session 15 · 10:00–10:45': 'الجلسة 15 · 10:00–10:45',
+                'Identify and prioritize the human, institutional, technical and financial capacity gaps preventing implementation and sustained improvement of environmental data governance and management.': 'تحديد وترتيب فجوات القدرات البشرية والمؤسسية والتقنية والمالية التي تعوق تنفيذ التحسين المستدام لحوكمة البيانات البيئية وإدارتها.',
+                'A prioritized national capacity-needs profile linked to specific governance challenges, current support mechanisms, urgency, proposed actions and possible sources of support.': 'ملف وطني مرتب الأولويات لاحتياجات القدرات، مرتبط بتحديات حوكمة محددة وآليات الدعم القائمة ودرجة الاستعجال والإجراءات المقترحة ومصادر الدعم الممكنة.',
+                'Present the most urgent capacity gaps, their severity, the proposed support action, responsible lead and potential source of support.': 'عرض أكثر فجوات القدرات إلحاحاً ودرجة شدتها وإجراء الدعم المقترح والجهة القائدة المسؤولة ومصدر الدعم المحتمل.',
+                'Human, institutional, technical and financial capacity gaps, urgency, support mechanisms and implementation needs.': 'فجوات القدرات البشرية والمؤسسية والتقنية والمالية ودرجة الاستعجال وآليات الدعم واحتياجات التنفيذ.',
+                'Which capacity-development mechanisms are currently available?': 'ما آليات تنمية القدرات المتاحة حالياً؟',
+                'Workforce or staffing plan': 'خطة للقوى العاملة أو التوظيف',
+                'Induction or regular training programme': 'برنامج تعريف وظيفي أو تدريب منتظم',
+                'Mentoring or community of practice': 'التوجيه المهني أو مجتمع ممارسة',
+                'Partnership with universities or research institutions': 'شراكة مع الجامعات أو المؤسسات البحثية',
+                'Dedicated budget or procurement plan': 'ميزانية مخصصة أو خطة مشتريات',
+                'No sustained mechanism': 'لا توجد آلية مستدامة',
+                'How severe is the highest-priority capacity gap?': 'ما درجة شدة فجوة القدرات الأعلى أولوية؟',
+                'Low — manageable with existing resources': 'منخفضة — يمكن إدارتها بالموارد الحالية',
+                'Moderate — affects some functions or datasets': 'متوسطة — تؤثر في بعض الوظائف أو مجموعات البيانات',
+                'High — substantially limits priority functions': 'مرتفعة — تحد بدرجة كبيرة من الوظائف ذات الأولوية',
+                'Critical — prevents essential governance or reporting functions': 'حرجة — تمنع وظائف الحوكمة أو الإبلاغ الأساسية',
+                'Which sources of support could realistically contribute?': 'ما مصادر الدعم التي يمكن أن تسهم بصورة واقعية؟',
+                'National government budget': 'الموازنة الحكومية الوطنية',
+                'Inter-agency resource sharing': 'تقاسم الموارد بين الجهات',
+                'UNEP or other international technical assistance': 'المساعدة التقنية من برنامج الأمم المتحدة للبيئة أو جهات دولية أخرى',
+                'Regional peer learning': 'التعلم الإقليمي من الأقران',
+                'Universities or research institutions': 'الجامعات أو المؤسسات البحثية',
+                'Private-sector or technology partners': 'شركاء القطاع الخاص أو التكنولوجيا',
+                'Development partners or donors': 'شركاء التنمية أو الجهات المانحة',
+                'Professional networks and communities of practice': 'الشبكات المهنية ومجتمعات الممارسة',
+                'Describe the top capacity gap, proposed action, lead institution, timeframe, resource need and preferred source of support.': 'صفوا أهم فجوة في القدرات والإجراء المقترح والمؤسسة القائدة والإطار الزمني والموارد المطلوبة ومصدر الدعم المفضل.',
+
+                'Session 18 · 13:30–14:15': 'الجلسة 18 · 13:30–14:15',
+                'Assess institutional, data, technical, human and financial readiness to apply a responsible and sustainable digital response to a priority environmental data problem.': 'تقييم الاستعداد المؤسسي والبياني والتقني والبشري والمالي لتطبيق استجابة رقمية مسؤولة ومستدامة على مشكلة ذات أولوية في البيانات البيئية.',
+                'A comparable digital-readiness profile, a fit-for-purpose digital option, a readiness decision, necessary safeguards and a realistic implementation path.': 'ملف قابل للمقارنة للاستعداد الرقمي وخيار رقمي ملائم للغرض وقرار بشأن الاستعداد وضمانات لازمة ومسار تنفيذ واقعي.',
+                'Present the problem, readiness maturity, proposed digital response, decision, principal risk, required safeguard and immediate next step.': 'عرض المشكلة ومستوى نضج الاستعداد والاستجابة الرقمية المقترحة والقرار والمخاطر الرئيسية والضمان المطلوب والخطوة التالية الفورية.',
+                'Digital transformation readiness, solution fit, implementation conditions, safeguards, risks and sustainability.': 'الاستعداد للتحول الرقمي وملاءمة الحل وشروط التنفيذ والضمانات والمخاطر والاستدامة.',
+                'What is the institution’s overall digital transformation readiness?': 'ما مستوى الاستعداد العام للمؤسسة للتحول الرقمي؟',
+                'Which governance safeguards must be in place before implementation or scale-up?': 'ما ضمانات الحوكمة التي يجب توافرها قبل التنفيذ أو التوسع؟',
+                'Clear data ownership and accountability': 'وضوح ملكية البيانات والمساءلة',
+                'Privacy and information-security rules': 'قواعد الخصوصية وأمن المعلومات',
+                'Transparent procurement and vendor-exit arrangements': 'ترتيبات شفافة للمشتريات والخروج من التعاقد مع الموردين',
+                'Interoperability and open standards': 'التشغيل البيني والمعايير المفتوحة',
+                'Accessibility and inclusion requirements': 'متطلبات إمكانية الوصول والشمول',
+                'Human oversight and AI accountability': 'الإشراف البشري والمساءلة عن الذكاء الاصطناعي',
+                'Performance, quality and risk monitoring': 'رصد الأداء والجودة والمخاطر',
+                'Long-term maintenance and financing plan': 'خطة الصيانة والتمويل على المدى الطويل',
+                'Environmental sustainability requirements': 'متطلبات الاستدامة البيئية',
+                'What is the most appropriate implementation path?': 'ما مسار التنفيذ الأنسب؟',
+                'Improve governance and the underlying process before digitizing': 'تحسين الحوكمة والعملية الأساسية قبل الرقمنة',
+                'Undertake a proof of concept': 'تنفيذ إثبات للمفهوم',
+                'Conduct a limited pilot': 'تنفيذ مشروع تجريبي محدود',
+                'Implement in phases and evaluate each stage': 'التنفيذ على مراحل وتقييم كل مرحلة',
+                'Proceed to full implementation and continuous monitoring': 'الانتقال إلى التنفيذ الكامل والرصد المستمر',
+                'Summarize the proposed solution, readiness conditions, main risk, required safeguard, responsible lead and immediate next step.': 'لخصوا الحل المقترح وشروط الاستعداد والمخاطر الرئيسية والضمان المطلوب والجهة القائدة المسؤولة والخطوة التالية الفورية.',
+
+                'Session 19 · 14:15–14:45': 'الجلسة 19 · 14:15–14:45',
+                'Governance Challenges & Needs': 'تحديات واحتياجات الحوكمة',
+                'Consolidate findings from all three workshop days into a country-level assessment of environmental data governance strengths, maturity, priority challenges, needs and opportunities for action and regional cooperation.': 'تجميع نتائج أيام ورشة العمل الثلاثة في تقييم قطري لنقاط القوة ومستوى النضج والتحديات والاحتياجات ذات الأولوية وفرص العمل والتعاون الإقليمي في حوكمة البيانات البيئية.',
+                'A concise country governance profile with an overall maturity rating, ranked challenges, priority national actions, implementation responsibilities, support needs and regional cooperation opportunities.': 'ملف قطري موجز للحوكمة يتضمن تقييماً عاماً للنضج وترتيباً للتحديات وإجراءات وطنية ذات أولوية ومسؤوليات التنفيذ واحتياجات الدعم وفرص التعاون الإقليمي.',
+                'Present the country’s overall governance maturity, three priority challenges, one immediate national action with a lead institution, and one priority request for regional cooperation or support.': 'عرض المستوى العام لنضج الحوكمة في البلد وثلاثة تحديات ذات أولوية وإجراء وطني فوري واحد مع تحديد المؤسسة القائدة وطلب واحد ذي أولوية للتعاون أو الدعم الإقليمي.',
+                'Cross-cutting country governance maturity, strengths, challenges, action priorities, support needs and regional cooperation.': 'نضج الحوكمة القطري الشامل ونقاط القوة والتحديات وأولويات العمل واحتياجات الدعم والتعاون الإقليمي.',
+                'Which environmental data governance components most need strengthening?': 'ما مكونات حوكمة البيانات البيئية الأكثر حاجة إلى التعزيز؟',
+                'Policy and legal framework': 'إطار السياسات والإطار القانوني',
+                'Institutional coordination': 'التنسيق المؤسسي',
+                'Roles, mandates and accountability': 'الأدوار والولايات والمساءلة',
+                'Data-sharing and access arrangements': 'ترتيبات تبادل البيانات والوصول إليها',
+                'Common definitions, standards and methods': 'التعريفات والمعايير والأساليب المشتركة',
+                'Data quality, metadata and provenance': 'جودة البيانات والبيانات الوصفية والمنشأ',
+                'Reporting and use in decision-making': 'الإبلاغ والاستخدام في اتخاذ القرار',
+                'Human and institutional capacity': 'القدرات البشرية والمؤسسية',
+                'Technical infrastructure and tools': 'البنية التحتية والأدوات التقنية',
+                'Responsible digital governance': 'الحوكمة الرقمية المسؤولة',
+                'What is the country’s overall maturity in environmental data governance?': 'ما مستوى النضج العام للبلد في حوكمة البيانات البيئية؟',
+                'Which foundations or strengths are already in place?': 'ما الأسس أو نقاط القوة القائمة بالفعل؟',
+                'Legal mandate or national policy': 'ولاية قانونية أو سياسة وطنية',
+                'Assigned data owners, custodians or stewards': 'مالكو بيانات أو أمناء أو مشرفون محددون',
+                'Documented data-sharing arrangements': 'ترتيبات موثقة لتبادل البيانات',
+                'Common standards or methodologies': 'معايير أو منهجيات مشتركة',
+                'Environmental data platform or catalogue': 'منصة أو فهرس للبيانات البيئية',
+                'Quality assurance and provenance controls': 'ضوابط ضمان الجودة والمنشأ',
+                'Regular national, SDG or MEA reporting': 'إبلاغ وطني منتظم أو إبلاغ عن أهداف التنمية المستدامة أو الاتفاقات البيئية متعددة الأطراف',
+                'Use of evidence in formal decisions': 'استخدام الأدلة في القرارات الرسمية',
+                'Skilled staff and sustained financing': 'موظفون مؤهلون وتمويل مستدام',
+                'Which challenges have the greatest effect on national performance?': 'ما التحديات ذات التأثير الأكبر في الأداء الوطني؟',
+                'Fragmented mandates and weak coordination': 'تشتت الولايات وضعف التنسيق',
+                'Unclear roles or accountability': 'عدم وضوح الأدوار أو المساءلة',
+                'Irregular data provision': 'عدم انتظام توفير البيانات',
+                'Insufficient coverage or availability': 'عدم كفاية التغطية أو التوافر',
+                'Inconsistent definitions and methods': 'عدم اتساق التعريفات والأساليب',
+                'Quality, metadata or provenance gaps': 'فجوات في الجودة أو البيانات الوصفية أو المنشأ',
+                'Limited access, sharing or interoperability': 'محدودية الوصول أو التبادل أو التشغيل البيني',
+                'Duplicated or inefficient reporting': 'ازدواجية الإبلاغ أو عدم كفاءته',
+                'Limited use of data in decisions': 'محدودية استخدام البيانات في القرارات',
+                'Human or technical capacity gaps': 'فجوات القدرات البشرية أو التقنية',
+                'Insufficient or unsustainable financing': 'تمويل غير كافٍ أو غير مستدام',
+                'Digital transformation or technology risks': 'مخاطر التحول الرقمي أو التكنولوجيا',
+                'Describe the three highest-priority challenges and the evidence or practical effect of each.': 'صفوا التحديات الثلاثة الأعلى أولوية والأدلة أو الأثر العملي لكل منها.',
+                'Rank them 1–3 and explain why they require priority attention.': 'رتبوها من 1 إلى 3 واشرحوا سبب استحقاقها للاهتمام على سبيل الأولوية.',
+                'Which national actions should be prioritized?': 'ما الإجراءات الوطنية التي ينبغي إعطاؤها الأولوية؟',
+                'Adopt or update a national environmental data governance framework': 'اعتماد إطار وطني لحوكمة البيانات البيئية أو تحديثه',
+                'Establish or strengthen a coordination mechanism': 'إنشاء آلية تنسيق أو تعزيزها',
+                'Clarify mandates through a responsibility matrix': 'توضيح الولايات من خلال مصفوفة للمسؤوليات',
+                'Create a national data inventory and metadata catalogue': 'إنشاء حصر وطني للبيانات وفهرس للبيانات الوصفية',
+                'Agree common definitions, standards and methodologies': 'الاتفاق على تعريفات ومعايير ومنهجيات مشتركة',
+                'Strengthen quality assurance and provenance controls': 'تعزيز ضوابط ضمان الجودة والمنشأ',
+                'Develop interoperable data-sharing services or platforms': 'تطوير خدمات أو منصات قابلة للتشغيل البيني لتبادل البيانات',
+                'Increase access, publication and data reuse': 'زيادة الوصول والنشر وإعادة استخدام البيانات',
+                'Integrate validated data across reporting processes': 'دمج البيانات المتحقق من صحتها عبر عمليات الإبلاغ',
+                'Establish a sustained capacity-development plan': 'وضع خطة مستدامة لتنمية القدرات',
+                'Prepare a responsible digital transformation roadmap': 'إعداد خارطة طريق مسؤولة للتحول الرقمي',
+                'Secure sustainable financing and maintenance': 'تأمين التمويل والصيانة المستدامين',
+                'What is the appropriate timeframe for the highest-priority national action?': 'ما الإطار الزمني المناسب للإجراء الوطني الأعلى أولوية؟',
+                'Which forms of regional cooperation or external support would add the most value?': 'ما أشكال التعاون الإقليمي أو الدعم الخارجي التي تحقق أكبر قيمة؟',
+                'Common guidance, models and templates': 'إرشادات ونماذج وقوالب مشتركة',
+                'Shared definitions, indicators and methodologies': 'تعريفات ومؤشرات ومنهجيات مشتركة',
+                'Regional metadata or interoperability standards': 'معايير إقليمية للبيانات الوصفية أو التشغيل البيني',
+                'Peer learning and exchange of country practices': 'التعلم من الأقران وتبادل الممارسات القطرية',
+                'Targeted training and technical assistance': 'تدريب موجه ومساعدة تقنية',
+                'Regional community of practice': 'مجتمع ممارسة إقليمي',
+                'Resource mobilization and financing support': 'حشد الموارد ودعم التمويل',
+                'Regional knowledge hub or data platform': 'مركز معرفة أو منصة بيانات إقليمية',
+                'Joint pilots or demonstration projects': 'مشاريع تجريبية أو إيضاحية مشتركة',
+                'Define one priority national commitment: action, lead institution, partners, first milestone, timeframe and support required.': 'حددوا التزاماً وطنياً واحداً ذا أولوية: الإجراء والمؤسسة القائدة والشركاء وأول معلم تنفيذي والإطار الزمني والدعم المطلوب.',
+                'How confident is the group in this overall country assessment?': 'ما مدى ثقة المجموعة في هذا التقييم القطري العام؟',
+
+                'Policy, institutional governance & coordination': 'السياسات والحوكمة المؤسسية والتنسيق',
+                'Data availability & workflows': 'توافر البيانات ومسارات العمل',
+                'Regional cooperation & support': 'التعاون الإقليمي والدعم',
+                'Assessment of Environmental Data Governance in West Asia': 'تقييم حوكمة البيانات البيئية في غرب آسيا',
+                'Integrated findings from all workshop exercises and working groups': 'نتائج متكاملة من جميع تمارين ورشة العمل ومجموعات العمل',
+                'Integrated workshop findings': 'نتائج ورشة العمل المتكاملة',
+                'West Asia Governance Assessment Report': 'تقرير تقييم حوكمة البيانات في غرب آسيا',
+                'Produce an integrated assessment of governance maturity, participation, response coverage, recurring themes and priority findings across all exercises.': 'إعداد تقييم متكامل لنضج الحوكمة والمشاركة وتغطية الإجابات والموضوعات المتكررة والنتائج ذات الأولوية عبر جميع التمارين.',
+                'Generate Assessment Report': 'إنشاء تقرير التقييم',
+                'West Asia Governance Assessment Presentation': 'عرض تقييم حوكمة البيانات في غرب آسيا',
+                'Download an editable presentation summarizing all exercises, groups, response patterns and cross-cutting assessment themes.': 'تنزيل عرض قابل للتحرير يلخص جميع التمارين والمجموعات وأنماط الإجابات وموضوعات التقييم الشاملة.'
+            });
+
+            Object.assign(arabicTranslations2026, {
+                'Country assessment coverage': 'تغطية التقييم القطري',
+                'Country Assessment Profiles': 'ملفات التقييم القطرية',
+                'Latest inputs': 'أحدث المدخلات',
+                'Exercises covered': 'التمارين المشمولة',
+                'Answer coverage': 'تغطية الإجابات',
+                'Governance maturity': 'نضج الحوكمة',
+                'Most recurrent theme': 'الموضوع الأكثر تكراراً',
+                'Not yet assessed': 'لم يُقيّم بعد',
+                'Not yet identified': 'لم يُحدد بعد',
+                'Profiles summarize the latest eligible group inputs recorded for each country. Maturity values are drawn from explicit overall-maturity questions; they are not inferred by the system.': 'تلخص الملفات أحدث مدخلات المجموعات المؤهلة المسجلة لكل بلد. وتُستمد قيم النضج من الأسئلة الصريحة بشأن النضج العام ولا يستنتجها النظام.',
+                'Latest eligible group inputs; maturity values are not inferred': 'أحدث مدخلات المجموعات المؤهلة؛ ولا يستنتج النظام قيم النضج'
+            });
+
+            Object.assign(arabicTranslations2026, {
+                'Together, the seven exercises form the evidence framework for the Assessment of Environmental Data Governance in West Asia. Submit one consolidated response per working group and country, base ratings on available evidence and group consensus, and record important qualifications or minority views in the comments field.': 'تشكل التمارين السبعة مجتمعة إطار الأدلة لتقييم حوكمة البيانات البيئية في غرب آسيا. يرجى تقديم إجابة موحدة واحدة لكل مجموعة عمل وبلد، وإسناد التقييمات إلى الأدلة المتاحة وتوافق المجموعة، وتسجيل التحفظات المهمة أو آراء الأقلية في حقل التعليقات.'
+            });
+
+            Object.assign(arabicTranslations2026, {
+                'Workshop participant access': 'دخول المشاركين إلى ورشة العمل',
+                'Register once using the workshop access password, then use your chosen username and password to log in on subsequent workshop days.': 'سجّل مرة واحدة باستخدام كلمة مرور دخول ورشة العمل، ثم استخدم اسم المستخدم وكلمة المرور اللذين اخترتهما لتسجيل الدخول في أيام الورشة التالية.',
+                'Online participant access is currently unavailable. Please check the internet connection and Firebase configuration, then reload the page.': 'دخول المشاركين عبر الإنترنت غير متاح حالياً. يرجى التحقق من الاتصال بالإنترنت وإعدادات Firebase ثم إعادة تحميل الصفحة.',
+                'New participant registration': 'تسجيل مشارك جديد',
+                'Returning participant login': 'تسجيل دخول مشارك مسجل',
+                'Choose a username and account password that you can use to return to the workshop portal on the following days. Your account password is not stored as readable text.': 'اختر اسم مستخدم وكلمة مرور للحساب لاستخدامهما عند العودة إلى بوابة الورشة في الأيام التالية. لا تُخزّن كلمة مرور حسابك كنص مقروء.',
+                'Username': 'اسم المستخدم',
+                'Create a username': 'أنشئ اسم مستخدم',
+                'Account password': 'كلمة مرور الحساب',
+                'Create an account password': 'أنشئ كلمة مرور للحساب',
+                'Confirm account password': 'تأكيد كلمة مرور الحساب',
+                'Re-enter the account password': 'أعد إدخال كلمة مرور الحساب',
+                'Username: 4–30 characters, beginning with a letter; use only letters, numbers, hyphens or underscores. Account password: at least 8 characters with at least one letter and one number.': 'اسم المستخدم: من 4 إلى 30 محرفاً، يبدأ بحرف، ويقتصر على الحروف والأرقام والشرطة والشرطة السفلية. كلمة مرور الحساب: 8 محارف على الأقل وتتضمن حرفاً واحداً ورقماً واحداً على الأقل.',
+                'Choose a valid username: 4–30 characters, beginning with a letter, using only letters, numbers, hyphens or underscores.': 'اختر اسم مستخدم صالحاً من 4 إلى 30 محرفاً يبدأ بحرف ويستخدم الحروف والأرقام والشرطة أو الشرطة السفلية فقط.',
+                'Choose an account password of at least 8 characters containing at least one letter and one number.': 'اختر كلمة مرور للحساب لا تقل عن 8 محارف وتتضمن حرفاً واحداً ورقماً واحداً على الأقل.',
+                'The account passwords do not match.': 'كلمتا مرور الحساب غير متطابقتين.',
+                'Creating participant account...': 'جارٍ إنشاء حساب المشارك...',
+                'This username is already registered. Choose another username or use Returning participant login.': 'اسم المستخدم هذا مسجل بالفعل. اختر اسماً آخر أو استخدم تسجيل دخول مشارك مسجل.',
+                'Use the username and account password you created during registration. You do not need the workshop access password again.': 'استخدم اسم المستخدم وكلمة مرور الحساب اللذين أنشأتهما أثناء التسجيل. لا تحتاج إلى كلمة مرور دخول ورشة العمل مرة أخرى.',
+                'Enter your username': 'أدخل اسم المستخدم',
+                'Enter your account password': 'أدخل كلمة مرور الحساب',
+                'Log in to workshop portal': 'تسجيل الدخول إلى بوابة الورشة',
+                'Checking login...': 'جارٍ التحقق من تسجيل الدخول...',
+                'Login is temporarily unavailable because the online workshop database cannot be reached.': 'تسجيل الدخول غير متاح مؤقتاً لتعذر الوصول إلى قاعدة بيانات الورشة عبر الإنترنت.',
+                'The username or password is incorrect. Please try again.': 'اسم المستخدم أو كلمة المرور غير صحيح. يرجى المحاولة مرة أخرى.',
+                'Login could not be completed. Please check the connection or contact the workshop organizers.': 'تعذر إكمال تسجيل الدخول. يرجى التحقق من الاتصال أو التواصل مع منظمي الورشة.',
+                'Not open yet': 'لم يُفتح بعد',
+                'Password and working group required': 'كلمة المرور ومجموعة العمل مطلوبتان',
+                'Enter the password provided by the facilitator and select your working group to open this exercise. Access and the selected group remain active for this browser session.': 'أدخل كلمة المرور التي يقدمها الميسّر واختر مجموعة العمل لفتح هذا التمرين. يظل الدخول والمجموعة المختارة فعالين خلال جلسة المتصفح الحالية.',
+                'This exercise has not been opened yet. Please wait for the facilitator to open it.': 'لم يُفتح هذا التمرين بعد. يرجى انتظار الميسّر لفتحه.',
+                'Select a working group.': 'اختر مجموعة عمل.',
+                'Selected Working Group': 'مجموعة العمل المختارة',
+                'Select a working group when opening this exercise.': 'اختر مجموعة عمل عند فتح هذا التمرين.',
+                'This exercise is currently closed. Please wait for the facilitator to open it.': 'هذا التمرين مغلق حالياً. يرجى انتظار الميسّر لفتحه.',
+                'Select a working group before completing this exercise.': 'اختر مجموعة عمل قبل إكمال هذا التمرين.',
+                'Participant access:': 'دخول المشاركين:',
+                'Open to participants': 'مفتوح للمشاركين',
+                'Closed to participants': 'مغلق أمام المشاركين',
+                'Open Exercise': 'فتح التمرين',
+                'Close Exercise': 'إغلاق التمرين',
+                'Opening exercise...': 'جارٍ فتح التمرين...',
+                'Closing exercise...': 'جارٍ إغلاق التمرين...',
+                'The online workshop database is unavailable. Exercise access was not changed.': 'قاعدة بيانات الورشة عبر الإنترنت غير متاحة. لم يُغيّر وضع دخول التمرين.',
+                'Exercise access could not be updated. Please check the database connection and permissions.': 'تعذر تحديث دخول التمرين. يرجى التحقق من اتصال قاعدة البيانات وأذوناتها.',
+                'Open or close participant access, review submissions and generate group or consolidated reports for each exercise.': 'افتح أو أغلق دخول المشاركين، وراجع الإجابات، وأنشئ تقارير للمجموعات أو تقارير موحدة لكل تمرين.',
+                'Open or close each exercise for participants, then use the exercise cards to generate group-level or all-groups reports.': 'افتح أو أغلق كل تمرين للمشاركين، ثم استخدم بطاقات التمارين لإنشاء تقارير على مستوى المجموعة أو جميع المجموعات.',
+                'Username': 'اسم المستخدم',
+                'Legacy registration': 'تسجيل سابق',
+                'Open the registered-participant table and review country, institution, role and participant username.': 'افتح جدول المشاركين المسجلين وراجع البلد والمؤسسة والدور واسم مستخدم المشارك.',
+                'Review registered participants by country, institution, role and username.': 'راجع المشاركين المسجلين حسب البلد والمؤسسة والدور واسم المستخدم.',
+                'Permanently delete all participant registrations and login accounts.': 'احذف نهائياً جميع تسجيلات المشاركين وحسابات تسجيل الدخول.',
+                'Reset registrations and login accounts, exercise submissions and availability, password settings and published document links.': 'امسح التسجيلات وحسابات الدخول وإجابات التمارين وحالة إتاحتها وإعدادات كلمات المرور وروابط الوثائق المنشورة.',
+                'Participant login accounts': 'حسابات تسجيل دخول المشاركين',
+                'Participant registrations and login accounts': 'تسجيلات المشاركين وحسابات الدخول',
+                'Exercise open/closed settings': 'إعدادات فتح وإغلاق التمارين',
+                'Registration and participant login-account data were reset successfully. You will now be signed out because participant registrations were removed.': 'مُسحت بيانات التسجيل وحسابات دخول المشاركين بنجاح. سيتم تسجيل خروجك الآن لأن تسجيلات المشاركين أُزيلت.'
+            });
+
             function isArabic2026() { return currentLanguage2026 === 'ar'; }
 
             function translateDynamicText2026(text) {
@@ -2595,6 +3117,7 @@
                 if ((match = text.match(/^Online registration configuration active: (\d+) password(?:s)? accepted\.$/))) return 'إعداد التسجيل عبر الإنترنت فعال: عدد كلمات المرور المقبولة ' + match[1] + '.';
                 if ((match = text.match(/^Online configuration active: (\d+) password(?:s)? accepted\.$/))) return 'الإعداد على الإنترنت فعال: عدد كلمات المرور المقبولة ' + match[1] + '.';
                 if ((match = text.match(/^Open reports for Exercise (\d+): (.+)$/))) return 'فتح تقارير التمرين ' + match[1] + ': ' + translateText2026(match[2]);
+                if ((match = text.match(/^Change participant access for Exercise (\d+)$/))) return 'تغيير دخول المشاركين للتمرين ' + match[1];
                 if ((match = text.match(/^Submitted by (.+)$/))) return 'مقدم من: ' + match[1];
                 if ((match = text.match(/^(\d+) of 6$/))) return match[1] + ' من 6';
                 if ((match = text.match(/^The report uses the latest submission from each named working group and the latest input from each registered participant selecting “No group”\. Generated (.+)\.$/))) return 'يستخدم التقرير أحدث إجابة مقدمة من كل مجموعة عمل مسماة، وأحدث مدخل من كل مشارك مسجل اختار «من دون مجموعة». أُنشئ في ' + match[1] + '.';
@@ -2787,10 +3310,11 @@
                 switchTab2026(target);
                 if (exercises2026.some(function (exercise) { return exercise.id === target; })) {
                     window.setTimeout(function () {
-                        var unlocked = exerciseUnlocked2026(target);
+                        var available = exerciseIsOpen2026(target);
+                        var unlocked = available && exerciseUnlocked2026(target);
                         var destination = unlocked ? document.getElementById('form-' + target) : document.getElementById(target + '-access-gate');
                         if (destination) destination.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                        if (!unlocked) {
+                        if (available && !unlocked) {
                             var password = document.getElementById(target + '-access-password');
                             if (password) password.focus({ preventScroll: true });
                         }
@@ -2812,6 +3336,55 @@
 
             function passwordMatches2026(value, expectedHash) {
                 return hashText2026(value).then(function (hash) { return hash === expectedHash; }).catch(function () { return false; });
+            }
+
+            function normalizeUsername2026(value) {
+                return String(value || '').trim().toLowerCase();
+            }
+
+            function validUsername2026(value) {
+                return /^[A-Za-z][A-Za-z0-9_-]{3,29}$/.test(String(value || '').trim());
+            }
+
+            function validAccountPassword2026(value) {
+                var password = String(value || '');
+                return password.length >= 8 && /[A-Za-z]/.test(password) && /[0-9]/.test(password);
+            }
+
+            function randomSalt2026() {
+                if (!window.crypto || !window.crypto.getRandomValues) throw new Error('Secure account creation is not supported by this browser.');
+                var bytes = new Uint8Array(16);
+                window.crypto.getRandomValues(bytes);
+                return Array.prototype.map.call(bytes, function (byte) {
+                    return byte.toString(16).padStart(2, '0');
+                }).join('');
+            }
+
+            async function deriveParticipantCredential2026(password, salt, iterations) {
+                if (!window.crypto || !window.crypto.subtle || !window.TextEncoder) {
+                    throw new Error('Secure account login is not supported by this browser.');
+                }
+                var encoder = new TextEncoder();
+                var baseKey = await window.crypto.subtle.importKey(
+                    'raw',
+                    encoder.encode(String(password || '')),
+                    'PBKDF2',
+                    false,
+                    ['deriveBits']
+                );
+                var derived = await window.crypto.subtle.deriveBits({
+                    name: 'PBKDF2',
+                    salt: encoder.encode(String(salt || '')),
+                    iterations: Number(iterations) || 120000,
+                    hash: 'SHA-256'
+                }, baseKey, 256);
+                return Array.prototype.map.call(new Uint8Array(derived), function (byte) {
+                    return byte.toString(16).padStart(2, '0');
+                }).join('');
+            }
+
+            function participantAccountKey2026(username) {
+                return hashText2026(normalizeUsername2026(username));
             }
 
             function normalizePasswordEntries2026(config) {
@@ -2866,17 +3439,31 @@
                 }];
             }
 
+            function selectedExerciseGroup2026(exerciseId) {
+                try {
+                    return sessionStorage.getItem('workshop_exercise_group_' + exerciseId) || '';
+                } catch (error) {
+                    return '';
+                }
+            }
+
+            function exerciseIsOpen2026(exerciseId) {
+                var status = liveExerciseStatus2026[exerciseId];
+                return status !== false && (!status || status.isOpen !== false);
+            }
+
             function exerciseUnlocked2026(exerciseId) {
                 try {
-                    return sessionStorage.getItem('workshop_exercise_access_' + exerciseId) === 'granted';
+                    return sessionStorage.getItem('workshop_exercise_access_' + exerciseId) === 'granted' && !!selectedExerciseGroup2026(exerciseId);
                 } catch (error) {
                     return false;
                 }
             }
 
-            function grantExerciseAccess2026(exerciseId) {
+            function grantExerciseAccess2026(exerciseId, workingGroup) {
                 try {
                     sessionStorage.setItem('workshop_exercise_access_' + exerciseId, 'granted');
+                    sessionStorage.setItem('workshop_exercise_group_' + exerciseId, String(workingGroup || ''));
                 } catch (error) {
                     console.warn('Exercise access could not be retained in this browser session.', error);
                 }
@@ -2898,7 +3485,7 @@
                 }
             }
 
-            function registrationField2026(id, labelText, type, required, placeholder) {
+            function registrationField2026(id, labelText, type, required, placeholder, autocomplete) {
                 var group = createElement2026('div', 'form-group');
                 var label = createElement2026('label', '', labelText + (required ? ' *' : ''));
                 label.htmlFor = id;
@@ -2907,6 +3494,7 @@
                 input.type = type;
                 input.required = required;
                 input.placeholder = translateText2026(placeholder || '');
+                if (autocomplete) input.autocomplete = autocomplete;
                 group.appendChild(label);
                 group.appendChild(input);
                 return group;
@@ -3012,15 +3600,41 @@
 
                 var body = createElement2026('div', 'access-body');
                 body.appendChild(createElement2026('h3', '', 'Workshop participant access'));
-                var instruction = createElement2026('p', '', 'Please register once using the workshop access password. Your registration and exercise submissions will be stored in the online workshop database.');
+                var instruction = createElement2026('p', '', 'Register once using the workshop access password, then use your chosen username and password to log in on subsequent workshop days.');
                 instruction.style.marginBottom = '1rem';
                 body.appendChild(instruction);
                 if (!online2026) {
-                    body.appendChild(createElement2026('p', 'online-required', 'Online registration is currently unavailable. Please check the internet connection and Firebase configuration, then reload the page.'));
+                    body.appendChild(createElement2026('p', 'online-required', 'Online participant access is currently unavailable. Please check the internet connection and Firebase configuration, then reload the page.'));
                 }
+
+                var modeTabs = createElement2026('div', 'access-mode-tabs');
+                modeTabs.setAttribute('role', 'tablist');
+                var registrationModeButton = createElement2026('button', 'access-mode-button active', 'New participant registration');
+                registrationModeButton.type = 'button';
+                registrationModeButton.id = 'registration-mode-button';
+                registrationModeButton.setAttribute('role', 'tab');
+                registrationModeButton.setAttribute('aria-selected', 'true');
+                registrationModeButton.setAttribute('aria-controls', 'registration-access-pane');
+                var loginModeButton = createElement2026('button', 'access-mode-button', 'Returning participant login');
+                loginModeButton.type = 'button';
+                loginModeButton.id = 'login-mode-button';
+                loginModeButton.setAttribute('role', 'tab');
+                loginModeButton.setAttribute('aria-selected', 'false');
+                loginModeButton.setAttribute('aria-controls', 'login-access-pane');
+                modeTabs.appendChild(registrationModeButton);
+                modeTabs.appendChild(loginModeButton);
+                body.appendChild(modeTabs);
+
+                var registrationPane = createElement2026('div', 'access-pane');
+                registrationPane.id = 'registration-access-pane';
+                registrationPane.setAttribute('role', 'tabpanel');
+                registrationPane.setAttribute('aria-labelledby', registrationModeButton.id);
+                registrationPane.appendChild(createElement2026('h4', '', 'New participant registration'));
+                registrationPane.appendChild(createElement2026('p', 'credential-note', 'Choose a username and account password that you can use to return to the workshop portal on the following days. Your account password is not stored as readable text.'));
                 var errorBox = createElement2026('div', 'access-error');
                 errorBox.id = 'registration-error';
-                body.appendChild(errorBox);
+                errorBox.setAttribute('role', 'alert');
+                registrationPane.appendChild(errorBox);
 
                 var form = document.createElement('form');
                 form.id = 'participant-registration-form';
@@ -3041,23 +3655,26 @@
                 countryGroup.appendChild(countryLabel);
                 countryGroup.appendChild(countrySelect2026('registration-country'));
                 thirdGrid.appendChild(countryGroup);
-                var registrationGroup = createElement2026('div', 'form-group');
-                var registrationGroupLabel = createElement2026('label', '', 'Working Group *');
-                registrationGroupLabel.htmlFor = 'registration-working-group';
-                registrationGroup.appendChild(registrationGroupLabel);
-                registrationGroup.appendChild(workingGroupSelect2026('registration-working-group'));
-                thirdGrid.appendChild(registrationGroup);
-                form.appendChild(thirdGrid);
-
-                var fourthGrid = createElement2026('div', 'grid-2');
                 var roleGroup = createElement2026('div', 'form-group');
                 var roleLabel = createElement2026('label', '', 'Workshop Role *');
                 roleLabel.htmlFor = 'registration-role';
                 roleGroup.appendChild(roleLabel);
                 roleGroup.appendChild(workshopRoleSelect2026('registration-role'));
-                fourthGrid.appendChild(roleGroup);
-                fourthGrid.appendChild(registrationField2026('registration-password', 'Workshop access password', 'password', true, 'Enter the participant password'));
+                thirdGrid.appendChild(roleGroup);
+                form.appendChild(thirdGrid);
+
+                var fourthGrid = createElement2026('div', 'grid-2');
+                fourthGrid.appendChild(registrationField2026('registration-username', 'Username', 'text', true, 'Create a username', 'username'));
+                fourthGrid.appendChild(registrationField2026('registration-account-password', 'Account password', 'password', true, 'Create an account password', 'new-password'));
                 form.appendChild(fourthGrid);
+
+                var usernameNote = createElement2026('p', 'credential-note', 'Username: 4–30 characters, beginning with a letter; use only letters, numbers, hyphens or underscores. Account password: at least 8 characters with at least one letter and one number.');
+                form.appendChild(usernameNote);
+
+                var fifthGrid = createElement2026('div', 'grid-2');
+                fifthGrid.appendChild(registrationField2026('registration-account-password-confirm', 'Confirm account password', 'password', true, 'Re-enter the account password', 'new-password'));
+                fifthGrid.appendChild(registrationField2026('registration-password', 'Workshop access password', 'password', true, 'Enter the participant password', 'off'));
+                form.appendChild(fifthGrid);
 
                 var consent = createElement2026('label', 'choice-option');
                 var consentInput = document.createElement('input');
@@ -3074,7 +3691,30 @@
                 form.appendChild(submit);
                 form.addEventListener('submit', async function (event) {
                     event.preventDefault();
-                    var password = document.getElementById('registration-password').value;
+                    errorBox.style.display = 'none';
+                    var workshopPassword = document.getElementById('registration-password').value;
+                    var username = document.getElementById('registration-username').value.trim();
+                    var normalizedUsername = normalizeUsername2026(username);
+                    var accountPassword = document.getElementById('registration-account-password').value;
+                    var confirmAccountPassword = document.getElementById('registration-account-password-confirm').value;
+                    if (!validUsername2026(username)) {
+                        errorBox.textContent = 'Choose a valid username: 4–30 characters, beginning with a letter, using only letters, numbers, hyphens or underscores.';
+                        errorBox.style.display = 'block';
+                        document.getElementById('registration-username').focus();
+                        return;
+                    }
+                    if (!validAccountPassword2026(accountPassword)) {
+                        errorBox.textContent = 'Choose an account password of at least 8 characters containing at least one letter and one number.';
+                        errorBox.style.display = 'block';
+                        document.getElementById('registration-account-password').focus();
+                        return;
+                    }
+                    if (accountPassword !== confirmAccountPassword) {
+                        errorBox.textContent = 'The account passwords do not match.';
+                        errorBox.style.display = 'block';
+                        document.getElementById('registration-account-password-confirm').focus();
+                        return;
+                    }
                     if (database2026 && firebaseConnected2026) {
                         await loadRegistrationPasswordConfig2026();
                     }
@@ -3085,7 +3725,7 @@
                     }
                     var registrationPasswordAccepted = false;
                     try {
-                        var candidateHash = await hashText2026(password);
+                        var candidateHash = await hashText2026(workshopPassword);
                         registrationPasswordAccepted = effectiveRegistrationPasswords2026().some(function (entry) {
                             return entry.hash === candidateHash;
                         });
@@ -3104,7 +3744,7 @@
                         return;
                     }
                     submit.disabled = true;
-                    submit.textContent = 'Saving registration online...';
+                    submit.textContent = translateText2026('Creating participant account...');
                     var now = new Date();
                     participant2026 = {
                         id: '',
@@ -3113,22 +3753,43 @@
                         institution: document.getElementById('registration-institution').value.trim(),
                         email: document.getElementById('registration-email').value.trim(),
                         country: document.getElementById('registration-country').value,
-                        workingGroup: document.getElementById('registration-working-group').value,
                         role: document.getElementById('registration-role').value,
+                        username: username,
                         registeredAt: now.toISOString(),
                         displayTime: now.toLocaleString(workshopLocale2026())
                     };
                     try {
+                        var accountKey = await participantAccountKey2026(normalizedUsername);
+                        var accountSnapshot = await promiseWithTimeout2026(database2026.ref('participant_accounts/' + accountKey).once('value'), 15000, 'Checking the username timed out.');
+                        if (accountSnapshot.exists()) {
+                            throw new Error('USERNAME_EXISTS');
+                        }
                         var registrationReference = database2026.ref('participant_registrations').push();
                         participant2026.id = registrationReference.key;
-                        await registrationReference.set(participant2026);
+                        var credentialIterations = 120000;
+                        var credentialSalt = randomSalt2026();
+                        var credentialHash = await deriveParticipantCredential2026(accountPassword, credentialSalt, credentialIterations);
+                        var updates = {};
+                        updates['participant_registrations/' + participant2026.id] = participant2026;
+                        updates['participant_accounts/' + accountKey] = {
+                            username: username,
+                            participantId: participant2026.id,
+                            credentialSalt: credentialSalt,
+                            credentialHash: credentialHash,
+                            credentialIterations: credentialIterations,
+                            createdAt: now.toISOString(),
+                            lastLoginAt: now.toISOString()
+                        };
+                        await promiseWithTimeout2026(database2026.ref('/').update(updates), 30000, 'Creating the participant account timed out.');
                     } catch (error) {
                         console.warn('Online participant registration failed.', error);
                         participant2026 = null;
-                        errorBox.textContent = 'Registration could not be saved online. Please check the connection or contact the workshop organizers.';
+                        errorBox.textContent = error && error.message === 'USERNAME_EXISTS'
+                            ? 'This username is already registered. Choose another username or use Returning participant login.'
+                            : 'Registration could not be saved online. Please check the connection or contact the workshop organizers.';
                         errorBox.style.display = 'block';
                         submit.disabled = false;
-                        submit.textContent = 'Register and enter workshop portal';
+                        submit.textContent = translateText2026('Register and enter workshop portal');
                         return;
                     }
                     saveParticipantSession2026(participant2026);
@@ -3141,7 +3802,90 @@
                     initializePortal2026();
                 });
 
-                body.appendChild(form);
+                registrationPane.appendChild(form);
+                body.appendChild(registrationPane);
+
+                var loginPane = createElement2026('div', 'access-pane');
+                loginPane.id = 'login-access-pane';
+                loginPane.hidden = true;
+                loginPane.setAttribute('role', 'tabpanel');
+                loginPane.setAttribute('aria-labelledby', loginModeButton.id);
+                loginPane.appendChild(createElement2026('h4', '', 'Returning participant login'));
+                loginPane.appendChild(createElement2026('p', 'credential-note', 'Use the username and account password you created during registration. You do not need the workshop access password again.'));
+                var loginError = createElement2026('div', 'access-error');
+                loginError.id = 'participant-login-error';
+                loginError.setAttribute('role', 'alert');
+                loginPane.appendChild(loginError);
+                var loginForm = document.createElement('form');
+                loginForm.id = 'participant-login-form';
+                var loginGrid = createElement2026('div', 'grid-2');
+                loginGrid.appendChild(registrationField2026('participant-login-username', 'Username', 'text', true, 'Enter your username', 'username'));
+                loginGrid.appendChild(registrationField2026('participant-login-password', 'Account password', 'password', true, 'Enter your account password', 'current-password'));
+                loginForm.appendChild(loginGrid);
+                var loginSubmit = createElement2026('button', 'btn-submit', 'Log in to workshop portal');
+                loginSubmit.type = 'submit';
+                loginForm.appendChild(loginSubmit);
+                loginForm.addEventListener('submit', async function (event) {
+                    event.preventDefault();
+                    loginError.style.display = 'none';
+                    if (!online2026 || !database2026 || !(firebaseConnected2026 || await waitForOnlineConnection2026(8000))) {
+                        loginError.textContent = 'Login is temporarily unavailable because the online workshop database cannot be reached.';
+                        loginError.style.display = 'block';
+                        return;
+                    }
+                    var loginUsername = document.getElementById('participant-login-username').value.trim();
+                    var loginPassword = document.getElementById('participant-login-password').value;
+                    loginSubmit.disabled = true;
+                    loginSubmit.textContent = translateText2026('Checking login...');
+                    try {
+                        var loginAccountKey = await participantAccountKey2026(loginUsername);
+                        var loginAccountSnapshot = await promiseWithTimeout2026(database2026.ref('participant_accounts/' + loginAccountKey).once('value'), 15000, 'Participant login timed out.');
+                        var account = loginAccountSnapshot.val();
+                        if (!account || !account.participantId || !account.credentialSalt || !account.credentialHash) throw new Error('INVALID_LOGIN');
+                        var loginHash = await deriveParticipantCredential2026(loginPassword, account.credentialSalt, account.credentialIterations);
+                        if (loginHash !== account.credentialHash) throw new Error('INVALID_LOGIN');
+                        var participantSnapshot = await promiseWithTimeout2026(database2026.ref('participant_registrations/' + account.participantId).once('value'), 15000, 'Participant record retrieval timed out.');
+                        participant2026 = participantSnapshot.val();
+                        if (!participant2026) throw new Error('INVALID_LOGIN');
+                        participant2026.id = participant2026.id || account.participantId;
+                        database2026.ref('participant_accounts/' + loginAccountKey + '/lastLoginAt').set(new Date().toISOString()).catch(function () {});
+                        saveParticipantSession2026(participant2026);
+                        try { sessionStorage.setItem('workshop_access_2026', 'granted'); } catch (storageError) {}
+                        shell.remove();
+                        initializePortal2026();
+                    } catch (error) {
+                        console.warn('Participant login failed.', error);
+                        participant2026 = null;
+                        loginError.textContent = error && error.message === 'INVALID_LOGIN'
+                            ? 'The username or password is incorrect. Please try again.'
+                            : 'Login could not be completed. Please check the connection or contact the workshop organizers.';
+                        loginError.style.display = 'block';
+                    } finally {
+                        loginSubmit.disabled = false;
+                        loginSubmit.textContent = translateText2026('Log in to workshop portal');
+                    }
+                });
+                loginPane.appendChild(loginForm);
+                body.appendChild(loginPane);
+
+                function setAccessMode2026(mode) {
+                    var loginMode = mode === 'login';
+                    registrationPane.hidden = loginMode;
+                    loginPane.hidden = !loginMode;
+                    registrationModeButton.classList.toggle('active', !loginMode);
+                    loginModeButton.classList.toggle('active', loginMode);
+                    registrationModeButton.setAttribute('aria-selected', loginMode ? 'false' : 'true');
+                    loginModeButton.setAttribute('aria-selected', loginMode ? 'true' : 'false');
+                    errorBox.style.display = 'none';
+                    loginError.style.display = 'none';
+                    window.setTimeout(function () {
+                        var target = document.getElementById(loginMode ? 'participant-login-username' : 'registration-name');
+                        if (target) target.focus();
+                    }, 0);
+                }
+                registrationModeButton.addEventListener('click', function () { setAccessMode2026('registration'); });
+                loginModeButton.addEventListener('click', function () { setAccessMode2026('login'); });
+
                 card.appendChild(body);
                 shell.appendChild(card);
                 document.body.appendChild(shell);
@@ -3232,6 +3976,7 @@
                     sessionStorage.removeItem('workshop_participant_2026');
                     exercises2026.forEach(function (exercise) {
                         sessionStorage.removeItem('workshop_exercise_access_' + exercise.id);
+                        sessionStorage.removeItem('workshop_exercise_group_' + exercise.id);
                     });
                 } catch (error) {
                     console.warn('Session storage is unavailable.', error);
@@ -3333,19 +4078,54 @@
                 return section;
             }
 
+            function exerciseDirectoryStatusText2026(exerciseId) {
+                if (!exerciseIsOpen2026(exerciseId)) return 'Not open yet';
+                return exerciseUnlocked2026(exerciseId) ? 'Open for this session' : 'Password and working group required';
+            }
+
+            function updateExerciseGroupDisplay2026(exerciseId) {
+                var display = document.getElementById(exerciseId + '-selected-group');
+                if (!display) return;
+                display.textContent = translateText2026(selectedExerciseGroup2026(exerciseId) || 'Select a working group when opening this exercise.');
+            }
+
             function updateExerciseDirectoryStatus2026(exerciseId) {
                 var status = document.getElementById('directory-status-' + exerciseId);
                 if (!status) return;
-                status.textContent = exerciseUnlocked2026(exerciseId) ? 'Open for this session' : 'Password required';
+                status.textContent = translateText2026(exerciseDirectoryStatusText2026(exerciseId));
+                status.classList.toggle('closed', !exerciseIsOpen2026(exerciseId));
+            }
+
+            function refreshExerciseAvailability2026(exerciseId) {
+                var isOpen = exerciseIsOpen2026(exerciseId);
+                var unlocked = exerciseUnlocked2026(exerciseId);
+                var gate = document.getElementById(exerciseId + '-access-gate');
+                var closedMessage = document.getElementById(exerciseId + '-closed-message');
+                var accessForm = document.getElementById(exerciseId + '-access-form');
+                var exerciseForm = document.getElementById('form-' + exerciseId);
+                if (gate) gate.style.display = (!isOpen || !unlocked) ? 'block' : 'none';
+                if (closedMessage) closedMessage.style.display = isOpen ? 'none' : 'block';
+                if (accessForm) accessForm.style.display = isOpen ? 'grid' : 'none';
+                if (exerciseForm) exerciseForm.style.display = isOpen && unlocked ? 'block' : 'none';
+                updateExerciseDirectoryStatus2026(exerciseId);
+                updateExerciseGroupDisplay2026(exerciseId);
+                updateAdministratorExerciseStatus2026(exerciseId);
+            }
+
+            function refreshAllExerciseAvailability2026() {
+                exercises2026.forEach(function (exercise) {
+                    refreshExerciseAvailability2026(exercise.id);
+                });
             }
 
             function openExerciseFromDirectory2026(exercise) {
                 switchTab2026(exercise.id);
                 window.setTimeout(function () {
-                    var unlocked = exerciseUnlocked2026(exercise.id);
+                    var available = exerciseIsOpen2026(exercise.id);
+                    var unlocked = available && exerciseUnlocked2026(exercise.id);
                     var target = unlocked ? document.getElementById('form-' + exercise.id) : document.getElementById(exercise.id + '-access-gate');
                     if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    if (!unlocked) {
+                    if (available && !unlocked) {
                         var password = document.getElementById(exercise.id + '-access-password');
                         if (password) password.focus({ preventScroll: true });
                     }
@@ -3358,6 +4138,7 @@
                 var card = createElement2026('div', 'card');
                 card.appendChild(createElement2026('h3', '', 'Interactive Workshop Exercises'));
                 card.appendChild(createElement2026('p', '', 'Select an exercise to open its password-protected working page. Exercises are presented in programme order and retain the country, working-group and reporting functions already configured.'));
+                card.appendChild(createElement2026('p', 'online-required', 'Together, the seven exercises form the evidence framework for the Assessment of Environmental Data Governance in West Asia. Submit one consolidated response per working group and country, base ratings on available evidence and group consensus, and record important qualifications or minority views in the comments field.'));
 
                 var grid = createElement2026('div', 'exercise-directory-grid');
                 exercises2026.forEach(function (exercise, index) {
@@ -3383,7 +4164,7 @@
                     exerciseCard.appendChild(body);
 
                     var footer = createElement2026('div', 'exercise-directory-footer');
-                    var status = createElement2026('span', 'exercise-access-status', exerciseUnlocked2026(exercise.id) ? 'Open for this session' : 'Password required');
+                    var status = createElement2026('span', 'exercise-access-status', exerciseDirectoryStatusText2026(exercise.id));
                     status.id = 'directory-status-' + exercise.id;
                     footer.appendChild(status);
                     footer.appendChild(createElement2026('span', '', 'Open exercise →'));
@@ -3710,9 +4491,6 @@
                 if (participant2026 && participant2026.country) {
                     document.getElementById(exercise.id + '-country').value = participant2026.country;
                 }
-                if (participant2026 && participant2026.workingGroup) {
-                    document.getElementById(exercise.id + '-group').value = participant2026.workingGroup;
-                }
                 var message = document.getElementById(exercise.id + '-message');
                 if (message) {
                     message.textContent = 'Entered responses cleared. You may now complete the exercise again.';
@@ -3772,13 +4550,29 @@
             function buildExerciseAccessGate2026(exercise, index) {
                 var gate = createElement2026('div', 'exercise-access-gate');
                 gate.id = exercise.id + '-access-gate';
-                gate.style.display = exerciseUnlocked2026(exercise.id) ? 'none' : 'block';
+                gate.style.display = exerciseIsOpen2026(exercise.id) && exerciseUnlocked2026(exercise.id) ? 'none' : 'block';
                 gate.appendChild(createElement2026('h4', '', 'Exercise ' + (index + 1) + ' access'));
-                gate.appendChild(createElement2026('p', '', 'Enter the password provided by the facilitator to open this exercise. Access remains active for this browser session.'));
+                gate.appendChild(createElement2026('p', '', 'Enter the password provided by the facilitator and select your working group to open this exercise. Access and the selected group remain active for this browser session.'));
+
+                var closedMessage = createElement2026('div', 'exercise-closed-message', 'This exercise has not been opened yet. Please wait for the facilitator to open it.');
+                closedMessage.id = exercise.id + '-closed-message';
+                closedMessage.setAttribute('role', 'status');
+                closedMessage.style.display = exerciseIsOpen2026(exercise.id) ? 'none' : 'block';
+                gate.appendChild(closedMessage);
 
                 var form = createElement2026('form', 'exercise-access-form');
+                form.id = exercise.id + '-access-form';
+                form.style.display = exerciseIsOpen2026(exercise.id) ? 'grid' : 'none';
                 var passwordGroup = registrationField2026(exercise.id + '-access-password', 'Exercise password', 'password', true, 'Enter the exercise password');
                 form.appendChild(passwordGroup);
+                var workingGroup = createElement2026('div', 'form-group');
+                var workingGroupLabel = createElement2026('label', '', 'Working Group *');
+                workingGroupLabel.htmlFor = exercise.id + '-access-group';
+                var workingGroupInput = workingGroupSelect2026(exercise.id + '-access-group');
+                workingGroupInput.value = selectedExerciseGroup2026(exercise.id);
+                workingGroup.appendChild(workingGroupLabel);
+                workingGroup.appendChild(workingGroupInput);
+                form.appendChild(workingGroup);
                 var openButton = createElement2026('button', 'btn-submit', 'Open exercise');
                 openButton.type = 'submit';
                 form.appendChild(openButton);
@@ -3790,12 +4584,25 @@
                 form.addEventListener('submit', async function (event) {
                     event.preventDefault();
                     errorBox.style.display = 'none';
+                    if (!exerciseIsOpen2026(exercise.id)) {
+                        errorBox.textContent = 'This exercise has not been opened yet. Please wait for the facilitator to open it.';
+                        errorBox.style.display = 'block';
+                        refreshExerciseAvailability2026(exercise.id);
+                        return;
+                    }
                     var input = document.getElementById(exercise.id + '-access-password');
                     var candidate = input.value;
                     if (!candidate) {
                         errorBox.textContent = 'Enter the exercise password.';
                         errorBox.style.display = 'block';
                         input.focus();
+                        return;
+                    }
+                    var selectedGroup = document.getElementById(exercise.id + '-access-group').value;
+                    if (!selectedGroup) {
+                        errorBox.textContent = 'Select a working group.';
+                        errorBox.style.display = 'block';
+                        document.getElementById(exercise.id + '-access-group').focus();
                         return;
                     }
                     openButton.disabled = true;
@@ -3811,11 +4618,9 @@
                             input.select();
                             return;
                         }
-                        grantExerciseAccess2026(exercise.id);
-                        updateExerciseDirectoryStatus2026(exercise.id);
-                        gate.style.display = 'none';
+                        grantExerciseAccess2026(exercise.id, selectedGroup);
+                        refreshExerciseAvailability2026(exercise.id);
                         var exerciseForm = document.getElementById('form-' + exercise.id);
-                        exerciseForm.style.display = 'block';
                         exerciseForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
                     } catch (error) {
                         errorBox.textContent = error.message || 'The password could not be checked in this browser.';
@@ -3843,6 +4648,7 @@
                 var note = createElement2026('div', 'exercise-note');
                 addTextLine2026(note, 'Objective:', exercise.objective);
                 addTextLine2026(note, 'Expected outcome:', exercise.outcome);
+                addTextLine2026(note, 'Assessment contribution:', exercise.assessment);
                 addTextLine2026(note, 'Group presentation:', exercise.report);
                 card.appendChild(note);
                 card.appendChild(buildExerciseAccessGate2026(exercise, index));
@@ -3850,7 +4656,7 @@
                 var form = document.createElement('form');
                 form.id = 'form-' + exercise.id;
                 form.style.marginTop = '1.2rem';
-                form.style.display = exerciseUnlocked2026(exercise.id) ? 'block' : 'none';
+                form.style.display = exerciseIsOpen2026(exercise.id) && exerciseUnlocked2026(exercise.id) ? 'block' : 'none';
                 form.addEventListener('submit', function (event) {
                     handleExerciseSubmit2026(event, exercise);
                 });
@@ -3865,12 +4671,12 @@
                 countryGroup.appendChild(exerciseCountry);
 
                 var groupGroup = createElement2026('div', 'form-group');
-                var groupLabel = createElement2026('label', '', 'Working Group *');
-                groupLabel.htmlFor = exercise.id + '-group';
-                var groupInput = workingGroupSelect2026(exercise.id + '-group');
-                if (participant2026 && participant2026.workingGroup) groupInput.value = participant2026.workingGroup;
+                var groupLabel = createElement2026('label', '', 'Selected Working Group');
                 groupGroup.appendChild(groupLabel);
-                groupGroup.appendChild(groupInput);
+                var groupDisplay = createElement2026('div', 'selected-group-display', selectedExerciseGroup2026(exercise.id) || 'Select a working group when opening this exercise.');
+                groupDisplay.id = exercise.id + '-selected-group';
+                groupDisplay.setAttribute('aria-live', 'polite');
+                groupGroup.appendChild(groupDisplay);
                 identityGrid.appendChild(countryGroup);
                 identityGrid.appendChild(groupGroup);
                 form.appendChild(identityGrid);
@@ -3941,6 +4747,18 @@
                 var form = event.currentTarget;
                 var answers = [];
 
+                if (!exerciseIsOpen2026(exercise.id)) {
+                    window.alert('This exercise is currently closed. Please wait for the facilitator to open it.');
+                    refreshExerciseAvailability2026(exercise.id);
+                    return;
+                }
+                var selectedWorkingGroup = selectedExerciseGroup2026(exercise.id);
+                if (!selectedWorkingGroup) {
+                    window.alert('Select a working group before completing this exercise.');
+                    refreshExerciseAvailability2026(exercise.id);
+                    return;
+                }
+
                 for (var i = 0; i < exercise.questions.length; i += 1) {
                     var question = exercise.questions[i];
                     var questionId = question[0];
@@ -3976,12 +4794,14 @@
                 var record = {
                     exerciseId: exercise.id,
                     exerciseTitle: exercise.title,
+                    assessmentDimension: exercise.assessment,
+                    assessmentSchemaVersion: assessmentSchemaVersion2026,
                     participantId: participant2026 ? participant2026.id : '',
                     participantName: participant2026 ? participant2026.name : '',
                     participantInstitution: participant2026 ? participant2026.institution : '',
                     participantRole: participant2026 ? (participant2026.role || '') : '',
                     country: document.getElementById(exercise.id + '-country').value,
-                    group: document.getElementById(exercise.id + '-group').value.trim(),
+                    group: selectedWorkingGroup,
                     answers: answers,
                     comments: document.getElementById(exercise.id + '-comments').value.trim(),
                     timestamp: now.toISOString(),
@@ -4011,9 +4831,6 @@
                     form.reset();
                     if (participant2026 && participant2026.country) {
                         document.getElementById(exercise.id + '-country').value = participant2026.country;
-                    }
-                    if (participant2026 && participant2026.workingGroup) {
-                        document.getElementById(exercise.id + '-group').value = participant2026.workingGroup;
                     }
                     window.setTimeout(function () {
                         message.style.display = 'none';
@@ -4152,13 +4969,15 @@
 
             function themeDefinitions2026() {
                 return [
-                    { label: 'Institutional governance & coordination', keywords: ['governance', 'policy', 'policies', 'mandate', 'mandates', 'role', 'roles', 'responsibility', 'responsibilities', 'coordination', 'ownership', 'custodian', 'accountability'] },
-                    { label: 'Data sharing & interoperability', keywords: ['sharing', 'share', 'exchange', 'interoperability', 'interoperable', 'api', 'access', 'integration', 'transfer'] },
-                    { label: 'Data quality, metadata & provenance', keywords: ['quality', 'metadata', 'validation', 'validate', 'provenance', 'lineage', 'accuracy', 'completeness', 'revision'] },
-                    { label: 'Standards & harmonization', keywords: ['standard', 'standards', 'standardized', 'definition', 'definitions', 'methodology', 'methodologies', 'classification', 'format', 'formats', 'harmonization'] },
-                    { label: 'Reporting & decision use', keywords: ['reporting', 'report', 'decision', 'policy formulation', 'assessment', 'indicator', 'sdg', 'mea', 'planning', 'target'] },
-                    { label: 'Capacity & resources', keywords: ['capacity', 'staff', 'staffing', 'skill', 'skills', 'training', 'budget', 'finance', 'financing', 'resource', 'resources', 'expertise', 'competency'] },
-                    { label: 'Digital transformation & tools', keywords: ['digital', 'technology', 'platform', 'system', 'automation', 'automated', 'dashboard', 'cloud', 'artificial intelligence', 'machine learning', 'gis', 'earth observation'] }
+                    { label: 'Policy, institutional governance & coordination', keywords: ['governance', 'policy', 'policies', 'legal', 'law', 'regulation', 'mandate', 'mandates', 'role', 'roles', 'responsibility', 'responsibilities', 'coordination', 'ownership', 'custodian', 'steward', 'accountability', 'حوكمة', 'سياسة', 'سياسات', 'قانون', 'تشريع', 'ولاية', 'ولايات', 'دور', 'أدوار', 'مسؤولية', 'مسؤوليات', 'تنسيق', 'ملكية', 'أمين', 'مشرف', 'مساءلة'] },
+                    { label: 'Data availability & workflows', keywords: ['availability', 'available', 'coverage', 'collection', 'workflow', 'flow', 'source', 'producer', 'update', 'timeliness', 'delay', 'provision', 'توافر', 'متاح', 'تغطية', 'جمع', 'مسار عمل', 'تدفق', 'مصدر', 'منتج', 'تحديث', 'توقيت', 'تأخير', 'توفير'] },
+                    { label: 'Data sharing & interoperability', keywords: ['sharing', 'share', 'exchange', 'interoperability', 'interoperable', 'api', 'access', 'integration', 'transfer', 'تبادل', 'مشاركة', 'تشغيل بيني', 'الوصول', 'تكامل', 'نقل', 'واجهة'] },
+                    { label: 'Data quality, metadata & provenance', keywords: ['quality', 'metadata', 'validation', 'validate', 'provenance', 'lineage', 'accuracy', 'completeness', 'revision', 'جودة', 'بيانات وصفية', 'تحقق', 'منشأ', 'تتبع', 'دقة', 'اكتمال', 'مراجعة'] },
+                    { label: 'Standards & harmonization', keywords: ['standard', 'standards', 'standardized', 'definition', 'definitions', 'methodology', 'methodologies', 'classification', 'format', 'formats', 'harmonization', 'معيار', 'معايير', 'موحد', 'تعريف', 'منهجية', 'تصنيف', 'صيغة', 'مواءمة', 'توحيد'] },
+                    { label: 'Reporting & decision use', keywords: ['reporting', 'report', 'decision', 'policy formulation', 'assessment', 'indicator', 'sdg', 'mea', 'planning', 'target', 'إبلاغ', 'تقرير', 'قرار', 'تقييم', 'مؤشر', 'أهداف التنمية', 'اتفاقات', 'تخطيط', 'هدف'] },
+                    { label: 'Capacity & resources', keywords: ['capacity', 'staff', 'staffing', 'skill', 'skills', 'training', 'budget', 'finance', 'financing', 'resource', 'resources', 'expertise', 'competency', 'قدرة', 'قدرات', 'موظف', 'مهارة', 'تدريب', 'ميزانية', 'تمويل', 'مورد', 'خبرة', 'كفاءة'] },
+                    { label: 'Digital transformation & tools', keywords: ['digital', 'technology', 'platform', 'system', 'automation', 'automated', 'dashboard', 'cloud', 'artificial intelligence', 'machine learning', 'gis', 'earth observation', 'رقمي', 'رقمية', 'تكنولوجيا', 'منصة', 'نظام', 'أتمتة', 'آلي', 'لوحة', 'سحابة', 'ذكاء اصطناعي', 'تعلم آلي', 'نظم معلومات جغرافية', 'رصد الأرض'] },
+                    { label: 'Regional cooperation & support', keywords: ['regional', 'cooperation', 'peer learning', 'community of practice', 'technical assistance', 'support', 'partnership', 'partners', 'knowledge hub', 'resource mobilization', 'إقليمي', 'تعاون', 'تعلم من الأقران', 'مجتمع ممارسة', 'مساعدة تقنية', 'دعم', 'شراكة', 'شركاء', 'مركز معرفة', 'حشد الموارد'] }
                 ];
             }
 
@@ -4373,7 +5192,7 @@
                     '<div class="meta-card"><strong>Country</strong>' + escapeHtml2026(translateText2026(record.country || 'Not specified')) + '</div>' +
                     '<div class="meta-card"><strong>Submitted by</strong>' + escapeHtml2026(record.participantName || 'Not specified') + (record.participantRole ? '<br>' + escapeHtml2026(record.participantRole) : '') + '</div>' +
                     '<div class="meta-card"><strong>Submitted</strong>' + escapeHtml2026(record.displayTime || record.timestamp || 'Not recorded') + '</div></div>' +
-                    '<div class="highlight-box"><strong>Group presentation:</strong> ' + escapeHtml2026(exercise.report) + '</div>';
+                    '<div class="highlight-box"><strong>Assessment contribution:</strong> ' + escapeHtml2026(exercise.assessment) + '<br><br><strong>Group presentation:</strong> ' + escapeHtml2026(exercise.report) + '</div>';
                 var pages = reportPageShell2026(cover, pageNumber++);
                 var analysis = analyzeExerciseRecords2026(exercise, [record]);
                 analyticalSummaryPages2026(exercise, analysis, record.group || 'Working Group', false).forEach(function (summaryPage) {
@@ -4589,13 +5408,15 @@
                     var purposeRows = [
                         [translateText2026('Objective:'), translateText2026(exercise.objective)],
                         [translateText2026('Expected outcome:'), translateText2026(exercise.outcome)],
+                        [translateText2026('Assessment contribution:'), translateText2026(exercise.assessment)],
                         [translateText2026('Group presentation:'), translateText2026(exercise.report)]
                     ];
                     purposeRows.forEach(function (entry, index) {
-                        var y = 2.02 + (index * 1.42);
-                        purposeSlide.addShape(pptx.ShapeType.roundRect, { x: 0.68, y: y, w: 11.95, h: 1.08, rectRadius: 0.05, line: { color: index === 2 ? 'E6A100' : 'D8E6E1', width: 1.2 }, fill: { color: index === 2 ? 'FFF8E5' : 'F4F8F7' } });
-                        purposeSlide.addText(entry[0], presentationTextOptions2026({ x: 0.92, y: y + 0.16, w: 2.05, h: 0.27, fontSize: 11, bold: true, color: index === 2 ? 'A46E00' : '00875A' }));
-                        purposeSlide.addText(entry[1], presentationTextOptions2026({ x: 2.95, y: y + 0.13, w: 9.34, h: 0.72, fontSize: 15.5, color: '263B46', valign: 'top' }));
+                        var isPresentation = index === purposeRows.length - 1;
+                        var y = 1.72 + (index * 1.24);
+                        purposeSlide.addShape(pptx.ShapeType.roundRect, { x: 0.68, y: y, w: 11.95, h: 0.98, rectRadius: 0.05, line: { color: isPresentation ? 'E6A100' : 'D8E6E1', width: 1.2 }, fill: { color: isPresentation ? 'FFF8E5' : 'F4F8F7' } });
+                        purposeSlide.addText(entry[0], presentationTextOptions2026({ x: 0.92, y: y + 0.14, w: 2.12, h: 0.28, fontSize: 10.5, bold: true, color: isPresentation ? 'A46E00' : '00875A' }));
+                        purposeSlide.addText(entry[1], presentationTextOptions2026({ x: 3.08, y: y + 0.1, w: 9.16, h: 0.7, fontSize: 13.7, color: '263B46', valign: 'top' }));
                     });
 
                     var summarySlide = pptx.addSlide();
@@ -4661,14 +5482,21 @@
                 }
             }
 
+            function currentAssessmentRecords2026(records) {
+                return (records || []).filter(function (record) {
+                    return record && record.assessmentSchemaVersion === assessmentSchemaVersion2026;
+                });
+            }
+
             function latestGroupSubmissions2026(records) {
                 var latest = {};
-                records.forEach(function (record, index) {
+                currentAssessmentRecords2026(records).forEach(function (record, index) {
                     var group = record.group || 'Working Group not specified';
+                    var country = record.country || 'Country not specified';
                     var ungrouped = group === 'No group' || group === 'Working Group not specified';
                     var namedIdentity = (record.participantName || record.country) ? ((record.participantName || '') + '|' + (record.country || '')) : '';
                     var identity = record.participantId || namedIdentity || record.timestamp || String(index);
-                    var key = ungrouped ? group + '::' + identity : group;
+                    var key = ungrouped ? group + '::' + identity : group + '::' + country;
                     if (!latest[key] || String(record.timestamp || '') > String(latest[key].timestamp || '')) latest[key] = record;
                 });
                 return Object.keys(latest).sort().map(function (key) { return latest[key]; });
@@ -4750,6 +5578,7 @@
             }
 
             function renderExerciseResults2026(exercise, records) {
+                records = currentAssessmentRecords2026(records);
                 var count = document.getElementById('count-' + exercise.id);
                 var container = document.getElementById('results-' + exercise.id);
                 if (count) count.textContent = String(records.length);
@@ -4834,7 +5663,7 @@
             function recordsByExercise2026() {
                 var result = {};
                 exercises2026.forEach(function (exercise) {
-                    result[exercise.key] = liveData2026[exercise.key] || [];
+                    result[exercise.key] = currentAssessmentRecords2026(liveData2026[exercise.key]);
                 });
                 return result;
             }
@@ -4960,12 +5789,16 @@
                 var map = recordsByExercise2026();
                 return {
                     workshop: 'Advancing Environmental Data Governance to Support Environmental Decision-Making in West Asia',
+                    assessmentSchemaVersion: assessmentSchemaVersion2026,
                     generatedAt: new Date().toISOString(),
                     registrations: registrationsForAnalysis2026(),
                     exercises: exercises2026.map(function (exercise, index) {
                         return {
                             number: index + 1,
                             title: exercise.title,
+                            objective: exercise.objective,
+                            expectedOutcome: exercise.outcome,
+                            assessmentDimension: exercise.assessment,
                             submissions: map[exercise.key] || []
                         };
                     })
@@ -4989,12 +5822,13 @@
 
             function exportCsv2026() {
                 var exportData = portalExportData2026();
-                var rows = [['Exercise', 'Country', 'Working Group', 'Participant', 'Workshop Role', 'Institution', 'Question', 'Response', 'Additional Comments', 'Submitted At']];
+                var rows = [['Exercise', 'Assessment Dimension', 'Country', 'Working Group', 'Participant', 'Workshop Role', 'Institution', 'Question', 'Response', 'Additional Comments', 'Submitted At']];
                 exportData.exercises.forEach(function (exercise) {
                     exercise.submissions.forEach(function (submission) {
                         (submission.answers || []).forEach(function (answer) {
                             rows.push([
                                 exercise.number + '. ' + exercise.title,
+                                exercise.assessmentDimension || '',
                                 submission.country || '',
                                 submission.group || '',
                                 submission.participantName || '',
@@ -5463,7 +6297,7 @@
                 title.textContent = 'Exercise ' + (exercises2026.indexOf(exercise) + 1) + ' Reports';
                 selector.value = 'all';
                 if (message) {
-                    message.textContent = (liveData2026[exercise.key] || []).length + ' submission(s) are currently available for ' + exercise.short + '.';
+                    message.textContent = currentAssessmentRecords2026(liveData2026[exercise.key]).length + ' submission(s) are currently available for ' + exercise.short + '.';
                 }
                 modal.classList.add('open');
                 modal.setAttribute('aria-hidden', 'false');
@@ -5482,7 +6316,7 @@
                 var exercise = selectedAdministratorReportExercise2026;
                 var selector = document.getElementById('administrator-report-scope');
                 if (!exercise || !selector) return;
-                var records = liveData2026[exercise.key] || [];
+                var records = currentAssessmentRecords2026(liveData2026[exercise.key]);
                 if (selector.value === 'all') {
                     generateConsolidatedExerciseReport2026(exercise, records);
                 } else {
@@ -5573,7 +6407,7 @@
                     row.appendChild(createElement2026('td', '', participant.country || 'Not specified'));
                     row.appendChild(createElement2026('td', '', participant.institution || 'Not specified'));
                     row.appendChild(createElement2026('td', '', participant.role || 'Not specified'));
-                    row.appendChild(createElement2026('td', '', participant.workingGroup || participant.group || 'Not specified'));
+                    row.appendChild(createElement2026('td', '', participant.username || 'Legacy registration'));
                     body.appendChild(row);
                 });
             }
@@ -5620,7 +6454,7 @@
                 var table = createElement2026('table', 'participant-table');
                 var head = document.createElement('thead');
                 var headRow = document.createElement('tr');
-                ['Participant Name', 'Country', 'Institution', 'Role', 'Working Group'].forEach(function (heading) {
+                ['Participant Name', 'Country', 'Institution', 'Role', 'Username'].forEach(function (heading) {
                     headRow.appendChild(createElement2026('th', '', heading));
                 });
                 head.appendChild(headRow);
@@ -5657,8 +6491,8 @@
                     registrations: {
                         title: 'Reset Registration Data',
                         phrase: isArabic2026() ? 'حذف بيانات التسجيل' : 'RESET REGISTRATION DATA',
-                        items: ['Participant registrations'],
-                        success: 'Registration data were reset successfully. You will now be signed out because participant registrations were removed.',
+                        items: ['Participant registrations', 'Participant login accounts'],
+                        success: 'Registration and participant login-account data were reset successfully. You will now be signed out because participant registrations were removed.',
                         signsOut: true
                     },
                     passwords: {
@@ -5671,7 +6505,7 @@
                     all: {
                         title: 'Reset All Workshop Data',
                         phrase: isArabic2026() ? 'حذف جميع البيانات' : 'RESET ALL DATA',
-                        items: ['Participant registrations', 'All seven exercise submissions', 'Published workshop document links', 'Registration-password settings', 'Custom exercise-password settings'],
+                        items: ['Participant registrations and login accounts', 'All seven exercise submissions', 'Exercise open/closed settings', 'Published workshop document links', 'Registration-password settings', 'Custom exercise-password settings'],
                         success: 'All workshop database data were reset successfully. You will now be signed out because participant registrations were removed.',
                         signsOut: true
                     }
@@ -5732,14 +6566,21 @@
             function resetDatabaseUpdates2026(scope) {
                 var selectedScope = scope || 'all';
                 var updates = {};
-                if (selectedScope === 'registrations' || selectedScope === 'all') updates.participant_registrations = null;
+                if (selectedScope === 'registrations' || selectedScope === 'all') {
+                    updates.participant_registrations = null;
+                    updates.participant_accounts = null;
+                }
                 if (selectedScope === 'passwords' || selectedScope === 'all') {
                     updates.registration_access_passwords = null;
                     updates.exercise_access_passwords = null;
                 }
-                if (selectedScope === 'all') updates.workshop_documents = null;
+                if (selectedScope === 'all') {
+                    updates.workshop_documents = null;
+                    updates.exercise_status = null;
+                }
                 if (selectedScope === 'exercises' || selectedScope === 'all') {
                     exercises2026.forEach(function (exercise) { updates[exercise.key] = null; });
+                    updates.exercise_7_institutional_capacity = null;
                 }
                 return updates;
             }
@@ -5787,6 +6628,11 @@
                     await promiseWithTimeout2026(database2026.ref('/').update(resetDatabaseUpdates2026(selectedResetScope2026)), 30000, 'Resetting workshop data timed out.');
                     if (selectedResetScope2026 === 'registrations' || selectedResetScope2026 === 'all') liveRegistrations2026 = [];
                     if (selectedResetScope2026 === 'all') liveDocuments2026 = [];
+                    if (selectedResetScope2026 === 'all') {
+                        liveExerciseStatus2026 = {};
+                        exerciseStatusLoaded2026 = true;
+                        refreshAllExerciseAvailability2026();
+                    }
                     if (selectedResetScope2026 === 'passwords' || selectedResetScope2026 === 'all') {
                         liveRegistrationPasswordConfig2026 = null;
                         registrationPasswordConfigLoaded2026 = true;
@@ -5882,7 +6728,7 @@
                 var countrySet = {};
 
                 exercises2026.forEach(function (exercise, index) {
-                    var allRecords = liveData2026[exercise.key] || [];
+                    var allRecords = currentAssessmentRecords2026(liveData2026[exercise.key]);
                     var selectedRecords = latestGroupSubmissions2026(allRecords);
                     var analysis = analyzeExerciseRecords2026(exercise, selectedRecords);
                     totalRecordedSubmissions += allRecords.length;
@@ -5938,6 +6784,58 @@
                     return b.recordsWithTheme - a.recordsWithTheme || b.score - a.score || a.label.localeCompare(b.label);
                 });
 
+                var countryProfileMap = {};
+                var profileThemeDefinitions = themeDefinitions2026();
+                latestRecords.forEach(function (item) {
+                    var country = item.record.country || 'Not specified';
+                    if (!countryProfileMap[country]) {
+                        countryProfileMap[country] = {
+                            country: country,
+                            inputCount: 0,
+                            completedAnswers: 0,
+                            possibleAnswers: 0,
+                            exerciseSet: {},
+                            groupSet: {},
+                            themeCounts: {},
+                            maturityRatings: {}
+                        };
+                    }
+                    var profile = countryProfileMap[country];
+                    profile.inputCount += 1;
+                    profile.possibleAnswers += item.exercise.questions.length;
+                    profile.exerciseSet[item.exercise.id] = true;
+                    if (item.record.group && item.record.group !== 'No group') profile.groupSet[item.record.group] = true;
+                    var profileText = [];
+                    (item.record.answers || []).forEach(function (answer) {
+                        var values = responseValues2026(answer.response);
+                        if (values.length) profile.completedAnswers += 1;
+                        profileText = profileText.concat(values);
+                        if (item.exercise.id === 'ex7' && /overall maturity/i.test(answer.question || '') && values.length) profile.maturityRatings[values[0]] = true;
+                    });
+                    if (item.record.comments) profileText.push(item.record.comments);
+                    var normalizedProfileText = profileText.join(' ').toLowerCase();
+                    profileThemeDefinitions.forEach(function (theme) {
+                        if (theme.keywords.some(function (keyword) { return textContainsKeyword2026(normalizedProfileText, keyword); })) {
+                            profile.themeCounts[theme.label] = (profile.themeCounts[theme.label] || 0) + 1;
+                        }
+                    });
+                });
+                var countryProfiles = Object.keys(countryProfileMap).map(function (country) {
+                    var profile = countryProfileMap[country];
+                    var topTheme = Object.keys(profile.themeCounts).sort(function (a, b) {
+                        return profile.themeCounts[b] - profile.themeCounts[a] || a.localeCompare(b);
+                    })[0] || 'Not yet identified';
+                    return {
+                        country: profile.country,
+                        inputCount: profile.inputCount,
+                        exerciseCount: Object.keys(profile.exerciseSet).length,
+                        groupCount: Object.keys(profile.groupSet).length,
+                        completionPercentage: percentage2026(profile.completedAnswers, profile.possibleAnswers),
+                        maturity: Object.keys(profile.maturityRatings).join('; ') || 'Not yet assessed',
+                        topTheme: topTheme
+                    };
+                }).sort(function (a, b) { return a.country.localeCompare(b.country); });
+
                 var exercisesWithData = exerciseRows.filter(function (row) { return row.latestInputs > 0; }).length;
                 var overallCompletion = percentage2026(completedAnswers, totalPossibleAnswers);
                 var mostActive = exerciseRows.slice().sort(function (a, b) {
@@ -5967,6 +6865,7 @@
                     completionPercentage: overallCompletion,
                     exerciseRows: exerciseRows,
                     themes: themes,
+                    countryProfiles: countryProfiles,
                     findings: findings
                 };
             }
@@ -6040,7 +6939,7 @@
                 var pageNumber = 1;
                 var cover = '<div class="workshop-kicker">Regional Workshop · 20–22 October 2026 · Manama, Bahrain</div>' +
                     '<div class="workshop-title">Advancing Environmental Data Governance to Support Environmental Decision-Making in West Asia</div>' +
-                    '<div class="cover-band"><h1>Integrated Workshop Analytical Report</h1><p>Cross-exercise overview</p></div>' +
+                    '<div class="cover-band"><h1>Assessment of Environmental Data Governance in West Asia</h1><p>Integrated findings from all workshop exercises and working groups</p></div>' +
                     '<div class="meta-grid"><div class="meta-card"><strong>Total recorded submissions</strong>' + integrated.totalRecordedSubmissions + '</div>' +
                     '<div class="meta-card"><strong>Latest group inputs</strong>' + integrated.latestInputCount + '</div>' +
                     '<div class="meta-card"><strong>Exercises with submitted data</strong>' + integrated.exercisesWithData + ' / ' + exercises2026.length + '</div>' +
@@ -6065,15 +6964,27 @@
                     '<div class="analysis-method">A theme percentage is the share of latest eligible group inputs containing at least one related term. Percentages may overlap because one input can address several themes.</div>';
                 pages += reportPageShell2026(themes, pageNumber++);
 
+                for (var profileStart = 0; profileStart < integrated.countryProfiles.length; profileStart += 8) {
+                    var countryRows = integrated.countryProfiles.slice(profileStart, profileStart + 8);
+                    var countryProfilePage = '<div class="workshop-kicker">Country assessment coverage</div><h2 class="question-title">Country Assessment Profiles' + (integrated.countryProfiles.length > 8 ? ' · ' + (profileStart + 1) + '–' + Math.min(profileStart + 8, integrated.countryProfiles.length) : '') + '</h2>' +
+                        '<table class="frequency-table"><thead><tr><th>Country</th><th>Latest inputs</th><th>Exercises covered</th><th>Answer coverage</th><th>Governance maturity</th><th>Most recurrent theme</th></tr></thead><tbody>' +
+                        countryRows.map(function (profile) {
+                            return '<tr><td><strong>' + escapeHtml2026(translateText2026(profile.country)) + '</strong></td><td>' + profile.inputCount + '</td><td>' + profile.exerciseCount + ' / ' + exercises2026.length + '</td><td>' + profile.completionPercentage + '%</td><td>' + escapeHtml2026(translateText2026(profile.maturity)) + '</td><td>' + escapeHtml2026(translateText2026(profile.topTheme)) + '</td></tr>';
+                        }).join('') + '</tbody></table>' +
+                        '<div class="analysis-method">Profiles summarize the latest eligible group inputs recorded for each country. Maturity values are drawn from explicit overall-maturity questions; they are not inferred by the system.</div>';
+                    pages += reportPageShell2026(countryProfilePage, pageNumber++);
+                }
+
                 integrated.exerciseRows.forEach(function (row) {
                     var exercisePage = '<div class="workshop-kicker">Exercise ' + row.number + ' · Integrated summary</div><h2 class="question-title">' + escapeHtml2026(row.exercise.title) + '</h2>' +
+                        '<div class="highlight-box"><strong>Assessment contribution:</strong> ' + escapeHtml2026(row.exercise.assessment) + '</div>' +
                         '<div class="analysis-metrics"><div class="analysis-metric"><strong>' + row.recordedSubmissions + '</strong><span>Total recorded submissions</span></div>' +
                         '<div class="analysis-metric"><strong>' + row.latestInputs + '</strong><span>Latest group inputs</span></div>' +
                         '<div class="analysis-metric"><strong>' + row.completionPercentage + '%</strong><span>Required-answer coverage</span></div></div>' +
                         '<h3>Group findings</h3><ul class="analysis-list">' + row.analysis.findings.map(function (finding) { return '<li>' + escapeHtml2026(finding) + '</li>'; }).join('') + '</ul>';
                     pages += reportPageShell2026(exercisePage, pageNumber++);
                 });
-                openProfessionalReport2026('Integrated Workshop Analytical Report', 'Cross-exercise overview', pages);
+                openProfessionalReport2026('Assessment of Environmental Data Governance in West Asia', 'Integrated workshop findings', pages);
             }
 
             async function generateIntegratedWorkshopPresentation2026(triggerButton) {
@@ -6094,8 +7005,8 @@
                     pptx.layout = 'LAYOUT_WIDE';
                     pptx.author = 'UNEP Regional Office for West Asia';
                     pptx.company = 'United Nations Environment Programme';
-                    pptx.subject = translateText2026('Integrated Workshop Analytical Report');
-                    pptx.title = translateText2026('Integrated PowerPoint Presentation');
+                    pptx.subject = translateText2026('Assessment of Environmental Data Governance in West Asia');
+                    pptx.title = translateText2026('West Asia Governance Assessment Presentation');
                     pptx.lang = isArabic2026() ? 'ar-BH' : 'en-US';
                     pptx.rtlMode = isArabic2026();
                     pptx.theme = { headFontFace: 'Arial', bodyFontFace: 'Arial', lang: isArabic2026() ? 'ar-BH' : 'en-US' };
@@ -6107,14 +7018,14 @@
                     addPresentationLogos2026(coverSlide, false);
                     coverSlide.addText(workshopTitle, presentationTextOptions2026({ x: 0.72, y: 1.35, w: 11.9, h: 1.05, fontSize: 25, bold: true, color: 'FFFFFF', valign: 'top' }));
                     coverSlide.addShape(pptx.ShapeType.rect, { x: 0.72, y: 2.72, w: 11.9, h: 1.5, line: { color: '00A884', width: 1.5 }, fill: { color: '1A4F66' } });
-                    coverSlide.addText(translateText2026('Integrated PowerPoint Presentation'), presentationTextOptions2026({ x: 1.05, y: 3.02, w: 11.2, h: 0.48, fontSize: 27, bold: true, color: 'FFFFFF', align: 'center' }));
-                    coverSlide.addText(translateText2026('Cross-exercise overview'), presentationTextOptions2026({ x: 1.05, y: 3.56, w: 11.2, h: 0.3, fontSize: 15, color: 'DDF3EC', align: 'center' }));
+                    coverSlide.addText(translateText2026('Assessment of Environmental Data Governance in West Asia'), presentationTextOptions2026({ x: 1.05, y: 2.94, w: 11.2, h: 0.7, fontSize: 24, bold: true, color: 'FFFFFF', align: 'center' }));
+                    coverSlide.addText(translateText2026('Integrated workshop findings'), presentationTextOptions2026({ x: 1.05, y: 3.66, w: 11.2, h: 0.3, fontSize: 15, color: 'DDF3EC', align: 'center' }));
                     coverSlide.addText(translateText2026('Regional Workshop · 20–22 October 2026 · Manama, Bahrain'), presentationTextOptions2026({ x: 0.72, y: 6.62, w: 11.9, h: 0.28, fontSize: 11, bold: true, color: 'DDF3EC', align: 'center' }));
                     coverSlide.addText(String(slideNumber++), presentationTextOptions2026({ x: 12.15, y: 7.12, w: 0.65, h: 0.18, fontSize: 9, color: 'A9C6BC', align: 'right', rtlMode: false }));
 
                     var summarySlide = pptx.addSlide();
                     addPresentationSlideFrame2026(pptx, summarySlide, 'Cross-exercise overview', slideNumber++);
-                    addPresentationHeading2026(summarySlide, 'Integrated Workshop Analytical Report', 'Analytical Summary of the Results');
+                    addPresentationHeading2026(summarySlide, 'Assessment of Environmental Data Governance in West Asia', 'Analytical Summary of the Results');
                     addPresentationMetric2026(pptx, summarySlide, 0.68, integrated.totalRecordedSubmissions, 'Total recorded submissions');
                     addPresentationMetric2026(pptx, summarySlide, 3.72, integrated.latestInputCount, 'Latest group inputs');
                     addPresentationMetric2026(pptx, summarySlide, 6.76, integrated.workingGroupCount, 'Working groups represented');
@@ -6138,12 +7049,48 @@
                         var themeSlide = pptx.addSlide();
                         addPresentationSlideFrame2026(pptx, themeSlide, 'Integrated thematic profile', slideNumber++);
                         addPresentationHeading2026(themeSlide, 'Integrated thematic profile', 'Recurring themes (% of analyzed inputs)');
-                        integrated.themes.slice(0, 7).forEach(function (theme, index) {
-                            var y = 2.02 + (index * 0.62);
-                            themeSlide.addText(translateText2026(theme.label), presentationTextOptions2026({ x: 0.7, y: y, w: 3.55, h: 0.32, fontSize: 12.5, bold: true, color: '0F2D3D' }));
+                        integrated.themes.slice(0, 9).forEach(function (theme, index) {
+                            var y = 1.82 + (index * 0.5);
+                            themeSlide.addText(translateText2026(theme.label), presentationTextOptions2026({ x: 0.7, y: y, w: 3.55, h: 0.3, fontSize: 11.4, bold: true, color: '0F2D3D' }));
                             themeSlide.addShape(pptx.ShapeType.roundRect, { x: 4.38, y: y + 0.05, w: 6.95, h: 0.22, line: { color: 'E1EBE7', transparency: 100 }, fill: { color: 'E1EBE7' } });
                             themeSlide.addShape(pptx.ShapeType.roundRect, { x: 4.38, y: y + 0.05, w: Math.max(0.04, 6.95 * theme.percentage / 100), h: 0.22, line: { color: '00A884', transparency: 100 }, fill: { color: index === 0 ? '00875A' : '00A884' } });
                             themeSlide.addText(theme.percentage + '%', presentationTextOptions2026({ x: 11.52, y: y - 0.02, w: 0.78, h: 0.32, fontSize: 12.5, bold: true, color: '00875A', align: 'right', rtlMode: false }));
+                        });
+                    }
+
+                    for (var profileStart = 0; profileStart < integrated.countryProfiles.length; profileStart += 6) {
+                        var profileSlide = pptx.addSlide();
+                        var profileRows = integrated.countryProfiles.slice(profileStart, profileStart + 6);
+                        addPresentationSlideFrame2026(pptx, profileSlide, 'Country assessment coverage', slideNumber++);
+                        addPresentationHeading2026(profileSlide, 'Country Assessment Profiles', 'Latest eligible group inputs; maturity values are not inferred');
+                        var tableRows = [[
+                            translateText2026('Country'),
+                            translateText2026('Latest inputs'),
+                            translateText2026('Exercises covered'),
+                            translateText2026('Answer coverage'),
+                            translateText2026('Governance maturity'),
+                            translateText2026('Most recurrent theme')
+                        ]];
+                        profileRows.forEach(function (profile) {
+                            tableRows.push([
+                                translateText2026(profile.country),
+                                String(profile.inputCount),
+                                profile.exerciseCount + ' / ' + exercises2026.length,
+                                profile.completionPercentage + '%',
+                                translateText2026(profile.maturity),
+                                translateText2026(profile.topTheme)
+                            ]);
+                        });
+                        profileSlide.addTable(tableRows, {
+                            x: 0.55, y: 2.0, w: 12.2, h: 4.55,
+                            colW: [1.7, 0.85, 1.05, 1.05, 3.65, 3.9],
+                            border: { type: 'solid', color: 'C7DAD3', pt: 1 },
+                            fill: 'FFFFFF', color: '263B46', fontFace: 'Arial', fontSize: 10.5,
+                            margin: 0.08, valign: 'mid',
+                            bold: false,
+                            autoFit: false,
+                            rowH: 0.55,
+                            align: isArabic2026() ? 'right' : 'left'
                         });
                     }
 
@@ -6154,7 +7101,7 @@
                         addPresentationBulletList2026(pptx, slide, row.analysis.findings, { x: 0.74, y: 2.05, w: 11.75, h: 4.35 });
                     });
 
-                    await pptx.writeFile({ fileName: 'Integrated-Workshop-Analytical-Presentation-2026.pptx', compression: true });
+                    await pptx.writeFile({ fileName: 'West-Asia-Environmental-Data-Governance-Assessment-2026.pptx', compression: true });
                 } catch (error) {
                     console.warn('Integrated PowerPoint generation failed.', error);
                     window.alert('The integrated PowerPoint presentation could not be created. Please try again.');
@@ -6235,7 +7182,7 @@
             function buildAdministratorParticipationCard2026() {
                 var card = createElement2026('div', 'card');
                 card.appendChild(createElement2026('h3', '', 'Participant Register'));
-                card.appendChild(createElement2026('p', '', 'Open the registered-participant table and review country, institution, role and working-group assignments.'));
+                card.appendChild(createElement2026('p', '', 'Open the registered-participant table and review country, institution, role and participant username.'));
                 var metrics = createElement2026('div', 'admin-participation-metrics');
                 var participants = createElement2026('div', 'dashboard-stat');
                 var participantCount = createElement2026('h4', '', '0');
@@ -6265,9 +7212,9 @@
                 var grid = createElement2026('div', 'admin-function-grid');
                 [
                     ['exercises', 'Reset Exercise Data', 'Permanently delete submissions from all seven exercises.'],
-                    ['registrations', 'Reset Registration Data', 'Permanently delete all participant registrations.'],
+                    ['registrations', 'Reset Registration Data', 'Permanently delete all participant registrations and login accounts.'],
                     ['passwords', 'Reset Password Data', 'Delete custom registration and exercise passwords and restore the requested defaults.'],
-                    ['all', 'Reset All Workshop Data', 'Reset registrations, exercise submissions, password settings and published document links.']
+                    ['all', 'Reset All Workshop Data', 'Reset registrations and login accounts, exercise submissions and availability, password settings and published document links.']
                 ].forEach(function (definition) {
                     var item = createElement2026('div', 'admin-function-card danger-function');
                     item.appendChild(createElement2026('h4', '', definition[1]));
@@ -6288,8 +7235,8 @@
                 var grid = createElement2026('div', 'admin-function-grid');
                 var products = [
                     ['All Exercises and Groups Report', 'Produce a detailed report covering every exercise and the latest eligible submission from each working group.', 'Generate Detailed Report', generateAllExercisesGroupsReport2026],
-                    ['Integrated Analytical Report', 'Produce a cross-exercise analysis of participation, response coverage, recurring themes and priority findings.', 'Generate Analytical Report', generateIntegratedWorkshopReport2026],
-                    ['Integrated PowerPoint Presentation', 'Download an editable presentation summarizing all exercises, groups, response patterns and cross-cutting themes.', 'Generate PowerPoint', null]
+                    ['West Asia Governance Assessment Report', 'Produce an integrated assessment of governance maturity, participation, response coverage, recurring themes and priority findings across all exercises.', 'Generate Assessment Report', generateIntegratedWorkshopReport2026],
+                    ['West Asia Governance Assessment Presentation', 'Download an editable presentation summarizing all exercises, groups, response patterns and cross-cutting assessment themes.', 'Generate PowerPoint', null]
                 ];
                 products.forEach(function (product, index) {
                     var item = createElement2026('div', 'admin-function-card');
@@ -6304,6 +7251,67 @@
                 });
                 card.appendChild(grid);
                 return card;
+            }
+
+            function updateAdministratorExerciseStatus2026(exerciseId) {
+                var isOpen = exerciseIsOpen2026(exerciseId);
+                var badge = document.getElementById('admin-exercise-status-' + exerciseId);
+                var button = document.getElementById('admin-exercise-toggle-' + exerciseId);
+                if (badge) {
+                    badge.textContent = translateText2026(isOpen ? 'Open to participants' : 'Closed to participants');
+                    badge.className = 'exercise-status-badge ' + (isOpen ? 'open' : 'closed');
+                }
+                if (button && !button.disabled) {
+                    button.textContent = translateText2026(isOpen ? 'Close Exercise' : 'Open Exercise');
+                    button.className = isOpen ? 'btn-clear' : 'btn-submit';
+                    button.setAttribute('aria-pressed', isOpen ? 'true' : 'false');
+                }
+            }
+
+            function buildAdministratorExerciseStatusControl2026(exercise, index) {
+                var control = createElement2026('div', 'exercise-status-control');
+                var copy = createElement2026('div', 'exercise-status-control-copy');
+                copy.appendChild(createElement2026('strong', '', 'Participant access:'));
+                var badge = createElement2026('span', 'exercise-status-badge');
+                badge.id = 'admin-exercise-status-' + exercise.id;
+                copy.appendChild(badge);
+                control.appendChild(copy);
+                var button = createElement2026('button', 'btn-secondary');
+                button.id = 'admin-exercise-toggle-' + exercise.id;
+                button.type = 'button';
+                button.setAttribute('aria-label', 'Change participant access for Exercise ' + (index + 1));
+                button.addEventListener('click', async function () {
+                    if (!administratorUnlocked2026()) {
+                        window.alert('Administrator access is required.');
+                        return;
+                    }
+                    if (!online2026 || !firebaseConnected2026 || !database2026) {
+                        window.alert('The online workshop database is unavailable. Exercise access was not changed.');
+                        return;
+                    }
+                    var nextOpenState = !exerciseIsOpen2026(exercise.id);
+                    button.disabled = true;
+                    button.textContent = translateText2026(nextOpenState ? 'Opening exercise...' : 'Closing exercise...');
+                    try {
+                        var status = {
+                            isOpen: nextOpenState,
+                            updatedAt: new Date().toISOString(),
+                            updatedBy: participant2026 ? (participant2026.name || participant2026.username || 'Administrator') : 'Administrator'
+                        };
+                        await promiseWithTimeout2026(database2026.ref('exercise_status/' + exercise.id).set(status), 15000, 'Updating exercise access timed out.');
+                        liveExerciseStatus2026[exercise.id] = status;
+                        refreshExerciseAvailability2026(exercise.id);
+                    } catch (error) {
+                        console.warn('Exercise access could not be updated.', error);
+                        window.alert('Exercise access could not be updated. Please check the database connection and permissions.');
+                    } finally {
+                        button.disabled = false;
+                        updateAdministratorExerciseStatus2026(exercise.id);
+                    }
+                });
+                control.appendChild(button);
+                window.setTimeout(function () { updateAdministratorExerciseStatus2026(exercise.id); }, 0);
+                return control;
             }
 
             function buildDashboard2026() {
@@ -6358,10 +7366,10 @@
                 homeCard.appendChild(createElement2026('p', 'online-required', 'GitHub Pages deployment is supported. Registrations, exercise submissions, password settings and workshop document links use the configured Firebase Realtime Database. Documents remain hosted in their original trusted repositories. No persistent local fallback is used.'));
                 var hub = createElement2026('div', 'admin-hub-grid');
                 [
-                    [1, 'Workshop Exercises', 'Review submission counts and open group or consolidated reports for each exercise.', 'administrator-panel-exercises'],
+                    [1, 'Workshop Exercises', 'Open or close participant access, review submissions and generate group or consolidated reports for each exercise.', 'administrator-panel-exercises'],
                     [2, 'Manage Passwords', 'Manage participant registration and exercise access passwords.', 'administrator-panel-passwords'],
                     [3, 'Publish Workshop Documents', 'Publish, test or remove document links available to participants.', 'administrator-panel-documents'],
-                    [4, 'List of Participants', 'Review registered participants by country, institution, role and working group.', 'administrator-panel-participants'],
+                    [4, 'List of Participants', 'Review registered participants by country, institution, role and username.', 'administrator-panel-participants'],
                     [5, 'Workshop Participation and Response Analysis', 'Review participation metrics, exercise activity, selected options and automatic summaries.', 'administrator-panel-analysis'],
                     [6, 'Reset Data', 'Reset exercise submissions, participant registrations, password settings or all portal data.', 'administrator-panel-reset'],
                     [7, 'Consolidated Reports', 'Produce detailed all-exercise reports and integrated analytical reports or presentations.', 'administrator-panel-consolidated']
@@ -6374,7 +7382,7 @@
 
                 var exercisePanel = createElement2026('div', 'administrator-panel');
                 exercisePanel.id = 'administrator-panel-exercises';
-                exercisePanel.appendChild(buildAdministratorPanelHeader2026('Workshop Exercises', 'Use the exercise cards to open group-level or all-groups reports. Export functions apply to the workshop dataset currently available online.'));
+                exercisePanel.appendChild(buildAdministratorPanelHeader2026('Workshop Exercises', 'Open or close each exercise for participants, then use the exercise cards to generate group-level or all-groups reports.'));
                 var exerciseCard = createElement2026('div', 'card');
                 exerciseCard.appendChild(createElement2026('h3', '', 'Exercise Data and Reports'));
                 var summary = createElement2026('div', 'dashboard-summary');
@@ -6410,6 +7418,7 @@
                 exercises2026.forEach(function (exercise, index) {
                     var resultsCard = createElement2026('div', 'card');
                     resultsCard.appendChild(createElement2026('h3', '', 'Exercise ' + (index + 1) + ': ' + exercise.title));
+                    resultsCard.appendChild(buildAdministratorExerciseStatusControl2026(exercise, index));
                     var results = document.createElement('div');
                     results.id = 'results-' + exercise.id;
                     results.appendChild(createElement2026('p', 'empty-state', 'No submissions yet.'));
@@ -6433,7 +7442,7 @@
 
                 var participantPanel = createElement2026('div', 'administrator-panel');
                 participantPanel.id = 'administrator-panel-participants';
-                participantPanel.appendChild(buildAdministratorPanelHeader2026('List of Participants', 'Review registered participants by country, institution, role and working group.'));
+                participantPanel.appendChild(buildAdministratorPanelHeader2026('List of Participants', 'Review registered participants by country, institution, role and username.'));
                 participantPanel.appendChild(buildAdministratorParticipationCard2026());
                 adminContent.appendChild(participantPanel);
 
@@ -6540,6 +7549,15 @@
                         exercisePasswordConfigLoaded2026 = false;
                         renderExercisePasswordManager2026();
                     });
+                    database2026.ref('exercise_status').on('value', function (snapshot) {
+                        liveExerciseStatus2026 = snapshot.val() || {};
+                        exerciseStatusLoaded2026 = true;
+                        refreshAllExerciseAvailability2026();
+                    }, function (error) {
+                        console.warn('Could not synchronize exercise availability. Exercises remain open by default unless a closed status has already been loaded.', error);
+                        exerciseStatusLoaded2026 = false;
+                        refreshAllExerciseAvailability2026();
+                    });
                     database2026.ref('workshop_documents').on('value', function (snapshot) {
                         var values = snapshot.val() || {};
                         liveDocuments2026 = Object.keys(values).map(function (key) {
@@ -6569,8 +7587,7 @@
                 if (participantBadge) participantBadge.remove();
                 if (participant2026) {
                     participantBadge = createElement2026('span', 'badge', '👤 ' + participant2026.name +
-                        (participant2026.role ? ' · ' + translateText2026(participant2026.role) : '') +
-                        ' · ' + translateText2026(participant2026.workingGroup));
+                        (participant2026.role ? ' · ' + translateText2026(participant2026.role) : ''));
                     participantBadge.id = 'participant-badge';
                     document.querySelector('.header-badges').appendChild(participantBadge);
                 }
