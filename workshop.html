@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <meta name="workshop-storage-version" content="2026-09-30-d1">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Environmental Data Governance Web Portal | West Asia Workshop</title>
-    <!-- Firebase SDKs for Online Cloud Backend -->
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
+    <!-- Workshop online database backend -->
     <!-- PowerPoint export for submitted working-group exercises -->
     <script src="https://cdn.jsdelivr.net/npm/pptxgenjs@4.0.1/dist/pptxgen.bundle.js"></script>
     <!-- QR codes for direct access to agenda days and interactive exercises -->
@@ -1515,15 +1515,6 @@
         (function () {
             'use strict';
 
-            var firebaseConfig2026 = {
-                apiKey: 'AIzaSyBNiw00_Fu2YbqGe5NDRYgWkZ8PmMkM034',
-                authDomain: 'data-governance-workshop.firebaseapp.com',
-                databaseURL: 'https://data-governance-workshop-default-rtdb.firebaseio.com',
-                projectId: 'data-governance-workshop',
-                storageBucket: 'data-governance-workshop.firebasestorage.app',
-                messagingSenderId: '829502536076',
-                appId: '1:829502536076:web:812c5312d32a2553ffbea9'
-            };
 
             var countries2026 = [
                 'Bahrain', 'Iraq', 'Jordan', 'Kuwait', 'Lebanon', 'Oman',
@@ -1933,7 +1924,7 @@
 
             var database2026 = null;
             var online2026 = false;
-            var firebaseConnected2026 = false;
+            var databaseConnected2026 = false;
             var connectionMonitorStarted2026 = false;
             var administratorSyncStarted2026 = false;
             var liveData2026 = {};
@@ -1951,7 +1942,7 @@
             var selectedResetScope2026 = 'all';
             var assessmentSchemaVersion2026 = 'west-asia-governance-assessment-v1';
             var workshopPasswordHash2026 = '163f81c92f881aa610f068eb5d425acb056ff1883a2cd6f9c74b38d1f365e2b0';
-            var administratorPasswordHash2026 = '1510b830657806e463a3d5cf6fc5bb547c1f5d817d7602ce920123e7c3c42ee9';
+
             var defaultExercisePasswordHashes2026 = {
                 ex1: '84495a14c3d57a1da1fcc0af4876017294eb6be70f6e9d8452512d83eedb74ed',
                 ex2: '0306ca7310c5772b62f269c12c1b7204bb8d19ea4f57834d01ba9756446dcbbf',
@@ -2474,13 +2465,13 @@
 
             Object.assign(arabicTranslations2026, {
                 'Secure password checking is not supported by this browser.': 'لا يدعم هذا المتصفح التحقق الآمن من كلمة المرور.',
-                'Firebase SDK is unavailable.': 'حزمة Firebase البرمجية غير متاحة.',
+                'Online service is unavailable.': 'الخدمة الإلكترونية غير متاحة.',
                 'Default exercise password': 'كلمة المرور الافتراضية للتمرين',
                 'Password': 'كلمة المرور',
                 'Participant registration · 20–22 October 2026 · Manama, Kingdom of Bahrain': 'تسجيل المشاركين · 20–22 أكتوبر 2026 · المنامة، مملكة البحرين',
                 'Workshop participant access': 'دخول المشاركين إلى بوابة ورشة العمل',
                 'Please register once using the workshop access password. Your registration and exercise submissions will be stored in the online workshop database.': 'يرجى التسجيل مرة واحدة باستخدام كلمة مرور ورشة العمل. سيُحفظ تسجيلكم وإجابات التمارين في قاعدة بيانات ورشة العمل على الإنترنت.',
-                'Online registration is currently unavailable. Please check the internet connection and Firebase configuration, then reload the page.': 'التسجيل عبر الإنترنت غير متاح حالياً. يرجى التحقق من اتصال الإنترنت وإعدادات Firebase ثم إعادة تحميل الصفحة.',
+                'Online registration is currently unavailable. Please check the internet connection and online service, then reload the page.': 'التسجيل عبر الإنترنت غير متاح حالياً. يرجى التحقق من اتصال الإنترنت والخدمة الإلكترونية ثم إعادة تحميل الصفحة.',
                 'Full name': 'الاسم الكامل',
                 'Participant’s full name': 'الاسم الكامل للمشارك',
                 'Job title / position': 'المسمى الوظيفي / المنصب',
@@ -2612,7 +2603,7 @@
                 'Enter a document title and a public HTTPS document link.': 'أدخل عنوان الوثيقة ورابط HTTPS عاماً لها.',
                 'Publishing the document link...': 'جارٍ نشر رابط الوثيقة...',
                 'Document link published successfully. It is now available under Workshop Documents.': 'نُشر رابط الوثيقة بنجاح وأصبح متاحاً ضمن وثائق ورشة العمل.',
-                'The online database did not permit the document link to be saved. Update the Realtime Database rule for workshop_documents, then try again.': 'لم تسمح قاعدة البيانات على الإنترنت بحفظ رابط الوثيقة. حدّث قاعدة Realtime Database للمسار workshop_documents ثم حاول مجدداً.',
+                'The online database did not permit the document link to be saved. Update the administrator access for workshop documents, then try again.': 'لم تسمح قاعدة البيانات على الإنترنت بحفظ رابط الوثيقة. حدّث قاعدة Realtime Database للمسار workshop_documents ثم حاول مجدداً.',
                 'Publishing the link timed out. Check the internet connection and try again.': 'انتهت مهلة نشر الرابط. تحقق من اتصال الإنترنت وحاول مجدداً.',
                 'Exercise Reports': 'تقارير التمارين',
                 'Choose a single working-group or ungrouped report, or generate a consolidated analytical report using the latest eligible inputs. Reports open in a professional presentation and print layout.': 'اختر تقرير مجموعة عمل واحدة أو تقريراً غير مصنف ضمن مجموعة، أو أنشئ تقريراً تحليلياً موحداً باستخدام أحدث المدخلات المؤهلة. تُفتح التقارير في تصميم مهني للعرض والطباعة.',
@@ -2658,7 +2649,7 @@
                 'Open administration dashboard': 'فتح لوحة الإدارة',
                 'Regional Workshop Administration & Analytics': 'إدارة ورشة العمل الإقليمية وتحليلاتها',
                 'Protected analysis of participant registrations and the eight revised country and working-group exercises.': 'تحليل محمي لتسجيلات المشاركين والتمارين القطرية وتمارين مجموعات العمل الثمانية المنقحة.',
-                'GitHub Pages deployment is supported. Registrations, exercise submissions, password settings and workshop document links use the configured Firebase Realtime Database. Documents remain hosted in their original trusted repositories. No persistent local fallback is used.': 'تدعم البوابة النشر عبر GitHub Pages. تستخدم التسجيلات وإجابات التمارين وإعدادات كلمات المرور وروابط الوثائق قاعدة Firebase Realtime Database المهيأة. وتظل الوثائق مستضافة في مستودعاتها الأصلية الموثوقة، ولا يُستخدم تخزين محلي دائم بديل.',
+                'Registrations, exercise submissions, password settings and workshop document links are saved in the online workshop database. Document files remain with their original providers.': 'تُحفظ التسجيلات وإجابات التمارين وإعدادات كلمات المرور وروابط الوثائق في قاعدة بيانات الورشة الإلكترونية. وتظل ملفات الوثائق لدى الجهات المستضيفة الأصلية.',
                 'Export JSON': 'تصدير JSON',
                 'Export CSV': 'تصدير CSV',
                 '👥 List of Participants': '👥 قائمة المشاركين',
@@ -3168,7 +3159,7 @@
             Object.assign(arabicTranslations2026, {
                 'Workshop participant access': 'دخول المشاركين إلى ورشة العمل',
                 'Register once using the workshop access password, then use your chosen username and password to log in on subsequent workshop days.': 'سجّل مرة واحدة باستخدام كلمة مرور دخول ورشة العمل، ثم استخدم اسم المستخدم وكلمة المرور اللذين اخترتهما لتسجيل الدخول في أيام الورشة التالية.',
-                'Online participant access is currently unavailable. Please check the internet connection and Firebase configuration, then reload the page.': 'دخول المشاركين عبر الإنترنت غير متاح حالياً. يرجى التحقق من الاتصال بالإنترنت وإعدادات Firebase ثم إعادة تحميل الصفحة.',
+                'Online participant access is currently unavailable. Please check the internet connection and online service, then reload the page.': 'دخول المشاركين عبر الإنترنت غير متاح حالياً. يرجى التحقق من الاتصال بالإنترنت والخدمة الإلكترونية ثم إعادة تحميل الصفحة.',
                 'New participant registration': 'تسجيل مشارك جديد',
                 'Returning participant login': 'تسجيل دخول مشارك مسجل',
                 'Choose a username and account password that you can use to return to the workshop portal on the following days. Your account password is not stored as readable text.': 'اختر اسم مستخدم وكلمة مرور للحساب لاستخدامهما عند العودة إلى بوابة الورشة في الأيام التالية. لا تُخزّن كلمة مرور حسابك كنص مقروء.',
@@ -3717,14 +3708,14 @@
 
             async function loadRegistrationPasswordConfig2026() {
                 if (!database2026) return false;
-                if (!firebaseConnected2026 && !(await waitForOnlineConnection2026(6000))) return false;
+                if (!databaseConnected2026 && !(await waitForOnlineConnection2026(6000))) return false;
                 try {
                     var snapshot = await database2026.ref('registration_access_passwords').once('value');
                     liveRegistrationPasswordConfig2026 = snapshot.val() || null;
                     registrationPasswordConfigLoaded2026 = true;
                     return true;
                 } catch (error) {
-                    console.warn('Could not load registration password settings; the requested default password remains active.', error);
+                    console.warn('Could not load registration password settings.', error);
                     liveRegistrationPasswordConfig2026 = null;
                     registrationPasswordConfigLoaded2026 = false;
                     return false;
@@ -3802,28 +3793,111 @@
                 return group;
             }
 
-            function connectFirebase2026() {
+            var onlineSubscriptions2026 = [];
+            var onlinePoll2026 = null;
+            function onlineToken2026() { try { return sessionStorage.getItem('workshop_online_token_2026') || ''; } catch (error) { return ''; } }
+            function clearOnlineSession2026() {
                 try {
-                    if (typeof firebase === 'undefined') throw new Error('Firebase SDK is unavailable.');
-                    if (!firebase.apps.length) firebase.initializeApp(firebaseConfig2026);
-                    database2026 = firebase.database();
-                    online2026 = true;
-                    if (!connectionMonitorStarted2026) {
-                        connectionMonitorStarted2026 = true;
-                        database2026.ref('.info/connected').on('value', function (snapshot) {
-                            firebaseConnected2026 = snapshot.val() === true;
-                            updateOnlineStatus2026();
-                        });
-                    }
-                    return true;
-                } catch (error) {
-                    console.warn('The online workshop services could not be initialized.', error);
-                    database2026 = null;
-                    online2026 = false;
-                    firebaseConnected2026 = false;
-                    return false;
-                }
+                    ['workshop_online_token_2026','workshop_access_2026','workshop_admin_2026','workshop_participant_id_2026'].forEach(function (key) { sessionStorage.removeItem(key); });
+                    exercises2026.forEach(function (ex) { sessionStorage.removeItem('workshop_exercise_access_'+ex.id); sessionStorage.removeItem('workshop_exercise_group_'+ex.id); });
+                } catch (error) {}
             }
+            function setOnlineSession2026(result) {
+                clearOnlineSession2026();
+                sessionStorage.setItem('workshop_online_token_2026',result.token);
+                sessionStorage.setItem('workshop_access_2026','granted');
+                participant2026=result.participant;
+                saveParticipantSession2026(participant2026);
+            }
+            async function onlineRequest2026(action, payload) {
+                var controller = new AbortController();
+                var timer = setTimeout(function () { controller.abort(); }, 25000);
+                var token = onlineToken2026();
+                var headers = {'Content-Type':'application/json'};
+                if(token) headers.Authorization = 'Bearer '+token;
+                try {
+                    var endpoint = window.location.origin === 'https://ahrehim.github.io' ? 'https://west-asia-environmental-governance-workshop.ahrehim.chatgpt.site/api/workshop' : '/api/workshop';
+                    var response = await fetch(endpoint, {method:'POST',headers:headers,body:JSON.stringify(Object.assign({},payload||{},{action:action})),signal:controller.signal,cache:'no-store'});
+                    var result = await response.json();
+                    if(!response.ok) { var error = new Error(result.error||'SERVICE_UNAVAILABLE'); error.code=result.error; throw error; }
+                    databaseConnected2026=true; updateOnlineStatus2026();
+                    return result;
+                } catch(error) {
+                    if(!error.code) { error.code='SERVICE_UNAVAILABLE'; databaseConnected2026=false; updateOnlineStatus2026(); }
+                    if(error.code==='SESSION_EXPIRED') { try { sessionStorage.removeItem('workshop_admin_2026'); } catch(e){} }
+                    if(error.code==='EXERCISE_ACCESS_REQUIRED') {
+                        exercises2026.forEach(function(ex){sessionStorage.removeItem('workshop_exercise_access_'+ex.id);});
+                        refreshAllExerciseAvailability2026();
+                    }
+                    if(error.code==='ADMIN_REQUIRED') {
+                        sessionStorage.removeItem('workshop_admin_2026');
+                        var gate=document.getElementById('administrator-gate'); var content=document.getElementById('administrator-content');
+                        if(gate) gate.style.display='block'; if(content) content.style.display='none';
+                    }
+                    throw error;
+                } finally { clearTimeout(timer); }
+            }
+            function onlineError2026(error) {
+                var messages = {
+                    WORKSHOP_PASSWORD:['The workshop access password is incorrect. Please check the password provided by the organizers.','كلمة مرور الدخول إلى الورشة غير صحيحة. يرجى التحقق من كلمة المرور المقدمة من المنظمين.'],
+                    USERNAME_EXISTS:['This username is already registered. Choose another username or use Returning participant login.','اسم المستخدم مسجّل بالفعل. يرجى اختيار اسم آخر أو تسجيل الدخول كمشارك مسجّل.'],
+                    INVALID_LOGIN:['The username or password is incorrect. Please try again.','اسم المستخدم أو كلمة المرور غير صحيحة. يرجى المحاولة مرة أخرى.'],
+                    SESSION_EXPIRED:['Your session has expired. Please reload the page and log in again.','انتهت صلاحية جلسة الدخول. يرجى تحديث الصفحة وتسجيل الدخول مرة أخرى.'],
+                    ADMIN_PASSWORD:['Incorrect administrator password.','كلمة مرور المسؤول غير صحيحة.'],
+                    ADMIN_REQUIRED:['Administrator access has expired. Please reload and unlock Administration again.','انتهت صلاحية دخول المسؤول. يرجى تحديث الصفحة والدخول إلى قسم الإدارة مجدداً.'],
+                    EXERCISE_CLOSED:['This exercise has not been opened yet. Please wait for the facilitator to open it.','لم يُفتح هذا التمرين بعد. يرجى الانتظار حتى يفتحه الميسّر.'],
+                    EXERCISE_PASSWORD:['Incorrect exercise password. Please check with the facilitator.','كلمة مرور التمرين غير صحيحة. يرجى التحقق منها مع الميسّر.'],
+                    EXERCISE_ACCESS_REQUIRED:['Please reopen the exercise with its password and select your working group.','يرجى فتح التمرين مجدداً باستخدام كلمة مروره واختيار مجموعة العمل.'],
+                    RATE_LIMIT:['Too many attempts. Please wait 15 minutes before trying again.','تجاوز عدد المحاولات الحد المسموح. يرجى الانتظار 15 دقيقة قبل المحاولة مجدداً.'],
+                    INVALID_REGISTRATION:['Please check that all registration fields, including email, are complete and valid.','يرجى التأكد من اكتمال بيانات التسجيل وصحتها، بما في ذلك البريد الإلكتروني.'],
+                    SERVICE_UNAVAILABLE:['The online database is temporarily unavailable. Your entered responses remain on this page; please try again.','قاعدة البيانات الإلكترونية غير متاحة مؤقتاً. تبقى إجاباتك المدخلة في هذه الصفحة؛ يرجى المحاولة مرة أخرى.']
+                };
+                var pair=messages[error&&error.code]||messages.SERVICE_UNAVAILABLE;
+                return pair[isArabic2026()?1:0];
+            }
+            async function restoreOnlineSession2026() {
+                var state=await onlineRequest2026('me'); participant2026=state.participant;
+                saveParticipantSession2026(participant2026);
+                sessionStorage.setItem('workshop_access_2026','granted');
+                sessionStorage.removeItem('workshop_admin_2026');
+                if(state.admin) sessionStorage.setItem('workshop_admin_2026','granted');
+                exercises2026.forEach(function(ex){ sessionStorage.removeItem('workshop_exercise_access_'+ex.id); sessionStorage.removeItem('workshop_exercise_group_'+ex.id); });
+                Object.keys(state.grants||{}).forEach(function(id){grantExerciseAccess2026(id,state.grants[id]);});
+                (state.submissions||[]).forEach(function(record){lastSubmittedRecords2026[record.exerciseId]=record;});
+            }
+            function snapshot2026(value) { return {val:function(){return value;},exists:function(){return value!==null&&value!==undefined;}}; }
+            async function runOnlineSubscription2026(subscription) {
+                if(subscription.running || subscription.removed) return;
+                subscription.running=true;
+                try {
+                    var value = (await onlineRequest2026('read',{path:subscription.path})).value;
+                    var encoded=JSON.stringify(value);
+                    if(subscription.last!==encoded) { subscription.last=encoded; subscription.callback(snapshot2026(value)); }
+                } catch(error) { if(subscription.error) subscription.error(error); }
+                finally { subscription.running=false; }
+            }
+            function refreshOnlineSubscriptions2026() { onlineSubscriptions2026.forEach(function(s){s.last=undefined; runOnlineSubscription2026(s);}); }
+            function connectOnlineDatabase2026() {
+                database2026={ref:function(path){
+                    path=String(path||'').replace(/^\/+|\/+$/g,'');
+                    return {
+                        once:async function(){return snapshot2026((await onlineRequest2026('read',{path:path})).value);},
+                        on:function(event,callback,error){var s={path:path,callback:callback,error:error}; onlineSubscriptions2026.push(s); runOnlineSubscription2026(s);},
+                        off:function(event,callback){onlineSubscriptions2026.forEach(function(s){if(s.path===path&&s.callback===callback)s.removed=true;});},
+                        set:function(value){return onlineRequest2026('mutate',{operation:'set',path:path,value:value}).then(function(r){refreshOnlineSubscriptions2026();return r;});},
+                        push:function(value){return onlineRequest2026('mutate',{operation:'push',path:path,value:value}).then(function(r){refreshOnlineSubscriptions2026();return r;});},
+                        remove:function(){return onlineRequest2026('mutate',{operation:'remove',path:path}).then(function(r){refreshOnlineSubscriptions2026();return r;});}
+                    };
+                }};
+                online2026=true;
+                if(!onlinePoll2026) onlinePoll2026=setInterval(function(){
+                    if(document.visibilityState==='hidden') return;
+                    if(onlineSubscriptions2026.length) onlineSubscriptions2026.forEach(runOnlineSubscription2026);
+                    else waitForOnlineConnection2026();
+                },10000);
+                return true;
+            }
+
 
             function promiseWithTimeout2026(promise, timeoutMilliseconds, message) {
                 return new Promise(function (resolve, reject) {
@@ -3850,7 +3924,7 @@
             function updateOnlineStatus2026() {
                 var status = document.getElementById('backend-status');
                 if (status) {
-                    if (online2026 && firebaseConnected2026) {
+                    if (online2026 && databaseConnected2026) {
                         status.textContent = '🌐 Online workshop database active';
                         status.className = 'status-indicator status-online';
                     } else {
@@ -3860,28 +3934,11 @@
                 }
             }
 
-            function waitForOnlineConnection2026(timeoutMilliseconds) {
-                if (firebaseConnected2026) return Promise.resolve(true);
-                if (!database2026) return Promise.resolve(false);
-                return new Promise(function (resolve) {
-                    var completed = false;
-                    var connectionReference = database2026.ref('.info/connected');
-                    var handler = function (snapshot) {
-                        if (!completed && snapshot.val() === true) {
-                            completed = true;
-                            connectionReference.off('value', handler);
-                            window.clearTimeout(timer);
-                            resolve(true);
-                        }
-                    };
-                    var timer = window.setTimeout(function () {
-                        if (completed) return;
-                        completed = true;
-                        connectionReference.off('value', handler);
-                        resolve(false);
-                    }, timeoutMilliseconds);
-                    connectionReference.on('value', handler);
-                });
+            async function waitForOnlineConnection2026() {
+                try { await onlineRequest2026('health'); databaseConnected2026 = true; }
+                catch (error) { databaseConnected2026 = false; }
+                updateOnlineStatus2026();
+                return databaseConnected2026;
             }
 
             function buildRegistrationGate2026() {
@@ -3905,8 +3962,11 @@
                 var instruction = createElement2026('p', '', 'Register once using the workshop access password, then use your chosen username and password to log in on subsequent workshop days.');
                 instruction.style.marginBottom = '1rem';
                 body.appendChild(instruction);
+                var migrationNote = createElement2026('p', 'credential-note');
+                migrationNote.textContent = isArabic2026() ? 'انتقلت البوابة إلى قاعدة بيانات جديدة. إذا كان حسابك مسجّلاً في النسخة السابقة، يرجى التسجيل مرة واحدة مجدداً.' : 'The portal has moved to a new database. If you registered in the previous version, please register once again here.';
+                body.appendChild(migrationNote);
                 if (!online2026) {
-                    body.appendChild(createElement2026('p', 'online-required', 'Online participant access is currently unavailable. Please check the internet connection and Firebase configuration, then reload the page.'));
+                    body.appendChild(createElement2026('p', 'online-required', 'Online participant access is currently unavailable. Please check the internet connection and online service, then reload the page.'));
                 }
 
                 var modeTabs = createElement2026('div', 'access-mode-tabs');
@@ -4017,33 +4077,9 @@
                         document.getElementById('registration-account-password-confirm').focus();
                         return;
                     }
-                    if (database2026 && firebaseConnected2026) {
-                        await loadRegistrationPasswordConfig2026();
-                    }
-                    if (!registrationPasswordConfigLoaded2026) {
-                        errorBox.textContent = 'Registration password settings could not be verified online. Please check the connection or contact the workshop organizers.';
-                        errorBox.style.display = 'block';
-                        return;
-                    }
-                    var registrationPasswordAccepted = false;
-                    try {
-                        var candidateHash = await hashText2026(workshopPassword);
-                        registrationPasswordAccepted = effectiveRegistrationPasswords2026().some(function (entry) {
-                            return entry.hash === candidateHash;
-                        });
-                    } catch (error) {
-                        registrationPasswordAccepted = false;
-                    }
-                    if (!registrationPasswordAccepted) {
-                        errorBox.textContent = 'The workshop access password is incorrect. Please check the password provided by the organizers.';
-                        errorBox.style.display = 'block';
-                        document.getElementById('registration-password').focus();
-                        return;
-                    }
-                    if (!online2026 || !firebaseConnected2026 || !database2026) {
-                        errorBox.textContent = 'Registration cannot be completed because the online workshop database is unavailable. No participant data were saved locally.';
-                        errorBox.style.display = 'block';
-                        return;
+                    if (!(await waitForOnlineConnection2026())) {
+                        errorBox.textContent = translateText2026('The online database is unavailable. Please try again.');
+                        errorBox.style.display = 'block'; return;
                     }
                     submit.disabled = true;
                     submit.textContent = translateText2026('Creating participant account...');
@@ -4061,34 +4097,12 @@
                         displayTime: now.toLocaleString(workshopLocale2026())
                     };
                     try {
-                        var accountKey = await participantAccountKey2026(normalizedUsername);
-                        var accountSnapshot = await promiseWithTimeout2026(database2026.ref('participant_accounts/' + accountKey).once('value'), 15000, 'Checking the username timed out.');
-                        if (accountSnapshot.exists()) {
-                            throw new Error('USERNAME_EXISTS');
-                        }
-                        var registrationReference = database2026.ref('participant_registrations').push();
-                        participant2026.id = registrationReference.key;
-                        var credentialIterations = 120000;
-                        var credentialSalt = randomSalt2026();
-                        var credentialHash = await deriveParticipantCredential2026(accountPassword, credentialSalt, credentialIterations);
-                        var updates = {};
-                        updates['participant_registrations/' + participant2026.id] = participant2026;
-                        updates['participant_accounts/' + accountKey] = {
-                            username: username,
-                            participantId: participant2026.id,
-                            credentialSalt: credentialSalt,
-                            credentialHash: credentialHash,
-                            credentialIterations: credentialIterations,
-                            createdAt: now.toISOString(),
-                            lastLoginAt: now.toISOString()
-                        };
-                        await promiseWithTimeout2026(database2026.ref('/').update(updates), 30000, 'Creating the participant account timed out.');
+                        var createdAccount = await onlineRequest2026('register', {profile: participant2026, password: accountPassword, workshopPassword: workshopPassword, consent: true});
+                        setOnlineSession2026(createdAccount);
                     } catch (error) {
                         console.warn('Online participant registration failed.', error);
                         participant2026 = null;
-                        errorBox.textContent = error && error.message === 'USERNAME_EXISTS'
-                            ? 'This username is already registered. Choose another username or use Returning participant login.'
-                            : 'Registration could not be saved online. Please check the connection or contact the workshop organizers.';
+                        errorBox.textContent = onlineError2026(error);
                         errorBox.style.display = 'block';
                         submit.disabled = false;
                         submit.textContent = translateText2026('Register and enter workshop portal');
@@ -4130,7 +4144,7 @@
                 loginForm.addEventListener('submit', async function (event) {
                     event.preventDefault();
                     loginError.style.display = 'none';
-                    if (!online2026 || !database2026 || !(firebaseConnected2026 || await waitForOnlineConnection2026(8000))) {
+                    if (!online2026 || !database2026 || !(databaseConnected2026 || await waitForOnlineConnection2026(8000))) {
                         loginError.textContent = 'Login is temporarily unavailable because the online workshop database cannot be reached.';
                         loginError.style.display = 'block';
                         return;
@@ -4140,17 +4154,9 @@
                     loginSubmit.disabled = true;
                     loginSubmit.textContent = translateText2026('Checking login...');
                     try {
-                        var loginAccountKey = await participantAccountKey2026(loginUsername);
-                        var loginAccountSnapshot = await promiseWithTimeout2026(database2026.ref('participant_accounts/' + loginAccountKey).once('value'), 15000, 'Participant login timed out.');
-                        var account = loginAccountSnapshot.val();
-                        if (!account || !account.participantId || !account.credentialSalt || !account.credentialHash) throw new Error('INVALID_LOGIN');
-                        var loginHash = await deriveParticipantCredential2026(loginPassword, account.credentialSalt, account.credentialIterations);
-                        if (loginHash !== account.credentialHash) throw new Error('INVALID_LOGIN');
-                        var participantSnapshot = await promiseWithTimeout2026(database2026.ref('participant_registrations/' + account.participantId).once('value'), 15000, 'Participant record retrieval timed out.');
-                        participant2026 = participantSnapshot.val();
-                        if (!participant2026) throw new Error('INVALID_LOGIN');
-                        participant2026.id = participant2026.id || account.participantId;
-                        database2026.ref('participant_accounts/' + loginAccountKey + '/lastLoginAt').set(new Date().toISOString()).catch(function () {});
+                        var loggedInAccount = await onlineRequest2026('login', {username: loginUsername, password: loginPassword});
+                        setOnlineSession2026(loggedInAccount);
+                        await restoreOnlineSession2026();
                         saveParticipantSession2026(participant2026);
                         try { sessionStorage.setItem('workshop_access_2026', 'granted'); } catch (storageError) {}
                         shell.remove();
@@ -4158,9 +4164,7 @@
                     } catch (error) {
                         console.warn('Participant login failed.', error);
                         participant2026 = null;
-                        loginError.textContent = error && error.message === 'INVALID_LOGIN'
-                            ? 'The username or password is incorrect. Please try again.'
-                            : 'Login could not be completed. Please check the connection or contact the workshop organizers.';
+                        loginError.textContent = onlineError2026(error);
                         loginError.style.display = 'block';
                     } finally {
                         loginSubmit.disabled = false;
@@ -4196,27 +4200,15 @@
             async function startPortal2026() {
                 applyDocumentLanguage2026();
                 initializeMobileView2026();
-                connectFirebase2026();
-                var storedParticipantId = getStoredParticipantId2026();
-                var accessGranted = false;
-                try {
-                    accessGranted = sessionStorage.getItem('workshop_access_2026') === 'granted';
-                } catch (error) {
-                    accessGranted = false;
+                connectOnlineDatabase2026();
+                await waitForOnlineConnection2026();
+                var restored = false;
+                if (onlineToken2026()) {
+                    try { await restoreOnlineSession2026(); restored = true; }
+                    catch (error) { if (error.code === 'SESSION_EXPIRED') clearOnlineSession2026(); }
                 }
-                if (accessGranted && storedParticipantId && database2026 && await waitForOnlineConnection2026(8000)) {
-                    try {
-                        var participantSnapshot = await database2026.ref('participant_registrations/' + storedParticipantId).once('value');
-                        participant2026 = participantSnapshot.val();
-                    } catch (error) {
-                        console.warn('The participant registration could not be retrieved online.', error);
-                        participant2026 = null;
-                    }
-                }
-                if (accessGranted && participant2026) {
-                    initializePortal2026();
-                } else {
-                    await loadRegistrationPasswordConfig2026();
+                if (restored && participant2026) initializePortal2026();
+                else {
                     document.body.classList.add('portal-locked');
                     buildRegistrationGate2026();
                 }
@@ -4270,7 +4262,9 @@
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
 
-            function signOutPortal2026() {
+            async function signOutPortal2026() {
+                try { await onlineRequest2026('logout'); } catch (error) { console.warn('Sign out could not reach the server.'); }
+                clearOnlineSession2026();
                 try {
                     sessionStorage.removeItem('workshop_access_2026');
                     sessionStorage.removeItem('workshop_admin_2026');
@@ -4657,7 +4651,7 @@
                     window.alert('This document link does not have a valid online record key and cannot be deleted.');
                     return;
                 }
-                if (!online2026 || !firebaseConnected2026 || !database2026) {
+                if (!online2026 || !databaseConnected2026 || !database2026) {
                     showUploadMessage2026('The online workshop database is unavailable. Nothing was deleted.', 'error');
                     return;
                 }
@@ -4914,22 +4908,13 @@
                     openButton.disabled = true;
                     openButton.textContent = 'Checking...';
                     try {
-                        var candidateHash = await hashText2026(candidate);
-                        var permitted = effectiveExercisePasswords2026(exercise.id).some(function (entry) {
-                            return entry.hash === candidateHash;
-                        });
-                        if (!permitted) {
-                            errorBox.textContent = 'Incorrect exercise password. Please check with the facilitator.';
-                            errorBox.style.display = 'block';
-                            input.select();
-                            return;
-                        }
+                        await onlineRequest2026('exerciseAccess', {exercise: exercise.id, password: candidate, group: selectedGroup});
                         grantExerciseAccess2026(exercise.id, selectedGroup);
                         refreshExerciseAvailability2026(exercise.id);
                         var exerciseForm = document.getElementById('form-' + exercise.id);
                         exerciseForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
                     } catch (error) {
-                        errorBox.textContent = error.message || 'The password could not be checked in this browser.';
+                        errorBox.textContent = onlineError2026(error);
                         errorBox.style.display = 'block';
                     } finally {
                         openButton.disabled = false;
@@ -5042,10 +5027,13 @@
             }
 
             function saveRecord2026(key, record) {
-                if (!online2026 || !firebaseConnected2026 || !database2026) {
+                if (!online2026 || !databaseConnected2026 || !database2026) {
                     return Promise.reject(new Error('The online workshop database is unavailable.'));
                 }
-                return database2026.ref(key).push(record);
+                return database2026.ref(key).push(record).then(function (saved) {
+                    if (saved.value) Object.assign(record, saved.value);
+                    return saved;
+                });
             }
 
             function handleExerciseSubmit2026(event, exercise) {
@@ -5145,7 +5133,7 @@
                 }).catch(function (error) {
                     console.warn('The exercise submission was not saved online.', error);
                     var message = document.getElementById(exercise.id + '-message');
-                    message.textContent = 'The submission could not be saved online. No local copy was created; please check the connection and try again.';
+                    message.textContent = onlineError2026(error);
                     message.style.background = '#f8d7da';
                     message.style.color = '#842029';
                     message.style.display = 'block';
@@ -5949,11 +5937,9 @@
             }
 
             async function unlockAdministrator2026(password, errorBox) {
-                if (!(await passwordMatches2026(password, administratorPasswordHash2026))) {
-                    errorBox.textContent = 'Incorrect administrator password.';
-                    errorBox.style.display = 'block';
-                    return false;
-                }
+                try { await onlineRequest2026('adminLogin', {password: password}); }
+                catch (error) { errorBox.textContent = onlineError2026(error); errorBox.style.display = 'block'; return false; }
+                refreshOnlineSubscriptions2026();
                 try {
                     sessionStorage.setItem('workshop_admin_2026', 'granted');
                 } catch (error) {
@@ -6158,7 +6144,7 @@
 
             function saveRegistrationPasswordEntries2026(entries) {
                 if (!administratorUnlocked2026()) return Promise.reject(new Error('Administrator access is required.'));
-                if (!database2026 || !firebaseConnected2026) return Promise.reject(new Error('The online database is unavailable.'));
+                if (!database2026 || !databaseConnected2026) return Promise.reject(new Error('The online database is unavailable.'));
                 return promiseWithTimeout2026(database2026.ref('registration_access_passwords').set({
                     entries: entries,
                     updatedAt: new Date().toISOString(),
@@ -6277,7 +6263,7 @@
 
             function saveExercisePasswordEntries2026(exerciseId, entries) {
                 if (!administratorUnlocked2026()) return Promise.reject(new Error('Administrator access is required.'));
-                if (!database2026 || !firebaseConnected2026) return Promise.reject(new Error('The online database is unavailable.'));
+                if (!database2026 || !databaseConnected2026) return Promise.reject(new Error('The online database is unavailable.'));
                 return promiseWithTimeout2026(database2026.ref('exercise_access_passwords/' + exerciseId).set({
                     entries: entries,
                     updatedAt: new Date().toISOString(),
@@ -6441,7 +6427,7 @@
             }
 
             function publishDocumentMetadata2026(metadata) {
-                if (!database2026 || !firebaseConnected2026) return Promise.reject(new Error('The online database is unavailable.'));
+                if (!database2026 || !databaseConnected2026) return Promise.reject(new Error('The online database is unavailable.'));
                 return promiseWithTimeout2026(database2026.ref('workshop_documents').push(metadata), 15000, 'Publishing the document link timed out.');
             }
 
@@ -6501,7 +6487,7 @@
                     showUploadMessage2026('Administrator access is required.', 'error');
                     return;
                 }
-                if (!online2026 || !firebaseConnected2026 || !database2026) {
+                if (!online2026 || !databaseConnected2026 || !database2026) {
                     showUploadMessage2026('The online workshop database is unavailable. Nothing was published.', 'error');
                     return;
                 }
@@ -6544,7 +6530,7 @@
                     console.warn('Document link publishing failed.', error);
                     var message = String(error && error.message || '');
                     if (/permission.denied|permission_denied|denied/i.test(message)) {
-                        showUploadMessage2026('The online database did not permit the document link to be saved. Update the Realtime Database rule for workshop_documents, then try again.', 'error');
+                        showUploadMessage2026('The online database did not permit the document link to be saved. Update the administrator access for workshop documents, then try again.', 'error');
                     } else if (/timed out/i.test(message)) {
                         showUploadMessage2026('Publishing the link timed out. Check the internet connection and try again.', 'error');
                     } else {
@@ -6912,9 +6898,8 @@
                     showResetMessage2026('Administrator access is required.', 'error');
                     return;
                 }
-                if (!password || !(await passwordMatches2026(password.value, administratorPasswordHash2026))) {
+                if (!password || !password.value) {
                     showResetMessage2026('The administrator password is incorrect. No data were deleted.', 'error');
-                    if (password) password.focus();
                     return;
                 }
                 var details = resetScopeDetails2026(selectedResetScope2026);
@@ -6927,14 +6912,15 @@
                     showResetMessage2026('Confirm that you understand this action cannot be undone.', 'error');
                     return;
                 }
-                if (!online2026 || !firebaseConnected2026 || !database2026) {
+                if (!online2026 || !databaseConnected2026 || !database2026) {
                     showResetMessage2026('The online workshop database is unavailable. Nothing was deleted.', 'error');
                     return;
                 }
                 resetButton.disabled = true;
                 resetButton.textContent = translateText2026('Resetting selected data...');
                 try {
-                    await promiseWithTimeout2026(database2026.ref('/').update(resetDatabaseUpdates2026(selectedResetScope2026)), 30000, 'Resetting workshop data timed out.');
+                    await onlineRequest2026('reset', {scope: selectedResetScope2026, password: password.value, confirmation: confirmation.value.trim(), acknowledged: acknowledgement.checked});
+                    refreshOnlineSubscriptions2026();
                     if (selectedResetScope2026 === 'registrations' || selectedResetScope2026 === 'all') liveRegistrations2026 = [];
                     if (selectedResetScope2026 === 'all') liveDocuments2026 = [];
                     if (selectedResetScope2026 === 'all') {
@@ -7594,7 +7580,7 @@
                         window.alert('Administrator access is required.');
                         return;
                     }
-                    if (!online2026 || !firebaseConnected2026 || !database2026) {
+                    if (!online2026 || !databaseConnected2026 || !database2026) {
                         window.alert('The online workshop database is unavailable. Exercise access was not changed.');
                         return;
                     }
@@ -7672,7 +7658,7 @@
                 top.appendChild(heading);
                 top.appendChild(actions);
                 homeCard.appendChild(top);
-                homeCard.appendChild(createElement2026('p', 'online-required', 'GitHub Pages deployment is supported. Registrations, exercise submissions, password settings and workshop document links use the configured Firebase Realtime Database. Documents remain hosted in their original trusted repositories. No persistent local fallback is used.'));
+                homeCard.appendChild(createElement2026('p', 'online-required', 'Registrations, exercise submissions, password settings and workshop document links are saved in the online workshop database. Document files remain with their original providers.'));
                 var hub = createElement2026('div', 'admin-hub-grid');
                 [
                     [1, 'Workshop Exercises', 'Open or close participant access, review submissions and generate group or consolidated reports for each exercise.', 'administrator-panel-exercises'],
@@ -7836,7 +7822,7 @@
             }
 
             function initializeDataSync2026() {
-                if (!database2026) connectFirebase2026();
+                if (!database2026) connectOnlineDatabase2026();
                 updateOnlineStatus2026();
 
                 if (online2026 && database2026) {
@@ -7914,7 +7900,27 @@
                 });
                 main.appendChild(buildDashboard2026());
                 initializeDataSync2026();
+                registerWorkshopTools2026();
                 window.setTimeout(applyPortalDeepLink2026, 0);
+            }
+
+            var workshopToolsRegistered2026=false;
+            function registerWorkshopTools2026() {
+                if(workshopToolsRegistered2026 || !document.modelContext || !document.modelContext.registerTool) return;
+                workshopToolsRegistered2026=true;
+                var sections=['overview','agenda','agenda-day-1','agenda-day-2','agenda-day-3','exercises','documents','backend'].concat(exercises2026.map(function(ex){return ex.id;}));
+                var lifecycle=new AbortController();
+                window.addEventListener('pagehide',function(){lifecycle.abort();},{once:true});
+                var tools=[{
+                    name:'list_workshop_sections',title:'List workshop sections',description:'List the available workshop pages for the signed-in participant.',
+                    inputSchema:{type:'object',properties:{},additionalProperties:false},annotations:{readOnlyHint:true,untrustedContentHint:false},
+                    execute:function(){if(!participant2026)throw new Error('Sign in first.');return {sections:sections.slice()};}
+                },{
+                    name:'open_workshop_section',title:'Open workshop section',description:'Navigate to a workshop page. Exercise passwords and administrator access are still required; this does not submit responses or grant access.',
+                    inputSchema:{type:'object',properties:{section:{type:'string',enum:sections}},required:['section'],additionalProperties:false},annotations:{readOnlyHint:true,untrustedContentHint:false},
+                    execute:function(input){if(!participant2026)throw new Error('Sign in first.');if(!input || !sections.includes(input.section))throw new Error('Unknown section.');switchTab2026(input.section);return {section:input.section};}
+                }];
+                tools.forEach(function(tool){try{Promise.resolve(document.modelContext.registerTool(tool,{signal:lifecycle.signal})).catch(function(){ });}catch(error){ }});
             }
 
             window.addEventListener('hashchange', applyPortalDeepLink2026);
